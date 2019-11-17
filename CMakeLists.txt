@@ -1,5 +1,7 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
-PROJECT(LinesideCabinet)
+cmake_minimum_required(VERSION 3.12)
+project(LinesideCabinet
+  VERSION 0.1
+  LANGUAGES CXX)
 ENABLE_TESTING()
 
 set(Boost_USE_STATIC_LIBS ON)
