@@ -24,7 +24,7 @@ jobs:
       cmakeArgs: $(Build.SourcesDirectory)
       workingDirectory: $(buildDir)
 
-  - script: make
+  - script: make -j
     displayName: "Build all"
     workingDirectory: $(buildDir)
 
