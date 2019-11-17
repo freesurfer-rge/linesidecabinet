@@ -18,6 +18,7 @@ jobs:
   - task: CMake@1
     displayName: "Build with CMake"
     inputs:
+      cmakeArgs: $(Build.SourcesDirectory)
       workingDirectory: $(Agent.TempDirectory)/bld
 
   - script: ./LinesideTest --log_level=all --log_format=JUNIT --log_sink=test-results-JUNIT.xml --result_code=no --report_sink=stdout
