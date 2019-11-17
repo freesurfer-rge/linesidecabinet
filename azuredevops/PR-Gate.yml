@@ -12,8 +12,9 @@ jobs:
 - job: Linux
   displayName: "Linux build"
   pool:
-    vmInage: 'ubuntu-latest'
+    vmImage: 'ubuntu-latest'
 
+  steps:
   - task: CMake@1
     displayName: "Run CMake"
     inputs:
