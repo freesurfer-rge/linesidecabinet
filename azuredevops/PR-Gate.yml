@@ -14,10 +14,6 @@ jobs:
   pool:
     vmInage: 'ubuntu-latest'
 
-  steps:
-  - script: sudo apt-get install doxygen graphviz
-    displayName: "Install doxygen and graphviz"
-
   - task: CMake@1
     displayName: "Run CMake"
     inputs:
