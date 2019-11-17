@@ -1,35 +1,53 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
-PROJECT(LinesideCabinet)
-ENABLE_TESTING()
+cmake_minimum_required(VERSION 3.12)
+project("Lineside Cabinet"
+  VERSION 0.1
+  LANGUAGES CXX
+  DESCRIPTION "A driver program for lineside equipment for model railways")
+enable_testing()
+
+# --------
 
 set(Boost_USE_STATIC_LIBS ON)
-FIND_PACKAGE(Boost REQUIRED)
-INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIRS})
+find_package(Boost REQUIRED)
 
-FIND_PACKAGE(Doxygen
-             REQUIRED dot)
+find_package(Doxygen)
 
-SET(doxyfile_in ${PROJECT_SOURCE_DIR}/Doxyfile.in)
-SET(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+# --------
 
-CONFIGURE_FILE(${doxyfile_in} ${doxyfile} @ONLY)
+# Configure the language standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Sort out compiler flags
-IF(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  SET(PLATFORM_CXX_FLAGS "-std=c++11 -Wall -Wextra -Wthread-safety -Wpedantic -Wc++11-compat-pedantic -Weffc++")
-ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  SET(PLATFORM_CXX_FLAGS "-std=c++11 -pthread -Wall -Wextra -Weffc++ -pedantic")
-ENDIF()
+# Warning options for the compiler
+string(
+  APPEND _warning_opts
+  "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wall;-Wextra;-Weffc++;-Werror;>"
+  "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-Wthread-safety;-Wpedantic;>"
+  "$<$<CXX_COMPILER_ID:GNU>:-pedantic;-pedantic-errors;>"
+  )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${PLATFORM_CXX_FLAGS}")
+add_compile_options("${_warning_opts}")
 
-INCLUDE_DIRECTORIES( ./include )
+# Threading options for the compiler
+string(
+  APPEND _thread_opts
+  "$<$<CXX_COMPILER_ID:GNU>:-pthread;>"
+  )
+add_compile_options("${_thread_opts}")
 
-ADD_SUBDIRECTORY( src )
-ADD_SUBDIRECTORY( tst )
+# --------
 
-ADD_CUSTOM_TARGET( docs
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM )
+add_subdirectory( src )
+add_subdirectory( tst )
+
+# --------
+
+if(DOXYGEN_FOUND)
+  set(DOXYGEN_OUTPUT_DIRECTORY docs)
+  doxygen_add_docs(docs
+    COMMENT "Generating API documentation with Doxygen")
+else(DOXYGEN_FOUND)
+  message("Doxygen not found. Will not be able to build documentation")
+endif(DOXYGEN_FOUND)
+      

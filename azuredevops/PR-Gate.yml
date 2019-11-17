@@ -12,28 +12,26 @@ jobs:
 - job: Linux
   displayName: "Linux build"
   pool:
-    vmInage: 'ubuntu-latest'
+    vmImage: 'ubuntu-latest'
 
   steps:
-  - script: sudo apt-get install doxygen graphviz
-    displayName: "Install doxygen and graphviz"
-
   - task: CMake@1
     displayName: "Run CMake"
     inputs:
       cmakeArgs: $(Build.SourcesDirectory)
       workingDirectory: $(buildDir)
 
-  - script: make -j
+  - script: make -j VERBOSE=1
     displayName: "Build all"
     workingDirectory: $(buildDir)
 
-  - script: ./LinesideTest --log_level=all --log_format=JUNIT --log_sink=test-results-JUNIT.xml --result_code=no --report_sink=stdout
+  - script: ./LinesideTest --log_level=all --log_format=JUNIT --log_sink=test-results-JUNIT.xml --report_sink=stdout
     displayName: "Run all tests"
     workingDirectory: $(testDir)
 
   - task: PublishTestResults@2
     displayName: "Publish test results"
+    condition: succeededOrFailed()
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/*JUNIT.xml'
