@@ -1,15 +1,18 @@
 cmake_minimum_required(VERSION 3.12)
-project(LinesideCabinet
+project("Lineside Cabinet"
   VERSION 0.1
-  LANGUAGES CXX)
-ENABLE_TESTING()
+  LANGUAGES CXX
+  DESCRIPTION "A driver program for lineside equipment for model railways")
+enable_testing()
+
+# --------
 
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED)
-INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIRS})
 
-FIND_PACKAGE(Doxygen)
+find_package(Doxygen)
 
+# --------
 
 # Configure the language standard
 set(CMAKE_CXX_STANDARD 11)
@@ -33,22 +36,17 @@ string(
   )
 add_compile_options("${_thread_opts}")
 
-
-INCLUDE_DIRECTORIES( ./include )
+# --------
 
 add_subdirectory( src )
 add_subdirectory( tst )
 
-if(DOXYGEN_FOUND)
-  set(doxyfile_in ${PROJECT_SOURCE_DIR}/Doxyfile.in)
-  set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+# --------
 
-  configure_file(${doxyfile_in} ${doxyfile} @ONLY)
-  add_custom_target( docs
-    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating API documentation with Doxygen"
-    VERBATIM )
+if(DOXYGEN_FOUND)
+  set(DOXYGEN_OUTPUT_DIRECTORY docs)
+  doxygen_add_docs(docs
+    COMMENT "Generating API documentaiton with Doxygen")
 else(DOXYGEN_FOUND)
   message("Doxygen not found. Will not be able to build documentation")
 endif(DOXYGEN_FOUND)
