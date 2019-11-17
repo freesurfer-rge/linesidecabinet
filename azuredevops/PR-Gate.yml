@@ -19,10 +19,14 @@ jobs:
     displayName: "Install doxygen and graphviz"
 
   - task: CMake@1
-    displayName: "Build with CMake"
+    displayName: "Run CMake"
     inputs:
       cmakeArgs: $(Build.SourcesDirectory)
-      workingDirectory: $(Agent.TempDirectory)/bld
+      workingDirectory: $(buildDir)
+
+  - script: make
+    displayName: "Build all"
+    workingDirectory: $(buildDir)
 
   - script: ./LinesideTest --log_level=all --log_format=JUNIT --log_sink=test-results-JUNIT.xml --result_code=no --report_sink=stdout
     displayName: "Run all tests"
