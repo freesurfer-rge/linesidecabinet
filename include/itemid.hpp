@@ -75,11 +75,11 @@ namespace Lineside {
     IdType id;
   };
 
-  //! Stream insertion operator
-  std::ostream& operator<<(std::ostream& os, const Signalbox::ItemId& item);
+  //! Stream insertion operator for Lineside::ItemId objects
+  std::ostream& operator<<(std::ostream& os, const Lineside::ItemId& item);
 
-  //! Stream extraction operator for Signalbox::ItemId objects
-  std::istream& operator>>(std::istream& is, Signalbox::ItemId& item);
+  //! Stream extraction operator for Lineside::ItemId objects
+  std::istream& operator>>(std::istream& is, Lineside::ItemId& item);
 }
 
 

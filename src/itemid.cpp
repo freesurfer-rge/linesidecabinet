@@ -24,8 +24,8 @@ namespace Lineside {
     }
   }
   
-  std::ostream& operator<<(std::ostream& os, const Signalbox::ItemId& item) {
-    Signalbox::ItemId::IdType tmp;
+  std::ostream& operator<<(std::ostream& os, const Lineside::ItemId& item) {
+    Lineside::ItemId::IdType tmp;
     item.Get(&tmp);
 
     // We want to serialise with big-endian order
@@ -44,7 +44,7 @@ namespace Lineside {
     return os;
   }
 
-  std::istream& operator>>(std::istream& is, Signalbox::ItemId& item) {
+  std::istream& operator>>(std::istream& is, Lineside::ItemId& item) {
     char raw[fieldWidth];
     std::string str;
     
