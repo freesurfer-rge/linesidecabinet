@@ -3,9 +3,7 @@ PROJECT(LinesideCabinet)
 ENABLE_TESTING()
 
 set(Boost_USE_STATIC_LIBS ON)
-FIND_PACKAGE(Boost REQUIRED
-                   COMPONENTS program_options
-		              system)
+FIND_PACKAGE(Boost REQUIRED)
 INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIRS})
 
 FIND_PACKAGE(Doxygen
