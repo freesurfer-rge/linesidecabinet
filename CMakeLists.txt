@@ -46,7 +46,7 @@ add_subdirectory( tst )
 if(DOXYGEN_FOUND)
   set(DOXYGEN_OUTPUT_DIRECTORY docs)
   doxygen_add_docs(docs
-    COMMENT "Generating API documentaiton with Doxygen")
+    COMMENT "Generating API documentation with Doxygen")
 else(DOXYGEN_FOUND)
   message("Doxygen not found. Will not be able to build documentation")
 endif(DOXYGEN_FOUND)
