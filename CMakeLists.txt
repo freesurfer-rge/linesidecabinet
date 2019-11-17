@@ -14,14 +14,18 @@ SET(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
 CONFIGURE_FILE(${doxyfile_in} ${doxyfile} @ONLY)
 
-# Sort out compiler flags
-IF(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  SET(PLATFORM_CXX_FLAGS "-std=c++11 -Wall -Wextra -Wthread-safety -Wpedantic -Wc++11-compat-pedantic -Weffc++")
-ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  SET(PLATFORM_CXX_FLAGS "-std=c++11 -pthread -Wall -Wextra -Weffc++ -pedantic")
-ENDIF()
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${PLATFORM_CXX_FLAGS}")
+# Sort out compiler flags
+#IF(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+#  SET(PLATFORM_CXX_FLAGS "-std=c++11 -Wall -Wextra -Wthread-safety -Wpedantic -Wc++11-compat-pedantic -Weffc++")
+#ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+#  SET(PLATFORM_CXX_FLAGS "-std=c++11 -pthread -Wall -Wextra -Weffc++ -pedantic")
+#ENDIF()
+
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${PLATFORM_CXX_FLAGS}")
 
 INCLUDE_DIRECTORIES( ./include )
 
