@@ -1,0 +1,36 @@
+pr: none
+
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildDir: $(Agent.TempDirectory)/bld
+  testDir: $(buildDir)/tst
+
+jobs:
+- job: Linux
+  displayName: "Linux Documentation build"
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - script: sudo apt-get install doxygen graphviz
+    displayName: "Install doc prereqs"
+
+  - task: CMake@1
+    displayName: "Run CMake"
+    inputs:
+      cmakeArgs: $(Build.SourcesDirectory)
+      workingDirectory: $(buildDir)
+
+  - script: make docs
+    displayName: "Build docs"
+    workingDirectory: $(buildDir)
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish docs as artifacts"
+    inputs:
+      artifactName: Documentation
+      pathToPublish: $(buildDir)/docs
