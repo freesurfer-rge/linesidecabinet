@@ -34,7 +34,7 @@ jobs:
   - script: mkdir $(buildDir)
     displayName: 'Create build directory'
     
-  - script: /usr/bin/cmake $(Build.SourcesDirectory)
+  - script: /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug $(Build.SourcesDirectory)
     displayName: "Run CMake"
     workingDirectory: $(buildDir)
 
@@ -55,3 +55,7 @@ jobs:
       searchFolder: $(testDir)
       failTaskOnFailedTests: true
       testRunTitle: 'Lineside Test Run'
+
+  - script: gcovr --root $(Build.SourcesDirectory) .
+    displayName: "Run gcovr"
+    workingDirectory: $(buildDir)
