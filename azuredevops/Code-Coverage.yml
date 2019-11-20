@@ -1,0 +1,57 @@
+pr: none
+
+trigger: none # Not a CI build
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildDir: $(Agent.TempDirectory)/bld
+  testDir: $(buildDir)/tst
+  PyVer: 3.6
+
+jobs:
+- job: Linux
+  displayName: "Linux build"
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - script: | wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
+    sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+    sudo apt-get update
+    sudo apt-get install kitware-archive-keyring
+    sudo apt-key --keyring /etc/apt/trusted.gpg del C1F34CDD40CD72DA
+    sudo apt-get install cmake
+    displayName: "Install latest CMake"
+    
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(PyVer)'
+    inputs:
+      versionSpec: '$(PyVer)' 
+      addToPath: true
+  - script: pip install gcovr
+    
+  - task: CMake@1
+    displayName: "Run CMake"
+    inputs:
+      cmakeArgs: $(Build.SourcesDirectory)
+      workingDirectory: $(buildDir)
+
+  - script: make -j VERBOSE=1
+    displayName: "Build all"
+    workingDirectory: $(buildDir)
+
+  - script: ./LinesideTest --log_level=all --log_format=JUNIT --log_sink=test-results-JUNIT.xml --report_sink=stdout
+    displayName: "Run all tests"
+    workingDirectory: $(testDir)
+
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/*JUNIT.xml'
+      searchFolder: $(testDir)
+      failTaskOnFailedTests: true
+      testRunTitle: 'Lineside Test Run'
