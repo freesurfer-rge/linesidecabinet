@@ -33,6 +33,9 @@ jobs:
 
   - script: mkdir $(buildDir)
     displayName: 'Create build directory'
+
+  - script: which cmake
+    displayName: "Show cmake path"
     
   - script: cmake $(Build.SourcesDirectory)
     displayName: "Run CMake"
