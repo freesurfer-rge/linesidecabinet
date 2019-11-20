@@ -43,7 +43,7 @@ string(
   "$<$<AND:$<CXX_COMPILER_ID:GNU>,$<CONFIG:DEBUG>>:--coverage;>"
   )
 add_compile_options("${_profile_opts}")
-add_linker_options("${_profile_opts}")
+add_link_options("${_profile_opts}")
 
 # --------
 
