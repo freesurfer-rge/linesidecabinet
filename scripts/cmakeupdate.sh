@@ -6,12 +6,11 @@ sudo apt-get update
 sudo apt-get install kitware-archive-keyring
 sudo apt-key --keyring /etc/apt/trusted.gpg del C1F34CDD40CD72DA
 sudo apt-get install cmake
-
+echo
+echo
 /usr/local/bin/cmake --version
+echo
+echo
 /usr/bin/cmake --version
 
-which cmake
-
-sudo updatedb
-locate cmake | egrep cmake$
 
