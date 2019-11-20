@@ -36,6 +36,15 @@ string(
   )
 add_compile_options("${_thread_opts}")
 
+
+# Profiling options (GCC only for now)
+string(
+  APPEND _profile_opts
+  "$<$<AND:$<CXX_COMPILER_ID:GNU>,$<CONFIG:DEBUG>>:--coverage;>"
+  )
+add_compile_options("${_profile_opts}")
+add_linker_options("${_profile_opts}")
+
 # --------
 
 add_subdirectory( src )
