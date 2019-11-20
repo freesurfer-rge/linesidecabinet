@@ -27,13 +27,16 @@ jobs:
     inputs:
       versionSpec: '$(PyVer)' 
       addToPath: true
+      
   - script: pip install gcovr
+    displayName: 'Install gcovr'
+
+  - script: mkdir $(buildDir)
+    displayName: 'Create build directory'
     
-  - task: CMake@1
+  - script: cmake $(Build.SourcesDirectory)
     displayName: "Run CMake"
-    inputs:
-      cmakeArgs: $(Build.SourcesDirectory)
-      workingDirectory: $(buildDir)
+    workingDirectory: $(buildDir)
 
   - script: make -j VERBOSE=1
     displayName: "Build all"
