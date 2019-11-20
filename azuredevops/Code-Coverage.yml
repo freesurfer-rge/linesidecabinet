@@ -20,7 +20,7 @@ jobs:
   - task: Bash@3
     displayName: "Install latest CMake"
     inputs:
-      scriptPath: scripts/cmakeupdate.sh
+      filePath: scripts/cmakeupdate.sh
     
   - task: UsePythonVersion@0
     displayName: 'Use Python $(PyVer)'
