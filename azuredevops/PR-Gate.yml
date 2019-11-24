@@ -17,11 +17,17 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - task: CMake@1
-    displayName: "Run CMake"
+  - task: Bash@3
+    displayName: "Install latest CMake"
     inputs:
-      cmakeArgs: $(Build.SourcesDirectory)
-      workingDirectory: $(buildDir)
+      filePath: scripts/cmakeupdate.sh
+    
+  - script: mkdir $(buildDir)
+    displayName: 'Create build directory'
+    
+  - script: /usr/bin/cmake $(Build.SourcesDirectory)
+    displayName: "Run CMake"
+    workingDirectory: $(buildDir)
 
   - script: make -j VERBOSE=1
     displayName: "Build all"
