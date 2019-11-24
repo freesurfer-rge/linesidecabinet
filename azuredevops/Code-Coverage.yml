@@ -56,6 +56,10 @@ jobs:
       failTaskOnFailedTests: true
       testRunTitle: 'Lineside Test Run'
 
+  - script: mkdir html
+    displayName: "Create directory for detailed code coverage results"
+    workingDirectory: $(buildDir)
+  
   - script: gcovr --root $(Build.SourcesDirectory) . --xml cobetura.xml --html-details html/details.html --print-summary
     displayName: "Run gcovr"
     workingDirectory: $(buildDir)
