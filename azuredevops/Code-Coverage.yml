@@ -60,15 +60,14 @@ jobs:
     displayName: "Run gcovr"
     workingDirectory: $(buildDir)
 
-  - script: ls
+  - script: ls -R
     displayName: "Show dir contents"
     workingDirectory: $(buildDir)
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage results"
-    workingDirectory: $(buildDir)
     inputs:
       codeCoverageTool: cobertura
-      summaryFileLocation: cobetura.xml
+      summaryFileLocation: $(buildDir)/cobetura.xml
       pathToSources: $(Build.SourcesDirectory)
-      reportDirectory: html
+      additionalCodeCoverageFiles: html/*
