@@ -1,7 +1,6 @@
-pr:
-- master
+pr: none
 
-trigger: none # No CI builds
+trigger: none # Not a CI build
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -9,6 +8,7 @@ pool:
 variables:
   buildDir: $(Agent.TempDirectory)/bld
   testDir: $(buildDir)/tst
+  PyVer: 3.6
 
 jobs:
 - job: Linux
@@ -22,10 +22,19 @@ jobs:
     inputs:
       filePath: scripts/cmakeupdate.sh
     
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(PyVer)'
+    inputs:
+      versionSpec: '$(PyVer)' 
+      addToPath: true
+      
+  - script: pip install gcovr
+    displayName: 'Install gcovr'
+
   - script: mkdir $(buildDir)
     displayName: 'Create build directory'
     
-  - script: /usr/bin/cmake $(Build.SourcesDirectory)
+  - script: /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug $(Build.SourcesDirectory)
     displayName: "Run CMake"
     workingDirectory: $(buildDir)
 
@@ -46,3 +55,19 @@ jobs:
       searchFolder: $(testDir)
       failTaskOnFailedTests: true
       testRunTitle: 'Lineside Test Run'
+
+  - script: mkdir html
+    displayName: "Create directory for detailed code coverage results"
+    workingDirectory: $(buildDir)
+  
+  - script: gcovr --root $(Build.SourcesDirectory) . --xml cobetura.xml --html-details html/details.html --print-summary
+    displayName: "Run gcovr"
+    workingDirectory: $(buildDir)
+
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish code coverage results"
+    inputs:
+      codeCoverageTool: cobertura
+      summaryFileLocation: $(buildDir)/cobetura.xml
+      pathToSources: $(Build.SourcesDirectory)
+      additionalCodeCoverageFiles: html/*

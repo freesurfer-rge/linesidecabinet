@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15)
 project("Lineside Cabinet"
   VERSION 0.1
   LANGUAGES CXX
@@ -35,6 +35,15 @@ string(
   "$<$<CXX_COMPILER_ID:GNU>:-pthread;>"
   )
 add_compile_options("${_thread_opts}")
+
+
+# Profiling options (GCC only for now)
+string(
+  APPEND _profile_opts
+  "$<$<AND:$<CXX_COMPILER_ID:GNU>,$<CONFIG:DEBUG>>:--coverage;>"
+  )
+add_compile_options("${_profile_opts}")
+add_link_options("${_profile_opts}")
 
 # --------
 
