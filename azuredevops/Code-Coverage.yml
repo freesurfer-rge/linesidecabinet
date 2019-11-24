@@ -64,10 +64,6 @@ jobs:
     displayName: "Run gcovr"
     workingDirectory: $(buildDir)
 
-  - script: ls -R
-    displayName: "Show dir contents"
-    workingDirectory: $(buildDir)
-
   - task: PublishCodeCoverageResults@1
     displayName: "Publish code coverage results"
     inputs:
