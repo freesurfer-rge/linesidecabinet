@@ -1,6 +1,7 @@
 set( srcs test.cpp )
 
 list(APPEND srcs itemidtests.cpp)
+list(APPEND srcs exceptiontests.cpp)
 list(APPEND srcs registrartests.cpp)
 
 add_executable( LinesideTest ${srcs} )

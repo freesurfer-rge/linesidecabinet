@@ -15,10 +15,10 @@ BOOST_AUTO_TEST_CASE(RegisterAndRetrieve)
 
   int myInt = 3;
 
-  hpr.Register(name, myInt);
+  hpr.Register(name, &myInt);
   auto res = hpr.Retrieve(name);
 
-  BOOST_CHECK_EQUAL( &res, &myInt );
+  BOOST_CHECK_EQUAL( res, &myInt );
 }
 
 BOOST_AUTO_TEST_CASE(RegisterTwoAndRetrieve)
@@ -31,16 +31,33 @@ BOOST_AUTO_TEST_CASE(RegisterTwoAndRetrieve)
   int i1 = 3;
   int i2 = 4;
 
-  hpr.Register(n1, i1);
-  hpr.Register(n2, i2);
+  hpr.Register(n1, &i1);
+  hpr.Register(n2, &i2);
 
-  int& res1 = hpr.Retrieve(n1);
-  int& res2 = hpr.Retrieve(n2);
+  int* res1 = hpr.Retrieve(n1);
+  int* res2 = hpr.Retrieve(n2);
 
-  BOOST_CHECK_EQUAL( i1, res1 );
-  BOOST_CHECK_EQUAL( i2, res2 );
-  BOOST_CHECK_EQUAL( &i1, &res1 );
-  BOOST_CHECK_EQUAL( &i2, &res2 );
+  BOOST_CHECK_EQUAL( i1, *res1 );
+  BOOST_CHECK_EQUAL( i2, *res2 );
+  BOOST_CHECK_EQUAL( &i1, res1 );
+  BOOST_CHECK_EQUAL( &i2, res2 );
+}
+
+BOOST_AUTO_TEST_CASE(ExceptionOnMissingKey)
+{
+  Lineside::Registrar<int> hpr;
+
+  const std::string name = "Something";
+  BOOST_CHECK_EXCEPTION( hpr.Retrieve(name),
+			 Lineside::KeyNotFoundException,
+			 [&](const Lineside::KeyNotFoundException& e) {
+			   return e.badKey == name;
+			 } );
+}
+
+BOOST_AUTO_TEST_CASE(ExceptionOnDuplicateKey)
+{
+  BOOST_FAIL("Not yet implemented");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

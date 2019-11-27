@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+
+#include "linesideexceptions.hpp"
+
 namespace Lineside {
   template<typename StoredType>
   class Registrar {
@@ -9,14 +13,17 @@ namespace Lineside {
       store() {}
 
     void Register( const std::string& name,
-		   StoredType& target ) {
-      throw std::logic_error(__FUNCTION__);
+		   StoredType* target ) {
+      this->store[name] = target;
     }
 
-    StoredType& Retrieve( const std::string& name ) const {
-      throw std::logic_error(__FUNCTION__);
+    StoredType* Retrieve( const std::string name ) const {
+      if( this->store.count(name) != 1 ) {
+	throw KeyNotFoundException(name);
+      }
+      return this->store.at(name);
     }
   private:
-    std::map<std::string,StoredType&> store;
+    std::map<std::string,StoredType*> store;
   };
 }
