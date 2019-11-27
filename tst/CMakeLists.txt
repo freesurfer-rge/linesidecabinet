@@ -1,6 +1,7 @@
 set( srcs test.cpp )
 
 list(APPEND srcs itemidtests.cpp)
+list(APPEND srcs hardwareproviderregistrartests.cpp)
 
 add_executable( LinesideTest ${srcs} )
 target_include_directories(LinesideTest
