@@ -4,6 +4,7 @@
 #include <sstream>
 
 namespace Lineside {
+  //! Base class for all exceptions from this library
   class LinesideException : public std::runtime_error {
   public:
     LinesideException(const std::string& what_arg ) : runtime_error(what_arg) {}
@@ -11,9 +12,16 @@ namespace Lineside {
 
   // ========================================
 
+  //! Base exception for problems with maps
+  /*!
+    This exception class is provided to allow
+    failing operations on `std::map` objects
+    to return the name of the offending key.
+   */
   class KeyException : public LinesideException {
   public:
-    std::string keyName;
+    //! The key which caused the exception
+    const std::string keyName;
 
     virtual const char* what() const noexcept override {
       return this->message.c_str();
@@ -26,7 +34,8 @@ namespace Lineside {
 
     std::string message;
   };
-  
+
+  //! Exception thrown if a given key is not found
   class KeyNotFoundException : public KeyException {
   public:
     explicit KeyNotFoundException(const std::string& badKeyName) :
@@ -37,6 +46,7 @@ namespace Lineside {
     }
   };
 
+  //! Exception thrown if a key already exists in a map
   class DuplicateKeyException: public KeyException {
   public:
     explicit DuplicateKeyException(const std::string& badKeyName) :
