@@ -35,6 +35,7 @@ string(
   "$<$<CXX_COMPILER_ID:GNU>:-pthread;>"
   )
 add_compile_options("${_thread_opts}")
+add_link_options("${_thread_opts}")
 
 
 # Profiling options (GCC only for now)
