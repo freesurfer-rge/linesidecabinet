@@ -1,0 +1,30 @@
+# Steps template for doing a CMake build
+
+parameters:
+  srcDir: ''
+  bldDir: ''
+  cmakeExtraArgs: ''
+  makeExtraArgs: ''
+  makeTarget: ''
+
+steps:
+- task: Bash@3
+  displayName: "Install latest CMake"
+  inputs:
+    filePath: scripts/cmakeupdate.sh
+    
+- script: mkdir -p ${{ parameters.bldDir }}
+  displayName: 'Create build directory'
+    
+- script: /usr/bin/cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }}
+  displayName: "Run CMake"
+  workingDirectory: ${{ parameters.bldDir }}
+
+- script: make -j VERBOSE=1 ${{ parameters.makeExtraArgs }} ${{ parameters.makeTarget }}
+  workingDirectory: ${{ parameters.bldDir }}
+  ${{ if eq(parameters.makeTarget, '') }}:
+    displayName: "Build default target"
+  ${{ if ne(parameters.makeTarget, '') }}:
+    displayName: "Build target: ${{ parameters.makeTarget }}"
+
+  
