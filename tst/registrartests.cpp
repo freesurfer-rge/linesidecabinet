@@ -51,13 +51,24 @@ BOOST_AUTO_TEST_CASE(ExceptionOnMissingKey)
   BOOST_CHECK_EXCEPTION( hpr.Retrieve(name),
 			 Lineside::KeyNotFoundException,
 			 [&](const Lineside::KeyNotFoundException& e) {
-			   return e.badKey == name;
+			   return e.keyName == name;
 			 } );
 }
 
 BOOST_AUTO_TEST_CASE(ExceptionOnDuplicateKey)
 {
-  BOOST_FAIL("Not yet implemented");
+  Lineside::Registrar<int> hpr;
+
+  const std::string name = "AnotherThing";
+
+  int i1 = 3;
+
+  hpr.Register(name, &i1);
+  BOOST_CHECK_EXCEPTION( hpr.Register(name, &i1),
+			 Lineside::DuplicateKeyException,
+			 [&](const Lineside::DuplicateKeyException& e) {
+			   return e.keyName == name;
+			 } );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -11,23 +11,39 @@ namespace Lineside {
 
   // ========================================
 
-  class KeyNotFoundException : public LinesideException {
+  class KeyException : public LinesideException {
   public:
-    explicit KeyNotFoundException(const std::string& badKeyName) :
-      LinesideException(""),
-      badKey(badKeyName),
-      message() {
-      std::stringstream tmp;
-      tmp << "Key '" << this->badKey << "' not found";
-      this->message = tmp.str();
-    }
+    std::string keyName;
 
     virtual const char* what() const noexcept override {
       return this->message.c_str();
     }
-    
-    std::string badKey;
-  private:
+  protected:
+    explicit KeyException(const std::string& badKeyName) :
+      LinesideException(""),
+      keyName(badKeyName),
+      message("MESSAGE NOT SET") {}
+
     std::string message;
+  };
+  
+  class KeyNotFoundException : public KeyException {
+  public:
+    explicit KeyNotFoundException(const std::string& badKeyName) :
+      KeyException(badKeyName) {
+      std::stringstream tmp;
+      tmp << "Key '" << this->keyName << "' not found";
+      this->message = tmp.str();
+    }
+  };
+
+  class DuplicateKeyException: public KeyException {
+  public:
+    explicit DuplicateKeyException(const std::string& badKeyName) :
+      KeyException(badKeyName) {
+      std::stringstream tmp;
+      tmp << "Key '" << this->keyName << "' already present";
+      this->message = tmp.str();
+    }
   };
 }

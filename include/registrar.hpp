@@ -14,6 +14,9 @@ namespace Lineside {
 
     void Register( const std::string& name,
 		   StoredType* target ) {
+      if( this->store.count(name) != 0 ) {
+	throw DuplicateKeyException(name);
+      }
       this->store[name] = target;
     }
 
