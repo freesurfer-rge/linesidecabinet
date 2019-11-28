@@ -2,7 +2,7 @@
 
 parameters:
   srcDir: ''
-  buildDir: ''
+  bldDir: ''
   cmakeExtraArgs: ''
   makeExtraArgs: ''
   makeTarget: ''
@@ -13,15 +13,15 @@ steps:
   inputs:
     filePath: scripts/cmakeupdate.sh
     
-- script: mkdir -p ${{ parameters.buildDir }}
+- script: mkdir -p ${{ parameters.bldDir }}
   displayName: 'Create build directory'
     
 - script: /usr/bin/cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }}
   displayName: "Run CMake"
-  workingDirectory: ${{ parameters.buildDir }}
+  workingDirectory: ${{ parameters.bldDir }}
 
-  - script: make -j VERBOSE=1 ${{ parameters.makeExtraArgs }} ${{ parameters.makeTarget }}
-    displayName: "Build all"
-    workingDirectory: ${{ parameters.buildDir }}
+- script: make -j VERBOSE=1 ${{ parameters.makeExtraArgs }} ${{ parameters.makeTarget }}
+  displayName: "Build all"
+  workingDirectory: ${{ parameters.bldDir }}
 
   
