@@ -17,21 +17,10 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - task: Bash@3
-    displayName: "Install latest CMake"
-    inputs:
-      filePath: scripts/cmakeupdate.sh
-    
-  - script: mkdir $(buildDir)
-    displayName: 'Create build directory'
-    
-  - script: /usr/bin/cmake $(Build.SourcesDirectory)
-    displayName: "Run CMake"
-    workingDirectory: $(buildDir)
-
-  - script: make -j VERBOSE=1
-    displayName: "Build all"
-    workingDirectory: $(buildDir)
+  - template: cmake-steps-template.yml
+    parameters:
+      srcDir: $(Build.SourcesDirectory)
+      bldDir: $(buildDir) 
 
   - script: ./LinesideTest --log_level=all --log_format=JUNIT --log_sink=test-results-JUNIT.xml --report_sink=stdout
     displayName: "Run all tests"
