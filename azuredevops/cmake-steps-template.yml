@@ -21,7 +21,10 @@ steps:
   workingDirectory: ${{ parameters.bldDir }}
 
 - script: make -j VERBOSE=1 ${{ parameters.makeExtraArgs }} ${{ parameters.makeTarget }}
-  displayName: "Build all"
+  - ${{ if eq(parameters.makeTarget, '') }}:
+      displayName: "Build default targe"
+  - ${{ if neq(parameters.makeTarget, '') }}:
+      displayName: "Build target: ${{ parameters.makeTarget }}"
   workingDirectory: ${{ parameters.bldDir }}
 
   

@@ -19,21 +19,11 @@ jobs:
   - script: sudo apt-get install doxygen graphviz
     displayName: "Install doc prereqs"
 
-  - task: Bash@3
-    displayName: "Install latest CMake"
-    inputs:
-      filePath: scripts/cmakeupdate.sh
-    
-  - script: mkdir $(buildDir)
-    displayName: 'Create build directory'
-    
-  - script: /usr/bin/cmake $(Build.SourcesDirectory)
-    displayName: "Run CMake"
-    workingDirectory: $(buildDir)
-
-  - script: make docs
-    displayName: "Build docs"
-    workingDirectory: $(buildDir)
+  - template: cmake-steps-template.yml
+    parameters:
+      srcDir: $(Build.SourcesDirectory)
+      bldDir: $(buildDir)
+      makeTarget: 'docs'
 
   - task: PublishBuildArtifacts@1
     displayName: "Publish docs as artifacts"
