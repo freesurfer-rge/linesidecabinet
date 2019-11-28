@@ -7,15 +7,22 @@
 #include "pwmchannel.hpp"
 
 namespace Lineside {
+  //! Type for objects which supply binary output pins
+  typedef HardwareProvider<BinaryOutputPin> BOPProvider;
+  typedef HardwareProvider<BinaryInputPin> BIPProvider;
+  typedef HardwareProvider<PWMChannel> PWMCProvider;
+  
+  typedef Registrar<BOPProvider> BOPProviderRegistrar;
+  typedef Registrar<BIPProvider> BIPProviderRegistrar;
+  typedef Registrar<PWMCProvider> PWMCProviderRegistrar;
+  
   //! Abstract class for managing access to hardware
   class HardwareManager {
   public:
-    typedef HardwareProvider<BinaryOutputPin> BOPProvider;
-    typedef HardwareProvider<BinaryInputPin> BIPProvider;
-    typedef HardwareProvider<PWMChannel> PWMCProvider;
-    
-    typedef Registrar<BOPProvider> BOPProvierRegistrar;
-    typedef Registrar<BIPProvider> BIPProviderRegistrar;
-    typedef Registrar<PWMCProvider> PWMCProviderRegistrar;
+    virtual ~HardwareManager() {}
+
+    virtual BOPProviderRegistrar* GetBOPProviderRegistrar() = 0;
+    virtual BIPProviderRegistrar* GetBIPProviderRegistrar() = 0;
+    virtual PWMCProviderRegistrar* GetPWMCProviderRegistrar() = 0;
   };
 }
