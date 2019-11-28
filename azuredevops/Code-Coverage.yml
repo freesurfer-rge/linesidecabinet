@@ -23,7 +23,7 @@ jobs:
       bldDir: $(buildDir) 
       cmakeExtraArgs: "-DCMAKE_BUILD_TYPE=Debug"
 
-  - template: testing-steps.template.yml
+  - template: testing-steps-template.yml
     parameters:
       testDir: $(testDir)
       
