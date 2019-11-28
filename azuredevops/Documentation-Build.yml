@@ -2,6 +2,14 @@ pr: none
 
 trigger: none
 
+schedules:
+- cron: "0 5 * * 1-5" # Time is UTC
+  displayName: Nightly Build
+  branches:
+    include:
+      - master
+  always: true
+
 pool:
   vmImage: 'ubuntu-latest'
 
