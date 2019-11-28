@@ -1,6 +1,7 @@
 set( srcs test.cpp )
 
 list(APPEND srcs mocks/mockbip.cpp)
+list(APPEND srcs mocks/mockhardwaremanager.cpp)
 
 list(APPEND srcs itemidtests.cpp)
 list(APPEND srcs exceptiontests.cpp)
