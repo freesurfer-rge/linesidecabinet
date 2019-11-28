@@ -5,6 +5,11 @@
 
 #include "mocks/mockbip.hpp"
 
+/*
+  These tests are more about validating the code in the abstract
+  class BinaryOutputPin than the MockBIP itself.
+ */
+
 BOOST_AUTO_TEST_SUITE(MockBIPValidation)
 
 BOOST_AUTO_TEST_CASE(GetAndSet)
