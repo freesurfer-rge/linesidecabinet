@@ -1,9 +1,9 @@
 #pragma once
 
-#include <chrono>
-#include <atomic>
-#include <mutex>
-#include <condition_variable>
+#include <set>
+#include <memory>
+
+#include "notifiable.hpp"
 
 namespace Lineside {
   //! Abstraction for a binary input pin
@@ -13,34 +13,27 @@ namespace Lineside {
    */
   class BinaryInputPin {
   public:
+    
     BinaryInputPin() :
-      mtx(),
-      cv() {}
+      listeners() {}
     
     virtual ~BinaryInputPin() {}
 
     //! Reads the current state of the pin
     virtual bool Get() const = 0;
 
-    //! Blocks the current thread until NotifyOneUpdate is called
-    bool Wait();
-
-    //! Blocks the current thread for a specified duration or until NotifyOneUpdate is called
-    template<class Rep, class Period>
-    bool WaitFor(const std::chrono::duration<Rep,Period>& waitTime ) {
-      std::atomic<bool> last;
-      std::unique_lock<std::mutex> lck(this->mtx);
-      last = this->Get();
-      this->cv.wait_for( lck,
-                         waitTime,
-                         [this,&last](){ return last != this->Get(); } );
-      return this->Get();
-    }
+    void RegisterListener(const int requestedSourceId,
+			  std::weak_ptr<Notifiable<bool>> listener);
+    
   protected:
-    void NotifyOneUpdate();
+    void NotifyUpdate();
     
   private:
-    std::mutex mtx;
-    std::condition_variable cv;
+    struct Listener {
+      int requestedSourceId;
+      std::weak_ptr<Notifiable<bool>> listener
+    };
+    
+    std::set<Listener> listeners;
   };
 }
