@@ -22,7 +22,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Warning options for the compiler
 string(
   APPEND _warning_opts
-  "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wall;-Wextra;-Weffc++;-Werror;-Wno-unused-parameter;>"
+  "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wall;-Wextra;-Weffc++;-Werror;>"
   "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-Wthread-safety;-Wpedantic;>"
   "$<$<CXX_COMPILER_ID:GNU>:-pedantic;-pedantic-errors;>"
   )
