@@ -6,5 +6,5 @@ bool MockBIP::Get() const {
 
 void MockBIP::Set(const bool level) {
   this->state = level;
-  this->NotifyOneUpdate();
+  this->NotifyUpdate();
 }
