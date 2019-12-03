@@ -31,7 +31,7 @@ namespace Lineside {
   private:
     struct Listener {
       int requestedSourceId;
-      std::weak_ptr<Notifiable<bool>> listener
+      std::weak_ptr<Notifiable<bool>> listener;
     };
     
     std::set<Listener> listeners;

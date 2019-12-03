@@ -1,17 +1,12 @@
 #include "binaryinputpin.hpp"
 
 namespace Lineside {
-  bool BinaryInputPin::Wait() {
-    std::atomic<bool> last;
-    std::unique_lock<std::mutex> lck(this->mtx);
-    last = this->Get();
-    // Specify predicate function to guard against spurious wakeups
-    this->cv.wait( lck, [this,&last](){ return last != this->Get(); } );
-    return this->Get();
+  void BinaryInputPin::RegisterListener(const int requestedSourceId,
+					std::weak_ptr<Notifiable<bool>> listener) {
+    throw std::logic_error(__FUNCTION__);
   }
 
-  void BinaryInputPin::NotifyOneUpdate() {
-    std::lock_guard<std::mutex> lg(this->mtx);
-    this->cv.notify_one();
+  void BinaryInputPin::NotifyUpdate() {
+    throw std::logic_error(__FUNCTION__);
   }
 }

@@ -10,6 +10,21 @@
   class BinaryOutputPin than the MockBIP itself.
  */
 
+class NotifyTarget : public Lineside::Notifiable<bool> {
+public:
+  NotifyTarget() :
+    lastNotificationSource(0),
+    lastNotification(false) {}
+  
+  int lastNotificationSource;
+  bool lastNotification;
+
+  virtual void Notify(const int sourceId, const bool notification) override {
+    this->lastNotificationSource = sourceId;
+    this->lastNotification = notification;
+  }
+};
+
 BOOST_AUTO_TEST_SUITE(MockBIPValidation)
 
 BOOST_AUTO_TEST_CASE(GetAndSet)
@@ -23,90 +38,60 @@ BOOST_AUTO_TEST_CASE(GetAndSet)
   BOOST_CHECK_EQUAL( mb.Get(), false );
 }
 
-BOOST_AUTO_TEST_CASE(WaitAndNotify, *boost::unit_test::timeout(5))
+BOOST_AUTO_TEST_CASE(NotifySingleTarget)
 {
   MockBIP mb;
 
-  BOOST_CHECK_EQUAL( mb.Get(), false );
-  
-  auto notifyDelay = std::chrono::seconds(2);
+  const int srcId = 10;
+  std::shared_ptr<NotifyTarget> nt(new NotifyTarget);
+  BOOST_CHECK_EQUAL( nt->lastNotificationSource, 0 );
+  BOOST_CHECK_EQUAL( nt->lastNotification, false );
 
-  auto start = std::chrono::system_clock::now();
+  mb.RegisterListener( srcId, nt );
 
-  // Spin of thread which will notify us after a set time
-  MockBIP* mbp = &mb;
-  std::thread notifyThread( [notifyDelay,mbp]() {
-			      std::this_thread::sleep_for(notifyDelay);
-			      mbp->Set(true);
-			    } );
-  notifyThread.detach();
-
-  // Wait on the notification
-  BOOST_CHECK_EQUAL( mb.Get(), false );
-  bool res = mb.Wait();
-  auto stop = std::chrono::system_clock::now();
-
-  // Check that we got the right result
-  BOOST_CHECK_EQUAL( res, true );
-  // Check there was a delay on the notification
-  BOOST_CHECK( (stop-start) >= notifyDelay );
-}
-
-BOOST_AUTO_TEST_CASE(WaitForNoChange, *boost::unit_test::timeout(5))
-{
-  MockBIP mb;
-
-  BOOST_CHECK_EQUAL( mb.Get(), false );
-  
-  auto waitInterval = std::chrono::seconds(2);
-
-  auto start = std::chrono::system_clock::now();
-  bool res = mb.WaitFor( waitInterval );
-  auto stop = std::chrono::system_clock::now();
-
-  // No change on the pin state
-  BOOST_CHECK_EQUAL( res, false );
-  // Check we waited for the right time
-  BOOST_CHECK( (stop-start) >= waitInterval );
-
-  // Repeat with pin set to true
   mb.Set(true);
-  start = std::chrono::system_clock::now();
-  res = mb.WaitFor( waitInterval );
-  stop = std::chrono::system_clock::now();
+  BOOST_CHECK_EQUAL( nt->lastNotificationSource, srcId );
+  BOOST_CHECK_EQUAL( nt->lastNotification, true );
 
-  BOOST_CHECK_EQUAL( res, true );
-  BOOST_CHECK( (stop-start) >= waitInterval );
+  nt->lastNotificationSource = 0;
+
+  mb.Set(false);
+  BOOST_CHECK_EQUAL( nt->lastNotificationSource, srcId );
+  BOOST_CHECK_EQUAL( nt->lastNotification, false );
 }
 
-BOOST_AUTO_TEST_CASE(WaitForChange, *boost::unit_test::timeout(5))
+BOOST_AUTO_TEST_CASE(NotifyTwoTargets)
 {
   MockBIP mb;
-  MockBIP* const mbp = &mb;
-  BOOST_CHECK_EQUAL( mb.Get(), false );
 
-  // Set up delays and check they are sane
-  auto waitInterval = std::chrono::seconds(3);
-  auto notifyDelay = std::chrono::seconds(1);
-  BOOST_REQUIRE( waitInterval > notifyDelay );
+  const int src1 = 10;
+  const int src2 = src1+12;
 
-  auto start = std::chrono::system_clock::now();
-  // Spin off a thread which will notify us after a set time
-  std::thread notifyThread( [notifyDelay,mbp]() {
-			      std::this_thread::sleep_for(notifyDelay);
-			      mbp->Set(true);
-			    } );
-  notifyThread.detach();
+  std::shared_ptr<NotifyTarget> nt1(new NotifyTarget);
+  std::shared_ptr<NotifyTarget> nt2(new NotifyTarget);
+  
+  BOOST_CHECK_EQUAL( nt1->lastNotificationSource, 0 );
+  BOOST_CHECK_EQUAL( nt1->lastNotification, false );
+  BOOST_CHECK_EQUAL( nt2->lastNotificationSource, 0 );
+  BOOST_CHECK_EQUAL( nt2->lastNotification, false );
 
-  // Wait on the notification
-  bool res = mb.WaitFor(waitInterval);
-  auto stop = std::chrono::system_clock::now();
+  mb.RegisterListener( src1, nt1 );
+  mb.RegisterListener( src2, nt2 );
 
-  // Check for the right result
-  BOOST_CHECK_EQUAL( res, true );
-  // Check for the correct delays
-  BOOST_CHECK( (stop-start) >= notifyDelay );
-  BOOST_CHECK( (stop-start) <= waitInterval );
+  mb.Set(true);
+  BOOST_CHECK_EQUAL( nt1->lastNotificationSource, src1 );
+  BOOST_CHECK_EQUAL( nt1->lastNotification, true );
+  BOOST_CHECK_EQUAL( nt2->lastNotificationSource, src2 );
+  BOOST_CHECK_EQUAL( nt2->lastNotification, true );
+  
+  nt1->lastNotificationSource = 0;
+  nt2->lastNotificationSource = 0;
+
+  mb.Set(false);
+  BOOST_CHECK_EQUAL( nt1->lastNotificationSource, src1 );
+  BOOST_CHECK_EQUAL( nt1->lastNotification, false );
+  BOOST_CHECK_EQUAL( nt2->lastNotificationSource, src2 );
+  BOOST_CHECK_EQUAL( nt2->lastNotification, false );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
