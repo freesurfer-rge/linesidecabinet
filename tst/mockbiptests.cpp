@@ -94,4 +94,20 @@ BOOST_AUTO_TEST_CASE(NotifyTwoTargets)
   BOOST_CHECK_EQUAL( nt2->lastNotification, false );
 }
 
+BOOST_AUTO_TEST_CASE(ExpiredTargetHarmless)
+{
+  MockBIP mb;
+
+  {
+    const int srcId = 10;
+    std::shared_ptr<NotifyTarget> nt(new NotifyTarget);
+
+    mb.RegisterListener( srcId, nt );
+    // nt Goes out of scope and we only took a weak_ptr
+  }
+
+  // Still should be OK
+  BOOST_CHECK_NO_THROW(mb.Set(true));
+}
+
 BOOST_AUTO_TEST_SUITE_END()

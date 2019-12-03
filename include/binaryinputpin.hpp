@@ -1,6 +1,6 @@
 #pragma once
 
-#include <set>
+#include <vector>
 #include <memory>
 
 #include "notifiable.hpp"
@@ -30,10 +30,14 @@ namespace Lineside {
     
   private:
     struct Listener {
+      Listener(int reqSrcId, std::weak_ptr<Notifiable<bool>> l) :
+	requestedSourceId(reqSrcId),
+	listener(l) {}
+      
       int requestedSourceId;
       std::weak_ptr<Notifiable<bool>> listener;
     };
     
-    std::set<Listener> listeners;
+    std::vector<Listener> listeners;
   };
 }
