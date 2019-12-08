@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "notifiable.hpp"
+#include "notifier.hpp"
 
 namespace Lineside {
   //! Abstraction for a binary input pin
@@ -15,7 +15,7 @@ namespace Lineside {
   public:
     
     BinaryInputPin() :
-      listeners() {}
+      notifier() {}
     
     virtual ~BinaryInputPin() {}
 
@@ -29,15 +29,6 @@ namespace Lineside {
     void NotifyUpdate();
     
   private:
-    struct Listener {
-      Listener(int reqSrcId, std::weak_ptr<Notifiable<bool>> l) :
-	requestedSourceId(reqSrcId),
-	listener(l) {}
-      
-      int requestedSourceId;
-      std::weak_ptr<Notifiable<bool>> listener;
-    };
-    
-    std::vector<Listener> listeners;
+    Notifier<bool> notifier;
   };
 }
