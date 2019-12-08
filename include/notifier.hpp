@@ -12,9 +12,9 @@ namespace Lineside {
     Notifier() :
       listeners() {}
     
-    void RegisterListener(const int requestedSourceId,
-			  std::weak_ptr<Notifiable<NotificationType>> listener) {
-      this->listeners.push_back(Listener(requestedSourceId, listener));
+    void Register(const int requestedSourceId,
+		  std::weak_ptr<Notifiable<NotificationType>> target) {
+      this->listeners.push_back(Listener(requestedSourceId, target));
     }
 
     void Notify(const NotificationType& notice) const {

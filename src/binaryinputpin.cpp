@@ -3,7 +3,7 @@
 namespace Lineside {
   void BinaryInputPin::RegisterListener(const int requestedSourceId,
 					std::weak_ptr<Notifiable<bool>> listener) {
-    this->notifier.RegisterListener(requestedSourceId, listener);
+    this->notifier.Register(requestedSourceId, listener);
   }
 
   void BinaryInputPin::NotifyUpdate() {
