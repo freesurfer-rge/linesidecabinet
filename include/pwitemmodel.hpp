@@ -2,10 +2,11 @@
 
 #include <chrono>
 
+#include "notifier.hpp"
+
 #include "itemid.hpp"
 
 namespace Lineside {
-  class PWItemController;
 
   class PWItemModel {
   public:
@@ -16,8 +17,11 @@ namespace Lineside {
     virtual std::chrono::milliseconds OnRun() = 0;
 
     virtual bool HaveStateChange() = 0;
+
+    void RegisterController(const int reqSrcId,
+			    std::weak_ptr<Notifiable<bool>> target);
   private:
     ItemId id;
-    std::weak_ptr<PWItemController> controller;
+    Notifier<bool> controllerNotifier;
   };
 }
