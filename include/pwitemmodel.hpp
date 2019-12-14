@@ -10,6 +10,12 @@ namespace Lineside {
 
   class PWItemModel {
   public:
+    virtual ~PWItemModel() {}
+
+    ItemId getId() const {
+      return this->id;
+    }
+    
     virtual void OnActivate() = 0;
 
     virtual void OnDeactivate() = 0;

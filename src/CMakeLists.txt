@@ -2,6 +2,7 @@ set( srcs )
 
 list(APPEND srcs itemid.cpp)
 list(APPEND srcs binaryinputpin.cpp)
+list(APPEND srcs pwitemcontroller.cpp)
 
 add_library( lineside ${srcs} )
 target_include_directories(lineside
