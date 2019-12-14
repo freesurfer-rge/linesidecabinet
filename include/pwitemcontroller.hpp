@@ -15,8 +15,10 @@ namespace Lineside {
   //! Contoller for a Permanent Way Item
   class PWItemController : public Notifiable<bool>,
 			   public std::enable_shared_from_this<PWItemController> {
-  public:
+  public:    
     PWItemController(std::shared_ptr<PWItemModel> pwim);
+
+    ~PWItemController();
     
     void Activate();
 
@@ -24,8 +26,11 @@ namespace Lineside {
     
     void Deactivate();
   private:
+    enum class ControllerState { Constructed, Active, Inactive };
+    
     ItemId id;
     std::shared_ptr<PWItemModel> model;
+    ControllerState state;
 
     std::thread t;
     std::mutex mtx;
