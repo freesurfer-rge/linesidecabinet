@@ -7,9 +7,11 @@
 #include "itemid.hpp"
 
 namespace Lineside {
-
   class PWItemModel {
   public:
+    PWItemModel(const ItemId itemId) :
+      id(itemId) {}
+    
     virtual ~PWItemModel() {}
 
     ItemId getId() const {
@@ -24,7 +26,7 @@ namespace Lineside {
 
     virtual bool HaveStateChange() = 0;
 
-    void RegisterController(const int reqSrcId,
+    void RegisterController(const unsigned int reqSrcId,
 			    std::weak_ptr<Notifiable<bool>> target);
   private:
     ItemId id;

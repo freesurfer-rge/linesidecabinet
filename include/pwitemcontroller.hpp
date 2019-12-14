@@ -25,6 +25,9 @@ namespace Lineside {
     void Run();
     
     void Deactivate();
+
+    virtual void Notify(const unsigned int sourceId,
+			const bool notification) override;
   private:
     enum class ControllerState { Constructed, Active, Inactive };
     

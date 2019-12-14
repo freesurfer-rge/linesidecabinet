@@ -8,6 +8,6 @@ namespace Lineside {
     virtual ~Notifiable() {}
     
     //! Method to be called when some event occurs
-    virtual void Notify(const int sourceId, const NotificationType notification) = 0;
+    virtual void Notify(const unsigned int sourceId, const NotificationType notification) = 0;
   };
 }

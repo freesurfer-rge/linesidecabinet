@@ -16,10 +16,10 @@ public:
     lastNotificationSource(0),
     lastNotification(false) {}
   
-  int lastNotificationSource;
+  unsigned int lastNotificationSource;
   bool lastNotification;
 
-  virtual void Notify(const int sourceId, const bool notification) override {
+  virtual void Notify(const unsigned int sourceId, const bool notification) override {
     this->lastNotificationSource = sourceId;
     this->lastNotification = notification;
   }
