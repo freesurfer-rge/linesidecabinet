@@ -42,7 +42,9 @@ public:
   }
 
   virtual bool HaveStateChange() override {
-    return this->stateChange;
+    bool result = this->stateChange;
+    this->stateChange = false;
+    return result;
   }
 
   bool onActivateCalled;
@@ -152,6 +154,26 @@ BOOST_AUTO_TEST_CASE(DestructorDeactivates, *boost::unit_test::timeout(2))
     controller->Activate();
   }
   BOOST_CHECK( model->onDeactivateCalled );
+}
+
+BOOST_AUTO_TEST_CASE(ModelCanNotify, *boost::unit_test::timeout(2))
+{
+  Lineside::ItemId id = Lineside::ItemId::Random();
+  auto model = std::make_shared<MockModel>(id);
+  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
+
+  model->onRunWait = std::chrono::seconds(4);
+  controller->Activate();
+
+  auto notificationTime = std::chrono::high_resolution_clock::now();
+  model->WakeController();
+  PauseForThread();
+  controller->Deactivate();
+
+  auto lastOnRunTime = model->onRunCallTimes.back();
+  auto timeDiff = lastOnRunTime - notificationTime;
+  BOOST_CHECK( timeDiff < timeFuzz );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

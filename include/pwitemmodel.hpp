@@ -28,6 +28,8 @@ namespace Lineside {
 
     void RegisterController(const unsigned int reqSrcId,
 			    std::weak_ptr<Notifiable<bool>> target);
+
+    void WakeController();
   private:
     ItemId id;
     Notifier<bool> controllerNotifier;

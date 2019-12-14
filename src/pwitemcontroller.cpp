@@ -61,25 +61,16 @@ namespace Lineside {
     this->cv.notify_one();
   }
 
-#if defined(BOOST_COMP_GNUC)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#elif defined(BOOST_COMP_CLANG)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-#endif
   void PWItemController::Notify(const unsigned int sourceId,
 				const bool notification) {
+    if( !notification ) {
+      throw std::logic_error("Unexpected notification to PWItemController::Notify");
+    }
     if( sourceId != this->id.Get() ) {
       throw ItemIdMismatchException( this->id, sourceId );
     }
-    throw std::logic_error(__FUNCTION__);
+    this->cv.notify_one();
   }
-#if defined(BOOST_COMP_GNUC)
-#pragma GCC diagnostic pop
-#elif defined(BOOST_COMP_CLANG)
-#pragma clange diagnostic pop
-#endif
 
   bool PWItemController::CheckWakeUp() const {
     bool shouldWake = (this->state != ControllerState::Active);
