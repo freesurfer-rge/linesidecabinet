@@ -10,22 +10,37 @@
 
 namespace Lineside {
   PWItemController::~PWItemController() {
-
+    this->Deactivate();
+    if( this->t.joinable() ) {
+      this->t.join();
+    }
   }
 
-  void PWItemController::Activate() {
+  void PWItemController::Activate() {    
     this->model->RegisterController(this->id.Get(),
 				    this->shared_from_this());
-    throw std::logic_error(__FUNCTION__);
+
+    // Spawn the thread using condition variable
+    // to ensure it is active before this function exits
+    std::unique_lock<std::mutex> lck(this->mtx);
+    this->t = std::thread(&PWItemController::Run, this);
+
+    while( this->state != ControllerState::Active ) {
+      this->cv.wait(lck);
+    }
+    std::cout << __PRETTY_FUNCTION__ << ": Done";
   }
 
   void PWItemController::Run() {
-    throw std::logic_error(__FUNCTION__);
+    this->model->OnActivate();
+
+    this->state = ControllerState::Active;
+    this->cv.notify_one();
   }
 
   void PWItemController::Deactivate() {
     this->state = ControllerState::Inactive;
-    throw std::logic_error(__FUNCTION__);
+    this->cv.notify_one();
   }
 
 #if defined(BOOST_COMP_GNUC)
