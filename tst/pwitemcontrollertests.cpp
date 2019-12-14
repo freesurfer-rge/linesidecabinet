@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(BasicLifeCycle, *boost::unit_test::timeout(2))
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
 
-  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  auto controller = Lineside::PWItemController::Construct(model);
   BOOST_CHECK_EQUAL(controller.use_count(), 1);
   BOOST_CHECK(!model->onActivateCalled);
   BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(ShortDurationSleeps, *boost::unit_test::timeout(2))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
-  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  auto controller = Lineside::PWItemController::Construct(model);
   BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
 
   const int nSleepIntervals = 10;
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE(LongSleepIgnored, *boost::unit_test::timeout(30))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
-  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  auto controller = Lineside::PWItemController::Construct(model);
   BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
 
   // Set too long sleep request
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE(DestructorDeactivates, *boost::unit_test::timeout(2))
   auto model = std::make_shared<MockModel>(id);
   model->onRunWait = std::chrono::seconds(4);
   {
-    auto controller = std::make_shared<Lineside::PWItemController>(model);
+    auto controller = Lineside::PWItemController::Construct(model);
     controller->Activate();
   }
   BOOST_CHECK( model->onDeactivateCalled );
@@ -163,7 +163,7 @@ BOOST_AUTO_TEST_CASE(ModelCanNotify, *boost::unit_test::timeout(2))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
-  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  auto controller = Lineside::PWItemController::Construct(model);
   BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
 
   model->onRunWait = std::chrono::seconds(4);
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE(IncorrectActivate, *boost::unit_test::timeout(2))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
-  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  auto controller = Lineside::PWItemController::Construct(model);
 
   controller->Activate();
 
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE(DeactivateWithoutActivate, *boost::unit_test::timeout(1))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
-  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  auto controller = Lineside::PWItemController::Construct(model);
 
   BOOST_CHECK_NO_THROW( controller->Deactivate() );
 }

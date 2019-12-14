@@ -11,24 +11,11 @@
 
 namespace Lineside {
   class PWItemModel;
-  
-  //! Contoller for a Permanent Way Item
-  class PWItemController : public Notifiable<bool>,
-			   public std::enable_shared_from_this<PWItemController> {
-  public:
-    PWItemController(std::shared_ptr<PWItemModel> pwim) :
-      Notifiable<bool>(),
-      std::enable_shared_from_this<PWItemController>(),
-      model(pwim),
-      id(pwim->getId()),
-      state(ControllerState::Constructed),
-      t(),
-      mtx(),
-      cv() {
-      // Nothing to do
-    }
 
-    ~PWItemController();
+  //! Contoller for a Permanent Way Item
+  class PWItemController : public Notifiable<bool> {
+  public:
+    virtual ~PWItemController();
     
     void Activate();
     
@@ -36,6 +23,9 @@ namespace Lineside {
 
     virtual void Notify(const unsigned int sourceId,
 			const bool notification) override;
+
+    static std::shared_ptr<PWItemController> Construct(std::shared_ptr<PWItemModel> pwim);
+    
   private:
     enum class ControllerState { Constructed, Active, Inactive };
     const std::chrono::seconds MaximumWaitSeconds = std::chrono::seconds(5);
@@ -47,6 +37,17 @@ namespace Lineside {
     std::thread t;
     std::mutex mtx;
     std::condition_variable cv;
+    
+    PWItemController() :
+      Notifiable<bool>(),
+      model(),
+      id(),
+      state(ControllerState::Constructed),
+      t(),
+      mtx(),
+      cv() {
+      // Nothing to do
+    }
 
     bool CheckWakeUp() const;
 

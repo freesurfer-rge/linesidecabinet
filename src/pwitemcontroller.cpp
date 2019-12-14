@@ -9,6 +9,20 @@
 #include "pwitemcontroller.hpp"
 
 namespace Lineside {
+  std::shared_ptr<PWItemController> PWItemController::Construct(std::shared_ptr<PWItemModel> pwim) {
+    std::shared_ptr<PWItemController> result;
+
+    // Work around the private constructor of PWItemController
+    struct enabler : public PWItemController {};
+    
+    result = std::make_shared<enabler>();
+    result->id = pwim->getId();
+    result->model = pwim;
+    result->model->RegisterController(result->id.Get(), result);
+
+    return result;
+  }
+  
   PWItemController::~PWItemController() {
     this->Deactivate();
     if( this->t.joinable() ) {
@@ -22,9 +36,6 @@ namespace Lineside {
       msg << "Improper Activate() call on " << this->id;
       throw std::logic_error(msg.str());
     }
-    
-    this->model->RegisterController(this->id.Get(),
-				    this->shared_from_this());
 
     // Spawn the thread using condition variable
     // to ensure it is active before this function exits
