@@ -38,6 +38,7 @@ namespace Lineside {
 			const bool notification) override;
   private:
     enum class ControllerState { Constructed, Active, Inactive };
+    const std::chrono::seconds MaximumWaitSeconds = std::chrono::seconds(5);
     
     std::shared_ptr<PWItemModel> model;
     ItemId id;
@@ -46,5 +47,7 @@ namespace Lineside {
     std::thread t;
     std::mutex mtx;
     std::condition_variable cv;
+
+    bool CheckWakeUp() const;
   };
 }

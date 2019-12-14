@@ -12,7 +12,9 @@ public:
     onActivateCalled(false),
     onDeactivateCalled(false),
     runThreadId(),
-    onRunCallTimes() {}
+    onRunCallTimes(),
+    onRunWait(100),
+    stateChange(false) {}
   
   virtual void OnActivate() override {
     if(this->onActivateCalled) {
@@ -33,18 +35,31 @@ public:
   }
 
   virtual std::chrono::milliseconds OnRun() override {
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    this->onRunCallTimes.push_back(std::chrono::high_resolution_clock::now());
+    return this->onRunWait;
   }
 
   virtual bool HaveStateChange() override {
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    return this->stateChange;
   }
 
   bool onActivateCalled;
   bool onDeactivateCalled;
   std::thread::id runThreadId;
   std::vector<std::chrono::high_resolution_clock::time_point> onRunCallTimes;
+  std::chrono::milliseconds onRunWait;
+  bool stateChange;
 };
+
+// ===================================
+
+void PauseForThread() {
+  // We are managing a separate thread, but have no direct
+  // visibility. Wait a short time to give it an opportunity
+  // to run before performing checks
+  // Of course, this is still not an absolute guarantee
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
+}
 
 // ===================================
 
@@ -62,8 +77,19 @@ BOOST_AUTO_TEST_CASE(BasicLifeCycle)
 
   controller->Activate();
   BOOST_CHECK(model->onActivateCalled);
-  BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 1);
   BOOST_CHECK( std::this_thread::get_id() != model->runThreadId );
+
+  // Following may fail if thread scheduling is particularly
+  // weird
+  BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 1);
+
+  controller->Deactivate();
+  PauseForThread();
+  BOOST_CHECK( model->onDeactivateCalled );
+
+  // Since we only had a short pause, should not have
+  // had more OnRun() calls
+  BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

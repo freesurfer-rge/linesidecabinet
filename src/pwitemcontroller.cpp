@@ -28,14 +28,32 @@ namespace Lineside {
     while( this->state != ControllerState::Active ) {
       this->cv.wait(lck);
     }
-    std::cout << __PRETTY_FUNCTION__ << ": Done";
   }
 
   void PWItemController::Run() {
-    this->model->OnActivate();
-
-    this->state = ControllerState::Active;
+    // First, unblock the thread which spawned the signal
+    {
+      // The mutex ensures that the spawning thread has
+      // reached the cv.wait()
+      std::lock_guard<std::mutex> lg(this->mtx);
+      this->model->OnActivate();
+      this->state = ControllerState::Active;
+    }
     this->cv.notify_one();
+    
+    std::chrono::milliseconds nextWait = this->MaximumWaitSeconds;
+    do {
+      std::unique_lock<std::mutex> lck(this->mtx);
+      
+      nextWait = this->model->OnRun();
+      if( nextWait > this->MaximumWaitSeconds ) {
+	nextWait = this->MaximumWaitSeconds;
+      }
+      
+      this->cv.wait_for( lck, nextWait, [this](){ return this->CheckWakeUp(); } );
+    } while( this->state == ControllerState::Active );
+
+    this->model->OnDeactivate();
   }
 
   void PWItemController::Deactivate() {
@@ -62,4 +80,12 @@ namespace Lineside {
 #elif defined(BOOST_COMP_CLANG)
 #pragma clange diagnostic pop
 #endif
+
+  bool PWItemController::CheckWakeUp() const {
+    bool shouldWake = (this->state != ControllerState::Active);
+
+    shouldWake = shouldWake || this->model->HaveStateChange();
+
+    return shouldWake;
+  }
 }
