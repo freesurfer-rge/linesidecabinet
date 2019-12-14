@@ -84,6 +84,7 @@ BOOST_AUTO_TEST_CASE(BasicLifeCycle, *boost::unit_test::timeout(2))
   BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
 
   controller->Activate();
+  PauseForThread();
   BOOST_CHECK(model->onActivateCalled);
   BOOST_CHECK( std::this_thread::get_id() != model->runThreadId );
 
