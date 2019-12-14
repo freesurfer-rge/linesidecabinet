@@ -69,7 +69,7 @@ void PauseForThread() {
 
 BOOST_AUTO_TEST_SUITE(PWItemController)
 
-BOOST_AUTO_TEST_CASE(BasicLifeCycle)
+BOOST_AUTO_TEST_CASE(BasicLifeCycle, *boost::unit_test::timeout(2))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
@@ -141,6 +141,17 @@ BOOST_AUTO_TEST_CASE(LongSleepIgnored, *boost::unit_test::timeout(30))
   // Should get at least four OnRun() calls due to MaximumWaitTime
   BOOST_CHECK_GE( model->onRunCallTimes.size(), 4 );
   
+}
+
+BOOST_AUTO_TEST_CASE(DestructorDeactivates, *boost::unit_test::timeout(2))
+{
+  Lineside::ItemId id = Lineside::ItemId::Random();
+  auto model = std::make_shared<MockModel>(id);
+  {
+    auto controller = std::make_shared<Lineside::PWItemController>(model);
+    controller->Activate();
+  }
+  BOOST_CHECK( model->onDeactivateCalled );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
