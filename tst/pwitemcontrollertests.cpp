@@ -5,6 +5,8 @@
 #include "pwitemmodel.hpp"
 #include "pwitemcontroller.hpp"
 
+#include "exceptionmessagecheck.hpp"
+
 // ===================================
 
 class MockModel : public Lineside::PWItemModel {
@@ -149,6 +151,7 @@ BOOST_AUTO_TEST_CASE(DestructorDeactivates, *boost::unit_test::timeout(2))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
+  model->onRunWait = std::chrono::seconds(4);
   {
     auto controller = std::make_shared<Lineside::PWItemController>(model);
     controller->Activate();
@@ -174,6 +177,38 @@ BOOST_AUTO_TEST_CASE(ModelCanNotify, *boost::unit_test::timeout(2))
   auto lastOnRunTime = model->onRunCallTimes.back();
   auto timeDiff = lastOnRunTime - notificationTime;
   BOOST_CHECK( timeDiff < timeFuzz );
+}
+
+BOOST_AUTO_TEST_CASE(IncorrectActivate, *boost::unit_test::timeout(2))
+{
+  Lineside::ItemId id = Lineside::ItemId::Random();
+  auto model = std::make_shared<MockModel>(id);
+  auto controller = std::make_shared<Lineside::PWItemController>(model);
+
+  controller->Activate();
+
+  std::stringstream msg;
+  msg << "Improper Activate() call on " << id;
+
+  // Do a second activate
+  BOOST_CHECK_EXCEPTION( controller->Activate(),
+			 std::logic_error,
+			 GetExceptionMessageChecker<std::logic_error>( msg.str() ) );
+  
+  // Also can't re-activate
+  controller->Deactivate();
+  BOOST_CHECK_EXCEPTION( controller->Activate(),
+			 std::logic_error,
+			 GetExceptionMessageChecker<std::logic_error>( msg.str() ) );
+}
+
+BOOST_AUTO_TEST_CASE(DeactivateWithoutActivate, *boost::unit_test::timeout(1))
+{
+  Lineside::ItemId id = Lineside::ItemId::Random();
+  auto model = std::make_shared<MockModel>(id);
+  auto controller = std::make_shared<Lineside::PWItemController>(model);
+
+  BOOST_CHECK_NO_THROW( controller->Deactivate() );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

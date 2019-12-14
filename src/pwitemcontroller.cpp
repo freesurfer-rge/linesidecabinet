@@ -16,7 +16,13 @@ namespace Lineside {
     }
   }
 
-  void PWItemController::Activate() {    
+  void PWItemController::Activate() {
+    if( this->state != ControllerState::Constructed ) {
+      std::stringstream msg;
+      msg << "Improper Activate() call on " << this->id;
+      throw std::logic_error(msg.str());
+    }
+    
     this->model->RegisterController(this->id.Get(),
 				    this->shared_from_this());
 
