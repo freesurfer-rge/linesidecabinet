@@ -3,21 +3,12 @@
 
 #include <boost/predef.h>
 
+#include "linesideexceptions.hpp"
 #include "pwitemmodel.hpp"
 
 #include "pwitemcontroller.hpp"
 
 namespace Lineside {
-  PWItemController::PWItemController(std::shared_ptr<PWItemModel> pwim) :
-    id(pwim->getId()),
-    model(pwim),
-    state(ControllerState::Constructed),
-    t(),
-    mtx(),
-    cv() {
-    // Nothing to do
-  }
-
   PWItemController::~PWItemController() {
 
   }
@@ -47,12 +38,7 @@ namespace Lineside {
   void PWItemController::Notify(const unsigned int sourceId,
 				const bool notification) {
     if( sourceId != this->id.Get() ) {
-      std::stringstream msg;
-      msg << __PRETTY_FUNCTION__
-	  << ": Mismatched sourceId. "
-	  << "Got(" << sourceId << ") "
-	  << "Expected(" << this->id << ")";
-      throw std::runtime_error(msg.str());
+      throw ItemIdMismatchException( this->id, sourceId );
     }
     throw std::logic_error(__FUNCTION__);
   }
