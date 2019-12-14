@@ -29,8 +29,6 @@ namespace Lineside {
     ~PWItemController();
     
     void Activate();
-
-    void Run();
     
     void Deactivate();
 
@@ -49,5 +47,7 @@ namespace Lineside {
     std::condition_variable cv;
 
     bool CheckWakeUp() const;
+
+    void Run();
   };
 }
