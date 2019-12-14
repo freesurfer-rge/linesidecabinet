@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <boost/test/unit_test.hpp>
 
 #include "pwitemmodel.hpp"
@@ -53,6 +55,8 @@ public:
 
 // ===================================
 
+const std::chrono::milliseconds timeFuzz(10);
+
 void PauseForThread() {
   // We are managing a separate thread, but have no direct
   // visibility. Wait a short time to give it an opportunity
@@ -90,6 +94,53 @@ BOOST_AUTO_TEST_CASE(BasicLifeCycle)
   // Since we only had a short pause, should not have
   // had more OnRun() calls
   BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 1);
+}
+
+BOOST_AUTO_TEST_CASE(ShortDurationSleeps, *boost::unit_test::timeout(2))
+{
+  Lineside::ItemId id = Lineside::ItemId::Random();
+  auto model = std::make_shared<MockModel>(id);
+  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
+
+  const int nSleepIntervals = 10;
+  
+  controller->Activate();
+  // Let OnRun() be called a few times
+  std::this_thread::sleep_for(model->onRunWait * nSleepIntervals);
+  controller->Deactivate();
+
+  // Check how many times OnRun() was called
+  double countDeviation = model->onRunCallTimes.size() - nSleepIntervals;
+  BOOST_CHECK( std::abs(countDeviation) <= 1 );
+
+  // Check the call times
+  for( size_t i=1; i<model->onRunCallTimes.size(); i++ ) {
+    auto timediff = model->onRunCallTimes.at(i) - model->onRunCallTimes.at(i-1);
+
+    // No abs() for duration objects....
+    auto deviation = timediff - model->onRunWait;
+    BOOST_CHECK( deviation < timeFuzz );
+    BOOST_CHECK( -deviation < timeFuzz );
+  }
+}
+
+BOOST_AUTO_TEST_CASE(LongSleepIgnored, *boost::unit_test::timeout(30))
+{
+  Lineside::ItemId id = Lineside::ItemId::Random();
+  auto model = std::make_shared<MockModel>(id);
+  auto controller = std::make_shared<Lineside::PWItemController>(model);
+  BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
+
+  // Set too long sleep request
+  model->onRunWait = std::chrono::seconds(20);
+
+  controller->Activate();
+  std::this_thread::sleep_for(std::chrono::seconds(25));
+
+  // Should get at least four OnRun() calls due to MaximumWaitTime
+  BOOST_CHECK_GE( model->onRunCallTimes.size(), 4 );
+  
 }
 
 BOOST_AUTO_TEST_SUITE_END()
