@@ -22,7 +22,7 @@ namespace Lineside {
     //! Reads the current state of the pin
     virtual bool Get() const = 0;
 
-    void RegisterListener(const int requestedSourceId,
+    void RegisterListener(const unsigned int requestedSourceId,
 			  std::weak_ptr<Notifiable<bool>> listener);
     
   protected:

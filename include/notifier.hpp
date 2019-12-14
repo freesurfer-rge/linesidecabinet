@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "notifiable.hpp"
 
@@ -12,7 +13,7 @@ namespace Lineside {
     Notifier() :
       listeners() {}
     
-    void Register(const int requestedSourceId,
+    void Register(const unsigned int requestedSourceId,
 		  std::weak_ptr<Notifiable<NotificationType>> target) {
       this->listeners.push_back(Listener(requestedSourceId, target));
     }
@@ -32,11 +33,11 @@ namespace Lineside {
     
   private:
     struct Listener {
-      Listener(int reqSrcId, std::weak_ptr<Notifiable<NotificationType>> l) :
+      Listener(unsigned int reqSrcId, std::weak_ptr<Notifiable<NotificationType>> l) :
 	requestedSourceId(reqSrcId),
 	listener(l) {}
       
-      const int requestedSourceId;
+      const unsigned int requestedSourceId;
       std::weak_ptr<Notifiable<NotificationType>> listener;
     };
     

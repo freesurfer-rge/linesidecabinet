@@ -7,6 +7,7 @@ list(APPEND srcs itemidtests.cpp)
 list(APPEND srcs exceptiontests.cpp)
 list(APPEND srcs registrartests.cpp)
 list(APPEND srcs mockbiptests.cpp)
+list(APPEND srcs pwitemcontrollertests.cpp)
 
 add_executable( LinesideTest ${srcs} )
 target_include_directories(LinesideTest
