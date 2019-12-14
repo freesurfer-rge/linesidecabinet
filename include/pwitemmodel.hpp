@@ -10,7 +10,8 @@ namespace Lineside {
   class PWItemModel {
   public:
     PWItemModel(const ItemId itemId) :
-      id(itemId) {}
+      id(itemId),
+      controllerNotifier() {}
     
     virtual ~PWItemModel() {}
 

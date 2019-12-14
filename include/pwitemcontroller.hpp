@@ -17,6 +17,8 @@ namespace Lineside {
 			   public std::enable_shared_from_this<PWItemController> {
   public:
     PWItemController(std::shared_ptr<PWItemModel> pwim) :
+      Notifiable<bool>(),
+      std::enable_shared_from_this<PWItemController>(),
       model(pwim),
       id(pwim->getId()),
       state(ControllerState::Constructed),
