@@ -15,9 +15,7 @@ namespace Lineside {
     t(),
     mtx(),
     cv() {
-    this->model->RegisterController(this->id.Get(),
-				    this->shared_from_this());
-    std::cout << __PRETTY_FUNCTION__ << ": Complete" << std::endl;
+    // Nothing to do
   }
 
   PWItemController::~PWItemController() {
@@ -25,6 +23,8 @@ namespace Lineside {
   }
 
   void PWItemController::Activate() {
+    this->model->RegisterController(this->id.Get(),
+				    this->shared_from_this());
     throw std::logic_error(__FUNCTION__);
   }
 
