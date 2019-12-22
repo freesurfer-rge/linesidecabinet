@@ -3,8 +3,9 @@
 #include "servoturnoutmotordata.hpp"
 #include "servoturnoutmotor.hpp"
 
+#include "mockhardwaremanagerfixture.hpp"
 
-BOOST_AUTO_TEST_SUITE(ServoTurnoutMotor)
+BOOST_FIXTURE_TEST_SUITE(ServoTurnoutMotor, MockHardwareManagerFixture)
 
 BOOST_AUTO_TEST_CASE(Construct)
 {
@@ -20,6 +21,14 @@ BOOST_AUTO_TEST_CASE(Construct)
   stmd.curved = curved;
   stmd.pwmChannelRequest.controller = controller;
   stmd.pwmChannelRequest.controllerData = controllerData;
+
+  auto pwItem = stmd.Construct(this->hwManager);
+  BOOST_REQUIRE( pwItem );
+  auto stm = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>(pwItem);
+  BOOST_REQUIRE( stm );
+  BOOST_REQUIRE_GT( stm.use_count(), 0 );
+
+  BOOST_CHECK_EQUAL( stm->getState(), Lineside::TurnoutState::Straight );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
