@@ -9,6 +9,8 @@ list(APPEND srcs registrartests.cpp)
 list(APPEND srcs mockbiptests.cpp)
 list(APPEND srcs pwitemcontrollertests.cpp)
 
+list(APPEND srcs servoturnoutmotortests.cpp)
+
 add_executable( LinesideTest ${srcs} )
 target_include_directories(LinesideTest
   SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
