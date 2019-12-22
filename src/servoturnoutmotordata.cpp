@@ -8,6 +8,9 @@ namespace Lineside {
     pwmChannelRequest() {}
 
   std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw ) {
+    if( !hw ) {
+      throw std::logic_error("Bad hw ptr");
+    }
     throw std::logic_error(__PRETTY_FUNCTION__);
   }
 }
