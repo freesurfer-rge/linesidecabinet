@@ -4,7 +4,7 @@
 
 class MockHardwareManager : public Lineside::HardwareManager {
 public:
-  virtual Lineside::BOPProviderRegistrar* GetBOPProviderRegistrar() override;
-  virtual Lineside::BIPProviderRegistrar* GetBIPProviderRegistrar() override;
-  virtual Lineside::PWMCProviderRegistrar* GetPWMCProviderRegistrar() override;
+  virtual std::weak_ptr<Lineside::BOPProviderRegistrar> GetBOPProviderRegistrar() override;
+  virtual std::weak_ptr<Lineside::BIPProviderRegistrar> GetBIPProviderRegistrar() override;
+  virtual std::weak_ptr<Lineside::PWMCProviderRegistrar> GetPWMCProviderRegistrar() override;
 };

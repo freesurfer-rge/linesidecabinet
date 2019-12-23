@@ -2,14 +2,14 @@
 
 #include "mockhardwaremanager.hpp"
 
-Lineside::BOPProviderRegistrar* MockHardwareManager::GetBOPProviderRegistrar() {
+std::weak_ptr<Lineside::BOPProviderRegistrar> MockHardwareManager::GetBOPProviderRegistrar() {
   throw std::logic_error("Not yet implemented");
 }
 
-Lineside::BIPProviderRegistrar* MockHardwareManager::GetBIPProviderRegistrar() {
+std::weak_ptr<Lineside::BIPProviderRegistrar> MockHardwareManager::GetBIPProviderRegistrar() {
   throw std::logic_error("Not yet implemented");
 }
 
-Lineside::PWMCProviderRegistrar* MockHardwareManager::GetPWMCProviderRegistrar() {
+std::weak_ptr<Lineside::PWMCProviderRegistrar> MockHardwareManager::GetPWMCProviderRegistrar() {
   throw std::logic_error("Not yet implemented");
 }

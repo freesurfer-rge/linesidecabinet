@@ -30,8 +30,8 @@ namespace Lineside {
   public:
     virtual ~HardwareManager() {}
 
-    virtual BOPProviderRegistrar* GetBOPProviderRegistrar() = 0;
-    virtual BIPProviderRegistrar* GetBIPProviderRegistrar() = 0;
-    virtual PWMCProviderRegistrar* GetPWMCProviderRegistrar() = 0;
+    virtual std::weak_ptr<BOPProviderRegistrar> GetBOPProviderRegistrar() = 0;
+    virtual std::weak_ptr<BIPProviderRegistrar> GetBIPProviderRegistrar() = 0;
+    virtual std::weak_ptr<PWMCProviderRegistrar> GetPWMCProviderRegistrar() = 0;
   };
 }

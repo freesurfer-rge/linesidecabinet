@@ -2,17 +2,15 @@
 
 #include <map>
 #include <string>
+#include <memory>
 
 #include "linesideexceptions.hpp"
 
 namespace Lineside {
   //! Class to register and retrieve items
   /*!
-    This class wraps a `std::map` from `std::string` to raw pointers
+    This class wraps a `std::map` from `std::string` to weak pointers
     to the specified `ValueType`.
-    Raw pointers are used because this class is for cases where
-    ownership is retained elsewhere (such as hardware access which
-    will be tied to the lifetime of some parent object).
     The returned pointers should only be used for accessing the
     target object, and not controlling its life.
 
@@ -32,7 +30,7 @@ namespace Lineside {
 
     //! Store the target pointer with the given key
     void Register( const std::string& name,
-		   ValueType* target ) {
+		   std::weak_ptr<ValueType> target ) {
       if( this->store.count(name) != 0 ) {
 	throw DuplicateKeyException(name);
       }
@@ -40,13 +38,13 @@ namespace Lineside {
     }
 
     //! Fetch the pointer corresponding to the given key
-    ValueType* Retrieve( const std::string name ) const {
+    std::weak_ptr<ValueType> Retrieve( const std::string name ) const {
       if( this->store.count(name) != 1 ) {
 	throw KeyNotFoundException(name);
       }
       return this->store.at(name);
     }
   private:
-    std::map<std::string,ValueType*> store;
+    std::map<std::string,std::weak_ptr<ValueType>> store;
   };
 }
