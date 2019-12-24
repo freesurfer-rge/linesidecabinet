@@ -14,6 +14,33 @@ namespace Lineside {
 
   // ========================================
 
+  //! Exception for failure to lock a std::weak_ptr
+  class PointerLockFailureException : public LinesideException {
+  public:
+    explicit PointerLockFailureException(const std::string file, const unsigned int line) :
+      LinesideException(""),
+      filename(file),
+      linenumber(line),
+      message() {
+      std::stringstream tmp;
+      tmp << "Failed to lock weak_ptr at line "
+	  << this->linenumber
+	  << " of file "
+	  << this->filename;
+      this->message = tmp.str();
+    }
+
+    const std::string filename;
+    const unsigned int linenumber;
+    std::string message;
+    
+    virtual const char* what() const noexcept override {
+      return this->message.c_str();
+    }
+  };
+
+  // ========================================
+
   //! Exception for mismatched ItemIds
   class ItemIdMismatchException : public LinesideException {
   public:

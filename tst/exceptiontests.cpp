@@ -18,6 +18,14 @@ BOOST_AUTO_TEST_CASE(ItemIdMismatchException)
   BOOST_CHECK_EQUAL(expected, ime.what());
 }
 
+BOOST_AUTO_TEST_CASE(PointerLockFailureException)
+{
+  Lineside::PointerLockFailureException plfe(__FILE__, __LINE__);
+  // The __FILE__ macro is expanding to the full path
+  BOOST_CHECK_NE( plfe.filename.find("exceptiontests.cpp"), std::string::npos );
+  BOOST_CHECK_EQUAL( plfe.linenumber, 23 );
+}
+
 BOOST_AUTO_TEST_CASE(KeyNotFoundException)
 {
   Lineside::KeyNotFoundException knfe("myKey");
