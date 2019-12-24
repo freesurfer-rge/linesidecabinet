@@ -17,6 +17,6 @@ namespace Lineside {
     virtual ~HardwareProvider() {}
 
     virtual std::weak_ptr<Hardware> GetHardware(const std::string& hardwareId,
-						const std::map<std::string,std::string>& settings ) = 0;
+						const std::map<std::string,std::string>& settings) = 0;
   };
 }
