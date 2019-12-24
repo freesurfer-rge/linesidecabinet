@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(Failure)
 			      It appears that Clang picks the first line of the
 			      BOOST_CHECK_EXCEPTION statement while gcc picks the last
 			   */
-			   std::set<unsigned int> possibleLines({ 47, 64 });
+			   std::set<unsigned int> possibleLines({ 47, 63 });
 			   BOOST_TEST_INFO("Reported line number " << e.linenumber );
 			   BOOST_CHECK_EQUAL( possibleLines.count(e.linenumber), 1 );
 			   BOOST_TEST_INFO("Reported filename " << e.filename );
