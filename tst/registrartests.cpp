@@ -4,6 +4,8 @@
 
 #include "registrar.hpp"
 
+#include "utility.hpp"
+
 // ==========================================
 
 BOOST_AUTO_TEST_SUITE(Registrar)
@@ -19,7 +21,7 @@ BOOST_AUTO_TEST_CASE(RegisterAndRetrieve)
 
   hpr.Register(name, myInt);
   BOOST_CHECK( myInt.unique() );
-  auto res = hpr.Retrieve(name).lock();
+  LOCK_OR_THROW( res, hpr.Retrieve(name) );
 
   BOOST_CHECK_EQUAL( res, myInt );
   BOOST_CHECK_EQUAL( *res, myVal );
@@ -42,8 +44,8 @@ BOOST_AUTO_TEST_CASE(RegisterTwoAndRetrieve)
   BOOST_CHECK( i1.unique() );
   BOOST_CHECK( i2.unique() );
 
-  auto res1 = hpr.Retrieve(n1).lock();
-  auto res2 = hpr.Retrieve(n2).lock();
+  LOCK_OR_THROW( res1, hpr.Retrieve(n1) );
+  LOCK_OR_THROW( res2, hpr.Retrieve(n2) );
 
   BOOST_CHECK_EQUAL( i1, res1 );
   BOOST_CHECK_EQUAL( i2, res2 );

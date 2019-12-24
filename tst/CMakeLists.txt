@@ -11,6 +11,7 @@ list(APPEND srcs turnoutstatetests.cpp)
 
 list(APPEND srcs itemidtests.cpp)
 list(APPEND srcs exceptiontests.cpp)
+list(APPEND srcs utilitytests.cpp)
 list(APPEND srcs registrartests.cpp)
 list(APPEND srcs pwitemcontrollertests.cpp)
 
