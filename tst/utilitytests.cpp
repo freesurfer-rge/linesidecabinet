@@ -1,3 +1,5 @@
+#include <set>
+
 #include <boost/test/unit_test.hpp>
 
 #include "utility.hpp"
@@ -45,7 +47,13 @@ BOOST_AUTO_TEST_CASE(Failure)
   BOOST_CHECK_EXCEPTION( LOCK_OR_THROW( sp, wp ),
 			 Lineside::PointerLockFailureException,
 			 [&](const Lineside::PointerLockFailureException& e) {
-			   BOOST_CHECK_EQUAL( e.linenumber, 45 );
+			   /* 
+			      The exact line number in the exception can vary with compiler.
+			      It appears that Clang picks the first line of the
+			      BOOST_CHECK_EXCEPTION statement while gcc picks the last
+			   */
+			   std::set<unsigned int> possibleLines({ 47, 54 });
+			   BOOST_CHECK_EQUAL( possibleLines.count(e.linenumber), 1 );
 			   BOOST_CHECK_NE( e.filename.find("utilitytests.cpp"),
 					   std::string::npos );
 
