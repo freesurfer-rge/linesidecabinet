@@ -12,5 +12,6 @@ list(APPEND srcs servoturnoutmotor.cpp)
 
 add_library( lineside ${srcs} )
 target_include_directories(lineside
-  PUBLIC ${PROJECT_SOURCE_DIR}/include
-  SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
+  PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(lineside SYSTEM
+  PRIVATE ${Boost_INCLUDE_DIRS})
