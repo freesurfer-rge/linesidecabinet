@@ -9,7 +9,8 @@
 class MockPWMChannelProvider : public Lineside::HardwareProvider<Lineside::PWMChannel> {
 public:
   MockPWMChannelProvider() :
-    HardwareProvider() {}
+    HardwareProvider(),
+    channels() {}
   
   virtual std::weak_ptr<Lineside::PWMChannel> GetHardware(const std::string& hardwareId,
 							  const std::map<std::string,std::string>& settings) override;
