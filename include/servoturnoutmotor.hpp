@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+
 #include "turnoutmotor.hpp"
 #include "pwmchannel.hpp"
 
