@@ -4,26 +4,13 @@
 #include <boost/test/unit_test.hpp>
 
 #include "mocks/mockbip.hpp"
+#include "notifytarget.hpp"
 
 /*
   These tests are more about validating the code in the abstract
   class BinaryOutputPin than the MockBIP itself.
  */
 
-class NotifyTarget : public Lineside::Notifiable<bool> {
-public:
-  NotifyTarget() :
-    lastNotificationSource(0),
-    lastNotification(false) {}
-  
-  unsigned int lastNotificationSource;
-  bool lastNotification;
-
-  virtual void Notify(const unsigned int sourceId, const bool notification) override {
-    this->lastNotificationSource = sourceId;
-    this->lastNotification = notification;
-  }
-};
 
 BOOST_AUTO_TEST_SUITE(MockBIPValidation)
 

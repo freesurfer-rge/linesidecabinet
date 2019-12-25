@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 namespace Lineside {
   //! An abstraction of a class which provides hardware access
@@ -15,7 +16,7 @@ namespace Lineside {
 
     virtual ~HardwareProvider() {}
 
-    virtual Hardware* GetHardware( const std::string& hardwareId,
-				   const std::map<std::string,std::string>& settings ) = 0;
+    virtual std::weak_ptr<Hardware> GetHardware(const std::string& hardwareId,
+						const std::map<std::string,std::string>& settings) = 0;
   };
 }
