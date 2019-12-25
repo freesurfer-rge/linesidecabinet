@@ -9,7 +9,7 @@ namespace Lineside {
   public:
     virtual void SetState(const TurnoutState desired) = 0;
 
-    virtual TurnoutState getState() const {
+    virtual TurnoutState GetState() const {
       return this->currentState;
     }
     

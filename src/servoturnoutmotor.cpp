@@ -1,14 +1,13 @@
+#include "utility.hpp"
+
 #include "servoturnoutmotor.hpp"
 
 namespace Lineside {
   void ServoTurnoutMotor::OnActivate() {
-    auto servoCtrl = this->servo.lock();
-    if( servoCtrl.use_count() == 0 ) {
-      throw std::logic_error("ServoTurnoutMotor: servo pointer expired");
-    }
+    LOCK_OR_THROW( servoCtrl, this->servo );
     servoCtrl->Set(this->pwmStraight);
     this->currentState = TurnoutState::Straight;
-    this->lastState = TurnoutState::Straight;
+    this->desiredState = TurnoutState::Straight;
   }
 
   void ServoTurnoutMotor::OnDeactivate() {}
@@ -18,13 +17,11 @@ namespace Lineside {
   }
 
   bool ServoTurnoutMotor::HaveStateChange() {
-    return this->lastState != this->currentState;
+    return this->desiredState != this->currentState;
   }
 
   void ServoTurnoutMotor::SetState(const TurnoutState desired) {
-    if( desired == this->lastState ) {
-      throw std::logic_error(__PRETTY_FUNCTION__);
-    }
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    this->desiredState = desired;
+    this->WakeController();
   }
 }

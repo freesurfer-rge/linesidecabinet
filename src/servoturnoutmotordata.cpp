@@ -32,7 +32,6 @@ namespace Lineside {
     auto result = std::make_shared<enabler>(this->id);
     result->pwmStraight = this->straight;
     result->pwmCurved = this->curved;
-    servo->Set(result->pwmStraight);
     result->servo = servo;
 
     return result;
