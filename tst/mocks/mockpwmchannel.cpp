@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "mockpwmchannel.hpp"
 
 void MockPWMChannel::Set(const unsigned int value) {

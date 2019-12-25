@@ -164,7 +164,8 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
 
   // Check we took an appropriate time
   BOOST_CHECK_EQUAL( stm->MoveSteps, 10 );
-  BOOST_CHECK( stop-start >= stm->MoveSleep*stm->MoveSteps );
+  // We move to MoveSteps positions, so there are MoveSteps-1 intervals
+  BOOST_CHECK( stop-start >= stm->MoveSleep*(stm->MoveSteps-1) );
   // Check that the correct sleep was requested
   BOOST_CHECK( requestedSleep == stm->SleepInterval );
 
@@ -177,6 +178,8 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
     BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
     // Since curved > straight above...
     BOOST_CHECK_GT( curr.second, prev.second );
+    BOOST_CHECK_GE( prev.second, straight );
+    BOOST_CHECK_LE( prev.second, curved );
   }
 
   // Now, repeat everything to go back to straight
@@ -189,7 +192,7 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
 
   BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
-  BOOST_CHECK( stop-start >= stm->MoveSleep*stm->MoveSteps );
+  BOOST_CHECK( stop-start >= stm->MoveSleep*(stm->MoveSteps-1) );
   BOOST_CHECK( requestedSleep == stm->SleepInterval );
   
   BOOST_REQUIRE_EQUAL( pwmChannel->updates.size(), stm->MoveSteps );
@@ -199,6 +202,8 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
     BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
     // Since curved > straight above...
     BOOST_CHECK_LT( curr.second, prev.second );
+    BOOST_CHECK_GE( prev.second, straight );
+    BOOST_CHECK_LE( prev.second, curved );
   }
 }
 
