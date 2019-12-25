@@ -118,4 +118,88 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   BOOST_CHECK(!pwItem->HaveStateChange());
 }
 
+BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
+{
+  const unsigned int notifySrcId = 1235;
+  std::shared_ptr<NotifyTarget> nt = std::make_shared<NotifyTarget>();
+  
+  const Lineside::ItemId id(10);
+  const unsigned int straight = 10;
+  const unsigned int curved = 113;
+  const std::string controller = "MockPWMController";
+  const std::string controllerData = "07";
+  
+  Lineside::ServoTurnoutMotorData stmd;
+  stmd.id = id;
+  stmd.straight = straight;
+  stmd.curved = curved;
+  stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd.pwmChannelRequest.controllerData = controllerData;
+
+  auto pwItem = stmd.Construct(this->hwManager);
+  pwItem->RegisterController(notifySrcId, nt);
+  BOOST_REQUIRE( pwItem );
+  BOOST_CHECK_EQUAL( pwItem->getId(), id );
+  auto stm = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>(pwItem);
+  BOOST_REQUIRE( stm );
+  auto pwmChannel = this->hwManager->pwmChannelProvider->channels.at(controllerData);
+  BOOST_REQUIRE( pwmChannel );
+
+  // Call the onActivate method
+  pwItem->OnActivate();
+
+  // Clear the pwmChannel updates
+  pwmChannel->updates.clear();
+
+  // Indicate that we want to change state to Curved
+  stm->SetState(Lineside::TurnoutState::Curved);
+
+  auto start = std::chrono::high_resolution_clock::now();
+  auto requestedSleep = stm->OnRun();
+  auto stop = std::chrono::high_resolution_clock::now();
+
+  // Check we got to the right place
+  BOOST_CHECK_EQUAL( pwmChannel->Get(), curved );
+  BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Curved );
+
+  // Check we took an appropriate time
+  BOOST_CHECK_EQUAL( stm->MoveSteps, 10 );
+  BOOST_CHECK( stop-start >= stm->MoveSleep*stm->MoveSteps );
+  // Check that the correct sleep was requested
+  BOOST_CHECK( requestedSleep == stm->SleepInterval );
+
+  // Now examine the set of updates to the pwmChannel
+  BOOST_REQUIRE_EQUAL( pwmChannel->updates.size(), stm->MoveSteps );
+
+  for( size_t i=1; i<pwmChannel->updates.size(); i++ ) {
+    auto prev = pwmChannel->updates.at(i-1);
+    auto curr = pwmChannel->updates.at(i);
+    BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
+    // Since curved > straight above...
+    BOOST_CHECK_GT( curr.second, prev.second );
+  }
+
+  // Now, repeat everything to go back to straight
+
+  pwmChannel->updates.clear();
+  stm->SetState(Lineside::TurnoutState::Straight);
+  start = std::chrono::high_resolution_clock::now();
+  requestedSleep = stm->OnRun();
+  stop = std::chrono::high_resolution_clock::now();
+
+  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+  BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
+  BOOST_CHECK( stop-start >= stm->MoveSleep*stm->MoveSteps );
+  BOOST_CHECK( requestedSleep == stm->SleepInterval );
+  
+  BOOST_REQUIRE_EQUAL( pwmChannel->updates.size(), stm->MoveSteps );
+  for( size_t i=1; i<pwmChannel->updates.size(); i++ ) {
+    auto prev = pwmChannel->updates.at(i-1);
+    auto curr = pwmChannel->updates.at(i);
+    BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
+    // Since curved > straight above...
+    BOOST_CHECK_LT( curr.second, prev.second );
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -13,6 +13,7 @@ namespace Lineside {
   void ServoTurnoutMotor::OnDeactivate() {}
 
   std::chrono::milliseconds ServoTurnoutMotor::OnRun() {
+    std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
     throw std::logic_error(__PRETTY_FUNCTION__);
   }
 
@@ -21,6 +22,7 @@ namespace Lineside {
   }
 
   void ServoTurnoutMotor::SetState(const TurnoutState desired) {
+    std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
     this->desiredState = desired;
     this->WakeController();
   }
