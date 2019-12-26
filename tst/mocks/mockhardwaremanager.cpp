@@ -3,7 +3,7 @@
 #include "mockhardwaremanager.hpp"
 
 std::weak_ptr<Lineside::BOPProviderRegistrar> MockHardwareManager::GetBOPProviderRegistrar() {
-  throw std::logic_error("Not yet implemented");
+  return this->bopProviderRegistrar;
 }
 
 std::weak_ptr<Lineside::BIPProviderRegistrar> MockHardwareManager::GetBIPProviderRegistrar() {
