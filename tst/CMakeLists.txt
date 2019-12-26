@@ -3,11 +3,13 @@ set( srcs test.cpp )
 list(APPEND srcs mocks/mockbip.cpp)
 list(APPEND srcs mocks/mockpwmchannel.cpp)
 list(APPEND srcs mocks/mockpwmchannelprovider.cpp)
+list(APPEND srcs mocks/mockbopprovider.cpp)
 list(APPEND srcs mocks/mockhardwaremanager.cpp)
 
 list(APPEND srcs mockbiptests.cpp)
 list(APPEND srcs mockpwmchanneltests.cpp)
 list(APPEND srcs mockpwmchannelprovidertests.cpp)
+list(APPEND srcs mockbopprovidertests.cpp)
 
 list(APPEND srcs turnoutstatetests.cpp)
 
