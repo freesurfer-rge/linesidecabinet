@@ -2,7 +2,7 @@
 
 #include "binaryoutputpin.hpp"
 
-class MockBOP : public Lineside::BinaryInputPin {
+class MockBOP : public Lineside::BinaryOutputPin {
 public:
   MockBOP() :
     BinaryOutputPin(),
