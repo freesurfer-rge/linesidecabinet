@@ -9,6 +9,7 @@ list(APPEND srcs mocks/mockhardwaremanager.cpp)
 list(APPEND srcs mockbiptests.cpp)
 list(APPEND srcs mockpwmchanneltests.cpp)
 list(APPEND srcs mockpwmchannelprovidertests.cpp)
+list(APPEND srcs mockbopprovidertests.cpp)
 
 list(APPEND srcs turnoutstatetests.cpp)
 
