@@ -3,6 +3,7 @@ set( srcs )
 list(APPEND srcs turnoutstate.cpp)
 list(APPEND srcs signalstate.cpp)
 list(APPEND srcs signalaspect.cpp)
+list(APPEND srcs signalflash.cpp)
 
 list(APPEND srcs itemid.cpp)
 list(APPEND srcs binaryinputpin.cpp)
