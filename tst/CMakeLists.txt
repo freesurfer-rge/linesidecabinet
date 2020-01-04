@@ -12,7 +12,7 @@ list(APPEND srcs mockpwmchannelprovidertests.cpp)
 list(APPEND srcs mockbopprovidertests.cpp)
 
 list(APPEND srcs turnoutstatetests.cpp)
-list(APPEND srcs signalaspecttests.cpp)
+list(APPEND srcs signalstatetests.cpp)
 
 list(APPEND srcs itemidtests.cpp)
 list(APPEND srcs exceptiontests.cpp)
