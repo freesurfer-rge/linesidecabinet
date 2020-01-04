@@ -13,6 +13,8 @@ list(APPEND srcs pwitemcontroller.cpp)
 list(APPEND srcs servoturnoutmotordata.cpp)
 list(APPEND srcs servoturnoutmotor.cpp)
 
+list(APPEND srcs multiaspectsignalheaddata.cpp)
+
 add_library( lineside ${srcs} )
 target_include_directories(lineside
   PUBLIC ${PROJECT_SOURCE_DIR}/include)
