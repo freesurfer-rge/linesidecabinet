@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <boost/bimap.hpp>
 
 #include "turnoutstate.hpp"

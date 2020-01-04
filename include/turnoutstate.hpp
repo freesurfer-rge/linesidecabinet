@@ -1,5 +1,8 @@
 #pragma once
 
+#include <iostream>
+#include <string>
+
 namespace Lineside {
   enum class TurnoutState { Straight,
 			    Curved
