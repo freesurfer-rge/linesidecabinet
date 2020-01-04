@@ -16,7 +16,7 @@ public:
     HardwareManager(),
     bipProvider(std::make_shared<MockBIPProvider>()),
     bopProvider(std::make_shared<MockBOPProvider>()),
-    pwmChannelProvider(std::make_shared<MockPWMChannelProvider>())
+    pwmChannelProvider(std::make_shared<MockPWMChannelProvider>()),
     bopProviderRegistrar(std::make_shared<Lineside::BOPProviderRegistrar>()),
     pwmChannelProviderRegistrar(std::make_shared<Lineside::PWMCProviderRegistrar>()) {
     this->bopProviderRegistrar->Register( BOPProviderId, this->bopProvider );
