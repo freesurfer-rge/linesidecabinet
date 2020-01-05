@@ -7,6 +7,7 @@
 #include "hardwaremanager.hpp"
 
 namespace Lineside {
+  //! Abstract base class for configuration data for permanent way items
   class PWItemData {
   public:
     PWItemData() : id(0) {}
