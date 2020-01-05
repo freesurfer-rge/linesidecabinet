@@ -47,6 +47,9 @@ namespace Lineside {
     if( !hw ) {
       throw std::logic_error("Bad hw ptr");
     }
+
+    this->CheckData();
+    
     throw std::logic_error(__PRETTY_FUNCTION__);
   }
 }
