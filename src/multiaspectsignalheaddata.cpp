@@ -10,14 +10,17 @@ namespace Lineside {
 
   void MultiAspectSignalHeadData::CheckData() const {
     if( this->aspectRequests.count(SignalAspect::Red) != 1 ) {
-      throw KeyNotFoundException(ToString(SignalAspect::Red));
+      std::string msg("Red aspect missing");
+      throw BadPWItemDataException(this->id, msg);
     }
     if( this->aspectRequests.count(SignalAspect::Green) != 1 ) {
-      throw KeyNotFoundException(ToString(SignalAspect::Green));
+      std::string msg("Green aspect missing");
+      throw BadPWItemDataException(this->id, msg);
     }
     if( this->aspectRequests.count(SignalAspect::Yellow2) == 1 ) {
       if( this->aspectRequests.count(SignalAspect::Yellow1) != 1 ) {
-	throw KeyNotFoundException(ToString(SignalAspect::Yellow1));
+	std::string msg("Have Yellow2 aspect but no Yellow1");
+	throw BadPWItemDataException(this->id, msg);
       }
     }
   }

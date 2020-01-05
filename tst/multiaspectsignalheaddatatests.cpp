@@ -12,40 +12,40 @@ BOOST_AUTO_TEST_SUITE(MultiAspectSignalHeadData)
 BOOST_AUTO_TEST_CASE(NoRedAspect)
 {
   Lineside::MultiAspectSignalHeadData mashd;
+  mashd.id = 15;
 
-  std::stringstream msg;
-  msg << "Key 'Red' not found";
+  std::string msg = "Configuration problem for 00:00:00:0f - Red aspect missing";
   BOOST_CHECK_EXCEPTION( mashd.CheckData(),
-			 Lineside::KeyNotFoundException,
-			 GetExceptionMessageChecker<Lineside::KeyNotFoundException>( msg.str() ) );
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>( msg ) );
 }
 
 BOOST_AUTO_TEST_CASE(NoGreenAspect)
 {
   Lineside::MultiAspectSignalHeadData mashd;
+  mashd.id = 14;
 
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
 
-  std::stringstream msg;
-  msg << "Key 'Green' not found";
+  std::string msg = "Configuration problem for 00:00:00:0e - Green aspect missing";
   BOOST_CHECK_EXCEPTION( mashd.CheckData(),
-			 Lineside::KeyNotFoundException,
-			 GetExceptionMessageChecker<Lineside::KeyNotFoundException>( msg.str() ) );
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>( msg ) );
 }
 
 BOOST_AUTO_TEST_CASE(Yellow2AspectButNoYellow1)
 {
   Lineside::MultiAspectSignalHeadData mashd;
+  mashd.id = 13;
 
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Yellow2] = Lineside::DeviceRequestData();
 
-  std::stringstream msg;
-  msg << "Key 'Yellow1' not found";
+  std::string msg("Configuration problem for 00:00:00:0d - Have Yellow2 aspect but no Yellow1");
   BOOST_CHECK_EXCEPTION( mashd.CheckData(),
-			 Lineside::KeyNotFoundException,
-			 GetExceptionMessageChecker<Lineside::KeyNotFoundException>( msg.str() ) );
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>( msg ) );
 }
 
 BOOST_AUTO_TEST_CASE(TwoAspectOK)
