@@ -64,6 +64,27 @@ namespace Lineside {
     }
   };
 
+  //! Exception for bad PWItem data
+  class BadPWItemDataException : public LinesideException {
+  public:
+    explicit BadPWItemDataException(const ItemId target, const std::string info) :
+      LinesideException(""),
+      item(target),
+      message() {
+      std::stringstream tmp;
+      tmp << "Configuration problem for " << this->item;
+      tmp << " - " << info;
+      this->message = tmp.str();
+    }
+    
+    const ItemId item;
+    std::string message;
+
+    virtual const char* what() const noexcept override {
+      return this->message.c_str();
+    }
+  };
+
   // ========================================
 
   //! Base exception for problems with maps

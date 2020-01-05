@@ -26,6 +26,18 @@ BOOST_AUTO_TEST_CASE(PointerLockFailureException)
   BOOST_CHECK_EQUAL( plfe.linenumber, 23 );
 }
 
+BOOST_AUTO_TEST_CASE(BadPWItemDataException)
+{
+  const Lineside::ItemId id(1);
+  const std::string info("Some information");
+
+  Lineside::BadPWItemDataException bpde(id, info);
+
+  BOOST_CHECK_EQUAL( bpde.item, id );
+  const std::string expected = "Configuration problem for 00:00:00:01 - Some information";
+  BOOST_CHECK_EQUAL( expected, bpde.what() );
+}
+
 BOOST_AUTO_TEST_CASE(KeyNotFoundException)
 {
   Lineside::KeyNotFoundException knfe("myKey");
