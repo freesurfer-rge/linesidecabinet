@@ -8,6 +8,7 @@
 
 namespace Lineside {
   class MultiAspectSignalHeadData : public PWItemData {
+  public:
     MultiAspectSignalHeadData();
 
     std::map<SignalAspect,DeviceRequestData> aspectRequests;

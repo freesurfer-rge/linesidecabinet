@@ -24,6 +24,8 @@ list(APPEND srcs utilitytests.cpp)
 list(APPEND srcs registrartests.cpp)
 list(APPEND srcs pwitemcontrollertests.cpp)
 
+list(APPEND srcs multiaspectsignalheaddatatests.cpp)
+
 list(APPEND srcs servoturnoutmotortests.cpp)
 
 add_executable( LinesideTest ${srcs} )
