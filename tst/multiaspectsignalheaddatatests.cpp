@@ -42,10 +42,43 @@ BOOST_AUTO_TEST_CASE(Yellow2AspectButNoYellow1)
   mashd.aspectRequests[Lineside::SignalAspect::Yellow2] = Lineside::DeviceRequestData();
 
   std::stringstream msg;
-  msg << "Key 'Yellow2' not found";
+  msg << "Key 'Yellow1' not found";
   BOOST_CHECK_EXCEPTION( mashd.CheckData(),
 			 Lineside::KeyNotFoundException,
 			 GetExceptionMessageChecker<Lineside::KeyNotFoundException>( msg.str() ) );
+}
+
+BOOST_AUTO_TEST_CASE(TwoAspectOK)
+{
+  Lineside::MultiAspectSignalHeadData mashd;
+
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
+
+  BOOST_CHECK_NO_THROW( mashd.CheckData() );
+}
+
+BOOST_AUTO_TEST_CASE(ThreeAspectOK)
+{
+  Lineside::MultiAspectSignalHeadData mashd;
+
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = Lineside::DeviceRequestData();
+
+  BOOST_CHECK_NO_THROW( mashd.CheckData() );
+}
+
+BOOST_AUTO_TEST_CASE(FourAspectOK)
+{
+  Lineside::MultiAspectSignalHeadData mashd;
+
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow2] = Lineside::DeviceRequestData();
+
+  BOOST_CHECK_NO_THROW( mashd.CheckData() );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
