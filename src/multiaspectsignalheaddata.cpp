@@ -23,6 +23,24 @@ namespace Lineside {
 	throw BadPWItemDataException(this->id, msg);
       }
     }
+
+    if( this->featherRequests.size() > 0 ) {
+      if( this->featherRequests.count(0) != 0 ) {
+	std::string msg("Feather '0' defined");
+	throw BadPWItemDataException(this->id, msg);
+      }
+
+      unsigned int curr = 1;
+      for( auto it=this->featherRequests.begin();
+	   it!=this->featherRequests.end();
+	   ++it ) {
+	if( it->first != curr ) {
+	  std::string msg("Feathers are not sequential from one");
+	  throw BadPWItemDataException(this->id, msg);
+	}
+	curr++;
+      }
+    }
   }
 
   std::shared_ptr<PWItemModel> MultiAspectSignalHeadData::Construct( std::shared_ptr<HardwareManager> hw ) {

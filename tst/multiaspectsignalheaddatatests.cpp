@@ -81,4 +81,55 @@ BOOST_AUTO_TEST_CASE(FourAspectOK)
   BOOST_CHECK_NO_THROW( mashd.CheckData() );
 }
 
+BOOST_AUTO_TEST_CASE(FeathersZeroDefined)
+{
+  Lineside::MultiAspectSignalHeadData mashd;
+  mashd.id = 255;
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
+
+  mashd.featherRequests[0] = Lineside::DeviceRequestData();
+  std::string msg = "Configuration problem for 00:00:00:ff - Feather '0' defined";
+  BOOST_CHECK_EXCEPTION( mashd.CheckData(),
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>( msg ) );
+}
+
+BOOST_AUTO_TEST_CASE(FeathersNonSequential)
+{
+  Lineside::MultiAspectSignalHeadData mashd;
+  mashd.id = 255;
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
+
+  mashd.featherRequests[2] = Lineside::DeviceRequestData();
+  std::string msg = "Configuration problem for 00:00:00:ff - Feathers are not sequential from one";
+  BOOST_CHECK_EXCEPTION( mashd.CheckData(),
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>( msg ) );
+}
+
+BOOST_AUTO_TEST_CASE(SingleFeatherOK)
+{
+  Lineside::MultiAspectSignalHeadData mashd;
+  mashd.id = 255;
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
+
+  mashd.featherRequests[1] = Lineside::DeviceRequestData();
+  BOOST_CHECK_NO_THROW( mashd.CheckData() );
+}
+
+BOOST_AUTO_TEST_CASE(TwoFeathersOK)
+{
+  Lineside::MultiAspectSignalHeadData mashd;
+  mashd.id = 255;
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
+
+  mashd.featherRequests[1] = Lineside::DeviceRequestData();
+  mashd.featherRequests[2] = Lineside::DeviceRequestData();
+  BOOST_CHECK_NO_THROW( mashd.CheckData() );
+}
+
 BOOST_AUTO_TEST_SUITE_END()
