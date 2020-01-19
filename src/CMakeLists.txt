@@ -14,6 +14,7 @@ list(APPEND srcs servoturnoutmotordata.cpp)
 list(APPEND srcs servoturnoutmotor.cpp)
 
 list(APPEND srcs multiaspectsignalheaddata.cpp)
+list(APPEND srcs multiaspectsignalhead.cpp)
 
 add_library( lineside ${srcs} )
 target_include_directories(lineside
