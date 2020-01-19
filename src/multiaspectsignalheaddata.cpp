@@ -43,6 +43,18 @@ namespace Lineside {
     }
   }
 
+  std::multimap<SignalState,std::weak_ptr<BinaryOutputPin>> MultiAspectSignalHeadData::GenerateOutputStateMap( std::shared_ptr<HardwareManager> hw ) const {
+    if( !hw ) {
+      throw std::logic_error("Bad hw ptr");
+    }
+
+    this->CheckData();
+
+    std::multimap<SignalState,std::weak_ptr<BinaryOutputPin>> result;
+
+    return result;
+  }
+  
   std::shared_ptr<PWItemModel> MultiAspectSignalHeadData::Construct( std::shared_ptr<HardwareManager> hw ) {
     if( !hw ) {
       throw std::logic_error("Bad hw ptr");
