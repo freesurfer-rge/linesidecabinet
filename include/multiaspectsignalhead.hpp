@@ -42,7 +42,11 @@ namespace Lineside {
 
     bool lastFlashStatus;
     
-    std::multimap<SignalState,std::weak_ptr<BinaryOutputPin>> outputStateMap;
+    std::weak_ptr<BinaryOutputPin> red;
+    std::weak_ptr<BinaryOutputPin> yellow1;
+    std::weak_ptr<BinaryOutputPin> yellow2;
+    std::weak_ptr<BinaryOutputPin> green;
+    
     std::vector<std::weak_ptr<BinaryOutputPin>> feathers;
 
     MultiAspectSignalHead(const ItemId signalHeadId) :
@@ -55,7 +59,10 @@ namespace Lineside {
       currentFeather(0),
       desiredFeather(0),
       lastFlashStatus(true),
-      outputStateMap(),
+      red(),
+      yellow1(),
+      yellow2(),
+      green(),
       feathers() {}
   };
 }

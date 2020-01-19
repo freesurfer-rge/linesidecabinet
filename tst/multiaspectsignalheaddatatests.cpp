@@ -4,15 +4,10 @@
 
 #include "multiaspectsignalheaddata.hpp"
 #include "linesideexceptions.hpp"
-#include "utility.hpp"
-
-#include "mockhardwaremanagerfixture.hpp"
 
 #include "exceptionmessagecheck.hpp"
 
-BOOST_FIXTURE_TEST_SUITE(MultiAspectSignalHeadData, MockHardwareManagerFixture)
-
-BOOST_AUTO_TEST_SUITE(CheckData)
+BOOST_AUTO_TEST_SUITE(MultiAspectSignalHeadData)
 
 BOOST_AUTO_TEST_CASE(NoRedAspect)
 {
@@ -137,59 +132,4 @@ BOOST_AUTO_TEST_CASE(TwoFeathersOK)
   BOOST_CHECK_NO_THROW( mashd.CheckData() );
 }
 
-BOOST_AUTO_TEST_SUITE_END()
-
-// ================================================
-
-BOOST_AUTO_TEST_SUITE(GenerateOutputStateMap)
-
-BOOST_AUTO_TEST_CASE(TwoAspect)
-{
-  const std::string controller = "MockBOPController";
-  const std::string redData = "07";
-  const std::string greenData = "08";
-  Lineside::MultiAspectSignalHeadData mashd;
-  mashd.id = 255;
-
-  Lineside::DeviceRequestData redRequest, greenRequest;
-  redRequest.controller = this->hwManager->BOPProviderId;
-  greenRequest.controller = this->hwManager->BOPProviderId;
-  redRequest.controllerData = redData;
-  greenRequest.controllerData = greenData;
-  
-  
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = redRequest;
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = greenRequest;
-
-  auto res = mashd.GenerateOutputStateMap( this->hwManager );
-  BOOST_CHECK_EQUAL( res.size(), 2 );
-
-  // Check that the right states are present, and controlling the correct
-  // number of lamps. Make these comparisons required so that we can
-  // assume subsequent operations on the multimap will succeed
-  BOOST_REQUIRE_EQUAL( res.count(Lineside::SignalState::Red), 1 );
-  BOOST_REQUIRE_EQUAL( res.count(Lineside::SignalState::Green), 1 );
-
-  // Since there's only one of each, we can use multimap::find
-  auto redIt = res.find(Lineside::SignalState::Red);
-  LOCK_OR_THROW( redPin, redIt->second );
-  BOOST_CHECK_EQUAL( redPin, this->hwManager->bopProvider->pins.at(redData) );
-
-  auto greenIt = res.find(Lineside::SignalState::Green);
-  LOCK_OR_THROW( greenPin, greenIt->second );
-  BOOST_CHECK_EQUAL( greenPin, this->hwManager->bopProvider->pins.at(greenData) );
-}
-
-BOOST_AUTO_TEST_CASE(ThreeAspect)
-{
-  BOOST_FAIL("Not yet implemented");
-}
-
-BOOST_AUTO_TEST_CASE(FourAspect)
-{
-  BOOST_FAIL("Not yet implemented");
-}
-
-BOOST_AUTO_TEST_SUITE_END()
-  
 BOOST_AUTO_TEST_SUITE_END()
