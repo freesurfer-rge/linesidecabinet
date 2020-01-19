@@ -27,7 +27,9 @@ namespace Lineside {
 
     virtual bool HaveStateChange() override;
 
-    void SetState(const SignalState wantedState, const unsigned int wantedFeather);
+    void SetState(const SignalState wantedState,
+		  const SignalFlash wantedFlash,
+		  const unsigned int wantedFeather);
   private:
     friend class MultiAspectSignalHeadData;
 

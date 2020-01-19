@@ -29,6 +29,31 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
 
   auto res = mashd.Construct( this->hwManager );
   BOOST_REQUIRE( res );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  // Ensure we have got the right number of output pins assigned
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 2 );
+}
+
+BOOST_AUTO_TEST_CASE(ConstructThreeAspect)
+{
+  BOOST_FAIL("Not yet implemented");
+}
+
+BOOST_AUTO_TEST_CASE(ConstructFourAspect)
+{
+  BOOST_FAIL("Not yet implemented");
+}
+
+BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithOneFeather)
+{
+  BOOST_FAIL("Not yet implemented");
+}
+
+BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithTwoFeathers)
+{
+  BOOST_FAIL("Not yet implemented");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
