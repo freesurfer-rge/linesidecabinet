@@ -25,6 +25,7 @@ list(APPEND srcs registrartests.cpp)
 list(APPEND srcs pwitemcontrollertests.cpp)
 
 list(APPEND srcs multiaspectsignalheaddatatests.cpp)
+list(APPEND srcs multiaspectsignalheadtests.cpp)
 
 list(APPEND srcs servoturnoutmotortests.cpp)
 
