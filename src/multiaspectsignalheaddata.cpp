@@ -81,5 +81,13 @@ namespace Lineside {
     // Must have red and green aspects
     target->red = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Red) );
     target->green = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Green) );
+
+    if( this->aspectRequests.count(SignalAspect::Yellow1) == 1 ) {
+      target->yellow1 = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Yellow1) );
+      
+      if( this->aspectRequests.count(SignalAspect::Yellow2) == 1 ) {
+	target->yellow2 = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Yellow2) );
+      }
+    }
   }
 }

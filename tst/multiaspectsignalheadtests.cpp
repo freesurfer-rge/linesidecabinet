@@ -34,6 +34,33 @@ Lineside::MultiAspectSignalHeadData MakeTwoAspect( const Lineside::ItemId id,
   return mashd;
 }
 
+Lineside::MultiAspectSignalHeadData MakeThreeAspect( const Lineside::ItemId id,
+						     const std::string controller ) {
+  Lineside::MultiAspectSignalHeadData mashd;
+
+  mashd.id = id;
+  AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
+  AddAspect( mashd, controller, Lineside::SignalAspect::Yellow1, yellow1Data );
+  AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
+
+  return mashd;
+}
+
+Lineside::MultiAspectSignalHeadData MakeFourAspect( const Lineside::ItemId id,
+						    const std::string controller ) {
+  Lineside::MultiAspectSignalHeadData mashd;
+
+  mashd.id = id;
+  AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
+  AddAspect( mashd, controller, Lineside::SignalAspect::Yellow1, yellow1Data );
+  AddAspect( mashd, controller, Lineside::SignalAspect::Yellow2, yellow2Data );
+  AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
+
+  return mashd;
+}
+
+
+
 // =====================================
 
 BOOST_FIXTURE_TEST_SUITE(MultiAspectSignalHead, MockHardwareManagerFixture)
@@ -60,12 +87,45 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
 
 BOOST_AUTO_TEST_CASE(ConstructThreeAspect)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(12);
+
+  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId );
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  // Ensure we have got the right number of output pins assigned
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 3 );
+
+  // Check that the right pins were assigned
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(yellow1Data), 1 );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
 }
 
 BOOST_AUTO_TEST_CASE(ConstructFourAspect)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(12);
+  
+  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId );
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  // Ensure we have got the right number of output pins assigned
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 4 );
+
+  // Check that the right pins were assigned
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(yellow1Data), 1 );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(yellow2Data), 1 );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
 }
 
 BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithOneFeather)
