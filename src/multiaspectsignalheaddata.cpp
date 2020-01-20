@@ -1,5 +1,6 @@
 #include "multiaspectsignalheaddata.hpp"
 
+#include "multiaspectsignalhead.hpp"
 #include "utility.hpp"
 
 namespace Lineside {
@@ -49,7 +50,36 @@ namespace Lineside {
     }
 
     this->CheckData();
+
+    // Work around private constructor of the MultiAspectSignalHead
+    struct enabler : public MultiAspectSignalHead {
+    public:
+      friend class MultiAspectSignalHeadData;
+      enabler(const ItemId id) : MultiAspectSignalHead(id) {}
+    };
+    auto result = std::make_shared<enabler>(this->id);
+
+    this->PopulateAspects( hw, result );
     
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    return result;
+  }
+
+  std::weak_ptr<BinaryOutputPin> MultiAspectSignalHeadData::FetchBOP( std::shared_ptr<HardwareManager> hw,
+								      const DeviceRequestData& drd ) const {
+    LOCK_OR_THROW( bopProviderRegistrar, hw->GetBOPProviderRegistrar() );
+    LOCK_OR_THROW( bopProvider,
+		   bopProviderRegistrar->Retrieve(drd.controller) );
+    auto bopWeak = bopProvider->GetHardware( drd.controllerData, drd.settings );
+
+    return bopWeak;
+  }
+  
+  void MultiAspectSignalHeadData::PopulateAspects( std::shared_ptr<HardwareManager> hw,
+						   std::shared_ptr<MultiAspectSignalHead> target ) const {
+    // Calling from private method, so can assume CheckData() has been called
+
+    // Must have red and green aspects
+    target->red = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Red) );
+    target->green = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Green) );
   }
 }

@@ -29,11 +29,16 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
 
   auto res = mashd.Construct( this->hwManager );
   BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
   BOOST_REQUIRE( resMASH );
 
   // Ensure we have got the right number of output pins assigned
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 2 );
+
+  // Check that the right pins were assigned
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
 }
 
 BOOST_AUTO_TEST_CASE(ConstructThreeAspect)
