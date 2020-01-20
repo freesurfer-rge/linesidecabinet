@@ -5,27 +5,44 @@
 
 #include "mockhardwaremanagerfixture.hpp"
 
+// =====================================
+
+const std::string redData = "07";
+const std::string greenData = "08";
+const std::string yellow1Data = "11";
+const std::string yellow2Data = "13";
+
+void AddAspect( Lineside::MultiAspectSignalHeadData& mashd,
+		const std::string controller,
+		const Lineside::SignalAspect a,
+		const std::string data ) {
+  Lineside::DeviceRequestData req;
+  req.controller = controller;
+  req.controllerData = data;
+
+  mashd.aspectRequests[a] = req;
+}
+
+Lineside::MultiAspectSignalHeadData MakeTwoAspect( const Lineside::ItemId id,
+						   const std::string controller ) {
+  Lineside::MultiAspectSignalHeadData mashd;
+
+  mashd.id = id;
+  AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
+  AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
+
+  return mashd;
+}
+
+// =====================================
+
 BOOST_FIXTURE_TEST_SUITE(MultiAspectSignalHead, MockHardwareManagerFixture)
 
 BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
 {
   const Lineside::ItemId id(11);
-  const std::string controller = this->hwManager->BOPProviderId;
-  const std::string redData = "07";
-  const std::string greenData = "08";
 
-  Lineside::DeviceRequestData redRequest;
-  redRequest.controller = controller;
-  redRequest.controllerData = redData;
-
-  Lineside::DeviceRequestData greenRequest;
-  greenRequest.controller = controller;
-  greenRequest.controllerData = greenData;
-
-  Lineside::MultiAspectSignalHeadData mashd;
-  mashd.id = id;
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = redRequest;
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = greenRequest;
+  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
 
   auto res = mashd.Construct( this->hwManager );
   BOOST_REQUIRE( res );
