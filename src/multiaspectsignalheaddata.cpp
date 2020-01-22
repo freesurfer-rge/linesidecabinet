@@ -60,6 +60,7 @@ namespace Lineside {
     auto result = std::make_shared<enabler>(this->id);
 
     this->PopulateAspects( hw, result );
+    this->PopulateFeathers( hw, result );
     
     return result;
   }
@@ -88,6 +89,18 @@ namespace Lineside {
       if( this->aspectRequests.count(SignalAspect::Yellow2) == 1 ) {
 	target->yellow2 = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Yellow2) );
       }
+    }
+  }
+
+  void MultiAspectSignalHeadData::PopulateFeathers( std::shared_ptr<HardwareManager> hw,
+						    std::shared_ptr<MultiAspectSignalHead> target ) const {
+    // Calling from private method, so assume CheckData() has been called
+
+    // The map is nicely sorted by the keys (which are unsigned ints)
+    for( auto it = this->featherRequests.begin();
+	 it != this->featherRequests.end();
+	 ++it ) {
+      target->feathers.push_back( this->FetchBOP( hw, it->second ) );
     }
   }
 }

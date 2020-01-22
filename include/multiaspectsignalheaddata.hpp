@@ -28,6 +28,9 @@ namespace Lineside {
 					     const DeviceRequestData& drd ) const;
     
     void PopulateAspects( std::shared_ptr<HardwareManager> hw,
-			  std::shared_ptr<MultiAspectSignalHead> ) const;
+			  std::shared_ptr<MultiAspectSignalHead> target ) const;
+
+    void PopulateFeathers( std::shared_ptr<HardwareManager> hw,
+			   std::shared_ptr<MultiAspectSignalHead> target) const;
   };
 }
