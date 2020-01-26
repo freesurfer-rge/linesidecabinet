@@ -202,11 +202,131 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithTwoFeathers)
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(feather2Data), 1);
 }
 
+BOOST_AUTO_TEST_CASE(TwoAspectSetState)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
+							 Lineside::SignalState::Green };
+  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+							Lineside::SignalFlash::Flashing };
+  const unsigned int feather = 0;
+  for( auto itState=allowedStates.begin();
+       itState!=allowedStates.end();
+       ++itState ) {
+    for( auto itFlash=allowedFlash.begin();
+	 itFlash!=allowedFlash.end();
+	 ++itFlash ) {
+      BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, feather ) );
+    }
+  }
+}
+
+BOOST_AUTO_TEST_CASE(ThreeAspectSetState)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
+							 Lineside::SignalState::Yellow,
+							 Lineside::SignalState::Green };
+  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+							Lineside::SignalFlash::Flashing };
+  const unsigned int feather = 0;
+  for( auto itState=allowedStates.begin();
+       itState!=allowedStates.end();
+       ++itState ) {
+    for( auto itFlash=allowedFlash.begin();
+	 itFlash!=allowedFlash.end();
+	 ++itFlash ) {
+      BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, feather ) );
+    }
+  }
+}
+
+BOOST_AUTO_TEST_CASE(FourAspectSetState)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
+							 Lineside::SignalState::Yellow,
+							 Lineside::SignalState::DoubleYellow,
+							 Lineside::SignalState::Green };
+  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+							Lineside::SignalFlash::Flashing };
+  const unsigned int feather = 0;
+  for( auto itState=allowedStates.begin();
+       itState!=allowedStates.end();
+       ++itState ) {
+    for( auto itFlash=allowedFlash.begin();
+	 itFlash!=allowedFlash.end();
+	 ++itFlash ) {
+      BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, feather ) );
+    }
+  }
+}
+
+BOOST_AUTO_TEST_CASE(TwoAspectSetStateWithTwoFeathers)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
+							 Lineside::SignalState::Green };
+  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+							Lineside::SignalFlash::Flashing };
+  auto allowedFeather = std::set<unsigned int> { 0, 1, 2 };
+  
+  for( auto itState=allowedStates.begin();
+       itState!=allowedStates.end();
+       ++itState ) {
+    for( auto itFlash=allowedFlash.begin();
+	 itFlash!=allowedFlash.end();
+	 ++itFlash ) {
+      for( auto itFeather=allowedFeather.begin();
+	   itFeather!=allowedFeather.end();
+	   ++itFeather ) {
+	BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, *itFeather ) );
+      }
+    }
+  }
+}
+
 BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadAspect)
 {
   BOOST_FAIL("Not yet implemented");
 }
-
+    
 BOOST_AUTO_TEST_CASE(ThreeAspectSetStateThrowsOnBadAspect)
 {
   BOOST_FAIL("Not yet implemented");

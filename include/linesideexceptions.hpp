@@ -131,4 +131,29 @@ namespace Lineside {
       this->message = tmp.str();
     }
   };
+
+  // ========================================
+
+  //! Exception for attempts to place PWItem into invalid state
+  class InvalidStateException : public LinesideException {
+  public:
+    explicit InvalidStateException(const ItemId targetItem, const std::string stateInfo) :
+      LinesideException(""),
+      target(targetItem),
+      info(stateInfo),
+      message() {
+      std::stringstream tmp;
+      tmp << "Invalid state for " << this->target << ".";
+      tmp << " State was: " << this->info;
+      this->message = tmp.str();
+    }
+    
+    const ItemId target;
+    const std::string info;
+    std::string message;
+
+    virtual const char* what() const noexcept override {
+      return this->message.c_str();
+    }
+  };
 }
