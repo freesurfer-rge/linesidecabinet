@@ -5,6 +5,8 @@
 
 #include "mockhardwaremanagerfixture.hpp"
 
+#include "exceptionmessagecheck.hpp"
+
 // =====================================
 
 const std::string redData = "07";
@@ -324,22 +326,125 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateWithTwoFeathers)
 
 BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadAspect)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  auto forbiddenStates = std::set<Lineside::SignalState> { Lineside::SignalState::Yellow,
+							   Lineside::SignalState::DoubleYellow };
+  auto checkFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+						      Lineside::SignalFlash::Flashing };
+  const unsigned int feather = 0;
+  for( auto itState=forbiddenStates.begin();
+       itState!=forbiddenStates.end();
+       ++itState ) {
+    for( auto itFlash=checkFlash.begin();
+	 itFlash!=checkFlash.end();
+	 ++itFlash ) {
+      std::stringstream msg;
+      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, feather ),
+			     Lineside::InvalidStateException,
+			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
+    }
+  }
 }
     
 BOOST_AUTO_TEST_CASE(ThreeAspectSetStateThrowsOnBadAspect)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(16);
+  
+  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  auto forbiddenStates = std::set<Lineside::SignalState> { Lineside::SignalState::DoubleYellow };
+  auto checkFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+						      Lineside::SignalFlash::Flashing };
+  const unsigned int feather = 0;
+  for( auto itState=forbiddenStates.begin();
+       itState!=forbiddenStates.end();
+       ++itState ) {
+    for( auto itFlash=checkFlash.begin();
+	 itFlash!=checkFlash.end();
+	 ++itFlash ) {
+      std::stringstream msg;
+      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, feather ),
+			     Lineside::InvalidStateException,
+			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
+    }
+  }
 }
 
 BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadFeather)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(15);
+  
+  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
+							 Lineside::SignalState::Green };
+  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+							Lineside::SignalFlash::Flashing };
+  const unsigned int badFeather = 1;
+  for( auto itState=allowedStates.begin();
+       itState!=allowedStates.end();
+       ++itState ) {
+    for( auto itFlash=allowedFlash.begin();
+	 itFlash!=allowedFlash.end();
+	 ++itFlash ) {
+      std::stringstream msg;
+      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, badFeather ),
+			     Lineside::InvalidStateException,
+			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
+    }
+  }
 }
 
 BOOST_AUTO_TEST_CASE(TwoAspectOneFeatherSetStateThrowsOnBadFeather)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(85);
+  
+  auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+  
+  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
+							 Lineside::SignalState::Green };
+  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
+							Lineside::SignalFlash::Flashing };
+  const unsigned int badFeather = 2;
+  for( auto itState=allowedStates.begin();
+       itState!=allowedStates.end();
+       ++itState ) {
+    for( auto itFlash=allowedFlash.begin();
+	 itFlash!=allowedFlash.end();
+	 ++itFlash ) {
+      std::stringstream msg;
+      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, badFeather ),
+			     Lineside::InvalidStateException,
+			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
+    }
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
