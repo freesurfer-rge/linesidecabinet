@@ -3,6 +3,7 @@
 #include <mutex>
 #include <map>
 #include <chrono>
+#include <string>
 
 #include "signalstate.hpp"
 #include "signalaspect.hpp"
@@ -66,5 +67,9 @@ namespace Lineside {
       yellow2(),
       green(),
       feathers() {}
+
+    std::string buildStateString(const SignalState state,
+				 const SignalFlash flash,
+				 const unsigned int feather) const;
   };
 }

@@ -348,6 +348,9 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadAspect)
 	 itFlash!=checkFlash.end();
 	 ++itFlash ) {
       std::stringstream msg;
+      msg << "Invalid state for " << id << ".";
+      msg << " State was: {"
+	  << *itState << "," << *itFlash << "," << feather << "}";
       BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, feather ),
 			     Lineside::InvalidStateException,
 			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
@@ -378,6 +381,9 @@ BOOST_AUTO_TEST_CASE(ThreeAspectSetStateThrowsOnBadAspect)
 	 itFlash!=checkFlash.end();
 	 ++itFlash ) {
       std::stringstream msg;
+      msg << "Invalid state for " << id << ".";
+      msg << " State was: {"
+	  << *itState << "," << *itFlash << "," << feather << "}";
       BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, feather ),
 			     Lineside::InvalidStateException,
 			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
@@ -409,6 +415,9 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadFeather)
 	 itFlash!=allowedFlash.end();
 	 ++itFlash ) {
       std::stringstream msg;
+      msg << "Invalid state for " << id << ".";
+      msg << " State was: {"
+	  << *itState << "," << *itFlash << "," << badFeather << "}";
       BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, badFeather ),
 			     Lineside::InvalidStateException,
 			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
@@ -440,6 +449,9 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeatherSetStateThrowsOnBadFeather)
 	 itFlash!=allowedFlash.end();
 	 ++itFlash ) {
       std::stringstream msg;
+      msg << "Invalid state for " << id << ".";
+      msg << " State was: {"
+	  << *itState << "," << *itFlash << "," << badFeather << "}";
       BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, badFeather ),
 			     Lineside::InvalidStateException,
 			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));

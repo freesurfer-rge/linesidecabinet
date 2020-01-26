@@ -24,9 +24,43 @@ namespace Lineside {
 				       const SignalFlash wantedFlash,
 				       const unsigned int wantedFeather ) {
     std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
+
+    // Checks on the aspects
+    if( wantedState == SignalState::Yellow ) {
+      if( this->yellow1.expired() ) {
+	auto stateString = this->buildStateString(wantedState, wantedFlash, wantedFeather);
+	throw InvalidStateException(this->getId(), stateString);
+      }
+    }
+
+    if( wantedState == SignalState::DoubleYellow ) {
+      if( this->yellow2.expired() ) {
+	auto stateString = this->buildStateString(wantedState, wantedFlash, wantedFeather);
+	throw InvalidStateException(this->getId(), stateString);
+      }
+    }
+
+    // Check on the feather
+    if( wantedFeather > this->feathers.size() ) {
+      auto stateString = this->buildStateString(wantedState, wantedFlash, wantedFeather);
+      throw InvalidStateException(this->getId(), stateString);
+    }
+    
     this->desiredState = wantedState;
     this->desiredFlash = wantedFlash;
     this->desiredFeather = wantedFeather;
     this->WakeController();
   }
+
+  std::string MultiAspectSignalHead::buildStateString(const SignalState state,
+						      const SignalFlash flash,
+						      const unsigned int feather) const {
+    std::stringstream result;
+    result << "{"
+	   << state << ","
+	   << flash << ","
+	   << feather << "}";
+    return result.str();
+  }
+
 }
