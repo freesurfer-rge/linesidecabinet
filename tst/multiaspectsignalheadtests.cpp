@@ -461,4 +461,15 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeatherSetStateThrowsOnBadFeather)
   }
 }
 
+
+BOOST_AUTO_TEST_CASE(ShowsRedOnActivate)
+{
+  BOOST_FAIL("Not yet implemented");
+}
+
+BOOST_AUTO_TEST_CASE(OnRunDoesSomething)
+{
+  BOOST_FAIL("Have several of these to write");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
