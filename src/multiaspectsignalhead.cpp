@@ -4,24 +4,9 @@
 
 namespace Lineside {
   void MultiAspectSignalHead::OnActivate() {
-    LOCK_OR_THROW( g, this->green );
-    g->Set(false);
+    this->turnAllOff();
     LOCK_OR_THROW( r, this->red );
     r->Set(true);
-    
-    if( !this->yellow1.expired() ) {
-      LOCK_OR_THROW( y1, this->yellow1 );
-      y1->Set(false);
-    }
-    if( !this->yellow2.expired() ) {
-      LOCK_OR_THROW( y2, this->yellow2 );
-      y2->Set(false);
-    }
-
-    for( auto it=this->feathers.begin(); it!=this->feathers.end(); ++it ) {
-      LOCK_OR_THROW( f, (*it) );
-      f->Set(false);
-    }
   }
 
   void MultiAspectSignalHead::OnDeactivate() {
@@ -83,5 +68,28 @@ namespace Lineside {
 	   << feather << "}";
     return result.str();
   }
-
+  
+  void MultiAspectSignalHead::turnAllOff() {
+    // Always have Red and Green aspects
+    LOCK_OR_THROW( g, this->green );
+    g->Set(false);
+    LOCK_OR_THROW( r, this->red );
+    r->Set(false);
+    
+    // Check for Yellows
+    if( !this->yellow1.expired() ) {
+      LOCK_OR_THROW( y1, this->yellow1 );
+      y1->Set(false);
+    }
+    if( !this->yellow2.expired() ) {
+      LOCK_OR_THROW( y2, this->yellow2 );
+      y2->Set(false);
+    }
+    
+    // Check for feathers
+    for( auto it=this->feathers.begin(); it!=this->feathers.end(); ++it ) {
+      LOCK_OR_THROW( f, (*it) );
+      f->Set(false);
+    }
+  }
 }

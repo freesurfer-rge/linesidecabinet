@@ -31,6 +31,7 @@ namespace Lineside {
     void SetState(const SignalState wantedState,
 		  const SignalFlash wantedFlash,
 		  const unsigned int wantedFeather);
+
   private:
     friend class MultiAspectSignalHeadData;
 
@@ -71,5 +72,7 @@ namespace Lineside {
     std::string buildStateString(const SignalState state,
 				 const SignalFlash flash,
 				 const unsigned int feather) const;
+    
+    void turnAllOff();
   };
 }
