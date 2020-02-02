@@ -462,9 +462,79 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeatherSetStateThrowsOnBadFeather)
 }
 
 
-BOOST_AUTO_TEST_CASE(ShowsRedOnActivate)
+BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspect)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+
+  // Activate the signal head
+  res->OnActivate();
+
+  // Check we're now showing Red
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+}
+
+BOOST_AUTO_TEST_CASE(ShowsRedOnActivateFourAspect)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+
+  // Activate the signal head
+  res->OnActivate();
+
+  // Check we're now showing Red
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+}
+
+BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspectWithFeather)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
+
+  // Activate the signal head
+  res->OnActivate();
+
+  // Check we're now showing Red
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
 }
 
 BOOST_AUTO_TEST_CASE(OnRunDoesSomething)

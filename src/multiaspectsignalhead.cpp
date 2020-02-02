@@ -4,7 +4,24 @@
 
 namespace Lineside {
   void MultiAspectSignalHead::OnActivate() {
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    LOCK_OR_THROW( g, this->green );
+    g->Set(false);
+    LOCK_OR_THROW( r, this->red );
+    r->Set(true);
+    
+    if( !this->yellow1.expired() ) {
+      LOCK_OR_THROW( y1, this->yellow1 );
+      y1->Set(false);
+    }
+    if( !this->yellow2.expired() ) {
+      LOCK_OR_THROW( y2, this->yellow2 );
+      y2->Set(false);
+    }
+
+    for( auto it=this->feathers.begin(); it!=this->feathers.end(); ++it ) {
+      LOCK_OR_THROW( f, (*it) );
+      f->Set(false);
+    }
   }
 
   void MultiAspectSignalHead::OnDeactivate() {
@@ -17,7 +34,11 @@ namespace Lineside {
   }
 
   bool MultiAspectSignalHead::HaveStateChange() {
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    bool changeState = this->desiredState != this->currentState;
+    bool changeFlash = this->desiredFlash != this->currentFlash;
+    bool changeFeather = this->desiredFeather != this->currentFeather;
+
+    return changeState || changeFlash || changeFeather;
   }
 
   void MultiAspectSignalHead::SetState(const SignalState wantedState,
