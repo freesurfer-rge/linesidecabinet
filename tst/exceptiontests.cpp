@@ -56,4 +56,17 @@ BOOST_AUTO_TEST_CASE(DuplicateKeyException)
   BOOST_CHECK_EQUAL(expected, dke.what());
 }
 
+BOOST_AUTO_TEST_CASE(InvalidStateException)
+{
+  const Lineside::ItemId id(256);
+  const std::string stateInfo("Something or other");
+
+  Lineside::InvalidStateException ise( id, stateInfo );
+  BOOST_CHECK_EQUAL( ise.target, id );
+  BOOST_CHECK_EQUAL( ise.info, stateInfo );
+
+  const std::string expected = "Invalid state for 00:00:01:00. State was: Something or other";
+  BOOST_CHECK_EQUAL( ise.what(), expected );
+}
+
 BOOST_AUTO_TEST_SUITE_END()

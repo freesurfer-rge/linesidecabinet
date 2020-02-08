@@ -7,6 +7,9 @@
 #include "signalaspect.hpp"
 
 namespace Lineside {
+  class BinaryOutputPin;
+  class MultiAspectSignalHead;
+  
   //! Class for configuration data for multiple aspect signal heads
   class MultiAspectSignalHeadData : public PWItemData {
   public:
@@ -19,5 +22,15 @@ namespace Lineside {
     void CheckData() const;
     
     virtual std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw ) override;
+
+  private:
+    std::weak_ptr<BinaryOutputPin> FetchBOP( std::shared_ptr<HardwareManager> hw,
+					     const DeviceRequestData& drd ) const;
+    
+    void PopulateAspects( std::shared_ptr<HardwareManager> hw,
+			  std::shared_ptr<MultiAspectSignalHead> target ) const;
+
+    void PopulateFeathers( std::shared_ptr<HardwareManager> hw,
+			   std::shared_ptr<MultiAspectSignalHead> target) const;
   };
 }
