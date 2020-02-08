@@ -104,23 +104,28 @@ namespace Lineside {
   void MultiAspectSignalHead::setStateFromDesired() {
     // Assumes that turnAllOff() called previously, and that
     // SetState has prevented desiredState being invalid
+    const bool isSteady = this->desiredFlash == SignalFlash::Steady;
+    const bool nextOnOff = isSteady || this->lastFlashStatus;
+    
     if( this->desiredState == SignalState::Red ) {
       LOCK_OR_THROW( r, this->red );
-      r->Set(true);
+      r->Set(nextOnOff);
     }
     if( this->desiredState == SignalState::Yellow ) {
       LOCK_OR_THROW( y1, this->yellow1 );
-      y1->Set(true);
+      y1->Set(nextOnOff);
     }
     if( this->desiredState == SignalState::DoubleYellow ) {
       LOCK_OR_THROW( y1, this->yellow1 );
-      y1->Set(true);
+      y1->Set(nextOnOff);
       LOCK_OR_THROW( y2, this->yellow2 );
-      y2->Set(true);
+      y2->Set(nextOnOff);
     }
     if( this->desiredState == SignalState::Green ) {
       LOCK_OR_THROW( g, this->green );
-      g->Set(true);
+      g->Set(nextOnOff);
     }
+
+    this->lastFlashStatus = !this->lastFlashStatus;
   }
 }
