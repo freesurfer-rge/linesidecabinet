@@ -76,5 +76,7 @@ namespace Lineside {
     void turnAllOff();
 
     void setStateFromDesired();
+
+    void setFeatherFromDesired();
   };
 }

@@ -732,4 +732,103 @@ BOOST_AUTO_TEST_CASE( OnRunTwoAspectFlashing )
   BOOST_CHECK( !resMASH->HaveStateChange() );
 }
 
+BOOST_AUTO_TEST_CASE( OnRunTwoAspectTwoFeather )
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+  
+  resMASH->OnActivate();
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
+
+  // Turn on one feather
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 1 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  auto sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+
+  // Turn on the other feather
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), true );
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+
+  // Turn the feathers off
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+}
+
+BOOST_AUTO_TEST_CASE(OnRunFeatherDoesNotFlash)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+  
+  resMASH->OnActivate();
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
+
+    // Set to Flashing Green with a feather
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Flashing, 1 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+
+  // Feather should be on...
+  auto sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+
+  // Call again and feather should remain on
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+
+  // And call again, feather should remain on
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+}
+
 BOOST_AUTO_TEST_SUITE_END()

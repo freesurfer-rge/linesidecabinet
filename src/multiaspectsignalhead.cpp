@@ -20,6 +20,8 @@ namespace Lineside {
 
     this->setStateFromDesired();
 
+    this->setFeatherFromDesired();
+
     this->currentState = this->desiredState;
     this->currentFlash = this->desiredFlash;
     this->currentFeather = this->desiredFeather;
@@ -127,5 +129,14 @@ namespace Lineside {
     }
 
     this->lastFlashStatus = !this->lastFlashStatus;
+  }
+
+  void MultiAspectSignalHead::setFeatherFromDesired() {
+    // Assumes that turnAllOff() called previously, and that
+    // SetState has prevented desiredFeather being invalid
+    if( this->desiredFeather > 0 ) {
+      LOCK_OR_THROW( f, this->feathers.at(this->desiredFeather-1) );
+      f->Set(true);
+    }
   }
 }
