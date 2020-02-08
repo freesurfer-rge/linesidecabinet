@@ -15,7 +15,15 @@ namespace Lineside {
 
   std::chrono::milliseconds MultiAspectSignalHead::OnRun() {
     std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
-    throw std::logic_error(__PRETTY_FUNCTION__);
+
+    this->turnAllOff();
+
+    this->setStateFromDesired();
+
+    this->currentState = this->desiredState;
+    this->currentFlash = this->desiredFlash;
+    this->currentFeather = this->desiredFeather;
+    return MultiAspectSignalHead::FlashInterval;
   }
 
   bool MultiAspectSignalHead::HaveStateChange() {
@@ -90,6 +98,29 @@ namespace Lineside {
     for( auto it=this->feathers.begin(); it!=this->feathers.end(); ++it ) {
       LOCK_OR_THROW( f, (*it) );
       f->Set(false);
+    }
+  }
+
+  void MultiAspectSignalHead::setStateFromDesired() {
+    // Assumes that turnAllOff() called previously, and that
+    // SetState has prevented desiredState being invalid
+    if( this->desiredState == SignalState::Red ) {
+      LOCK_OR_THROW( r, this->red );
+      r->Set(true);
+    }
+    if( this->desiredState == SignalState::Yellow ) {
+      LOCK_OR_THROW( y1, this->yellow1 );
+      y1->Set(true);
+    }
+    if( this->desiredState == SignalState::DoubleYellow ) {
+      LOCK_OR_THROW( y1, this->yellow1 );
+      y1->Set(true);
+      LOCK_OR_THROW( y2, this->yellow2 );
+      y2->Set(true);
+    }
+    if( this->desiredState == SignalState::Green ) {
+      LOCK_OR_THROW( g, this->green );
+      g->Set(true);
     }
   }
 }

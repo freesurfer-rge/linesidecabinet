@@ -74,5 +74,7 @@ namespace Lineside {
 				 const unsigned int feather) const;
     
     void turnAllOff();
+
+    void setStateFromDesired();
   };
 }

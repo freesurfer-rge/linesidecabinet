@@ -556,7 +556,8 @@ BOOST_AUTO_TEST_CASE(OnRunTwoAspectSteady)
   // Set to Green
   resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
-  
+  auto sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
 
@@ -564,13 +565,16 @@ BOOST_AUTO_TEST_CASE(OnRunTwoAspectSteady)
   BOOST_CHECK( !resMASH->HaveStateChange() );
   resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( !resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
   
   // Set to Red
   resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
-  
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
 }
@@ -595,6 +599,8 @@ BOOST_AUTO_TEST_CASE(OnRunThreeAspectSteady)
   // Set to Green
   resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
+  auto sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
@@ -602,6 +608,8 @@ BOOST_AUTO_TEST_CASE(OnRunThreeAspectSteady)
   // Set to Yellow
   resMASH->SetState( Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
@@ -609,6 +617,8 @@ BOOST_AUTO_TEST_CASE(OnRunThreeAspectSteady)
   // Set to Red
   resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
@@ -635,6 +645,8 @@ BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
   // Set to Green
   resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
+  auto sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
@@ -643,6 +655,8 @@ BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
   // Set to Double Yellow
   resMASH->SetState( Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), true );
@@ -651,6 +665,8 @@ BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
   // Set to Yellow
   resMASH->SetState( Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
@@ -659,6 +675,8 @@ BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
   // Set to Red
   resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
   BOOST_CHECK( resMASH->HaveStateChange() );
+  sleepTime = resMASH->OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
