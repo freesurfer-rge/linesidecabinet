@@ -10,7 +10,7 @@ namespace Lineside {
   }
 
   void MultiAspectSignalHead::OnDeactivate() {
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    this->turnAllOff();
   }
 
   std::chrono::milliseconds MultiAspectSignalHead::OnRun() {
