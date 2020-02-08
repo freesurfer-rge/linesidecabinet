@@ -537,9 +537,132 @@ BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspectWithFeather)
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
 }
 
-BOOST_AUTO_TEST_CASE(OnRunDoesSomething)
+BOOST_AUTO_TEST_CASE(OnRunTwoAspectSteady)
 {
-  BOOST_FAIL("Have several of these to write");
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  resMASH->OnActivate();
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+
+  // Set to Green
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+
+  // Setting to Green again should give no change
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( !resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  
+  // Set to Red
+  resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+}
+
+BOOST_AUTO_TEST_CASE(OnRunThreeAspectSteady)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  resMASH->OnActivate();
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+
+  // Set to Green
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+
+  // Set to Yellow
+  resMASH->SetState( Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  
+  // Set to Red
+  resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+}
+
+BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
+{
+  const Lineside::ItemId id(11);
+  
+  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
+  
+  auto res = mashd.Construct( this->hwManager );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  BOOST_REQUIRE( resMASH );
+
+  resMASH->OnActivate();
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+
+  // Set to Green
+  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  
+  // Set to Double Yellow
+  resMASH->SetState( Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  
+  // Set to Yellow
+  resMASH->SetState( Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  
+  // Set to Red
+  resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
+  BOOST_CHECK( resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
