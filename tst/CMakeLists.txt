@@ -6,6 +6,7 @@ list(APPEND srcs mocks/mockpwmchannelprovider.cpp)
 list(APPEND srcs mocks/mockbopprovider.cpp)
 list(APPEND srcs mocks/mockbipprovider.cpp)
 list(APPEND srcs mocks/mockhardwaremanager.cpp)
+list(APPEND srcs mocks/mockrtcclient.cpp)
 
 list(APPEND srcs mockbiptests.cpp)
 list(APPEND srcs mockpwmchanneltests.cpp)
