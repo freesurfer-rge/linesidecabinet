@@ -21,7 +21,8 @@ namespace Lineside {
     //! Perform some basic sanity checks
     void CheckData() const;
     
-    virtual std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw ) override;
+    virtual std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw,
+						    std::shared_ptr<SoftwareManager> sw ) const override;
 
   private:
     std::weak_ptr<BinaryOutputPin> FetchBOP( std::shared_ptr<HardwareManager> hw,
