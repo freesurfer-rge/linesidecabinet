@@ -5,11 +5,11 @@
 #include "mocks/mockhardwaremanager.hpp"
 #include "mocks/mocksoftwaremanager.hpp"
 
-struct MockHardwareManagerFixture {
+struct MockManagerFixture {
   std::shared_ptr<MockHardwareManager> hwManager;
   std::shared_ptr<MockSoftwareManager> swManager;
 
-  MockHardwareManagerFixture() :
+  MockManagerFixture() :
     hwManager(std::make_shared<MockHardwareManager>()),
     swManager(std::make_shared<MockSoftwareManager>()) {}
 };
