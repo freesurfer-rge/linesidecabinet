@@ -5,7 +5,7 @@
 #include "multiaspectsignalheaddata.hpp"
 #include "multiaspectsignalhead.hpp"
 
-#include "mockhardwaremanagerfixture.hpp"
+#include "mockmanagerfixture.hpp"
 
 #include "exceptionmessagecheck.hpp"
 
@@ -98,7 +98,7 @@ Lineside::MultiAspectSignalHeadData MakeTwoAspectTwoFeather( const Lineside::Ite
 
 // =====================================
 
-BOOST_FIXTURE_TEST_SUITE(MultiAspectSignalHead, MockHardwareManagerFixture)
+BOOST_FIXTURE_TEST_SUITE(MultiAspectSignalHead, MockManagerFixture)
 
 BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
 {
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
 
   auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
 
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE(ConstructThreeAspect)
 
   auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId );
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE(ConstructFourAspect)
   
   auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId );
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithOneFeather)
 
   auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
 
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithTwoFeathers)
 
   auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
 
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetState)
   
   auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -240,7 +240,7 @@ BOOST_AUTO_TEST_CASE(ThreeAspectSetState)
   
   auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -269,7 +269,7 @@ BOOST_AUTO_TEST_CASE(FourAspectSetState)
   
   auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -299,7 +299,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateWithTwoFeathers)
   
   auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -332,7 +332,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadAspect)
   
   auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -366,7 +366,7 @@ BOOST_AUTO_TEST_CASE(ThreeAspectSetStateThrowsOnBadAspect)
   
   auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -399,7 +399,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadFeather)
   
   auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -433,7 +433,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeatherSetStateThrowsOnBadFeather)
   
   auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -468,7 +468,7 @@ BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspect)
   
   auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -491,7 +491,7 @@ BOOST_AUTO_TEST_CASE(ShowsRedOnActivateFourAspect)
   
   auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -518,7 +518,7 @@ BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspectWithFeather)
   
   auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -543,7 +543,7 @@ BOOST_AUTO_TEST_CASE(OnRunTwoAspectSteady)
   
   auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -585,7 +585,7 @@ BOOST_AUTO_TEST_CASE(OnRunThreeAspectSteady)
   
   auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -633,7 +633,7 @@ BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
   
   auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -696,7 +696,7 @@ BOOST_AUTO_TEST_CASE( OnRunTwoAspectFlashing )
   
   auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -738,7 +738,7 @@ BOOST_AUTO_TEST_CASE( OnRunTwoAspectTwoFeather )
   
   auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -790,7 +790,7 @@ BOOST_AUTO_TEST_CASE(OnRunFeatherDoesNotFlash)
   
   auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
@@ -837,7 +837,7 @@ BOOST_AUTO_TEST_CASE( OnDeactivateTurnsAllOff )
   
   auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
   
-  auto res = mashd.Construct( this->hwManager );
+  auto res = mashd.Construct( this->hwManager, this->swManager );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
   auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
