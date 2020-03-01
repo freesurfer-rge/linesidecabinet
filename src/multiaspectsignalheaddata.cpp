@@ -44,9 +44,13 @@ namespace Lineside {
     }
   }
 
-  std::shared_ptr<PWItemModel> MultiAspectSignalHeadData::Construct( std::shared_ptr<HardwareManager> hw ) {
+  std::shared_ptr<PWItemModel> MultiAspectSignalHeadData::Construct( std::shared_ptr<HardwareManager> hw,
+								     std::shared_ptr<SoftwareManager> sw ) const {
     if( !hw ) {
       throw std::logic_error("Bad hw ptr");
+    }
+    if( !sw ) {
+      throw std::logic_error("Bad sw ptr");
     }
 
     this->CheckData();

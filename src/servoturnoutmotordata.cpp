@@ -10,9 +10,13 @@ namespace Lineside {
     curved(),
     pwmChannelRequest() {}
 
-  std::shared_ptr<PWItemModel> ServoTurnoutMotorData::Construct( std::shared_ptr<HardwareManager> hw ) {
+  std::shared_ptr<PWItemModel> ServoTurnoutMotorData::Construct( std::shared_ptr<HardwareManager> hw,
+								 std::shared_ptr<SoftwareManager> sw ) const {
     if( !hw ) {
       throw std::logic_error("Bad hw ptr");
+    }
+    if( !sw ) {
+      throw std::logic_error("Bad sw ptr");
     }
 
     LOCK_OR_THROW( pwmChannelProviderRegistrar, hw->GetPWMCProviderRegistrar() );
