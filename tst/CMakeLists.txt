@@ -31,6 +31,8 @@ list(APPEND srcs multiaspectsignalheadtests.cpp)
 
 list(APPEND srcs servoturnoutmotortests.cpp)
 
+list(APPEND srcs trackcircuitmonitortests.cpp)
+
 add_executable( LinesideTest ${srcs} )
 target_include_directories(LinesideTest
   SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
