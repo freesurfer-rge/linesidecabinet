@@ -23,7 +23,7 @@ namespace Lineside {
     LOCK_OR_THROW( pwmChannelProvider,
 		   pwmChannelProviderRegistrar->Retrieve(this->pwmChannelRequest.controller) );
     auto servoweak = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
-						 this->pwmChannelRequest.settings);
+						     this->pwmChannelRequest.settings);
 
     LOCK_OR_THROW( servo, servoweak );
     

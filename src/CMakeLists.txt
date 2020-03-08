@@ -13,6 +13,8 @@ list(APPEND srcs pwitemcontroller.cpp)
 list(APPEND srcs servoturnoutmotordata.cpp)
 list(APPEND srcs servoturnoutmotor.cpp)
 
+list(APPEND srcs trackcircuitmonitordata.cpp)
+
 list(APPEND srcs multiaspectsignalheaddata.cpp)
 list(APPEND srcs multiaspectsignalhead.cpp)
 
