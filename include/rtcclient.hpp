@@ -8,6 +8,7 @@ namespace Lineside {
   public:
     virtual ~RTCClient() {}
 
+    //! Send a message to rail traffic control from a TrackCircuit
     virtual void SendTrackCircuitNotification( const ItemId trackCircuitId,
 					       const bool occupied ) = 0;
   };

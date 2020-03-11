@@ -23,9 +23,7 @@ namespace Lineside {
     LOCK_OR_THROW( pwmChannelProvider,
 		   pwmChannelProviderRegistrar->Retrieve(this->pwmChannelRequest.controller) );
     auto servoweak = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
-						 this->pwmChannelRequest.settings);
-
-    LOCK_OR_THROW( servo, servoweak );
+						     this->pwmChannelRequest.settings);
     
     // Work around the private constructor
     struct enabler : public ServoTurnoutMotor {
@@ -36,7 +34,7 @@ namespace Lineside {
     auto result = std::make_shared<enabler>(this->id);
     result->pwmStraight = this->straight;
     result->pwmCurved = this->curved;
-    result->servo = servo;
+    result->servo = servoweak;
 
     return result;
   }
