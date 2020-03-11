@@ -1,6 +1,7 @@
 #pragma once
 
 #include <atomic>
+#include <mutex>
 
 #include "notifiable.hpp"
 #include "pwitemmodel.hpp"
@@ -10,8 +11,11 @@
 namespace Lineside {
   class TrackCircuitMonitorData;
 
+  //! Class to monitor a track circuit and send notifications to rail traffic control
   class TrackCircuitMonitor : public PWItemModel, public Notifiable<bool> {
   public:
+    const std::chrono::milliseconds SleepRequest = std::chrono::milliseconds(5000);
+    
     virtual void OnActivate() override;
 
     virtual void OnDeactivate() override;
@@ -28,10 +32,12 @@ namespace Lineside {
 
     TrackCircuitMonitor(const ItemId tcmId) :
       PWItemModel(tcmId),
+      updateMtx(),
       lastNotificationState(false),
       monitorPin(),
       rtc() {}
 
+    std::mutex updateMtx;
     std::atomic<bool> lastNotificationState;
     std::weak_ptr<BinaryInputPin> monitorPin;
     std::weak_ptr<RTCClient> rtc;

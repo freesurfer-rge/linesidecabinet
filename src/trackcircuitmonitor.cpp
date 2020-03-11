@@ -10,10 +10,18 @@ namespace Lineside {
   void TrackCircuitMonitor::OnDeactivate() {}
 
   std::chrono::milliseconds TrackCircuitMonitor::OnRun() {
-     throw std::logic_error(__PRETTY_FUNCTION__);
+    std::lock_guard<std::mutex> lockState(this->updateMtx);
+    const bool notifyState = this->GetState();
+
+    LOCK_OR_THROW( rtcClient, this->rtc );
+    rtcClient->SendTrackCircuitNotification( this->getId(), notifyState );
+    this->lastNotificationState = notifyState;
+    
+    return TrackCircuitMonitor::SleepRequest;
   }
 
   bool TrackCircuitMonitor::HaveStateChange() {
+    std::lock_guard<std::mutex> lockState(this->updateMtx);
     return this->GetState() != this->lastNotificationState;
   }
 
@@ -24,6 +32,7 @@ namespace Lineside {
 
   void TrackCircuitMonitor::Notify(const unsigned int sourceId,
 				   const bool notification) {
+    std::lock_guard<std::mutex> lockState(this->updateMtx);
     if( ItemId(sourceId) != this->getId() ) {
       std::stringstream msg;
       msg << __PRETTY_FUNCTION__
