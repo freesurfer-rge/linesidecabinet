@@ -20,12 +20,15 @@ namespace Lineside {
 
     virtual void OnDeactivate() override;
 
+    //! Unconditionally sends an update to rail traffic control
     virtual std::chrono::milliseconds OnRun() override;
 
     virtual bool HaveStateChange() override;
 
+    //! Fetchs the current state of the monitored track circuit
     bool GetState() const;
 
+    //! Method called when the monitored BinaryInputPin changes state
     virtual void Notify(const unsigned int sourceId, const bool notification) override;
   private:
     friend class TrackCircuitMonitorData;

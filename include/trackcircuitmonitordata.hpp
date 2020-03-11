@@ -4,6 +4,7 @@
 #include "devicerequestdata.hpp"
 
 namespace Lineside {
+  //! Class to contain data specifying a TrackCircuitMonitor
   class TrackCircuitMonitorData : public PWItemData {
   public:
     TrackCircuitMonitorData() :
