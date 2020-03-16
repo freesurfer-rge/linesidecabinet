@@ -16,7 +16,7 @@ steps:
 - script: mkdir -p ${{ parameters.bldDir }}
   displayName: 'Create build directory'
     
-- script: /usr/bin/cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }}
+- script: cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }}
   displayName: "Run CMake"
   workingDirectory: ${{ parameters.bldDir }}
 
