@@ -9,14 +9,14 @@ parameters:
 
 steps:
 - task: Bash@3
-  displayName: "Install latest CMake"
+  displayName: "Install xerces library"
   inputs:
-    filePath: scripts/cmakeupdate.sh
+    filePath: scripts/xerces-install.sh
     
 - script: mkdir -p ${{ parameters.bldDir }}
   displayName: 'Create build directory'
     
-- script: /usr/bin/cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }}
+- script: cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }}
   displayName: "Run CMake"
   workingDirectory: ${{ parameters.bldDir }}
 

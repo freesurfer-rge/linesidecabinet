@@ -24,3 +24,5 @@ target_include_directories(lineside
   PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(lineside SYSTEM
   PRIVATE ${Boost_INCLUDE_DIRS})
+
+add_subdirectory(xml)
