@@ -12,6 +12,8 @@ find_package(Boost REQUIRED)
 
 find_package(Doxygen)
 
+find_package(XercesC REQUIRED)
+
 # --------
 
 # Configure the language standard
