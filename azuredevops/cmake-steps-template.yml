@@ -9,11 +9,6 @@ parameters:
 
 steps:
 - task: Bash@3
-  displayName: "Install latest CMake"
-  inputs:
-    filePath: scripts/cmakeupdate.sh
-
-- task: Bash@3
   displayName: "Install xerces library"
   inputs:
     filePath: scripts/xerces-install.sh
