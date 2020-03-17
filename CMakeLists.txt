@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.15)
 project("Lineside Cabinet"
   VERSION 0.1
   LANGUAGES CXX
-  DESCRIPTION "A driver program for lineside equipment for model railways")
+  DESCRIPTION "A driver program for lineside equipment for model railways"
+  HOMEPAGE_URL https://github.com/freesurfer-rge/linesidecabinet)
 enable_testing()
 
 # --------
