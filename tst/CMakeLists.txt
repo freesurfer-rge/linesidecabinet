@@ -38,7 +38,6 @@ list(APPEND srcs xercesguardtests.cpp)
 add_executable( LinesideTest ${srcs} )
 target_include_directories(LinesideTest
   SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES} )
-target_link_libraries(LinesideTest lineside ${XercesC_LIBRARIES} )
+target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
 
 ADD_TEST(NAME ExampleTest COMMAND LinesideTest)
