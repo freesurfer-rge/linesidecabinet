@@ -40,4 +40,4 @@ target_include_directories(LinesideTest
   SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
 
-add_test(NAME ExampleTest COMMAND LinesideTest)
+add_test(NAME AllTests COMMAND LinesideTest)

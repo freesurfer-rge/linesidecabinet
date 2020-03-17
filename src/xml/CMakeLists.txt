@@ -1,4 +1,4 @@
-set( srcs )
+set(srcs)
 
 list(APPEND srcs xercesguard.cpp)
 

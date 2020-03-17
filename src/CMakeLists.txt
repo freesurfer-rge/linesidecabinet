@@ -1,4 +1,4 @@
-set( srcs )
+set(srcs)
 
 list(APPEND srcs turnoutstate.cpp)
 list(APPEND srcs signalstate.cpp)
@@ -19,7 +19,7 @@ list(APPEND srcs trackcircuitmonitor.cpp)
 list(APPEND srcs multiaspectsignalheaddata.cpp)
 list(APPEND srcs multiaspectsignalhead.cpp)
 
-add_library( lineside ${srcs} )
+add_library(lineside ${srcs})
 target_include_directories(lineside
   PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(lineside SYSTEM
