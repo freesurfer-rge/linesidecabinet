@@ -34,6 +34,7 @@ list(APPEND srcs servoturnoutmotortests.cpp)
 list(APPEND srcs trackcircuitmonitortests.cpp)
 
 list(APPEND srcs xercesguardtests.cpp)
+list(APPEND srcs settingsreadertests.cpp)
 
 add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest
