@@ -41,3 +41,5 @@ target_include_directories(LinesideTest
 target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
 
 add_test(NAME AllTests COMMAND LinesideTest)
+
+add_subdirectory(xmlsamples)
