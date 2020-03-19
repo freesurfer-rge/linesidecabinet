@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <!-- Comment 1 -->
+  <Settings>
+    <!-- Comment 2 -->
+    <Setting key="c" value="d" />
+    <!-- Comment 3 -->
+    <Setting key="3" value="4" />
+    <!-- Comment 4 -->
+  </Settings>
+  <!-- Comment 5 -->
+</Test>
