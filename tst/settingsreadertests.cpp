@@ -50,6 +50,16 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragment )
   auto rootElement = xmlDoc->getDocumentElement();
   BOOST_REQUIRE( rootElement );
   BOOST_REQUIRE( xercesc::XMLString::equals(rootElement->getTagName(), TAG_Test.get() ) );
+
+  auto settingsElement = Lineside::xml::GetSingleElementByName(rootElement, "Settings" );
+  BOOST_REQUIRE(settingsElement);
+
+  Lineside::xml::SettingsReader reader;
+
+  auto result = reader.Read(rootElement);
+  BOOST_CHECK_EQUAL( result.size(), 2 );
+  BOOST_CHECK_EQUAL( result.at("a"), "b" );
+  BOOST_CHECK_EQUAL( result.at("1"), "2" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

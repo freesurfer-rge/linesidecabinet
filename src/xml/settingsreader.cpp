@@ -1,3 +1,5 @@
+#include "xml/utilities.hpp"
+
 #include "xml/settingsreader.hpp"
 
 namespace Lineside {
@@ -6,7 +8,15 @@ namespace Lineside {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");
       }
-      throw std::logic_error(__PRETTY_FUNCTION__);
+
+      auto settingsElement = Lineside::xml::GetSingleElementByName(parent, "Settings" );
+      if( !settingsElement ) {
+	throw std::logic_error("Bad settingsElement");
+      }
+
+      std::map<std::string,std::string> result;
+
+      return result;
     }
   }
 }
