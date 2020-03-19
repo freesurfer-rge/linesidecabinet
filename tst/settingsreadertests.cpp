@@ -6,6 +6,7 @@
 #include <xercesc/parsers/XercesDOMParser.hpp>
 
 #include "xml/xercesguard.hpp"
+#include "xml/utilities.hpp"
 #include "xml/settingsreader.hpp"
 
 // =================================
@@ -24,7 +25,7 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragment )
   Lineside::xml::XercesGuard xg;
 
   // Configure the parser
-  auto parser = std::unique_ptr<xercesc::XercesDOMParser>(new xercesc::XercesDOMParser);
+  auto parser = std::make_shared<xercesc::XercesDOMParser>();
   parser->setValidationScheme( xercesc::XercesDOMParser::Val_Never );
   parser->setDoNamespaces( false );
   parser->setDoSchema( false );
@@ -39,6 +40,16 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragment )
   BOOST_TEST_MESSAGE( boost::filesystem::absolute(binaryPath).parent_path() );
   BOOST_TEST_MESSAGE( p.c_str() );
   BOOST_REQUIRE( boost::filesystem::exists(p) );
+
+  parser->parse( p.c_str() );
+
+  // Get the root element
+  auto TAG_Test = Lineside::xml::StrToXMLCh("Test");
+
+  auto xmlDoc = parser->getDocument();
+  auto rootElement = xmlDoc->getDocumentElement();
+  BOOST_REQUIRE( rootElement );
+  BOOST_REQUIRE( xercesc::XMLString::equals(rootElement->getTagName(), TAG_Test.get() ) );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
