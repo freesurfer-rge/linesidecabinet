@@ -6,19 +6,13 @@
 
 namespace Lineside {
   namespace xml {
-    template<typename T>
-    std::unique_ptr<T,xercesstringdeleter> UniqueWithDelete(T* ptr) {
-      return std::unique_ptr<T,xercesstringdeleter>(ptr);
-    }
-    
-    std::unique_ptr<XMLCh,xercesstringdeleter> StrToXMLCh( const std::string& str ) {
+    XercesPtr<XMLCh> StrToXMLCh( const std::string& str ) {
       XMLCh* tc = xercesc::XMLString::transcode(str.c_str());
-      return UniqueWithDelete(tc);
-      // return std::unique_ptr<XMLCh,xercesstringdeleter>(tc, xercesstringdeleter());
+      return UniqueXercesPtr(tc);
     }
 
     std::string XMLChToStr( const XMLCh* xmlChars ) {
-      auto chars = UniqueWithDelete(xercesc::XMLString::transcode(xmlChars));
+      auto chars = UniqueXercesPtr(xercesc::XMLString::transcode(xmlChars));
       return std::string(chars.get());
     }
 

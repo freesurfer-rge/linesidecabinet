@@ -10,7 +10,10 @@
 
 namespace Lineside {
   namespace xml {
-    std::unique_ptr<XMLCh,xercesstringdeleter> StrToXMLCh( const std::string& str );
+    //! Convert a std::string to a Xerces string
+    XercesPtr<XMLCh> StrToXMLCh( const std::string& str );
+
+    //! Convert a Xerces string back to a std::string
     std::string XMLChToStr( const XMLCh* xmlChars );
     
     bool IsElementNode( const xercesc::DOMNode* node );
