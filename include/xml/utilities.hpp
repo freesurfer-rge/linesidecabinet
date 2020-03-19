@@ -11,7 +11,14 @@
 namespace Lineside {
   namespace xml {
     std::unique_ptr<XMLCh,xercesstringdeleter> StrToXMLCh( const std::string& str );
-
-    xercesc::DOMElement* GetSingleElementByName( const xercesc::DOMElement* parent, const std::string name );
+    std::string XMLChToStr( const XMLCh* xmlChars );
+    
+    bool IsElementNode( const xercesc::DOMNode* node );
+    
+    xercesc::DOMElement* GetSingleElementByName( const xercesc::DOMElement* parent,
+						 const std::string name);
+    
+    std::string GetAttributeByName( const xercesc::DOMElement* element,
+				    const std::string name );
   }
 }

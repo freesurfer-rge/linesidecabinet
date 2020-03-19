@@ -6,12 +6,29 @@
 
 namespace Lineside {
   namespace xml {
+    template<typename T>
+    std::unique_ptr<T,xercesstringdeleter> UniqueWithDelete(T* ptr) {
+      return std::unique_ptr<T,xercesstringdeleter>(ptr);
+    }
+    
     std::unique_ptr<XMLCh,xercesstringdeleter> StrToXMLCh( const std::string& str ) {
       XMLCh* tc = xercesc::XMLString::transcode(str.c_str());
-      return std::unique_ptr<XMLCh,xercesstringdeleter>(tc, xercesstringdeleter());
+      return UniqueWithDelete(tc);
+      // return std::unique_ptr<XMLCh,xercesstringdeleter>(tc, xercesstringdeleter());
     }
 
-    xercesc::DOMElement* GetSingleElementByName( const xercesc::DOMElement* parent, const std::string name ) {
+    std::string XMLChToStr( const XMLCh* xmlChars ) {
+      auto chars = UniqueWithDelete(xercesc::XMLString::transcode(xmlChars));
+      return std::string(chars.get());
+    }
+
+    bool IsElementNode( const xercesc::DOMNode* node ) {
+      return (node->getNodeType()) &&
+	(node->getNodeType() == xercesc::DOMNode::ELEMENT_NODE );
+    }
+
+    xercesc::DOMElement* GetSingleElementByName( const xercesc::DOMElement* parent,
+						 const std::string name ) {
       auto TAG_Name = StrToXMLCh(name);
 
       auto elementList = parent->getElementsByTagName( TAG_Name.get() );
@@ -37,6 +54,13 @@ namespace Lineside {
       }
       
       return result;
+    }
+
+    std::string GetAttributeByName( const xercesc::DOMElement* element,
+				    const std::string name ) {
+      auto tcName = StrToXMLCh(name);
+      auto attr = element->getAttribute(tcName.get());
+      return XMLChToStr(attr);
     }
   }
 }
