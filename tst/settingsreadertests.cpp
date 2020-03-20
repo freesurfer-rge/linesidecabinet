@@ -72,13 +72,11 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragment )
   auto parser = GetParser();
 
   auto rootElement = GetRootElementOfFile(parser, simpleSettingsFragment);
-
-  auto settingsElement = Lineside::xml::GetSingleElementByName(rootElement, "Settings" );
-  BOOST_REQUIRE(settingsElement);
+  BOOST_REQUIRE(rootElement);
 
   Lineside::xml::SettingsReader reader;
-
-  auto result = reader.Read(rootElement);
+  auto settingsElement = reader.GetSettingsElement(rootElement);
+  auto result = reader.Read(settingsElement);
   BOOST_CHECK_EQUAL( result.size(), 2 );
   BOOST_CHECK_EQUAL( result.at("a"), "b" );
   BOOST_CHECK_EQUAL( result.at("1"), "2" );
@@ -93,13 +91,12 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragmentWithComment )
   auto parser = GetParser();
 
   auto rootElement = GetRootElementOfFile(parser, simpleSettingsCommentFragment);
-
-  auto settingsElement = Lineside::xml::GetSingleElementByName(rootElement, "Settings" );
-  BOOST_REQUIRE(settingsElement);
+  BOOST_REQUIRE(rootElement);
 
   Lineside::xml::SettingsReader reader;
-
-  auto result = reader.Read(rootElement);
+  auto settingsElement = reader.GetSettingsElement(rootElement);
+  auto result = reader.Read(settingsElement);
+  
   BOOST_CHECK_EQUAL( result.size(), 2 );
   BOOST_CHECK_EQUAL( result.at("c"), "d" );
   BOOST_CHECK_EQUAL( result.at("3"), "4" );

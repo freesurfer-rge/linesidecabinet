@@ -6,7 +6,7 @@
 
 namespace Lineside {
   namespace xml {
-    std::map<std::string,std::string> SettingsReader::Read( const xercesc::DOMElement *parent ) const {
+    xercesc::DOMElement* SettingsReader::GetSettingsElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");
       }
@@ -15,7 +15,14 @@ namespace Lineside {
       if( !settingsElement ) {
 	throw std::logic_error("Bad Settings Element");
       }
-
+      return settingsElement;
+    }
+    
+    std::map<std::string,std::string> SettingsReader::Read( const xercesc::DOMElement *settingsElement ) const {
+      if( !settingsElement ) {
+	throw std::logic_error("Bad settingsElement ptr");
+      }
+      
       auto children = settingsElement->getChildNodes();
 
       auto TAG_Setting = StrToXMLCh("Setting");
