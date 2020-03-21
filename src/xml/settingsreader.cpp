@@ -6,6 +6,14 @@
 
 namespace Lineside {
   namespace xml {
+    bool SettingsReader::HasSettings( const xercesc::DOMElement *parent ) const {
+      if( !parent ) {
+	throw std::logic_error("Bad parent ptr");
+      }
+
+      return HasChildElement( parent, "Settings" );
+    };
+    
     xercesc::DOMElement* SettingsReader::GetSettingsElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");

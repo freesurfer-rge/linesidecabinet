@@ -15,9 +15,11 @@ namespace Lineside {
       result.controllerData = GetAttributeByName( deviceRequestElement, "controllerData" );
 
       SettingsReader sr;
-      auto settingsElement = sr.GetSettingsElement(deviceRequestElement);
-      result.settings = sr.Read(settingsElement);
-      
+      if( sr.HasSettings(deviceRequestElement) ) {
+	auto settingsElement = sr.GetSettingsElement(deviceRequestElement);
+	result.settings = sr.Read(settingsElement);
+      }
+	
       return result;
     }
   }

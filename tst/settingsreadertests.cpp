@@ -31,6 +31,7 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragment )
   BOOST_REQUIRE(rootElement);
 
   Lineside::xml::SettingsReader reader;
+  BOOST_REQUIRE( reader.HasSettings(rootElement) );
   auto settingsElement = reader.GetSettingsElement(rootElement);
   auto result = reader.Read(settingsElement);
   BOOST_CHECK_EQUAL( result.size(), 2 );
@@ -50,6 +51,7 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragmentWithComment )
   BOOST_REQUIRE(rootElement);
 
   Lineside::xml::SettingsReader reader;
+  BOOST_REQUIRE( reader.HasSettings(rootElement) );
   auto settingsElement = reader.GetSettingsElement(rootElement);
   auto result = reader.Read(settingsElement);
   

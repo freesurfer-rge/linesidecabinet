@@ -17,9 +17,11 @@ namespace Lineside {
     std::string XMLChToStr( const XMLCh* xmlChars );
     
     bool IsElementNode( const xercesc::DOMNode* node );
+    bool HasChildElement( const xercesc::DOMElement* parent,
+			  const std::string name );
     
     xercesc::DOMElement* GetSingleElementByName( const xercesc::DOMElement* parent,
-						 const std::string name);
+						 const std::string name );
 
     std::string GetAttributeByName( const xercesc::DOMElement* element,
 				    const std::string name );

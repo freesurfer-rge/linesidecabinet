@@ -21,6 +21,24 @@ namespace Lineside {
 	(node->getNodeType() == xercesc::DOMNode::ELEMENT_NODE );
     }
 
+    bool HasChildElement( const xercesc::DOMElement* parent,
+			  const std::string name ) {
+      auto TAG_Name = StrToXMLCh(name);
+      
+      auto elementList = parent->getElementsByTagName( TAG_Name.get() );
+      if( elementList == nullptr ) {
+	std::stringstream msg;
+	msg << "Failed getElementsByTagName call for " << name;
+	throw std::runtime_error(msg.str());
+      }
+      
+      if( elementList->getLength() > 0 ) {
+	return true;
+      }
+
+      return false;
+    }
+
     xercesc::DOMElement* GetSingleElementByName( const xercesc::DOMElement* parent,
 						 const std::string name ) {
       auto TAG_Name = StrToXMLCh(name);
