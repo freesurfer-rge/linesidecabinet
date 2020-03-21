@@ -33,6 +33,7 @@ list(APPEND srcs servoturnoutmotortests.cpp)
 
 list(APPEND srcs trackcircuitmonitortests.cpp)
 
+list(APPEND srcs xmlutils.cpp)
 list(APPEND srcs xercesguardtests.cpp)
 list(APPEND srcs settingsreadertests.cpp)
 
