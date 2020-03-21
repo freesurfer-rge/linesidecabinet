@@ -36,6 +36,7 @@ list(APPEND srcs trackcircuitmonitortests.cpp)
 list(APPEND srcs xmlutils.cpp)
 list(APPEND srcs xercesguardtests.cpp)
 list(APPEND srcs settingsreadertests.cpp)
+list(APPEND srcs devicerequestdatatests.cpp)
 
 add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest

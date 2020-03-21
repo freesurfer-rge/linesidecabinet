@@ -3,7 +3,6 @@
 #include <string>
 #include <map>
 
-#include <xercesc/util/XMLString.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
 namespace Lineside {
