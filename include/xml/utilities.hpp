@@ -20,7 +20,7 @@ namespace Lineside {
     
     xercesc::DOMElement* GetSingleElementByName( const xercesc::DOMElement* parent,
 						 const std::string name);
-    
+
     std::string GetAttributeByName( const xercesc::DOMElement* element,
 				    const std::string name );
   }
