@@ -45,6 +45,7 @@ BOOST_AUTO_TEST_CASE( SmokeServoTurnoutMotorData )
   BOOST_CHECK_EQUAL( stmd->curved, 400 );
   BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.controller, "sc01" );
   BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.controllerData, "01" );
+  BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.settings.size(), 0 );
 }
 
 BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
