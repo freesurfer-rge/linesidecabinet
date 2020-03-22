@@ -12,7 +12,7 @@ namespace Lineside {
       }
 
       return HasChildElement( parent, "Settings" );
-    };
+    }
     
     xercesc::DOMElement* SettingsReader::GetSettingsElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
