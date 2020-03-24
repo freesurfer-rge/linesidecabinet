@@ -6,3 +6,4 @@ configure_file(devicerequest-binaryoutput.xml . COPYONLY)
 configure_file(devicerequest-pwmchannel.xml . COPYONLY)
 
 configure_file(pwitem-servoturnoutmotor.xml . COPYONLY)
+configure_file(pwitem-trackcircuitmonitor.xml . COPYONLY)

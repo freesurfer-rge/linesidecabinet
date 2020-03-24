@@ -10,11 +10,15 @@
 #include "xml/utilities.hpp"
 
 #include "xml/servoturnoutmotordatareader.hpp"
+#include "xml/trackcircuitmonitordatareader.hpp"
+
 #include "servoturnoutmotordata.hpp"
+#include "trackcircuitmonitordata.hpp"
 
 // ===========================
 
 const std::string servoturnoutmotorFragment = "pwitem-servoturnoutmotor.xml";
+const std::string trackcircuitmonitorFragment = "pwitem-trackcircuitmonitor.xml";
 
 // ===========================
 
@@ -50,7 +54,29 @@ BOOST_AUTO_TEST_CASE( SmokeServoTurnoutMotorData )
 
 BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
 {
-  BOOST_FAIL("Not yet implemented");
+  Lineside::xml::XercesGuard xg;
+  auto parser = GetParser();
+
+  auto rootElement = GetRootElementOfFile(parser, trackcircuitmonitorFragment);
+  BOOST_REQUIRE(rootElement);
+
+  auto tcmElement = Lineside::xml::GetSingleElementByName(rootElement, "TrackCircuitMonitor");
+  BOOST_REQUIRE( tcmElement );
+
+  Lineside::xml::TrackCircuitMonitorDataReader reader;
+
+  auto result = reader.Read(tcmElement);
+  BOOST_REQUIRE(result);
+
+  Lineside::ItemId expectedId;
+  expectedId.Parse("00:ff:00:aa");
+  BOOST_CHECK_EQUAL( result->id, expectedId );
+
+  auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(result);
+  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.controller, "GPIO" );
+  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.controllerData, "07" );
+  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.settings.size(), 1 );
+  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.settings.at("glitch"), "10000" );
 }
 
 BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )

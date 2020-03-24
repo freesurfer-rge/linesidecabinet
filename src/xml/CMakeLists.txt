@@ -7,6 +7,7 @@ list(APPEND srcs xercesstringdeleter.cpp)
 list(APPEND srcs utilities.cpp)
 list(APPEND srcs pwitemdatareader.cpp)
 list(APPEND srcs servoturnoutmotordatareader.cpp)
+list(APPEND srcs trackcircuitmonitordatareader.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
 target_include_directories(lineside SYSTEM
