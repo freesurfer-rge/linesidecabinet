@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include <type_traits>
 
 namespace Lineside {
   //! The concept of parsing
