@@ -8,6 +8,7 @@ list(APPEND srcs utilities.cpp)
 list(APPEND srcs pwitemdatareader.cpp)
 list(APPEND srcs servoturnoutmotordatareader.cpp)
 list(APPEND srcs trackcircuitmonitordatareader.cpp)
+list(APPEND srcs multiaspectsignalheaddatareader.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
 target_include_directories(lineside SYSTEM

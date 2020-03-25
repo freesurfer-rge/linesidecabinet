@@ -11,14 +11,17 @@
 
 #include "xml/servoturnoutmotordatareader.hpp"
 #include "xml/trackcircuitmonitordatareader.hpp"
+#include "xml/multiaspectsignalheaddatareader.hpp"
 
 #include "servoturnoutmotordata.hpp"
 #include "trackcircuitmonitordata.hpp"
+#include "multiaspectsignalheaddata.hpp"
 
 // ===========================
 
 const std::string servoturnoutmotorFragment = "pwitem-servoturnoutmotor.xml";
 const std::string trackcircuitmonitorFragment = "pwitem-trackcircuitmonitor.xml";
+const std::string multiaspectsignalheadFragment = "pwitem-multiaspectsignalhead.xml";
 
 // ===========================
 
@@ -81,7 +84,46 @@ BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
 
 BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )
 {
-  BOOST_FAIL("Not yet implemented");
+  Lineside::xml::XercesGuard xg;
+  auto parser = GetParser();
+
+  auto rootElement = GetRootElementOfFile(parser, multiaspectsignalheadFragment);
+  BOOST_REQUIRE(rootElement);
+
+  auto mashElement = Lineside::xml::GetSingleElementByName(rootElement, "MultiAspectSignalHead" );
+  BOOST_REQUIRE( mashElement );
+
+  Lineside::xml::MultiAspectSignalHeadDataReader reader;
+
+  auto result = reader.Read(mashElement);
+  BOOST_REQUIRE(result);
+
+  Lineside::ItemId expectedId;
+  expectedId.Parse("00:1a:2b:3c");
+  BOOST_CHECK_EQUAL( result->id, expectedId );
+
+  auto mashd = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHeadData>(result);
+  BOOST_REQUIRE(mashd);
+  
+  BOOST_CHECK_EQUAL( mashd->aspectRequests.size(), 3 );
+  auto redRequest = mashd->aspectRequests.at(Lineside::SignalAspect::Red);
+  BOOST_CHECK_EQUAL( redRequest.controller, "GPIO" );
+  BOOST_CHECK_EQUAL( redRequest.controllerData, "03" );
+  BOOST_CHECK_EQUAL( redRequest.settings.size(), 0 );
+  auto yellow1Request = mashd->aspectRequests.at(Lineside::SignalAspect::Yellow1);
+  BOOST_CHECK_EQUAL( yellow1Request.controller, "GPIO1" );
+  BOOST_CHECK_EQUAL( yellow1Request.controllerData, "04" );
+  BOOST_CHECK_EQUAL( yellow1Request.settings.size(), 0 );
+  auto greenRequest = mashd->aspectRequests.at(Lineside::SignalAspect::Green);
+  BOOST_CHECK_EQUAL( greenRequest.controller, "GPIO3" );
+  BOOST_CHECK_EQUAL( greenRequest.controllerData, "06" );
+  BOOST_CHECK_EQUAL( greenRequest.settings.size(), 0 );
+
+  BOOST_CHECK_EQUAL( mashd->featherRequests.size(), 1 );
+  auto f1Request = mashd->featherRequests.at(1);
+  BOOST_CHECK_EQUAL( f1Request.controller, "GPIO2" );
+  BOOST_CHECK_EQUAL( f1Request.controllerData, "08" );
+  BOOST_CHECK_EQUAL( f1Request.settings.size(), 0 );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
