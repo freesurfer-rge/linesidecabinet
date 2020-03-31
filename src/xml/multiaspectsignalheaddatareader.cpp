@@ -10,6 +10,16 @@
 
 namespace Lineside {
   namespace xml {
+    bool MultiAspectSignalHeadDataReader::MatchingElement( const xercesc::DOMElement *element ) const {
+      if( !element ) {
+	throw std::logic_error("Bad element");
+      }
+
+      auto TAG_MASH = StrToXMLCh("MultiAspectSignalHead");
+
+      return xercesc::XMLString::equals( element->getTagName(), TAG_MASH.get() );
+    }
+    
     std::shared_ptr<Lineside::PWItemData> MultiAspectSignalHeadDataReader::Read( const xercesc::DOMElement *pwItemElement ) const {
       if( !pwItemElement ) {
 	throw std::logic_error("Bad pwItemElement");

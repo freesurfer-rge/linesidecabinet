@@ -7,6 +7,16 @@
 
 namespace Lineside {
   namespace xml {
+    bool ServoTurnoutMotorDataReader::MatchingElement( const xercesc::DOMElement *element ) const {
+      if( !element ) {
+	throw std::logic_error("Bad element");
+      }
+
+      auto TAG_ServoTurnoutMotor = StrToXMLCh("ServoTurnoutMotor");
+
+      return xercesc::XMLString::equals( element->getTagName(), TAG_ServoTurnoutMotor.get() );
+    }
+    
     std::shared_ptr<Lineside::PWItemData> ServoTurnoutMotorDataReader::Read( const xercesc::DOMElement *pwItemElement ) const {
       if( !pwItemElement ) {
 	throw std::logic_error("Bad pwItemElement");

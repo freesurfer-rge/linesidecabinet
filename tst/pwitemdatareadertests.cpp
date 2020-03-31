@@ -40,6 +40,8 @@ BOOST_AUTO_TEST_CASE( SmokeServoTurnoutMotorData )
 
   Lineside::xml::ServoTurnoutMotorDataReader reader;
 
+  BOOST_CHECK( reader.MatchingElement(servoTurnoutMotorElement) );
+  
   auto result = reader.Read(servoTurnoutMotorElement);
   BOOST_REQUIRE(result);
 
@@ -68,6 +70,8 @@ BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
 
   Lineside::xml::TrackCircuitMonitorDataReader reader;
 
+  BOOST_CHECK( reader.MatchingElement(tcmElement) );
+  
   auto result = reader.Read(tcmElement);
   BOOST_REQUIRE(result);
 
@@ -94,6 +98,8 @@ BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )
   BOOST_REQUIRE( mashElement );
 
   Lineside::xml::MultiAspectSignalHeadDataReader reader;
+  
+  BOOST_CHECK( reader.MatchingElement(mashElement) );
 
   auto result = reader.Read(mashElement);
   BOOST_REQUIRE(result);
