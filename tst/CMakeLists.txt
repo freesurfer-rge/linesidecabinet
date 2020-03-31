@@ -38,6 +38,7 @@ list(APPEND srcs xercesguardtests.cpp)
 list(APPEND srcs settingsreadertests.cpp)
 list(APPEND srcs devicerequestdatatests.cpp)
 list(APPEND srcs pwitemdatareadertests.cpp)
+list(APPEND srcs pwitemlistreadertests.cpp)
 
 add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest
