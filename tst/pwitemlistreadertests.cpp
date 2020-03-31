@@ -35,7 +35,26 @@ BOOST_AUTO_TEST_CASE( SmokePWItemListReader )
   auto listElement = reader.GetPWItemListElement(rootElement);
   BOOST_REQUIRE(listElement);
 
-  BOOST_FAIL("To be completed");
+  std::vector<std::shared_ptr<Lineside::PWItemData>> pwItems = reader.Read(listElement);
+  BOOST_REQUIRE_EQUAL( pwItems.size(), 3 );
+
+  auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(pwItems.at(0));
+  BOOST_REQUIRE( tcmd );
+  Lineside::ItemId tcmId;
+  tcmId.Parse("00:fe:00:1a");
+  BOOST_CHECK_EQUAL( tcmd->id, tcmId );
+
+  auto mashd = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHeadData>(pwItems.at(1));
+  BOOST_REQUIRE( mashd );
+  Lineside::ItemId mashId;
+  mashId.Parse("00:1f:2e:3d");
+  BOOST_CHECK_EQUAL( mashd->id, mashId );
+
+  auto stmd = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotorData>(pwItems.at(2));
+  BOOST_REQUIRE( stmd );
+  Lineside::ItemId stmId;
+  stmId.Parse("00:0e:2a:5f");
+  BOOST_CHECK_EQUAL( stmd->id, stmId );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
