@@ -6,6 +6,7 @@
 #include "parse.hpp"
 
 namespace Lineside {
+  //! Enumeration of allowed signal aspects
   enum class SignalAspect { Red,
 			    Yellow1,
 			    Yellow2,

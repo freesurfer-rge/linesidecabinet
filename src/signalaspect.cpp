@@ -44,7 +44,7 @@ namespace Lineside {
     if( convertor.empty() ) {
       initconvertor();
     }
-    
+
     try {
       SignalAspect sa;
       sa = convertor.right.at(src);
