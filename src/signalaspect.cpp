@@ -38,4 +38,24 @@ namespace Lineside {
 
     return res;
   }
+
+  template<>
+  SignalAspect Parse<SignalAspect>(const std::string& src) {
+    if( convertor.empty() ) {
+      initconvertor();
+    }
+    
+    try {
+      SignalAspect sa;
+      sa = convertor.right.at(src);
+      return sa;
+    }
+    catch( std::out_of_range& e ) {
+      std::stringstream msg;
+      msg << "Could not parse '";
+      msg << src;
+      msg << "' to SignalAspect";
+      throw std::invalid_argument(msg.str());
+    }
+  }
 }

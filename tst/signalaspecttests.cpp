@@ -29,5 +29,9 @@ BOOST_DATA_TEST_CASE( StreamInsertion, nameToAspectZip, name, aspect )
   BOOST_CHECK_EQUAL( res.str(), name );
 }
 
+BOOST_DATA_TEST_CASE( Parse, nameToAspectZip, name, aspect )
+{
+  BOOST_CHECK_EQUAL( aspect, Lineside::Parse<Lineside::SignalAspect>(name) );
+}
 
 BOOST_AUTO_TEST_SUITE_END()
