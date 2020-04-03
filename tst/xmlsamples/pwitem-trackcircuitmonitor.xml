@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <TrackCircuitMonitor id="00:ff:00:aa">
+    <!-- A single input pin -->
+    <BinaryInput controller="GPIO" controllerData="07">
+      <Settings>
+	<!-- The pin has a setting with it -->
+	<Setting key="glitch" value="10000" />
+      </Settings>
+    </BinaryInput>
+  </TrackCircuitMonitor>
+</Test>

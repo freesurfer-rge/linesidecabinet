@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <!-- The BinaryInput is a kind of device -->
+  <BinaryInput controller="GPIO" controllerData="100">
+    <!-- Comment -->
+    <Settings>
+      <!-- Another comment -->
+      <Setting key="glitch" value="10000">
+	<!-- Put something here -->
+      </Setting>
+      <!-- Fill out another comment -->
+    </Settings>
+    <!-- Saying something? -->
+  </BinaryInput>
+</Test>

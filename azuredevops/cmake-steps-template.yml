@@ -3,6 +3,7 @@
 parameters:
   srcDir: ''
   bldDir: ''
+  cmakeArgs: '-DBoost_DEBUG=ON -DBoost_ARCHITECTURE=-x64'
   cmakeExtraArgs: ''
   makeExtraArgs: ''
   makeTarget: ''
@@ -16,7 +17,7 @@ steps:
 - script: mkdir -p ${{ parameters.bldDir }}
   displayName: 'Create build directory'
     
-- script: cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }}
+- script: cmake ${{ parameters.srcDir }} ${{ parameters.cmakeExtraArgs }} ${{ parameters.cmakeArgs }}
   displayName: "Run CMake"
   workingDirectory: ${{ parameters.bldDir }}
 

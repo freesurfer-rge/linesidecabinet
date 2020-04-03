@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <!-- Start with a comment -->
+  <PermanentWayItems>
+    <!-- Here begins the list -->
+    <TrackCircuitMonitor id="00:fe:00:1a">
+      <!-- A single input pin -->
+      <BinaryInput controller="GPIO" controllerData="07">
+	<Settings>
+	  <!-- The pin has a setting with it -->
+	  <Setting key="glitch" value="10000" />
+	</Settings>
+      </BinaryInput>
+    </TrackCircuitMonitor>
+    <!-- And another type -->
+    <MultiAspectSignalHead id="00:1f:2e:3d">
+      <Aspect name="Red">
+	<BinaryOutput controller="GPIO" controllerData="03" />
+      </Aspect>
+      <Aspect name="Yellow1">
+	<BinaryOutput controller="GPIO1" controllerData="04" />
+      </Aspect>
+      <Aspect name="Green">
+	<BinaryOutput controller="GPIO3" controllerData="06" />
+      </Aspect>
+      <Feather route="1">
+	<BinaryOutput controller="GPIO2" controllerData="08" />
+      </Feather>
+    </MultiAspectSignalHead>
+    <!-- The turnout type is next -->
+    <ServoTurnoutMotor id="00:0e:2a:5f" straight="130" curved="400" >
+      <PWMChannel controller="sc01" controllerData="01" />
+    </ServoTurnoutMotor>
+  </PermanentWayItems>
+</Test>
