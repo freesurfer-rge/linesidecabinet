@@ -40,6 +40,8 @@ list(APPEND srcs devicerequestdatatests.cpp)
 list(APPEND srcs pwitemdatareadertests.cpp)
 list(APPEND srcs pwitemlistreadertests.cpp)
 
+list(APPEND srcs pwitemmanagertests.cpp)
+
 add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest
   SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
