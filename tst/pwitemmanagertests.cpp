@@ -75,4 +75,25 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
 }
 
+BOOST_AUTO_TEST_CASE(SingleSTM)
+{
+  BOOST_FAIL("Not yet implemented");
+}
+
+BOOST_AUTO_TEST_CASE(DuplicateId)
+{
+  BOOST_FAIL("Not yet implemented");
+}
+
+BOOST_AUTO_TEST_CASE(IdNotPresent)
+{
+  Lineside::PWItemManager im(this->hwManager, this->swManager);
+
+  const Lineside::ItemId noSuchId(256);
+  std::string msg = "Key '00:00:01:00' not found";
+  BOOST_CHECK_EXCEPTION( im.GetPWItemModelById(noSuchId),
+			 Lineside::KeyNotFoundException,
+			 GetExceptionMessageChecker<Lineside::KeyNotFoundException>(msg) );
+}
+
 BOOST_AUTO_TEST_SUITE_END()
