@@ -26,8 +26,6 @@ namespace Lineside {
   }
 
   std::weak_ptr<PWItemModel> PWItemManager::GetPWItemModelById( const ItemId id ) const {
-    std::cout << __FUNCTION__ << std::endl;
-    std::cout << "this->pwItems.count(id) " << this->pwItems.count(id) << std::endl;
     if( this->pwItems.count(id) != 1 ) {
       throw KeyNotFoundException(id.ToString());
     }
