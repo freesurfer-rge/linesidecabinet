@@ -18,12 +18,18 @@ namespace Lineside {
     PWItemManager( std::shared_ptr<HardwareManager> hardwareManager,
 		   std::shared_ptr<SoftwareManager> softwareManager )
       : hwManager(hardwareManager),
-	swManager(softwareManager) {}
+	swManager(softwareManager),
+	pwItems() {}
+
+    ~PWItemManager();
 
     void CreatePWItems( const std::vector<std::shared_ptr<PWItemData>>& itemData );
+
+    std::weak_ptr<PWItemModel> GetPWItemModelById( const ItemId id ) const;
 
   private:
     std::shared_ptr<HardwareManager> hwManager;
     std::shared_ptr<SoftwareManager> swManager;
+    std::map<ItemId,std::shared_ptr<PWItemController>> pwItems;
   };
 }
