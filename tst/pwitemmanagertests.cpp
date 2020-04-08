@@ -2,6 +2,8 @@
 
 #include "multiaspectsignalheaddata.hpp"
 #include "multiaspectsignalhead.hpp"
+#include "servoturnoutmotordata.hpp"
+#include "servoturnoutmotor.hpp"
 
 
 #include "utility.hpp"
@@ -77,12 +79,71 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
 
 BOOST_AUTO_TEST_CASE(SingleSTM)
 {
-  BOOST_FAIL("Not yet implemented");
+  const Lineside::ItemId id(10);
+  const unsigned int straight = 10;
+  const unsigned int curved = 113;
+  const std::string controller = "MockPWMController";
+  const std::string controllerData = "07";
+
+  auto stmd = std::make_shared<Lineside::ServoTurnoutMotorData>();
+  stmd->id = id;
+  stmd->straight = straight;
+  stmd->curved = curved;
+  stmd->pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd->pwmChannelRequest.controllerData = controllerData;
+
+  std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
+  itemList.push_back(stmd);
+
+  // Create the PWItemManager
+  Lineside::PWItemManager im(this->hwManager, this->swManager);
+
+  // Create the items
+  im.CreatePWItems(itemList);
+
+  // Check the servo was set to straight
+  auto pwmChannel = this->hwManager->pwmChannelProvider->channels.at(controllerData);
+  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+
+  // Check we can get the STM
+  auto resWeak = im.GetPWItemModelById( id );
+  LOCK_OR_THROW( res, resWeak );
+  BOOST_REQUIRE( res );
+  BOOST_CHECK_EQUAL( res->getId(), id );
+  auto resSTM = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>( res );
+  BOOST_REQUIRE( resSTM );
 }
 
 BOOST_AUTO_TEST_CASE(DuplicateId)
 {
-  BOOST_FAIL("Not yet implemented");
+   // Make the MASH data
+  const Lineside::ItemId id(131);
+  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId );
+
+  // Make some STM data
+  const unsigned int straight = 10;
+  const unsigned int curved = 113;
+  const std::string controller = "MockPWMController";
+  const std::string controllerData = "07";
+  
+  auto stmd = std::make_shared<Lineside::ServoTurnoutMotorData>();
+  stmd->id = id;
+  stmd->straight = straight;
+  stmd->curved = curved;
+  stmd->pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd->pwmChannelRequest.controllerData = controllerData;
+
+  std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
+  itemList.push_back(mashd);
+  itemList.push_back(stmd);
+
+  // Create the PWItemManager
+  Lineside::PWItemManager im(this->hwManager, this->swManager);
+
+  std::string msg = "Key '00:00:00:83' already present";
+  BOOST_CHECK_EXCEPTION( im.CreatePWItems( itemList ),
+			 Lineside::DuplicateKeyException,
+			 GetExceptionMessageChecker<Lineside::DuplicateKeyException>(msg) );
 }
 
 BOOST_AUTO_TEST_CASE(IdNotPresent)

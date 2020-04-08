@@ -12,11 +12,15 @@ namespace Lineside {
   void PWItemManager::CreatePWItems( const std::vector<std::shared_ptr<PWItemData>>& itemData ) {
     // Construct everything
     for( auto it=itemData.begin(); it!=itemData.end(); ++it ) {
+      const ItemId currId = (*it)->id;
+      if( this->pwItems.count( currId ) != 0 ) {
+	throw DuplicateKeyException(currId.ToString());
+      }
       auto pwItemModel = (*it)->Construct( this->hwManager, this->swManager );
 
       auto pwItemController = PWItemController::Construct( pwItemModel );
 
-      this->pwItems[pwItemModel->getId()] = pwItemController;
+      this->pwItems[currId] = pwItemController;
     }
 
     // Activate everything
