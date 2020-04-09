@@ -3,7 +3,7 @@
 parameters:
   srcDir: ''
   bldDir: ''
-  cmakeArgs: '-DBoost_DEBUG=ON'
+  cmakeArgs: '-DBoost_DEBUG=ON -DBOOST_ROOT=/usr/local/share/boost/1.69.0'
   cmakeExtraArgs: ''
   makeExtraArgs: ''
   makeTarget: ''
