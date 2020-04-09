@@ -9,12 +9,6 @@ parameters:
   makeTarget: ''
 
 steps:
-- script: sudo updatedb
-  displayName: "Enable locate"
-
-- script: locate libboost_filesystem
-  displayName: "Find boost"
-  
 - task: Bash@3
   displayName: "Install xerces library"
   inputs:
