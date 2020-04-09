@@ -32,6 +32,9 @@ namespace Lineside {
     virtual void Notify(const unsigned int sourceId,
 			const bool notification) override;
 
+    //! Get the associated PWItemModel
+    std::weak_ptr<PWItemModel> GetModel() const;
+
     //! Create a PWItemController for the supplied model
     static std::shared_ptr<PWItemController> Construct(std::shared_ptr<PWItemModel> pwim);
     
