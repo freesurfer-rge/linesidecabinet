@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( result.rtcAddress, "addr" );
   BOOST_CHECK_EQUAL( result.rtcPort, 8080 );
   BOOST_REQUIRE_EQUAL( result.settings.size(), 1 );
-  BOOST_CHECK_EQUAL( result.settings.at("a"), "c" );
+  BOOST_CHECK_EQUAL( result.settings.at("a"), "b" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

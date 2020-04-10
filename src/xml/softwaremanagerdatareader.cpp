@@ -1,6 +1,8 @@
-#include "xml/utilities.hpp"
+#include <xercesc/dom/DOMNodeList.hpp>
 
+#include "xml/utilities.hpp"
 #include "xml/settingsreader.hpp"
+
 #include "xml/softwaremanagerdatareader.hpp"
 
 namespace Lineside {
@@ -33,7 +35,30 @@ namespace Lineside {
 
       Lineside::SoftwareManagerData result;
 
+      // Read in the settings
+      SettingsReader sr;
+      if( sr.HasSettings( softwaremanagerElement ) ) {
+	auto settingsElement = sr.GetSettingsElement(softwaremanagerElement);
+	result.settings = sr.Read(settingsElement);
+      }
 
+      // Read in the other elements
+      auto children = softwaremanagerElement->getChildNodes();
+
+      auto TAG_rtc = StrToXMLCh(this->RTCElement);
+      for( XMLSize_t i=0; i<children->getLength(); i++ ) {
+	auto child = children->item(i);
+	if( IsElementNode(child) ) {
+	  auto element = dynamic_cast<xercesc::DOMElement*>(child);
+
+	  // Check for RTC element
+	  if( xercesc::XMLString::equals( element->getTagName(), TAG_rtc.get() ) ) {
+	    result.rtcAddress = GetAttributeByName( element, "address" );
+	    result.rtcPort = std::stoul(GetAttributeByName( element, "port" ));
+	  } 
+	}
+      }
+	
       return result;
     }
   }
