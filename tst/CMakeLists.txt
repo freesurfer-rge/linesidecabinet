@@ -39,6 +39,7 @@ list(APPEND srcs settingsreadertests.cpp)
 list(APPEND srcs devicerequestdatatests.cpp)
 list(APPEND srcs pwitemdatareadertests.cpp)
 list(APPEND srcs pwitemlistreadertests.cpp)
+list(APPEND srcs softwaremanagerdatareadertests.cpp)
 
 list(APPEND srcs pwitemmanagertests.cpp)
 

@@ -11,6 +11,7 @@ list(APPEND srcs servoturnoutmotordatareader.cpp)
 list(APPEND srcs trackcircuitmonitordatareader.cpp)
 list(APPEND srcs multiaspectsignalheaddatareader.cpp)
 list(APPEND srcs pwitemlistreader.cpp)
+list(APPEND srcs softwaremanagerdatareader.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
 target_include_directories(lineside SYSTEM

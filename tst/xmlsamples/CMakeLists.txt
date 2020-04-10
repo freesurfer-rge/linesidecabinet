@@ -10,3 +10,5 @@ configure_file(pwitem-trackcircuitmonitor.xml . COPYONLY)
 configure_file(pwitem-multiaspectsignalhead.xml . COPYONLY)
 
 configure_file(pwitemlist.xml . COPYONLY)
+
+configure_file(softwaremanagerdata-fragment.xml . COPYONLY)
