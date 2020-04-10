@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <SoftwareManager>
+    <RTC address="addr" port="8080" />
+    <Settings>
+      <Setting key="a" value="b" />
+    </Settings>
+  </SoftwareManager>
+</Test>
