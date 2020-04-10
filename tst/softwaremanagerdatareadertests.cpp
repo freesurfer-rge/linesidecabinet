@@ -24,6 +24,15 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
 
   auto rootElement = GetRootElementOfFile(parser, softwaremanagerdataFragment);
   BOOST_REQUIRE(rootElement);
+
+  Lineside::xml::SoftwareManagerDataReader reader;
+  BOOST_REQUIRE( reader.HasSoftwareManager(rootElement) );
+  auto softwareManagerElement = reader.GetSoftwareManagerElement(rootElement);
+  auto result = reader.Read(softwareManagerElement);
+  BOOST_CHECK_EQUAL( result.rtcAddress, "addr" );
+  BOOST_CHECK_EQUAL( result.rtcPort, 8080 );
+  BOOST_REQUIRE_EQUAL( result.settings.size(), 1 );
+  BOOST_CHECK_EQUAL( result.settings.at("a"), "c" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

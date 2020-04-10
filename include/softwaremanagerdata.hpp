@@ -9,7 +9,7 @@ namespace Lineside {
   class SoftwareManagerData {
   public:
     std::string rtcAddress;
-    uint16_t rcPort;
+    uint16_t rtcPort;
     std::map<std::string,std::string> settings;
   };
 }
