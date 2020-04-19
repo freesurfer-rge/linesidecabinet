@@ -38,6 +38,20 @@ BOOST_AUTO_TEST_CASE(BadPWItemDataException)
   BOOST_CHECK_EQUAL( expected, bpde.what() );
 }
 
+BOOST_AUTO_TEST_CASE(DeviceRequestException)
+{
+  const std::string ctrl("A");
+  const std::string ctrlData("BC");
+  const std::string issue("DEF");
+
+  Lineside::DeviceRequestException dre(ctrl, ctrlData, issue);
+  BOOST_CHECK_EQUAL( dre.controller, ctrl );
+  BOOST_CHECK_EQUAL( dre.controllerData, ctrlData );
+  BOOST_CHECK_EQUAL( dre.issueDescription, issue );
+  const std::string expected = "Bad Device Request for controller A with controllerData BC. Issue: DEF";
+  BOOST_CHECK_EQUAL( expected, dre.what() );
+}
+
 BOOST_AUTO_TEST_CASE(KeyNotFoundException)
 {
   Lineside::KeyNotFoundException knfe("myKey");

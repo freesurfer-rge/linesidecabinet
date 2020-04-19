@@ -87,6 +87,43 @@ namespace Lineside {
 
   // ========================================
 
+  //! Exception for improper hardware requests
+  /*!
+    Hardware manager implementations throw this
+    when unable to satisfy a device request
+   */
+  class DeviceRequestException : public LinesideException {
+  public:
+    explicit DeviceRequestException(const std::string ctrl,
+				    const std::string ctrlData,
+				    const std::string issue) :
+      LinesideException(""),
+      controller(ctrl),
+      controllerData(ctrlData),
+      issueDescription(issue),
+      message() {
+      std::stringstream tmp;
+      tmp << "Bad Device Request for controller "
+	  << this->controller
+	  << " with controllerData "
+	  << this->controllerData;
+      tmp << ". Issue: "
+	  << this->issueDescription;
+      this->message = tmp.str();
+    }
+
+    const std::string controller;
+    const std::string controllerData;
+    const std::string issueDescription;
+    std::string message;
+
+    virtual const char* what() const noexcept override {
+      return this->message.c_str();
+    }
+  };
+  
+  // ========================================
+
   //! Base exception for problems with maps
   /*!
     This exception class is provided to allow
