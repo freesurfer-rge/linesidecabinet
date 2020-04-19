@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE(DeviceRequestException)
   BOOST_CHECK_EQUAL( dre.controller, ctrl );
   BOOST_CHECK_EQUAL( dre.controllerData, ctrlData );
   BOOST_CHECK_EQUAL( dre.issueDescription, issue );
-  const std::string expected = "Something";
+  const std::string expected = "Bad Device Request for controller A with controllerData BC. Issue: DEF";
   BOOST_CHECK_EQUAL( expected, dre.what() );
 }
 
