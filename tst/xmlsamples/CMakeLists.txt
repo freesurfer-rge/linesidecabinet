@@ -15,3 +15,4 @@ configure_file(softwaremanagerdata-fragment.xml . COPYONLY)
 
 configure_file(i2cdevice-fragment.xml . COPYONLY)
 configure_file(i2cdevicelist-fragment.xml . COPYONLY)
+configure_file(hardwaremanager-fragment.xml . COPYONLY)

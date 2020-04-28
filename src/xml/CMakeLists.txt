@@ -14,6 +14,7 @@ list(APPEND srcs pwitemlistreader.cpp)
 list(APPEND srcs softwaremanagerdatareader.cpp)
 list(APPEND srcs i2cdevicedatareader.cpp)
 list(APPEND srcs i2cdevicelistreader.cpp)
+list(APPEND srcs hardwaremanagerdatareader.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
 target_include_directories(lineside SYSTEM
