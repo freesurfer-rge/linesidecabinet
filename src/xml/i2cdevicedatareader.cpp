@@ -35,6 +35,20 @@ namespace Lineside {
 
       Lineside::I2CDeviceData result;
 
+      // Read in the settings
+      SettingsReader sr;
+      if( sr.HasSettings( i2cDeviceElement ) ) {
+	auto settingsElement = sr.GetSettingsElement(i2cDeviceElement);
+	result.settings = sr.Read(settingsElement);
+      }
+
+      result.kind = GetAttributeByName( i2cDeviceElement, "kind" );
+      result.bus = std::stoul( GetAttributeByName( i2cDeviceElement, "bus" ) );
+      result.address = std::stoul( GetAttributeByName( i2cDeviceElement, "address"),
+				   nullptr,
+				   16 );
+      result.name = GetAttributeByName( i2cDeviceElement, "name" );
+      
       return result;
     }
   }
