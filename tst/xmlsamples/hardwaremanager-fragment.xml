@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <HardwareManager>
+    <I2CDevices>
+      <I2CDevice kind="pca9685" bus="0" address="0xFF" name="pwm0" />
+    </I2CDevices>
+    <Settings>
+      <Setting key="some" value="thing" />
+    </Settings>
+  </HardwareManager>
+</Test>
