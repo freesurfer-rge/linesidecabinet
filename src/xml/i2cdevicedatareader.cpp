@@ -15,6 +15,16 @@ namespace Lineside {
       return HasChildElement(parent, this->I2CDeviceElement);
     }
 
+    bool I2CDeviceDataReader::IsI2CDeviceElement( const xercesc::DOMElement *element ) const {
+      if( !element ) {
+	throw std::logic_error("Bad element");
+      }
+
+      auto TAG_I2CDeviceData = StrToXMLCh(this->I2CDeviceElement);
+
+      return xercesc::XMLString::equals( element->getTagName(), TAG_I2CDeviceData.get() );
+    }
+    
     xercesc::DOMElement* I2CDeviceDataReader::GetI2CDeviceElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");

@@ -13,6 +13,8 @@ namespace Lineside {
 
       bool HasI2CDevice( const xercesc::DOMElement *parent ) const;
 
+      bool IsI2CDeviceElement( const xercesc::DOMElement *element ) const;
+
       xercesc::DOMElement* GetI2CDeviceElement( const xercesc::DOMElement *parent ) const;
 
       Lineside::I2CDeviceData Read( const xercesc::DOMElement *i2cDeviceElement ) const;

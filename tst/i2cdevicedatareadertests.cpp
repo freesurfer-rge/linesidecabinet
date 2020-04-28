@@ -24,10 +24,12 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
 
   auto rootElement = GetRootElementOfFile(parser, i2cdevicedataFragment);
   BOOST_REQUIRE(rootElement);
-
+  
   Lineside::xml::I2CDeviceDataReader reader;
   BOOST_REQUIRE( reader.HasI2CDevice(rootElement) );
+  BOOST_CHECK( !reader.IsI2CDeviceElement(rootElement) );
   auto i2cDeviceElement = reader.GetI2CDeviceElement(rootElement);
+  BOOST_CHECK( reader.IsI2CDeviceElement( i2cDeviceElement ) );
   auto result = reader.Read(i2cDeviceElement);
   BOOST_CHECK_EQUAL( result.kind, "devKind" );
   BOOST_CHECK_EQUAL( result.bus, 1 );

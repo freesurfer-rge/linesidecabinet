@@ -14,3 +14,4 @@ configure_file(pwitemlist.xml . COPYONLY)
 configure_file(softwaremanagerdata-fragment.xml . COPYONLY)
 
 configure_file(i2cdevice-fragment.xml . COPYONLY)
+configure_file(i2cdevicelist-fragment.xml . COPYONLY)
