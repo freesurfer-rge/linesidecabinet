@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<LinesideCabinet>
+  <SoftwareManager>
+    <RTC address="addr" port="8081" />
+    <Settings>
+      <Setting key="aKey" value="bValue" />
+    </Settings>
+  </SoftwareManager>
+  <HardwareManager>
+    <I2CDevices>
+      <I2CDevice kind="pca9685" bus="0" address="0x0F" name="pwm0" />
+    </I2CDevices>
+    <Settings>
+      <Setting key="some" value="thing" />
+    </Settings>
+  </HardwareManager>
+  <PermanentWayItems>
+    <TrackCircuitMonitor id="10:fe:02:1a">
+      <BinaryInput controller="GPIO" controllerData="07">
+	<Settings>
+	  <Setting key="glitch" value="20000" />
+	</Settings>
+      </BinaryInput>
+    </TrackCircuitMonitor>
+  </PermanentWayItems>
+</LinesideCabinet>

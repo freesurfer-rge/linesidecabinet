@@ -43,6 +43,7 @@ list(APPEND srcs softwaremanagerdatareadertests.cpp)
 list(APPEND srcs i2cdevicedatareadertests.cpp)
 list(APPEND srcs i2cdevicelistreadertests.cpp)
 list(APPEND srcs hardwaremanagerdatareadertests.cpp)
+list(APPEND srcs configurationreadertests.cpp)
 
 list(APPEND srcs pwitemmanagertests.cpp)
 
