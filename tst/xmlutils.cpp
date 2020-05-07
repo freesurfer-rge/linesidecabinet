@@ -17,14 +17,9 @@ std::shared_ptr<xercesc::XercesDOMParser> GetParser() {
   return parser;
 }
 
-xercesc::DOMElement* GetRootElementOfFile(std::shared_ptr<xercesc::XercesDOMParser> parser,
-					  const std::string filename) {
-  /*
-    Opens the designated file in the xmlSampleDir, and returns
-    a pointer to the root element
-  */
-  
-  // Figure out the location of the sample files
+
+std::string GetPathToSampleXML( const std::string filename ) {
+   // Figure out the location of the sample files
   boost::filesystem::path binaryPath(boost::unit_test::framework::master_test_suite().argv[0]);
   boost::filesystem::path p( boost::filesystem::absolute(binaryPath).parent_path() );
   p /= xmlSampleDir;
@@ -34,8 +29,19 @@ xercesc::DOMElement* GetRootElementOfFile(std::shared_ptr<xercesc::XercesDOMPars
   BOOST_TEST_MESSAGE( p.c_str() );
   BOOST_REQUIRE( boost::filesystem::exists(p) );
 
+  return p.native();
+}
+
+xercesc::DOMElement* GetRootElementOfFile(std::shared_ptr<xercesc::XercesDOMParser> parser,
+					  const std::string filename) {
+  /*
+    Opens the designated file in the xmlSampleDir, and returns
+    a pointer to the root element
+  */
+
+
   // Load in the file
-  parser->parse( p.c_str() );
+  parser->parse( GetPathToSampleXML( filename ).c_str() );
 
    // Get the root element
   auto TAG_Test = Lineside::xml::StrToXMLCh("Test");
