@@ -16,6 +16,8 @@ list(APPEND srcs i2cdevicedatareader.cpp)
 list(APPEND srcs i2cdevicelistreader.cpp)
 list(APPEND srcs hardwaremanagerdatareader.cpp)
 
+list(APPEND srcs configurationreader.cpp)
+
 target_sources( lineside PRIVATE ${srcs} )
 target_include_directories(lineside SYSTEM
   PUBLIC ${XercesC_INCLUDE_DIRS})
