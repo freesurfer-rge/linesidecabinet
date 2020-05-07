@@ -12,7 +12,7 @@ const std::string configurationFile = "full-configuration-sample.xml";
 
 // ==============
 
-BOOST_AUTO_TEST_SUITE( ConfigurationReaderTests )
+BOOST_AUTO_TEST_SUITE( ConfigurationReader )
 
 BOOST_AUTO_TEST_CASE( SmokeReader )
 {
