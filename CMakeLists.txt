@@ -7,6 +7,7 @@ project("Lineside Cabinet"
 enable_testing()
 
 # --------
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
 find_package(Boost REQUIRED COMPONENTS filesystem system program_options)
 
@@ -14,12 +15,19 @@ find_package(Doxygen)
 
 find_package(XercesC REQUIRED)
 
+find_package(pigpio)
+
 # --------
 
 # Configure the language standard
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Handle pigpiod
+if( pigpio_FOUND )
+  add_compile_options("-DHAVE_PIGPIO")
+endif()
 
 # Warning options for the compiler
 string(
