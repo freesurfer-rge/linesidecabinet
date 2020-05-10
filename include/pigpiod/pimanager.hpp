@@ -5,6 +5,8 @@
 
 namespace Lineside {
   namespace PiGPIOd {
+    class GPIOManager;
+    
     //! Class to wrap the <a href="http://abyz.me.uk/rpi/pigpio/pigpiod.html">pigpiod library</a>
     /*!
       This class is used to manage the calls to
@@ -33,7 +35,7 @@ namespace Lineside {
       once (and that there isn't a race condition which can result in an
       attempted resurrection once the reference count gets to zero).
      */
-    class PiManager {
+    class PiManager : public std::enable_shared_from_this<PiManager> {
     public:
       ~PiManager();
 
@@ -41,6 +43,9 @@ namespace Lineside {
       int getId() const {
 	return this->id;
       }
+
+      //! Get a GPIOManager for this Pi
+      std::shared_ptr<GPIOManager> GetGPIOManager();
       
       //! Create an instance of PiManager
       /*!

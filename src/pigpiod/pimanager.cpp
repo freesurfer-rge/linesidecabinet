@@ -8,6 +8,8 @@
 #include "pigpiod/pigpiodstubs.hpp"
 #endif
 
+#include "pigpiod/gpiomanager.hpp"
+
 #include "pigpiod/pimanager.hpp"
 
 namespace Lineside {
@@ -29,6 +31,10 @@ namespace Lineside {
       pigpio_stop(this->id);
       this->id = -1;
       PiManager::initialised = false;
+    }
+
+    std::shared_ptr<GPIOManager> PiManager::GetGPIOManager() {
+      return std::make_shared<GPIOManager>(this->shared_from_this());
     }
 
     std::shared_ptr<PiManager> PiManager::CreatePiManager() {

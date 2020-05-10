@@ -42,3 +42,12 @@ int set_mode(int pi, unsigned gpio, unsigned mode) {
 	       << " " << mode << std::endl;
   return 0;
 }
+
+char *pigpio_error(int errnum) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << errnum << std::endl;
+  // Following is ugly but we're short on options given the
+  // signature we have to match
+  return const_cast<char*>("Sorry no error mappings defined");
+}
+
