@@ -30,7 +30,8 @@ BOOST_AUTO_TEST_CASE( SmokeGetGPIOPin )
   auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
-  auto gpio1 = pm->GetGPIOPin(1);
+  // Have to pick a 'safe' GPIO for real hardware
+  auto gpio1 = pm->GetGPIOPin(5);
   BOOST_REQUIRE( gpio1 );
   BOOST_CHECK_EQUAL( pm.use_count(), 2 );
 
