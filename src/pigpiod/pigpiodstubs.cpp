@@ -1,23 +1,22 @@
-#include <iostream>
 #include <stdexcept>
 
 #include "pigpiod/pigpiodstubs.hpp"
 
 const int piId = 0;
 
-static std::ostream* os = &std::cout;
+std::ostream* pigpiodOS = &std::cout;
 
 static bool libraryInitialised = false;
 
 int pigpio_start(char *addrStr, char *portStr) {
-  (*os) << __FUNCTION__;
+  (*pigpiodOS) << __FUNCTION__;
   if( addrStr ) {
-    (*os) << " " << addrStr;
+    (*pigpiodOS) << " " << addrStr;
   }
   if( portStr ) {
-    (*os) << " " << portStr;
+    (*pigpiodOS) << " " << portStr;
   }
-  (*os) << std::endl;
+  (*pigpiodOS) << std::endl;
 
   if( libraryInitialised ) {
     throw std::logic_error("Library already initialised");
@@ -29,7 +28,7 @@ int pigpio_start(char *addrStr, char *portStr) {
 }
 
 void pigpio_stop(int pi) {
-  (*os) << __FUNCTION__ << std::endl;
+  (*pigpiodOS) << __FUNCTION__ << std::endl;
   if( piId != pi ) {
     throw std::logic_error("Bad pi");
   }
