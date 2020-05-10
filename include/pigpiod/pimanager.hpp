@@ -35,7 +35,7 @@ namespace Lineside {
       once (and that there isn't a race condition which can result in an
       attempted resurrection once the reference count gets to zero).
      */
-    class PiManager : public std::enable_shared_from_this<PiManager> {
+    class PiManager : private std::enable_shared_from_this<PiManager> {
     public:
       ~PiManager();
 
