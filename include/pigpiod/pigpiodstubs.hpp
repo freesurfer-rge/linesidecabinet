@@ -1,6 +1,7 @@
 /** \file
  * Stubs for use on a machine without PiGPIOd
  */
+#pragma once
 
 #include <iostream>
 
