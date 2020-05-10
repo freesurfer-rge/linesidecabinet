@@ -4,6 +4,7 @@
 
 #include "pigpiod/pimanager.hpp"
 #include "pigpiod/gpiomanager.hpp"
+#include "pigpiod/pigpiodexceptions.hpp"
 
 BOOST_AUTO_TEST_SUITE( PiManager )
 
@@ -49,7 +50,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOManagerException )
   auto gpioManager = pm->GetGPIOManager();
   BOOST_REQUIRE( gpioManager );
 
-  std::string msg("Something");
+  std::string msg("Error from pigpiod on calling 'set_mode'. Error code is '-3' with explanation: GPIO not 0-53");
   BOOST_CHECK_EXCEPTION( gpioManager->SetMode( 1024, Lineside::PiGPIOd::GPIOMode::Output ),
 			 Lineside::PiGPIOd::PiGPIOdException,
 			 GetExceptionMessageChecker<Lineside::PiGPIOd::PiGPIOdException>(msg) );
