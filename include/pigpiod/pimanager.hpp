@@ -35,6 +35,11 @@ namespace Lineside {
     public:
       ~PiManager();
 
+      //! Get the identifier for the controlled Pi
+      int getId() const {
+	return this->id;
+      }
+      
       //! Create an instance of PiManager
       /*!
 	This creates an instance of a PiManager object in a std::shared_ptr and

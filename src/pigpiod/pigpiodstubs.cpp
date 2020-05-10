@@ -34,3 +34,11 @@ void pigpio_stop(int pi) {
   }
   libraryInitialised = false;
 }
+
+int set_mode(int pi, unsigned gpio, unsigned mode) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << gpio
+	       << " " << mode << std::endl;
+  return 0;
+}
