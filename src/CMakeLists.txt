@@ -28,3 +28,4 @@ target_include_directories(lineside SYSTEM
   PRIVATE ${Boost_INCLUDE_DIRS})
 
 add_subdirectory(xml)
+add_subdirectory(pigpiod)
