@@ -28,6 +28,7 @@ namespace Lineside {
     LibraryManager::~LibraryManager() {
       pigpio_stop(this->id);
       this->id = -1;
+      LibraryManager::initialised = false;
     }
 
     std::shared_ptr<LibraryManager> LibraryManager::CreateLibraryManager() {

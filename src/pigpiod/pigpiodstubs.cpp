@@ -9,8 +9,12 @@ static bool libraryInitialised = false;
 
 int pigpio_start(char *addrStr, char *portStr) {
   std::cout << __FUNCTION__;
-  std::cout << ": " << addrStr;
-  std::cout << " " << portStr;
+  if( addrStr ) {
+    std::cout << " " << addrStr;
+  }
+  if( portStr ) {
+    std::cout << " " << portStr;
+  }
   std::cout << std::endl;
 
   if( libraryInitialised ) {
