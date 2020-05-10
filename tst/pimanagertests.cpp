@@ -37,7 +37,13 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
 
   gpio1->SetMode( Lineside::PiGPIOd::GPIOMode::Output );
   gpio1->Write(false);
+  // Even if we're using the stub, it will always return 0
+  BOOST_CHECK( !gpio1->Read() );
   gpio1->Write(true);
+#ifdef HAVE_PIGPIO
+  // Following can only work if we have a real Pi
+  BOOST_CHECK( !gpio1->Read() );
+#endif
 }
 
 #ifdef HAVE_PIGPIO
@@ -62,6 +68,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinException )
 			 Lineside::PiGPIOd::PiGPIOdException,
 			 GetExceptionMessageChecker<Lineside::PiGPIOd::PiGPIOdException>(msg) );
 }
+
 
 #endif
 

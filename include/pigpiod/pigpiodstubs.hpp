@@ -15,6 +15,8 @@ extern std::ostream* pigpiodOS;
 #define PI_INPUT  0
 #define PI_OUTPUT 1
 
+#define PI_BAD_GPIO -3
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -26,6 +28,8 @@ extern "C" {
   
   int set_mode(int pi, unsigned gpio, unsigned mode);
 
+  int gpio_read(int pi, unsigned gpio);
+  
   int gpio_write(int pi, unsigned gpio, unsigned level);
 
   // ===================================================

@@ -17,13 +17,23 @@ namespace Lineside {
       pi(owner),
       pin(pinId) {}
 
-    void  GPIOPin::SetMode(GPIOMode mode) {
+    void GPIOPin::SetMode(GPIOMode mode) {
       int libraryResult = set_mode(this->pi->getId(),
 				   this->pin,
 				   static_cast<unsigned>(mode));
       if( libraryResult != 0 ) {
 	throw PiGPIOdException("set_mode", libraryResult);
       }
+    }
+
+    bool GPIOPin::Read() const {
+      int libraryResult = gpio_read(this->pi->getId(),
+				    this->pin);
+      if( libraryResult == PI_BAD_GPIO ) {
+	throw PiGPIOdException("gpio_read", libraryResult);
+      }
+
+      return static_cast<bool>(libraryResult);
     }
 
     void GPIOPin::Write(const bool level) {

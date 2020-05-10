@@ -48,6 +48,13 @@ int set_mode(int pi, unsigned gpio, unsigned mode) {
 }
 
 
+int gpio_read(int pi, unsigned gpio) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << gpio << std::endl;
+  return 0;
+}
+
 int gpio_write(int pi, unsigned gpio, unsigned level) {
   (*pigpiodOS) << __FUNCTION__
 	       << " " << pi

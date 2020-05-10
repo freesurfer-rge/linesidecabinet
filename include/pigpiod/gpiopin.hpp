@@ -22,6 +22,8 @@ namespace Lineside {
       
       void SetMode(GPIOMode mode);
 
+      bool Read() const;
+      
       void Write(const bool level);
       
     private:
