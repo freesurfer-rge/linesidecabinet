@@ -25,5 +25,14 @@ namespace Lineside {
 	throw PiGPIOdException("set_mode", libraryResult);
       }
     }
+
+    void GPIOPin::Write(const bool level) {
+      int libraryResult = gpio_write(this->pi->getId(),
+				     this->pin,
+				     static_cast<unsigned>(level));
+      if( libraryResult != 0 ) {
+	throw PiGPIOdException("gpio_write", libraryResult);
+      }
+    }
   }
 }

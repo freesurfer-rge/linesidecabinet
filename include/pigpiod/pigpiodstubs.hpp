@@ -22,8 +22,14 @@ extern "C" {
 
   void pigpio_stop(int pi);
 
+  // ===================================================
+  
   int set_mode(int pi, unsigned gpio, unsigned mode);
 
+  int gpio_write(int pi, unsigned gpio, unsigned level);
+
+  // ===================================================
+  
   char *pigpio_error(int errnum);
 #ifdef __cplusplus
 }

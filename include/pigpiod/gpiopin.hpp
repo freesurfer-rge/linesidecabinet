@@ -22,6 +22,8 @@ namespace Lineside {
       
       void SetMode(GPIOMode mode);
 
+      void Write(const bool level);
+      
     private:
       std::shared_ptr<PiManager> pi;
       const unsigned int pin;

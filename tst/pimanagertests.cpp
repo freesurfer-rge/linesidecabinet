@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_CASE( NoDoubleInitialise )
 			 GetExceptionMessageChecker<std::logic_error>(msg) );
 }
 
-BOOST_AUTO_TEST_CASE( SmokeGetGPIOPin )
+BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
 {
   auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
@@ -36,6 +36,8 @@ BOOST_AUTO_TEST_CASE( SmokeGetGPIOPin )
   BOOST_CHECK_EQUAL( pm.use_count(), 2 );
 
   gpio1->SetMode( Lineside::PiGPIOd::GPIOMode::Output );
+  gpio1->Write(false);
+  gpio1->Write(true);
 }
 
 #ifdef HAVE_PIGPIO

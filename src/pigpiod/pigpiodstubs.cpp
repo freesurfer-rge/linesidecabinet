@@ -8,6 +8,8 @@ std::ostream* pigpiodOS = &std::cout;
 
 static bool libraryInitialised = false;
 
+// =============================================================================
+
 int pigpio_start(char *addrStr, char *portStr) {
   (*pigpiodOS) << __FUNCTION__;
   if( addrStr ) {
@@ -35,6 +37,8 @@ void pigpio_stop(int pi) {
   libraryInitialised = false;
 }
 
+// =============================================================================
+
 int set_mode(int pi, unsigned gpio, unsigned mode) {
   (*pigpiodOS) << __FUNCTION__
 	       << " " << pi
@@ -42,6 +46,18 @@ int set_mode(int pi, unsigned gpio, unsigned mode) {
 	       << " " << mode << std::endl;
   return 0;
 }
+
+
+int gpio_write(int pi, unsigned gpio, unsigned level) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << gpio
+	       << " " << level << std::endl;
+  return 0;
+}
+
+
+// =============================================================================
 
 char *pigpio_error(int errnum) {
   (*pigpiodOS) << __FUNCTION__
