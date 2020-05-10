@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
   gpio1->Write(true);
 #ifdef HAVE_PIGPIO
   // Following can only work if we have a real Pi
-  BOOST_CHECK( !gpio1->Read() );
+  BOOST_CHECK( gpio1->Read() );
 #endif
 }
 
