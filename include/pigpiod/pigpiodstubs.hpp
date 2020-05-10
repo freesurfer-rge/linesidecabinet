@@ -12,6 +12,9 @@ extern std::ostream* pigpiodOS;
 #error "The real pigpiod library is available. Do not use stubs"
 #endif
 
+#define PI_INPUT  0
+#define PI_OUTPUT 1
+
 #ifdef __cplusplus
 extern "C" {
 #endif
