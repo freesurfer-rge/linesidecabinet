@@ -23,4 +23,4 @@ BOOST_AUTO_TEST_CASE( NoDoubleInitialise )
 			 GetExceptionMessageChecker<std::logic_error>(msg) );
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

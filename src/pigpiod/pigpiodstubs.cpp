@@ -5,17 +5,19 @@
 
 const int piId = 0;
 
+static std::ostream* os = &std::cout;
+
 static bool libraryInitialised = false;
 
 int pigpio_start(char *addrStr, char *portStr) {
-  std::cout << __FUNCTION__;
+  (*os) << __FUNCTION__;
   if( addrStr ) {
-    std::cout << " " << addrStr;
+    (*os) << " " << addrStr;
   }
   if( portStr ) {
-    std::cout << " " << portStr;
+    (*os) << " " << portStr;
   }
-  std::cout << std::endl;
+  (*os) << std::endl;
 
   if( libraryInitialised ) {
     throw std::logic_error("Library already initialised");
@@ -27,7 +29,7 @@ int pigpio_start(char *addrStr, char *portStr) {
 }
 
 void pigpio_stop(int pi) {
-  std::cout << __FUNCTION__ << std::endl;
+  (*os) << __FUNCTION__ << std::endl;
   if( piId != pi ) {
     throw std::logic_error("Bad pi");
   }
