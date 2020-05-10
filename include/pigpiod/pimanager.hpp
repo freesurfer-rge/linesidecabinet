@@ -5,7 +5,7 @@
 
 namespace Lineside {
   namespace PiGPIOd {
-    class GPIOManager;
+    class GPIOPin;
     
     //! Class to wrap the <a href="http://abyz.me.uk/rpi/pigpio/pigpiod.html">pigpiod library</a>
     /*!
@@ -44,8 +44,8 @@ namespace Lineside {
 	return this->id;
       }
 
-      //! Get a GPIOManager for this Pi
-      std::shared_ptr<GPIOManager> GetGPIOManager();
+      //! Get a GPIOPin for this Pi
+      std::shared_ptr<GPIOPin> GetGPIOPin(const unsigned int pinId);
       
       //! Create an instance of PiManager
       /*!
