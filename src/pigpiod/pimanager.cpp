@@ -8,14 +8,14 @@
 #include "pigpiod/pigpiodstubs.hpp"
 #endif
 
-#include "pigpiod/librarymanager.hpp"
+#include "pigpiod/pimanager.hpp"
 
 namespace Lineside {
   namespace PiGPIOd {
-    std::mutex LibraryManager::mtx;
-    bool LibraryManager::initialised = false;
+    std::mutex PiManager::mtx;
+    bool PiManager::initialised = false;
 
-    LibraryManager::LibraryManager() : id(-1) {
+    PiManager::PiManager() : id(-1) {
       this->id = pigpio_start(nullptr, nullptr);
       if( this->id < 0 ) {
 	std::stringstream msg;
@@ -25,16 +25,16 @@ namespace Lineside {
       }
     }
 
-    LibraryManager::~LibraryManager() {
+    PiManager::~PiManager() {
       pigpio_stop(this->id);
       this->id = -1;
-      LibraryManager::initialised = false;
+      PiManager::initialised = false;
     }
 
-    std::shared_ptr<LibraryManager> LibraryManager::CreateLibraryManager() {
-      std::lock_guard<std::mutex> lck(LibraryManager::mtx);
+    std::shared_ptr<PiManager> PiManager::CreatePiManager() {
+      std::lock_guard<std::mutex> lck(PiManager::mtx);
 
-      if( LibraryManager::initialised ) {
+      if( PiManager::initialised ) {
 	std::stringstream msg;
 	msg << __FUNCTION__
 	    << ": Already initialised";
@@ -42,10 +42,10 @@ namespace Lineside {
       }
 
       // Work around private constructor
-      struct enabler : public LibraryManager {};
+      struct enabler : public PiManager {};
       
       auto result = std::make_shared<enabler>();
-      LibraryManager::initialised  = true;
+      PiManager::initialised  = true;
 
       return result;
     }

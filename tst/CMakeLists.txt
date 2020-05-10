@@ -47,7 +47,7 @@ list(APPEND srcs configurationreadertests.cpp)
 
 list(APPEND srcs pwitemmanagertests.cpp)
 
-list(APPEND srcs librarymanagertests.cpp)
+list(APPEND srcs pimanagertests.cpp)
 
 add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest

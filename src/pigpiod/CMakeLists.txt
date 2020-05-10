@@ -4,7 +4,7 @@ if( NOT pigpio_FOUND )
   list(APPEND srcs pigpiodstubs.cpp)
 endif()
 
-list(APPEND srcs librarymanager.cpp)
+list(APPEND srcs pimanager.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
 
