@@ -7,6 +7,9 @@ endif()
 list(APPEND srcs pimanager.cpp)
 list(APPEND srcs gpiopin.cpp)
 
+list(APPEND srcs gpoutput.cpp)
+list(APPEND srcs gpioprovider.cpp)
+
 target_sources( lineside PRIVATE ${srcs} )
 
 if( pigpio_FOUND )
