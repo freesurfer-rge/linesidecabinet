@@ -69,14 +69,12 @@ namespace Lineside {
     return result;
   }
 
-  std::weak_ptr<BinaryOutputPin> MultiAspectSignalHeadData::FetchBOP( std::shared_ptr<HardwareManager> hw,
-								      const DeviceRequestData& drd ) const {
+  std::shared_ptr<BinaryOutputPin> MultiAspectSignalHeadData::FetchBOP( std::shared_ptr<HardwareManager> hw,
+									const DeviceRequestData& drd ) const {
     LOCK_OR_THROW( bopProviderRegistrar, hw->GetBOPProviderRegistrar() );
     LOCK_OR_THROW( bopProvider,
 		   bopProviderRegistrar->Retrieve(drd.controller) );
-    auto bopWeak = bopProvider->GetHardware( drd.controllerData, drd.settings );
-
-    return bopWeak;
+    return bopProvider->GetHardware( drd.controllerData, drd.settings );
   }
   
   void MultiAspectSignalHeadData::PopulateAspects( std::shared_ptr<HardwareManager> hw,

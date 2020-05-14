@@ -16,9 +16,8 @@ namespace Lineside {
     LOCK_OR_THROW( bipProviderRegistrar, hw->GetBIPProviderRegistrar() );
     LOCK_OR_THROW( bipProvider,
 		   bipProviderRegistrar->Retrieve( this->inputPinRequest.controller ) );
-    auto bipWeak = bipProvider->GetHardware( this->inputPinRequest.controllerData,
-					     this->inputPinRequest.settings );
-    LOCK_OR_THROW( bip, bipWeak );
+    auto bip = bipProvider->GetHardware( this->inputPinRequest.controllerData,
+					 this->inputPinRequest.settings );
 
     // Work around private constructor
     struct enabler : public TrackCircuitMonitor {

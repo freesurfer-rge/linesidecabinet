@@ -26,8 +26,7 @@ namespace Lineside {
   }
 
   bool TrackCircuitMonitor::GetState() const {
-    LOCK_OR_THROW( bip, this->monitorPin );
-    return bip->Get();
+    return this->monitorPin->Get();
   }
 
   void TrackCircuitMonitor::Notify(const unsigned int sourceId,
