@@ -6,8 +6,7 @@
 
 namespace Lineside {
   void ServoTurnoutMotor::OnActivate() {
-    LOCK_OR_THROW( servoCtrl, this->servo );
-    servoCtrl->Set(this->pwmStraight);
+    this->servo->Set(this->pwmStraight);
     this->currentState = TurnoutState::Straight;
     this->desiredState = TurnoutState::Straight;
   }
@@ -17,7 +16,6 @@ namespace Lineside {
   std::chrono::milliseconds ServoTurnoutMotor::OnRun() {
     std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
     
-    LOCK_OR_THROW( servoCtrl, this->servo );
     if( this->HaveStateChange() ) {
       int startPWM;
       int stopPWM;
@@ -33,11 +31,11 @@ namespace Lineside {
       // Count from 1 since we don't have to move to the starting position
       for( unsigned int i=1; i<this->MoveSteps; i++ ) {
 	unsigned int nxt = startPWM + (i*pwmStep);
-	servoCtrl->Set(nxt);
+	this->servo->Set(nxt);
 	std::this_thread::sleep_for(this->MoveSleep);
       }
       // Make the last step exact
-      servoCtrl->Set(stopPWM);
+      this->servo->Set(stopPWM);
     }
     this->currentState = this->desiredState;
     
