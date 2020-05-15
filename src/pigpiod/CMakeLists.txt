@@ -9,6 +9,7 @@ list(APPEND srcs gpiopin.cpp)
 
 list(APPEND srcs gpoutput.cpp)
 list(APPEND srcs gpioprovider.cpp)
+list(APPEND srcs gpoutputprovider.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
 
