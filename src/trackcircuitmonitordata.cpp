@@ -13,9 +13,8 @@ namespace Lineside {
       throw std::logic_error("Bad sw ptr");
     }
 
-    LOCK_OR_THROW( bipProviderRegistrar, hw->GetBIPProviderRegistrar() );
     LOCK_OR_THROW( bipProvider,
-		   bipProviderRegistrar->Retrieve( this->inputPinRequest.controller ) );
+		   hw->bipProviderRegistrar.Retrieve( this->inputPinRequest.controller ) );
     auto bip = bipProvider->GetHardware( this->inputPinRequest.controllerData,
 					 this->inputPinRequest.settings );
 

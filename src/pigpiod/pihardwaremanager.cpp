@@ -4,6 +4,7 @@
 namespace Lineside {
   namespace PiGPIOd {
     PiHardwareManager::PiHardwareManager(const HardwareManagerData& data) :
+      HardwareManager(),
       piManager(PiManager::CreatePiManager()),
       gpioProvider(),
       gpOutputProvider() {

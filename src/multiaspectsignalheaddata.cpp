@@ -44,8 +44,9 @@ namespace Lineside {
     }
   }
 
-  std::shared_ptr<PWItemModel> MultiAspectSignalHeadData::Construct( std::shared_ptr<HardwareManager> hw,
-								     std::shared_ptr<SoftwareManager> sw ) const {
+  std::shared_ptr<PWItemModel>
+  MultiAspectSignalHeadData::Construct( std::shared_ptr<HardwareManager> hw,
+					std::shared_ptr<SoftwareManager> sw ) const {
     if( !hw ) {
       throw std::logic_error("Bad hw ptr");
     }
@@ -69,18 +70,19 @@ namespace Lineside {
     return result;
   }
 
-  std::shared_ptr<BinaryOutputPin> MultiAspectSignalHeadData::FetchBOP( std::shared_ptr<HardwareManager> hw,
-									const DeviceRequestData& drd ) const {
-    LOCK_OR_THROW( bopProviderRegistrar, hw->GetBOPProviderRegistrar() );
+  std::shared_ptr<BinaryOutputPin>
+  MultiAspectSignalHeadData::FetchBOP( std::shared_ptr<HardwareManager> hw,
+				       const DeviceRequestData& drd ) const {
     LOCK_OR_THROW( bopProvider,
-		   bopProviderRegistrar->Retrieve(drd.controller) );
+		   hw->bopProviderRegistrar.Retrieve(drd.controller) );
     return bopProvider->GetHardware( drd.controllerData, drd.settings );
   }
   
-  void MultiAspectSignalHeadData::PopulateAspects( std::shared_ptr<HardwareManager> hw,
-						   std::shared_ptr<MultiAspectSignalHead> target ) const {
+  void
+  MultiAspectSignalHeadData::PopulateAspects( std::shared_ptr<HardwareManager> hw,
+					      std::shared_ptr<MultiAspectSignalHead> target ) const {
     // Calling from private method, so can assume CheckData() has been called
-
+    
     // Must have red and green aspects
     target->red = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Red) );
     target->green = this->FetchBOP( hw, this->aspectRequests.at(SignalAspect::Green) );
@@ -94,10 +96,11 @@ namespace Lineside {
     }
   }
 
-  void MultiAspectSignalHeadData::PopulateFeathers( std::shared_ptr<HardwareManager> hw,
-						    std::shared_ptr<MultiAspectSignalHead> target ) const {
+  void
+  MultiAspectSignalHeadData::PopulateFeathers( std::shared_ptr<HardwareManager> hw,
+					       std::shared_ptr<MultiAspectSignalHead> target ) const {
     // Calling from private method, so assume CheckData() has been called
-
+    
     // The map is nicely sorted by the keys (which are unsigned ints)
     for( auto it = this->featherRequests.begin();
 	 it != this->featherRequests.end();

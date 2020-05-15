@@ -19,11 +19,11 @@ namespace Lineside {
       throw std::logic_error("Bad sw ptr");
     }
 
-    LOCK_OR_THROW( pwmChannelProviderRegistrar, hw->GetPWMCProviderRegistrar() );
     LOCK_OR_THROW( pwmChannelProvider,
-		   pwmChannelProviderRegistrar->Retrieve(this->pwmChannelRequest.controller) );
-    auto servoweak = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
-						     this->pwmChannelRequest.settings);
+		   hw->pwmcProviderRegistrar.Retrieve(this->pwmChannelRequest.controller) );
+    std::shared_ptr<PWMChannel> servo;
+    servo = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
+					    this->pwmChannelRequest.settings);
     
     // Work around the private constructor
     struct enabler : public ServoTurnoutMotor {
@@ -34,7 +34,7 @@ namespace Lineside {
     auto result = std::make_shared<enabler>(this->id);
     result->pwmStraight = this->straight;
     result->pwmCurved = this->curved;
-    result->servo = servoweak;
+    result->servo = servo;
 
     return result;
   }

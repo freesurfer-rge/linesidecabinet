@@ -28,10 +28,13 @@ namespace Lineside {
   //! Abstract class for managing access to hardware
   class HardwareManager {
   public:
-    virtual ~HardwareManager() {}
-
-    virtual std::weak_ptr<BOPProviderRegistrar> GetBOPProviderRegistrar() = 0;
-    virtual std::weak_ptr<BIPProviderRegistrar> GetBIPProviderRegistrar() = 0;
-    virtual std::weak_ptr<PWMCProviderRegistrar> GetPWMCProviderRegistrar() = 0;
+    HardwareManager() :
+      bopProviderRegistrar(),
+      bipProviderRegistrar(),
+      pwmcProviderRegistrar() {}
+    
+    BOPProviderRegistrar bopProviderRegistrar;
+    BIPProviderRegistrar bipProviderRegistrar;
+    PWMCProviderRegistrar pwmcProviderRegistrar;
   };
 }

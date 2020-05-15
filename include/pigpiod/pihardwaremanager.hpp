@@ -12,10 +12,6 @@ namespace Lineside {
     class PiHardwareManager : public HardwareManager {
     public:
       PiHardwareManager(const HardwareManagerData& data);
-
-      virtual std::weak_ptr<BOPProviderRegistrar> GetBOPProviderRegistrar() override;
-      virtual std::weak_ptr<BIPProviderRegistrar> GetBIPProviderRegistrar() override;
-      virtual std::weak_ptr<PWMCProviderRegistrar> GetPWMCProviderRegistrar() override;
       
     private:
       std::shared_ptr<PiManager> piManager;
