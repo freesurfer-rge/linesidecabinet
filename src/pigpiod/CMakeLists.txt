@@ -11,6 +11,8 @@ list(APPEND srcs gpoutput.cpp)
 list(APPEND srcs gpioprovider.cpp)
 list(APPEND srcs gpoutputprovider.cpp)
 
+list(APPEND srcs pihardwaremanager.cpp)
+
 target_sources( lineside PRIVATE ${srcs} )
 
 if( pigpio_FOUND )
