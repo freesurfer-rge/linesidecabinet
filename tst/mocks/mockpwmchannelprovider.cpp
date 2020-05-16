@@ -4,8 +4,8 @@
 
 #include "mockpwmchannelprovider.hpp"
 
-std::weak_ptr<Lineside::PWMChannel> MockPWMChannelProvider::GetHardware(const std::string& hardwareId,
-							    const std::map<std::string,std::string>& settings) {
+std::shared_ptr<Lineside::PWMChannel> MockPWMChannelProvider::GetHardware(const std::string& hardwareId,
+									  const std::map<std::string,std::string>& settings) {
   if( settings.size() != 0 ) {
     std::stringstream msg;
     msg << "MockPWMChannel request for "

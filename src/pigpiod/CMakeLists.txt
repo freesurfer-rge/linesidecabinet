@@ -4,7 +4,14 @@ if( NOT pigpio_FOUND )
   list(APPEND srcs pigpiodstubs.cpp)
 endif()
 
-list(APPEND srcs librarymanager.cpp)
+list(APPEND srcs pimanager.cpp)
+list(APPEND srcs gpiopin.cpp)
+
+list(APPEND srcs gpoutput.cpp)
+list(APPEND srcs gpioprovider.cpp)
+list(APPEND srcs gpoutputprovider.cpp)
+
+list(APPEND srcs pihardwaremanager.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
 

@@ -2,8 +2,8 @@
 
 #include "mockbipprovider.hpp"
 
-std::weak_ptr<Lineside::BinaryInputPin> MockBIPProvider::GetHardware(const std::string& hardwareId,
-								     const std::map<std::string,std::string>& settings) {
+std::shared_ptr<Lineside::BinaryInputPin> MockBIPProvider::GetHardware(const std::string& hardwareId,
+								       const std::map<std::string,std::string>& settings) {
   if( settings.size() != 0 ) {
     std::stringstream msg;
     msg << "MockBIP request for "

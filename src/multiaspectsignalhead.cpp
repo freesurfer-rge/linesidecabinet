@@ -5,8 +5,7 @@
 namespace Lineside {
   void MultiAspectSignalHead::OnActivate() {
     this->turnAllOff();
-    LOCK_OR_THROW( r, this->red );
-    r->Set(true);
+    this->red->Set(true);
   }
 
   void MultiAspectSignalHead::OnDeactivate() {
@@ -43,14 +42,14 @@ namespace Lineside {
 
     // Checks on the aspects
     if( wantedState == SignalState::Yellow ) {
-      if( this->yellow1.expired() ) {
+      if( !this->yellow1 ) {
 	auto stateString = this->buildStateString(wantedState, wantedFlash, wantedFeather);
 	throw InvalidStateException(this->getId(), stateString);
       }
     }
 
     if( wantedState == SignalState::DoubleYellow ) {
-      if( this->yellow2.expired() ) {
+      if( !this->yellow2 ) {
 	auto stateString = this->buildStateString(wantedState, wantedFlash, wantedFeather);
 	throw InvalidStateException(this->getId(), stateString);
       }
@@ -81,25 +80,20 @@ namespace Lineside {
   
   void MultiAspectSignalHead::turnAllOff() {
     // Always have Red and Green aspects
-    LOCK_OR_THROW( g, this->green );
-    g->Set(false);
-    LOCK_OR_THROW( r, this->red );
-    r->Set(false);
+    this->green->Set(false);
+    this->red->Set(false);
     
     // Check for Yellows
-    if( !this->yellow1.expired() ) {
-      LOCK_OR_THROW( y1, this->yellow1 );
-      y1->Set(false);
+    if( this->yellow1 ) {
+      this->yellow1->Set(false);
     }
-    if( !this->yellow2.expired() ) {
-      LOCK_OR_THROW( y2, this->yellow2 );
-      y2->Set(false);
+    if( this->yellow2 ) {
+      this->yellow2->Set(false);
     }
     
     // Check for feathers
     for( auto it=this->feathers.begin(); it!=this->feathers.end(); ++it ) {
-      LOCK_OR_THROW( f, (*it) );
-      f->Set(false);
+      (*it)->Set(false);
     }
   }
 
@@ -110,22 +104,17 @@ namespace Lineside {
     const bool nextOnOff = isSteady || this->lastFlashStatus;
     
     if( this->desiredState == SignalState::Red ) {
-      LOCK_OR_THROW( r, this->red );
-      r->Set(nextOnOff);
+      this->red->Set(nextOnOff);
     }
     if( this->desiredState == SignalState::Yellow ) {
-      LOCK_OR_THROW( y1, this->yellow1 );
-      y1->Set(nextOnOff);
+      this->yellow1->Set(nextOnOff);
     }
     if( this->desiredState == SignalState::DoubleYellow ) {
-      LOCK_OR_THROW( y1, this->yellow1 );
-      y1->Set(nextOnOff);
-      LOCK_OR_THROW( y2, this->yellow2 );
-      y2->Set(nextOnOff);
+      this->yellow1->Set(nextOnOff);
+      this->yellow2->Set(nextOnOff);
     }
     if( this->desiredState == SignalState::Green ) {
-      LOCK_OR_THROW( g, this->green );
-      g->Set(nextOnOff);
+      this->green->Set(nextOnOff);
     }
 
     this->lastFlashStatus = !this->lastFlashStatus;
@@ -135,8 +124,7 @@ namespace Lineside {
     // Assumes that turnAllOff() called previously, and that
     // SetState has prevented desiredFeather being invalid
     if( this->desiredFeather > 0 ) {
-      LOCK_OR_THROW( f, this->feathers.at(this->desiredFeather-1) );
-      f->Set(true);
+      this->feathers.at(this->desiredFeather-1)->Set(true);
     }
   }
 }

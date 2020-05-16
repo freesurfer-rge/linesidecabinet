@@ -48,12 +48,12 @@ namespace Lineside {
 
     bool lastFlashStatus;
     
-    std::weak_ptr<BinaryOutputPin> red;
-    std::weak_ptr<BinaryOutputPin> yellow1;
-    std::weak_ptr<BinaryOutputPin> yellow2;
-    std::weak_ptr<BinaryOutputPin> green;
+    std::shared_ptr<BinaryOutputPin> red;
+    std::shared_ptr<BinaryOutputPin> yellow1;
+    std::shared_ptr<BinaryOutputPin> yellow2;
+    std::shared_ptr<BinaryOutputPin> green;
     
-    std::vector<std::weak_ptr<BinaryOutputPin>> feathers;
+    std::vector<std::shared_ptr<BinaryOutputPin>> feathers;
 
     MultiAspectSignalHead(const ItemId signalHeadId) :
       PWItemModel(signalHeadId),

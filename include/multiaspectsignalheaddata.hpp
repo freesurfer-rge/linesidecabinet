@@ -25,8 +25,8 @@ namespace Lineside {
 						    std::shared_ptr<SoftwareManager> sw ) const override;
 
   private:
-    std::weak_ptr<BinaryOutputPin> FetchBOP( std::shared_ptr<HardwareManager> hw,
-					     const DeviceRequestData& drd ) const;
+    std::shared_ptr<BinaryOutputPin> FetchBOP( std::shared_ptr<HardwareManager> hw,
+					       const DeviceRequestData& drd ) const;
     
     void PopulateAspects( std::shared_ptr<HardwareManager> hw,
 			  std::shared_ptr<MultiAspectSignalHead> target ) const;

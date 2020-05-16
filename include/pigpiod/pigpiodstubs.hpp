@@ -1,6 +1,7 @@
 /** \file
  * Stubs for use on a machine without PiGPIOd
  */
+#pragma once
 
 #include <iostream>
 
@@ -11,14 +12,29 @@ extern std::ostream* pigpiodOS;
 #error "The real pigpiod library is available. Do not use stubs"
 #endif
 
+#define PI_INPUT  0
+#define PI_OUTPUT 1
+
+#define PI_BAD_GPIO -3
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
   int pigpio_start(char *addrStr, char *portStr);
 
   void pigpio_stop(int pi);
 
+  // ===================================================
+  
+  int set_mode(int pi, unsigned gpio, unsigned mode);
+
+  int gpio_read(int pi, unsigned gpio);
+  
+  int gpio_write(int pi, unsigned gpio, unsigned level);
+
+  // ===================================================
+  
+  char *pigpio_error(int errnum);
 #ifdef __cplusplus
 }
 #endif

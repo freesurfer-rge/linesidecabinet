@@ -1,8 +1,12 @@
+#pragma once
+
 #include <memory>
 #include <mutex>
 
 namespace Lineside {
   namespace PiGPIOd {
+    class GPIOPin;
+    
     //! Class to wrap the <a href="http://abyz.me.uk/rpi/pigpio/pigpiod.html">pigpiod library</a>
     /*!
       This class is used to manage the calls to
@@ -13,8 +17,8 @@ namespace Lineside {
       <a href="http://abyz.me.uk/rpi/pigpio/pigpiod.html">pigpiod library</a>.
       
       A program wishing to access the pigpiod library should call the static method
-      LibraryManager::CreateLibraryManager
-      which returns a std::shared_ptr to an instance of a LibraryManager object.
+      PiManager::CreatePiManager
+      which returns a std::shared_ptr to an instance of a PiManager object.
       Copies of this std::shared_ptr can be given to other objects which want to interact
       with the Raspberry Pi.
       So long as at least one of these std::shared_ptr objects continues to exist, the
@@ -31,20 +35,28 @@ namespace Lineside {
       once (and that there isn't a race condition which can result in an
       attempted resurrection once the reference count gets to zero).
      */
-    class LibraryManager {
+    class PiManager : public std::enable_shared_from_this<PiManager> {
     public:
-      ~LibraryManager();
+      ~PiManager();
 
-      //! Create an instance of LibraryManager
+      //! Get the identifier for the controlled Pi
+      int getId() const {
+	return this->id;
+      }
+
+      //! Get a GPIOPin for this Pi
+      std::shared_ptr<GPIOPin> GetGPIOPin(const unsigned int pinId);
+      
+      //! Create an instance of PiManager
       /*!
-	This creates an instance of a LibraryManager object in a std::shared_ptr and
+	This creates an instance of a PiManager object in a std::shared_ptr and
 	returns it.
 	If the library has already been initialised, this will throw a std::logic_error
 	exception.
        */
-      static std::shared_ptr<LibraryManager> CreateLibraryManager();
+      static std::shared_ptr<PiManager> CreatePiManager();
     private:
-      LibraryManager();
+      PiManager();
 
       //! The id of the Pi we are accessing (for use in other calls to the pigpiod library)
       int id;
