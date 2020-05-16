@@ -11,6 +11,7 @@ namespace Lineside {
       if( data.settings.size() != 0 ) {
 	throw std::logic_error("Settings not supported for PiHardwareManager");
       }
+      this->gpioProvider = std::make_shared<GPIOProvider>(this->piManager);
     }
   }
 }
