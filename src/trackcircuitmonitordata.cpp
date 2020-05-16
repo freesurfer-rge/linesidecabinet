@@ -4,8 +4,9 @@
 #include "utility.hpp"
 
 namespace Lineside {
-  std::shared_ptr<PWItemModel> TrackCircuitMonitorData::Construct( std::shared_ptr<HardwareManager> hw,
-								   std::shared_ptr<SoftwareManager> sw ) const {
+  std::shared_ptr<PWItemModel>
+  TrackCircuitMonitorData::Construct( std::shared_ptr<HardwareManager> hw,
+				      std::shared_ptr<SoftwareManager> sw ) const {
     if( !hw ) {
       throw std::logic_error("Bad hw ptr");
     }
@@ -13,8 +14,7 @@ namespace Lineside {
       throw std::logic_error("Bad sw ptr");
     }
 
-    LOCK_OR_THROW( bipProvider,
-		   hw->bipProviderRegistrar.Retrieve( this->inputPinRequest.controller ) );
+    auto bipProvider = hw->bipProviderRegistrar.Retrieve(this->inputPinRequest.controller);
     auto bip = bipProvider->GetHardware( this->inputPinRequest.controllerData,
 					 this->inputPinRequest.settings );
 

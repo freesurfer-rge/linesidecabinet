@@ -19,8 +19,7 @@ namespace Lineside {
       throw std::logic_error("Bad sw ptr");
     }
 
-    LOCK_OR_THROW( pwmChannelProvider,
-		   hw->pwmcProviderRegistrar.Retrieve(this->pwmChannelRequest.controller) );
+    auto pwmChannelProvider = hw->pwmcProviderRegistrar.Retrieve(this->pwmChannelRequest.controller);
     std::shared_ptr<PWMChannel> servo;
     servo = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
 					    this->pwmChannelRequest.settings);

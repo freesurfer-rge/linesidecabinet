@@ -73,8 +73,7 @@ namespace Lineside {
   std::shared_ptr<BinaryOutputPin>
   MultiAspectSignalHeadData::FetchBOP( std::shared_ptr<HardwareManager> hw,
 				       const DeviceRequestData& drd ) const {
-    LOCK_OR_THROW( bopProvider,
-		   hw->bopProviderRegistrar.Retrieve(drd.controller) );
+    auto bopProvider = hw->bopProviderRegistrar.Retrieve(drd.controller);
     return bopProvider->GetHardware( drd.controllerData, drd.settings );
   }
   
