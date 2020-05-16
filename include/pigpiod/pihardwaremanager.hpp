@@ -11,12 +11,13 @@ namespace Lineside {
   namespace PiGPIOd {
     class PiHardwareManager : public HardwareManager {
     public:
+      const std::string GPIO = "GPIO";
+      
       PiHardwareManager(const HardwareManagerData& data);
       
     private:
       std::shared_ptr<PiManager> piManager;
       std::shared_ptr<GPIOProvider> gpioProvider;
-      std::shared_ptr<GPOutputProvider> gpOutputProvider;
     };
   }
 }

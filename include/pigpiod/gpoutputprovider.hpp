@@ -8,7 +8,7 @@
 
 namespace Lineside {
   namespace PiGPIOd {
-    class GPOutputProvider : HardwareProvider<BinaryOutputPin> {
+    class GPOutputProvider : public HardwareProvider<BinaryOutputPin> {
     public:
       GPOutputProvider(std::shared_ptr<GPIOProvider> provider);
 
