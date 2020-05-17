@@ -1,14 +1,5 @@
 set(srcs test.cpp)
 
-list(APPEND srcs mocks/mockbip.cpp)
-list(APPEND srcs mocks/mockpwmchannel.cpp)
-list(APPEND srcs mocks/mockpwmchannelprovider.cpp)
-list(APPEND srcs mocks/mockbopprovider.cpp)
-list(APPEND srcs mocks/mockbipprovider.cpp)
-list(APPEND srcs mocks/mockhardwaremanager.cpp)
-list(APPEND srcs mocks/mockrtcclient.cpp)
-list(APPEND srcs mocks/mocksoftwaremanager.cpp)
-
 list(APPEND srcs mockbiptests.cpp)
 list(APPEND srcs mockpwmchanneltests.cpp)
 list(APPEND srcs mockpwmchannelprovidertests.cpp)
@@ -58,5 +49,8 @@ target_include_directories(LinesideTest
 target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
 
 add_test(NAME AllTests COMMAND LinesideTest)
+
+add_subdirectory(mocks)
+
 
 add_subdirectory(xmlsamples)

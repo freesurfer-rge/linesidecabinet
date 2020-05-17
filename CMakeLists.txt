@@ -16,7 +16,6 @@ find_package(Doxygen)
 find_package(XercesC REQUIRED)
 
 find_package(pigpio)
-
 # --------
 
 # Configure the language standard
@@ -26,7 +25,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Handle pigpiod
 if( pigpio_FOUND )
-  add_compile_options("-DHAVE_PIGPIO")
+  add_compile_definitions("HAVE_PIGPIO")
 endif()
 
 # Warning options for the compiler
