@@ -12,3 +12,5 @@ target_include_directories(Signals
 # automatically include the corresponding headers in
 # the compile commands
 target_link_libraries(Signals lineside ${Boost_LIBRARIES})
+
+configure_file(single-signal.xml . COPYONLY)
