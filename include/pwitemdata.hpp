@@ -17,16 +17,13 @@ namespace Lineside {
 
     virtual ~PWItemData() {}
 
+    //! Method to construct a permanent way item
     virtual
     std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
 					   SoftwareManager& sw) const = 0;
 
   protected:
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-    void UnusedSoftwareManager(const SoftwareManager& sw) const {
-      // Do nothing
-    }
-#pragma clang diagnostic pop
+    //! Method for suppressing compiler warnings about unused SoftwareManager parameters
+    void UnusedSoftwareManager(const SoftwareManager& sw) const;
   };
 }
