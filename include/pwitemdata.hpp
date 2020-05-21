@@ -17,7 +17,16 @@ namespace Lineside {
 
     virtual ~PWItemData() {}
 
-    virtual std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw,
-						    std::shared_ptr<SoftwareManager> sw ) const = 0;
+    virtual
+    std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
+					   SoftwareManager& sw) const = 0;
+
+  protected:
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+    void UnusedSoftwareManager(const SoftwareManager& sw) const {
+      // Do nothing
+    }
+#pragma clang diagnostic pop
   };
 }

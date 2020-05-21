@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(Construct)
   stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
-  auto pwItem = stmd.Construct(this->hwManager, this->swManager);
+  auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
   BOOST_CHECK_EQUAL( pwItem->getId(), id );
   auto stm = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>(pwItem);
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
   stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
-  auto pwItem = stmd.Construct(this->hwManager, this->swManager);
+  auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
   BOOST_CHECK_EQUAL( pwItem->getId(), id );
   auto stm = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>(pwItem);
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
-  auto pwItem = stmd.Construct(this->hwManager, this->swManager);
+  auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   pwItem->RegisterController(notifySrcId, nt);
   BOOST_REQUIRE( pwItem );
   BOOST_CHECK_EQUAL( pwItem->getId(), id );
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
-  auto pwItem = stmd.Construct(this->hwManager, this->swManager);
+  auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   pwItem->RegisterController(notifySrcId, nt);
   BOOST_REQUIRE( pwItem );
   BOOST_CHECK_EQUAL( pwItem->getId(), id );

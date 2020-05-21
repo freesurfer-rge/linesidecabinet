@@ -13,7 +13,7 @@ namespace Lineside {
 
     DeviceRequestData inputPinRequest;
 
-    virtual std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw,
-						    std::shared_ptr<SoftwareManager> sw ) const override;
+    virtual std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
+						   SoftwareManager& sw ) const override;
   };
 }

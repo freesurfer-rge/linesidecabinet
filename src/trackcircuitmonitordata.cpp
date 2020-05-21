@@ -5,16 +5,9 @@
 
 namespace Lineside {
   std::shared_ptr<PWItemModel>
-  TrackCircuitMonitorData::Construct( std::shared_ptr<HardwareManager> hw,
-				      std::shared_ptr<SoftwareManager> sw ) const {
-    if( !hw ) {
-      throw std::logic_error("Bad hw ptr");
-    }
-    if( !sw ) {
-      throw std::logic_error("Bad sw ptr");
-    }
-
-    auto bipProvider = hw->bipProviderRegistrar.Retrieve(this->inputPinRequest.controller);
+  TrackCircuitMonitorData::Construct(HardwareManager& hw,
+				     SoftwareManager& sw) const {
+    auto bipProvider = hw.bipProviderRegistrar.Retrieve(this->inputPinRequest.controller);
     auto bip = bipProvider->GetHardware( this->inputPinRequest.controllerData,
 					 this->inputPinRequest.settings );
 
@@ -31,7 +24,7 @@ namespace Lineside {
     result->monitorPin = bip;
 
     // Get RTC client
-    result->rtc = sw->GetRTCClient();
+    result->rtc = sw.GetRTCClient();
 
     return result;
   }
