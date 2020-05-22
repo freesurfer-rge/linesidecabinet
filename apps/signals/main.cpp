@@ -9,6 +9,7 @@
 
 #include "cmdlineopts.hpp"
 #include "stubsoftwaremanager.hpp"
+#include "runonconsole.hpp"
 
 void CheckPWItems(const std::vector<std::shared_ptr<Lineside::PWItemData>>& pwItems) {
   for( auto it=pwItems.begin(); it!=pwItems.end(); ++it ) {
@@ -38,6 +39,7 @@ int main(int argc, char* argv[]) {
 
     pwItemManager.CreatePWItems(config.pwItems);
     
+    RunOnConsole(pwItemManager);
   }
   catch(std::exception& e) {
     std::cerr << "Error: " << e.what() << std::endl;

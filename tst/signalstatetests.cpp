@@ -30,5 +30,9 @@ BOOST_DATA_TEST_CASE( StreamInsertion, nameToStateZip, name, state )
   BOOST_CHECK_EQUAL( res.str(), name );
 }
 
+BOOST_DATA_TEST_CASE( Parse, nameToStateZip, name, state )
+{
+  BOOST_CHECK_EQUAL( state, Lineside::Parse<Lineside::SignalState>(name) );
+}
 
 BOOST_AUTO_TEST_SUITE_END()

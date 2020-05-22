@@ -36,4 +36,24 @@ namespace Lineside {
 
     return res;
   }
+  
+  template<>
+  SignalFlash Parse<SignalFlash>(const std::string& src) {
+    if( convertor.empty() ) {
+      initconvertor();
+    }
+
+    try {
+      SignalFlash sf;
+      sf = convertor.right.at(src);
+      return sf;
+    }
+    catch( std::out_of_range& e ) {
+      std::stringstream msg;
+      msg << "Could not parse '";
+      msg << src;
+      msg << "' to SignalState";
+      throw std::invalid_argument(msg.str());
+    }
+  }
 }

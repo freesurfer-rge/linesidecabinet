@@ -15,15 +15,17 @@ namespace Lineside {
   std::chrono::milliseconds MultiAspectSignalHead::OnRun() {
     std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
 
-    this->turnAllOff();
-
-    this->setStateFromDesired();
-
-    this->setFeatherFromDesired();
-
-    this->currentState = this->desiredState;
-    this->currentFlash = this->desiredFlash;
-    this->currentFeather = this->desiredFeather;
+    if( this->HaveStateChange() || (this->currentFlash == SignalFlash::Flashing)) {
+	this->turnAllOff();
+	
+	this->setStateFromDesired();
+	
+	this->setFeatherFromDesired();
+	
+	this->currentState = this->desiredState;
+	this->currentFlash = this->desiredFlash;
+	this->currentFeather = this->desiredFeather;
+      }
     return MultiAspectSignalHead::FlashInterval;
   }
 
