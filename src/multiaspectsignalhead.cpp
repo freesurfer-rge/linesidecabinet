@@ -41,7 +41,7 @@ namespace Lineside {
 				       const SignalFlash wantedFlash,
 				       const unsigned int wantedFeather ) {
     std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
-
+    
     // Checks on the aspects
     if( wantedState == SignalState::Yellow ) {
       if( !this->yellow1 ) {
