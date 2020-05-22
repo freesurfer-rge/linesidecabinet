@@ -16,13 +16,13 @@
 	<BinaryOutput controller="GPIO" controllerData="03" />
       </Aspect>
       <Aspect name="Yellow1">
-	<BinaryOutput controller="GPIO1" controllerData="04" />
+	<BinaryOutput controller="GPIO" controllerData="04" />
       </Aspect>
       <Aspect name="Green">
-	<BinaryOutput controller="GPIO3" controllerData="06" />
+	<BinaryOutput controller="GPIO" controllerData="06" />
       </Aspect>
       <Feather route="1">
-	<BinaryOutput controller="GPIO2" controllerData="08" />
+	<BinaryOutput controller="GPIO" controllerData="08" />
       </Feather>
     </MultiAspectSignalHead>
   </PermanentWayItems>
