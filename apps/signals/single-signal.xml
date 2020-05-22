@@ -16,7 +16,7 @@
 	<BinaryOutput controller="GPIO" controllerData="19" />
       </Aspect>
       <Aspect name="Yellow1">
-	<BinaryOutput controller="GPIO" controllerData="13" />
+	<BinaryOutput controller="GPIO" controllerData="26" />
       </Aspect>
       <Aspect name="Green">
 	<BinaryOutput controller="GPIO" controllerData="06" />
