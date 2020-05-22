@@ -27,5 +27,9 @@ BOOST_DATA_TEST_CASE( StreamInsertion, nameToFlashZip, name, flash )
   BOOST_CHECK_EQUAL( res.str(), name );
 }
 
+BOOST_DATA_TEST_CASE( Parse, nameToFlashZip, name, flash )
+{
+  BOOST_CHECK_EQUAL( flash, Lineside::Parse<Lineside::SignalFlash>(name) );
+}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -17,7 +17,13 @@ namespace Lineside {
 
     virtual ~PWItemData() {}
 
-    virtual std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw,
-						    std::shared_ptr<SoftwareManager> sw ) const = 0;
+    //! Method to construct a permanent way item
+    virtual
+    std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
+					   SoftwareManager& sw) const = 0;
+
+  protected:
+    //! Method for suppressing compiler warnings about unused SoftwareManager parameters
+    void UnusedSoftwareManager(const SoftwareManager& sw) const;
   };
 }

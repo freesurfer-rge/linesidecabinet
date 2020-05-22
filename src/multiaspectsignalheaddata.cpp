@@ -45,15 +45,11 @@ namespace Lineside {
   }
 
   std::shared_ptr<PWItemModel>
-  MultiAspectSignalHeadData::Construct( std::shared_ptr<HardwareManager> hw,
-					std::shared_ptr<SoftwareManager> sw ) const {
-    if( !hw ) {
-      throw std::logic_error("Bad hw ptr");
-    }
-    if( !sw ) {
-      throw std::logic_error("Bad sw ptr");
-    }
-
+  MultiAspectSignalHeadData::Construct(HardwareManager& hw,
+				       SoftwareManager& sw ) const {
+    // Work around unused parameter warning
+    this->UnusedSoftwareManager(sw);
+    
     this->CheckData();
 
     // Work around private constructor of the MultiAspectSignalHead
@@ -71,15 +67,15 @@ namespace Lineside {
   }
 
   std::shared_ptr<BinaryOutputPin>
-  MultiAspectSignalHeadData::FetchBOP( std::shared_ptr<HardwareManager> hw,
-				       const DeviceRequestData& drd ) const {
-    auto bopProvider = hw->bopProviderRegistrar.Retrieve(drd.controller);
+  MultiAspectSignalHeadData::FetchBOP(HardwareManager& hw,
+				      const DeviceRequestData& drd ) const {
+    auto bopProvider = hw.bopProviderRegistrar.Retrieve(drd.controller);
     return bopProvider->GetHardware( drd.controllerData, drd.settings );
   }
   
   void
-  MultiAspectSignalHeadData::PopulateAspects( std::shared_ptr<HardwareManager> hw,
-					      std::shared_ptr<MultiAspectSignalHead> target ) const {
+  MultiAspectSignalHeadData::PopulateAspects(HardwareManager& hw,
+					     std::shared_ptr<MultiAspectSignalHead> target ) const {
     // Calling from private method, so can assume CheckData() has been called
     
     // Must have red and green aspects
@@ -96,8 +92,8 @@ namespace Lineside {
   }
 
   void
-  MultiAspectSignalHeadData::PopulateFeathers( std::shared_ptr<HardwareManager> hw,
-					       std::shared_ptr<MultiAspectSignalHead> target ) const {
+  MultiAspectSignalHeadData::PopulateFeathers(HardwareManager& hw,
+					      std::shared_ptr<MultiAspectSignalHead> target ) const {
     // Calling from private method, so assume CheckData() has been called
     
     // The map is nicely sorted by the keys (which are unsigned ints)

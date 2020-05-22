@@ -16,7 +16,7 @@ namespace Lineside {
       if( this->pwItems.count( currId ) != 0 ) {
 	throw DuplicateKeyException(currId.ToString());
       }
-      auto pwItemModel = (*it)->Construct( this->hwManager, this->swManager );
+      auto pwItemModel = (*it)->Construct( *(this->hwManager), *(this->swManager) );
 
       auto pwItemController = PWItemController::Construct( pwItemModel );
 

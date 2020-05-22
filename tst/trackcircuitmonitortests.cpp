@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(Construct)
   tcmd.inputPinRequest.controller = controller;
   tcmd.inputPinRequest.controllerData = controllerData;
 
-  auto pwItem = tcmd.Construct(this->hwManager, this->swManager);
+  auto pwItem = tcmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
   BOOST_CHECK_EQUAL( pwItem->getId(), id );
   auto tcm = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitor>(pwItem);
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupied)
   tcmd.inputPinRequest.controller = controller;
   tcmd.inputPinRequest.controllerData = controllerData;
 
-  auto pwItem = tcmd.Construct(this->hwManager, this->swManager);
+  auto pwItem = tcmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
   BOOST_CHECK_EQUAL( pwItem->getId(), id );
   auto tcm = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitor>(pwItem);
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
   tcmd.inputPinRequest.controller = controller;
   tcmd.inputPinRequest.controllerData = controllerData;
 
-  auto pwItem = tcmd.Construct(this->hwManager, this->swManager);
+  auto pwItem = tcmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
   BOOST_CHECK_EQUAL( pwItem->getId(), id );
   auto tcm = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitor>(pwItem);

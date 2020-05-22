@@ -59,6 +59,7 @@ add_link_options("${_profile_opts}")
 
 add_subdirectory( src )
 add_subdirectory( tst )
+add_subdirectory( apps )
 
 # --------
 

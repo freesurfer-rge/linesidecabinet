@@ -21,17 +21,17 @@ namespace Lineside {
     //! Perform some basic sanity checks
     void CheckData() const;
     
-    virtual std::shared_ptr<PWItemModel> Construct( std::shared_ptr<HardwareManager> hw,
-						    std::shared_ptr<SoftwareManager> sw ) const override;
+    virtual std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
+						   SoftwareManager& sw ) const override;
 
   private:
-    std::shared_ptr<BinaryOutputPin> FetchBOP( std::shared_ptr<HardwareManager> hw,
-					       const DeviceRequestData& drd ) const;
+    std::shared_ptr<BinaryOutputPin> FetchBOP(HardwareManager& hw,
+					      const DeviceRequestData& drd ) const;
     
-    void PopulateAspects( std::shared_ptr<HardwareManager> hw,
-			  std::shared_ptr<MultiAspectSignalHead> target ) const;
+    void PopulateAspects(HardwareManager& hw,
+			 std::shared_ptr<MultiAspectSignalHead> target ) const;
 
-    void PopulateFeathers( std::shared_ptr<HardwareManager> hw,
-			   std::shared_ptr<MultiAspectSignalHead> target) const;
+    void PopulateFeathers(HardwareManager& hw,
+			  std::shared_ptr<MultiAspectSignalHead> target) const;
   };
 }
