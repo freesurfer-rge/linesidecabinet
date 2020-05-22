@@ -1,11 +1,14 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "pigpiod/pihardwaremanager.hpp"
 #include "xml/configurationreader.hpp"
 #include "multiaspectsignalheaddata.hpp"
 
-#include "cmdlineopts.hpp"
+#include "pwitemmanager.hpp"
 
+#include "cmdlineopts.hpp"
+#include "stubsoftwaremanager.hpp"
 
 void CheckPWItems(const std::vector<std::shared_ptr<Lineside::PWItemData>>& pwItems) {
   for( auto it=pwItems.begin(); it!=pwItems.end(); ++it ) {
@@ -29,6 +32,12 @@ int main(int argc, char* argv[]) {
     auto config = cr.Read(opts.configFilePath);
     CheckPWItems(config.pwItems);
 
+    auto hw = std::make_shared<Lineside::PiGPIOd::PiHardwareManager>(config.hwManager);
+    auto sw = std::make_shared<StubSoftwareManager>();
+    Lineside::PWItemManager pwItemManager( hw, sw );
+
+    pwItemManager.CreatePWItems(config.pwItems);
+    
   }
   catch(std::exception& e) {
     std::cerr << "Error: " << e.what() << std::endl;

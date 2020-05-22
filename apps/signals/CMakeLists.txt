@@ -2,6 +2,7 @@ set(srcs)
 
 list(APPEND srcs main.cpp)
 list(APPEND srcs cmdlineopts.cpp)
+list(APPEND srcs stubsoftwaremanager.cpp)
 
 add_executable(Signals ${srcs})
 
