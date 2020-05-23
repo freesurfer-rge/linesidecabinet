@@ -9,7 +9,7 @@ void StubRTCClient::SendTrackCircuitNotification(const Lineside::ItemId trackCir
 	    << occupied << std::endl;
 }
 
-std::weak_ptr<Lineside::RTCClient> StubSoftwareManager::GetRTCClient() {
+std::shared_ptr<Lineside::RTCClient> StubSoftwareManager::GetRTCClient() {
   auto result = std::make_shared<StubRTCClient>();
 
   this->rtcClientList.push_back(result);

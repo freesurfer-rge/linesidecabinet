@@ -43,6 +43,6 @@ namespace Lineside {
     std::mutex updateMtx;
     std::atomic<bool> lastNotificationState;
     std::shared_ptr<BinaryInputPin> monitorPin;
-    std::weak_ptr<RTCClient> rtc;
+    std::shared_ptr<RTCClient> rtc;
   };
 }

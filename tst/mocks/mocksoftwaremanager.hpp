@@ -10,7 +10,7 @@ public:
     SoftwareManager(),
     rtcClientList() {}
 
-  virtual std::weak_ptr<Lineside::RTCClient> GetRTCClient() override;
+  virtual std::shared_ptr<Lineside::RTCClient> GetRTCClient() override;
   
   std::vector<std::shared_ptr<MockRTCClient>> rtcClientList;
 };
