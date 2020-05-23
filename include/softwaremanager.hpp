@@ -10,6 +10,6 @@ namespace Lineside {
   public:
     virtual ~SoftwareManager() {}
     
-    virtual std::weak_ptr<RTCClient> GetRTCClient() = 0;
+    virtual std::shared_ptr<RTCClient> GetRTCClient() = 0;
   };
 }
