@@ -29,7 +29,7 @@ namespace Lineside {
     }
   }
 
-  std::weak_ptr<PWItemModel> PWItemManager::GetPWItemModelById( const ItemId id ) const {
+  PWItemModel& PWItemManager::GetPWItemModelById( const ItemId id ) const {
     if( this->pwItems.count(id) != 1 ) {
       throw KeyNotFoundException(id.ToString());
     }
