@@ -13,8 +13,7 @@ namespace Lineside {
     std::lock_guard<std::mutex> lockState(this->updateMtx);
     const bool notifyState = this->GetState();
 
-    LOCK_OR_THROW( rtcClient, this->rtc );
-    rtcClient->SendTrackCircuitNotification( this->getId(), notifyState );
+    this->rtc->SendTrackCircuitNotification(this->getId(), notifyState);
     this->lastNotificationState = notifyState;
     
     return TrackCircuitMonitor::SleepRequest;
