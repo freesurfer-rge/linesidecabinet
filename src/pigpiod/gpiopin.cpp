@@ -29,7 +29,7 @@ namespace Lineside {
       callBackId(-1) {}
 
     GPIOPin::~GPIOPin() {
-      if( this->callBackId > 0 ) {
+      if( this->callBackId >= 0 ) {
 	auto res = callback_cancel(this->callBackId);
 	if( res != 0 ) {
 	  // Can't throw an exception from a destructor
@@ -69,7 +69,7 @@ namespace Lineside {
       }
     }
 
-    void GPIOPin::SetCallback(GPIOEdge edge, CallBackFn f) {
+    void GPIOPin::SetCallBack(GPIOEdge edge, CallBackFn f) {
       this->callBack = f;
 
       int libraryResult = callback_ex(this->pi->getId(),
@@ -80,6 +80,7 @@ namespace Lineside {
       if( libraryResult < 0 ) {
 	throw PiGPIOdException("callback_ex", libraryResult);
       }
+      this->callBackId = libraryResult;
     }
 
     void GPIOPin::InvokeCallBack(int pi, unsigned user_gpio, unsigned level, uint32_t tick) {

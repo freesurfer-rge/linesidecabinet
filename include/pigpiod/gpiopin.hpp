@@ -37,7 +37,7 @@ namespace Lineside {
       
       void Write(const bool level);
 
-      void SetCallback(GPIOEdge edge, CallBackFn f);
+      void SetCallBack(GPIOEdge edge, CallBackFn f);
 
       void SetGlitchFilter(unsigned int steadyMicroseconds);
 
