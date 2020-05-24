@@ -1,3 +1,6 @@
+#include <iostream>
+#include <sstream>
+
 #ifdef HAVE_PIGPIO
 #include <pigpiod_if2.h>
 #else
@@ -27,6 +30,7 @@ namespace Lineside {
 		     const unsigned int pinId) :
       pi(owner),
       pin(pinId),
+      callBack(),
       callBackId(-1) {}
 
     GPIOPin::~GPIOPin() {
@@ -103,7 +107,7 @@ namespace Lineside {
     }
 
     void GPIOPin::InvokeCallBack(int pi, unsigned user_gpio, unsigned level, uint32_t tick) {
-      if( (pi != this->getPi()) || (user_gpio != this->getPin()) ) {
+      if( (pi != this->getPi()) || (user_gpio != this->getPin()) || (level > 2) ) {
 	std::stringstream msg;
 	msg << __FUNCTION__
 	    << ": Got invalid args. "
@@ -114,7 +118,15 @@ namespace Lineside {
 	throw std::logic_error(msg.str());
       }
 
-      this->callBack(level);
+      // Note that we already checked for level > 2
+      if( level < 2 ) {
+	this->callBack(level);
+      } else {
+	std::clog << __FUNCTION__
+		  << pi << " "
+		  << user_gpio << " "
+		  << "Level Unchanged" << std::endl;
+      }
     }
   }
 }
