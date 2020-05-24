@@ -25,7 +25,7 @@ namespace Lineside {
 
     void CreatePWItems( const std::vector<std::shared_ptr<PWItemData>>& itemData );
 
-    std::weak_ptr<PWItemModel> GetPWItemModelById( const ItemId id ) const;
+    PWItemModel& GetPWItemModelById( const ItemId id ) const;
 
   private:
     std::shared_ptr<HardwareManager> hwManager;

@@ -97,7 +97,7 @@ namespace Lineside {
     return shouldWake;
   }
 
-  std::weak_ptr<PWItemModel> PWItemController::GetModel() const {
-    return this->model;
+  PWItemModel& PWItemController::GetModel() const {
+    return *(this->model);
   }
 }

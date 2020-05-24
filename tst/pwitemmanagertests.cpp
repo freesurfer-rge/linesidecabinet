@@ -1,4 +1,5 @@
 #include <boost/test/unit_test.hpp>
+#include <boost/predef.h>
 
 #include "multiaspectsignalheaddata.hpp"
 #include "multiaspectsignalhead.hpp"
@@ -64,12 +65,21 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
     BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
     
     // Check we can get the MASH
-    auto resWeak = im.GetPWItemModelById( id );
-    LOCK_OR_THROW( res, resWeak );
-    BOOST_REQUIRE( res );
-    BOOST_CHECK_EQUAL( res->getId(), id );
-    auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>( res );
-    BOOST_REQUIRE( resMASH );
+    Lineside::PWItemModel& res = im.GetPWItemModelById(id);
+    BOOST_CHECK_EQUAL( res.getId(), id );
+#if defined(BOOST_COMP_GNUC)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+#elif defined(BOOST_COMP_CLANG)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+#endif
+    BOOST_CHECK_NO_THROW( dynamic_cast<Lineside::MultiAspectSignalHead&>(res) );
+#if defined(BOOST_COMP_GNUC)
+#pragma GCC diagnostic pop
+#elif defined(BOOST_COMP_CLANG)
+#pragma clang diagnostic pop
+#endif
   }
 
   // After destruct, both pins should be off
@@ -106,12 +116,21 @@ BOOST_AUTO_TEST_CASE(SingleSTM)
   BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
 
   // Check we can get the STM
-  auto resWeak = im.GetPWItemModelById( id );
-  LOCK_OR_THROW( res, resWeak );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resSTM = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>( res );
-  BOOST_REQUIRE( resSTM );
+  Lineside::PWItemModel& res = im.GetPWItemModelById(id);
+  BOOST_CHECK_EQUAL( res.getId(), id );
+#if defined(BOOST_COMP_GNUC)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+#elif defined(BOOST_COMP_CLANG)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+#endif
+  BOOST_CHECK_NO_THROW( dynamic_cast<Lineside::ServoTurnoutMotor&>(res) );
+#if defined(BOOST_COMP_GNUC)
+#pragma GCC diagnostic pop
+#elif defined(BOOST_COMP_CLANG)
+#pragma clang diagnostic pop
+#endif
 }
 
 BOOST_AUTO_TEST_CASE(DuplicateId)
