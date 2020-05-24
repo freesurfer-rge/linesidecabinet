@@ -33,8 +33,8 @@ namespace Lineside {
       PiManager::initialised = false;
     }
 
-    std::shared_ptr<GPIOPin> PiManager::GetGPIOPin(const unsigned int pinId) {
-      return std::make_shared<GPIOPin>(this->shared_from_this(), pinId);
+    std::unique_ptr<GPIOPin> PiManager::GetGPIOPin(const unsigned int pinId) {
+      return std::unique_ptr<GPIOPin>(new GPIOPin(this->shared_from_this(), pinId));
     }
 
     std::shared_ptr<PiManager> PiManager::CreatePiManager() {

@@ -7,7 +7,7 @@ namespace Lineside {
       gpioProvider(provider) {}
 
     
-    std::shared_ptr<BinaryOutputPin>
+    std::unique_ptr<BinaryOutputPin>
     GPOutputProvider::GetHardware(const std::string& hardwareId,
 				  const std::map<std::string,std::string>& settings) {
       if( settings.size() != 0 ) {

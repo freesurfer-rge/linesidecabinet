@@ -12,7 +12,7 @@ namespace Lineside {
     public:
       GPOutputProvider(std::shared_ptr<GPIOProvider> provider);
 
-      virtual std::shared_ptr<BinaryOutputPin>
+      virtual std::unique_ptr<BinaryOutputPin>
       GetHardware(const std::string& hardwareId,
 		  const std::map<std::string,std::string>& settings) override;
     private:
