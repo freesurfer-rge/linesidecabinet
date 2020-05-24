@@ -5,6 +5,7 @@
 #include "pimanager.hpp"
 
 #include "gpiomode.hpp"
+#include "gpioedge.hpp"
 
 namespace Lineside {
   namespace PiGPIOd {
@@ -15,6 +16,8 @@ namespace Lineside {
       
       GPIOPin(const std::shared_ptr<PiManager> owner,
 	      const unsigned int pinId);
+
+      ~GPIOPin();
 
       int getPi() const {
 	return this->pi->getId();
@@ -29,10 +32,14 @@ namespace Lineside {
       bool Read() const;
       
       void Write(const bool level);
+
+      int SetCallback(GPIOEdge edge, CallBackFn f);
       
     private:
       std::shared_ptr<PiManager> pi;
       const unsigned int pin;
+
+      int callBackId;
     };
   }
 }

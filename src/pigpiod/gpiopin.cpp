@@ -15,7 +15,21 @@ namespace Lineside {
     GPIOPin::GPIOPin(const std::shared_ptr<PiManager> owner,
 		     const unsigned int pinId) :
       pi(owner),
-      pin(pinId) {}
+      pin(pinId),
+      callBackId(-1) {}
+
+    GPIOPin::~GPIOPin() {
+      if( this->callBackId > 0 ) {
+	auto res = callback_cancel(this->callBackId);
+	if( res != 0 ) {
+	  // Can't throw an exception from a destructor
+	  std::clog << __FUNCTION__
+		    << ": callback_cancel failed to find "
+		    << this->callBackId
+		    << std::endl;
+	}
+      }
+    }
 
     void GPIOPin::SetMode(GPIOMode mode) {
       int libraryResult = set_mode(this->pi->getId(),
