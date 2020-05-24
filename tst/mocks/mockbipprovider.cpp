@@ -2,8 +2,9 @@
 
 #include "mockbipprovider.hpp"
 
-std::shared_ptr<Lineside::BinaryInputPin> MockBIPProvider::GetHardware(const std::string& hardwareId,
-								       const std::map<std::string,std::string>& settings) {
+std::unique_ptr<Lineside::BinaryInputPin>
+MockBIPProvider::GetHardware(const std::string& hardwareId,
+			     const std::map<std::string,std::string>& settings) {
   if( settings.size() != 0 ) {
     std::stringstream msg;
     msg << "MockBIP request for "
@@ -16,7 +17,7 @@ std::shared_ptr<Lineside::BinaryInputPin> MockBIPProvider::GetHardware(const std
     throw Lineside::DuplicateKeyException(hardwareId);
   }
 
-  auto result = std::make_shared<MockBIP>();
-  this->pins[hardwareId] = result;
+  auto result = std::unique_ptr<MockBIP>(new MockBIP());
+  this->pins[hardwareId] = result.get();
   return result;
 }

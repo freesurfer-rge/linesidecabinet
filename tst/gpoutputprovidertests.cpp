@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE( GetPin )
   // Should start with pin in off state
   BOOST_CHECK_EQUAL( bop->Get(), false );
 
-  auto gpbop = std::dynamic_pointer_cast<Lineside::PiGPIOd::GPOutput>(bop);
+  auto gpbop = dynamic_cast<Lineside::PiGPIOd::GPOutput*>(bop.get());
   BOOST_REQUIRE(gpbop);
 }
 

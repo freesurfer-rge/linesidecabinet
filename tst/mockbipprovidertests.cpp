@@ -15,11 +15,11 @@ BOOST_AUTO_TEST_CASE(ConstructOne)
   const std::string channelId = "01";
   const std::map<std::string,std::string> settings;
 
-  auto sbop = mbb.GetHardware(channelId, settings);
+  auto bop = mbb.GetHardware(channelId, settings);
   BOOST_CHECK_EQUAL( mbb.pins.size(), 1 );
-  auto sharedFromProvider = mbb.pins.at(channelId);
+  auto fromProvider = mbb.pins.at(channelId);
 
-  BOOST_CHECK_EQUAL( sbop.get(), sharedFromProvider.get() );
+  BOOST_CHECK_EQUAL( bop.get(), fromProvider );
 }
 
 BOOST_AUTO_TEST_CASE(ConstructTwo)
@@ -31,11 +31,11 @@ BOOST_AUTO_TEST_CASE(ConstructTwo)
   const std::string ch02 = "012";
   const std::map<std::string,std::string> settings;
 
-  auto sbop1 = mbb.GetHardware(ch01, settings);
-  auto sbop2 = mbb.GetHardware(ch02, settings);
+  auto bop1 = mbb.GetHardware(ch01, settings);
+  auto bop2 = mbb.GetHardware(ch02, settings);
 
   BOOST_CHECK_EQUAL( mbb.pins.size(), 2 );
-  BOOST_CHECK_NE( sbop1.get(), sbop2.get() );
+  BOOST_CHECK_NE( bop1.get(), bop2.get() );
 }
 
 BOOST_AUTO_TEST_CASE(NoDoubleRequest)
