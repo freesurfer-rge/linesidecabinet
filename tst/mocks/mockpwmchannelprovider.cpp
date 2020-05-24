@@ -4,8 +4,9 @@
 
 #include "mockpwmchannelprovider.hpp"
 
-std::shared_ptr<Lineside::PWMChannel> MockPWMChannelProvider::GetHardware(const std::string& hardwareId,
-									  const std::map<std::string,std::string>& settings) {
+std::unique_ptr<Lineside::PWMChannel>
+MockPWMChannelProvider::GetHardware(const std::string& hardwareId,
+				    const std::map<std::string,std::string>& settings) {
   if( settings.size() != 0 ) {
     std::stringstream msg;
     msg << "MockPWMChannel request for "
@@ -18,7 +19,7 @@ std::shared_ptr<Lineside::PWMChannel> MockPWMChannelProvider::GetHardware(const 
     throw Lineside::DuplicateKeyException(hardwareId);
   }
   
-  auto result = std::make_shared<MockPWMChannel>();
-  this->channels[hardwareId] = result;
+  auto result = std::unique_ptr<MockPWMChannel>(new MockPWMChannel());
+  this->channels[hardwareId] = result.get();
   return result;
 }

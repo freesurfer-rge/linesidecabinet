@@ -66,7 +66,7 @@ namespace Lineside {
     return result;
   }
 
-  std::shared_ptr<BinaryOutputPin>
+  std::unique_ptr<BinaryOutputPin>
   MultiAspectSignalHeadData::FetchBOP(HardwareManager& hw,
 				      const DeviceRequestData& drd ) const {
     auto bopProvider = hw.bopProviderRegistrar.Retrieve(drd.controller);

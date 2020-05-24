@@ -54,19 +54,18 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
   std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
   itemList.push_back(mashd);
 
-  {
-    Lineside::PWItemManager im(this->hwManager, this->swManager);
-
-    // Create the MASH
-    im.CreatePWItems( itemList );
-    
-    // The MASH should be showing a Red aspect
-    BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-    BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-    
-    // Check we can get the MASH
-    Lineside::PWItemModel& res = im.GetPWItemModelById(id);
-    BOOST_CHECK_EQUAL( res.getId(), id );
+  Lineside::PWItemManager im(this->hwManager, this->swManager);
+  
+  // Create the MASH
+  im.CreatePWItems( itemList );
+  
+  // The MASH should be showing a Red aspect
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
+  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  
+  // Check we can get the MASH
+  Lineside::PWItemModel& res = im.GetPWItemModelById(id);
+  BOOST_CHECK_EQUAL( res.getId(), id );
 #if defined(BOOST_COMP_GNUC)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-value"
@@ -74,17 +73,12 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-value"
 #endif
-    BOOST_CHECK_NO_THROW( dynamic_cast<Lineside::MultiAspectSignalHead&>(res) );
+  BOOST_CHECK_NO_THROW( dynamic_cast<Lineside::MultiAspectSignalHead&>(res) );
 #if defined(BOOST_COMP_GNUC)
 #pragma GCC diagnostic pop
 #elif defined(BOOST_COMP_CLANG)
 #pragma clang diagnostic pop
 #endif
-  }
-
-  // After destruct, both pins should be off
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
 }
 
 BOOST_AUTO_TEST_CASE(SingleSTM)

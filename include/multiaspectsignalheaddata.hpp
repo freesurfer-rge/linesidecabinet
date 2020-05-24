@@ -25,7 +25,7 @@ namespace Lineside {
 						   SoftwareManager& sw ) const override;
 
   private:
-    std::shared_ptr<BinaryOutputPin> FetchBOP(HardwareManager& hw,
+    std::unique_ptr<BinaryOutputPin> FetchBOP(HardwareManager& hw,
 					      const DeviceRequestData& drd ) const;
     
     void PopulateAspects(HardwareManager& hw,

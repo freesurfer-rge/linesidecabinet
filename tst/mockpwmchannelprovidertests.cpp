@@ -14,11 +14,11 @@ BOOST_AUTO_TEST_CASE(ConstructOne)
   const std::string channelId = "01";
   const std::map<std::string,std::string> settings;
 
-  auto spc = mcp.GetHardware(channelId, settings);
+  auto pc = mcp.GetHardware(channelId, settings);
   BOOST_CHECK_EQUAL( mcp.channels.size(), 1 );
-  auto sharedFromProvider = mcp.channels.at(channelId);
+  auto fromProvider = mcp.channels.at(channelId);
   
-  BOOST_CHECK_EQUAL( spc.get(), sharedFromProvider.get() );
+  BOOST_CHECK_EQUAL( pc.get(), fromProvider );
 }
 
 BOOST_AUTO_TEST_CASE(ConstructTwo)
@@ -29,11 +29,11 @@ BOOST_AUTO_TEST_CASE(ConstructTwo)
    const std::string ch02 = "02";
    const std::map<std::string,std::string> settings;
 
-   auto spc1 = mcp.GetHardware(ch01, settings);
-   auto spc2 = mcp.GetHardware(ch02, settings);
+   auto pc1 = mcp.GetHardware(ch01, settings);
+   auto pc2 = mcp.GetHardware(ch02, settings);
 
    BOOST_CHECK_EQUAL( mcp.channels.size(), 2 );
-   BOOST_CHECK_NE( spc1.get(), spc2.get() );
+   BOOST_CHECK_NE( pc1.get(), pc2.get() );
 }
 
 BOOST_AUTO_TEST_CASE(NoDoubleRequest)
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(NoDoubleRequest)
   const std::string chId = "01";
   const std::map<std::string,std::string> settings;
 
-  auto spc = mcp.GetHardware(chId, settings);
+  auto pc = mcp.GetHardware(chId, settings);
 
   std::string msg("Key '01' already present");
   BOOST_CHECK_EXCEPTION( mcp.GetHardware(chId, settings),

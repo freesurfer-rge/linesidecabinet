@@ -12,8 +12,9 @@ public:
     HardwareProvider(),
     pins() {}
 
-  virtual std::shared_ptr<Lineside::BinaryInputPin> GetHardware(const std::string& hardwareId,
+  virtual std::unique_ptr<Lineside::BinaryInputPin> GetHardware(const std::string& hardwareId,
 								const std::map<std::string,std::string>& settings) override;
 
-  std::map<std::string,std::shared_ptr<MockBIP>> pins;
+  // Allow access to the created pins (dangerously)
+  std::map<std::string,MockBIP*> pins;
 };

@@ -45,7 +45,7 @@ namespace Lineside {
       }
 
       //! Get a GPIOPin for this Pi
-      std::shared_ptr<GPIOPin> GetGPIOPin(const unsigned int pinId);
+      std::unique_ptr<GPIOPin> GetGPIOPin(const unsigned int pinId);
       
       //! Create an instance of PiManager
       /*!

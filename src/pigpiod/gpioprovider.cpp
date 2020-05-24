@@ -9,7 +9,7 @@ namespace Lineside {
       pi(piHardware),
       allocatedPins() {}
 
-    std::shared_ptr<GPOutput> GPIOProvider::GetGPOutput(const unsigned char pinId) {
+    std::unique_ptr<GPOutput> GPIOProvider::GetGPOutput(const unsigned char pinId) {
       if( this->allocatedPins.count(pinId) != 0 ) {
 	// Want to print as number, not character
 	std::stringstream msg;
@@ -17,7 +17,7 @@ namespace Lineside {
 	throw DuplicateKeyException(msg.str());
       }
       
-      auto result = std::make_shared<GPOutput>(this->pi->GetGPIOPin(pinId));
+      auto result = std::unique_ptr<GPOutput>(new GPOutput(this->pi->GetGPIOPin(pinId)));
       this->allocatedPins.insert(pinId);
       return result;
     }

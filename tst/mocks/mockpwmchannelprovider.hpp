@@ -12,8 +12,9 @@ public:
     HardwareProvider(),
     channels() {}
   
-  virtual std::shared_ptr<Lineside::PWMChannel> GetHardware(const std::string& hardwareId,
+  virtual std::unique_ptr<Lineside::PWMChannel> GetHardware(const std::string& hardwareId,
 							    const std::map<std::string,std::string>& settings) override;
 
-  std::map<std::string,std::shared_ptr<MockPWMChannel>> channels;
+  // Allow dangerous access to the allocated channels
+  std::map<std::string,MockPWMChannel*> channels;
 };

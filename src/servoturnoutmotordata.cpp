@@ -16,7 +16,7 @@ namespace Lineside {
     this->UnusedSoftwareManager(sw);
     
     auto pwmChannelProvider = hw.pwmcProviderRegistrar.Retrieve(this->pwmChannelRequest.controller);
-    std::shared_ptr<PWMChannel> servo;
+    std::unique_ptr<PWMChannel> servo;
     servo = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
 					    this->pwmChannelRequest.settings);
     
@@ -29,7 +29,7 @@ namespace Lineside {
     auto result = std::make_shared<enabler>(this->id);
     result->pwmStraight = this->straight;
     result->pwmCurved = this->curved;
-    result->servo = servo;
+    result->servo = std::move(servo);
 
     return result;
   }

@@ -11,7 +11,7 @@ namespace Lineside {
     public:
       GPIOProvider(std::shared_ptr<PiManager> piHardware);
 
-      std::shared_ptr<GPOutput> GetGPOutput(const unsigned char pinId);
+      std::unique_ptr<GPOutput> GetGPOutput(const unsigned char pinId);
     private:
       std::shared_ptr<PiManager> pi;
       std::set<unsigned char> allocatedPins;

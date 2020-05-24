@@ -21,7 +21,7 @@ namespace Lineside {
 
     // Link up the input pin
     bip->RegisterListener(this->id.Get(), result);
-    result->monitorPin = bip;
+    result->monitorPin = std::move(bip);
 
     // Get RTC client
     result->rtc = sw.GetRTCClient();

@@ -29,7 +29,7 @@ namespace Lineside {
     unsigned int pwmStraight;
     unsigned int pwmCurved;
     TurnoutState desiredState;
-    std::shared_ptr<PWMChannel> servo;
+    std::unique_ptr<PWMChannel> servo;
     std::mutex stateChangeMtx;
 
     ServoTurnoutMotor(const ItemId turnoutId) :
