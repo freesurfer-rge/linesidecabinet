@@ -66,13 +66,9 @@ void RunOnConsole(Lineside::PWItemManager& pwItemManager) {
       try {
 	target.Parse(tokens.at(0));
 
-	auto pwItem = pwItemManager.GetPWItemModelById(target);
-	LOCK_OR_THROW( pwItemShared, pwItem );
-	auto mash = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>( pwItemShared );
-	if( !mash ) {
-	  throw std::logic_error("Not a MultiAspectSignalHead");
-	}
-	HandleMASH( *mash, tokens );
+	Lineside::PWItemModel& pwItem = pwItemManager.GetPWItemModelById(target);
+	Lineside::MultiAspectSignalHead& mash = dynamic_cast<Lineside::MultiAspectSignalHead&>(pwItem);
+	HandleMASH( mash, tokens );
       }
       catch( std::exception& e ) {
 	std::cerr << e.what() << std::endl;
