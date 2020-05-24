@@ -33,12 +33,13 @@ namespace Lineside {
       
       void Write(const bool level);
 
-      int SetCallback(GPIOEdge edge, CallBackFn f);
+      void SetCallback(GPIOEdge edge, CallBackFn f);
       
     private:
       std::shared_ptr<PiManager> pi;
       const unsigned int pin;
 
+      CallBackFn callBack;
       int callBackId;
     };
   }

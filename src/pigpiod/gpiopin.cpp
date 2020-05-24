@@ -9,6 +9,12 @@
 #include "pigpiod/gpiopin.hpp"
 
 
+void CallBackTrampoline(int pi, unsigned user_gpio, unsigned level, uint32_t tick, void *userdata) {
+  auto f = static_cast<Lineside::PiGPIOd::GPIOPin::CallBackFn*>(userdata);
+  (*f)(pi, user_gpio, level, tick);
+}
+
+
 namespace Lineside {
   namespace PiGPIOd {
    
@@ -56,6 +62,19 @@ namespace Lineside {
 				     static_cast<unsigned>(level));
       if( libraryResult != 0 ) {
 	throw PiGPIOdException("gpio_write", libraryResult);
+      }
+    }
+
+    void  GPIOPin::SetCallback(GPIOEdge edge, CallBackFn f) {
+      this->callBack = f;
+
+      int libraryResult = callback_ex(this->pi->getId(),
+				      this->pin,
+				      static_cast<unsigned>(edge),
+				      &CallBackTrampoline,
+				      &(this->callBack));
+      if( libraryResult < 0 ) {
+	throw PiGPIOdException("callback_ex", libraryResult);
       }
     }
   }
