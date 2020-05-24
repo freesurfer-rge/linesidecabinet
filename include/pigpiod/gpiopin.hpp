@@ -6,6 +6,7 @@
 
 #include "gpiomode.hpp"
 #include "gpioedge.hpp"
+#include "gpiopull.hpp"
 
 namespace Lineside {
   namespace PiGPIOd {
@@ -37,9 +38,11 @@ namespace Lineside {
       
       void Write(const bool level);
 
-      void SetCallBack(GPIOEdge edge, CallBackFn f);
-
+      void SetPUDResistor(GPIOPull pull);
+      
       void SetGlitchFilter(unsigned int steadyMicroseconds);
+
+      void SetCallBack(GPIOEdge edge, CallBackFn f);
 
       void InvokeCallBack(int pi, unsigned user_gpio, unsigned level, uint32_t tick);
       

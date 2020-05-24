@@ -1,5 +1,6 @@
 /** \file
- * Stubs for use on a machine without PiGPIOd
+    Stubs for use on a machine without PiGPIOd. The contents of this file are copied
+    from the headers for pigpiod
  */
 #pragma once
 
@@ -20,6 +21,10 @@ extern std::ostream* pigpiodOS;
 #define RISING_EDGE  0
 #define FALLING_EDGE 1
 #define EITHER_EDGE  2
+
+#define PI_PUD_OFF  0
+#define PI_PUD_DOWN 1
+#define PI_PUD_UP   2
 
 typedef enum
 {
@@ -54,6 +59,8 @@ extern "C" {
   
   int gpio_write(int pi, unsigned gpio, unsigned level);
 
+  int set_pull_up_down(int pi, unsigned gpio, unsigned pud);
+  
   int set_glitch_filter(int pi, unsigned user_gpio, unsigned steady);
   
   typedef void (*CBFuncEx_t)

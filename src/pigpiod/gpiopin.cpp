@@ -12,6 +12,7 @@
 //! Trampoline function for callbacks
 /*!
   This function exists to permit callbacks from the pigiod library into our code.
+  It assumes that the userdata pointer is actually a pointer to an instance of GPIOPin.
  */
 void CallBackTrampoline(int pi, unsigned user_gpio, unsigned level, uint32_t tick, void *userdata) {
   auto pin = static_cast<Lineside::PiGPIOd::GPIOPin*>(userdata);
@@ -67,6 +68,24 @@ namespace Lineside {
       if( libraryResult != 0 ) {
 	throw PiGPIOdException("gpio_write", libraryResult);
       }
+    }
+
+    void GPIOPin::SetPUDResistor(GPIOPull pull) {
+      int libraryResult = set_pull_up_down(this->pi->getId(),
+					   this->pin,
+					   static_cast<unsigned>(pull));
+      if( libraryResult != 0 ) {
+	throw PiGPIOdException("set_pull_up_down", libraryResult);
+      }    
+    }
+      
+    void GPIOPin::SetGlitchFilter(unsigned int steadyMicroseconds) {
+      int libraryResult = set_glitch_filter(this->pi->getId(),
+					    this->pin,
+					    steadyMicroseconds);
+      if( libraryResult != 0 ) {
+	throw PiGPIOdException("set_glitch_filter", libraryResult);
+      } 
     }
 
     void GPIOPin::SetCallBack(GPIOEdge edge, CallBackFn f) {
