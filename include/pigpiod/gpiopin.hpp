@@ -17,7 +17,7 @@ namespace Lineside {
       /*!
 	Callback functions are invoked with the level of the associated pin.
       */
-      typedef std::function<void(bool)> CallBackFn;
+      typedef std::function<void(const bool)> CallBackFn;
       
       GPIOPin(const std::shared_ptr<PiManager> owner,
 	      const unsigned int pinId);

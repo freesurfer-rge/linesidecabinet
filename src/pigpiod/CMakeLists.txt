@@ -8,6 +8,7 @@ list(APPEND srcs pimanager.cpp)
 list(APPEND srcs gpiopin.cpp)
 
 list(APPEND srcs gpoutput.cpp)
+list(APPEND srcs gpinput.cpp)
 list(APPEND srcs gpioprovider.cpp)
 list(APPEND srcs gpoutputprovider.cpp)
 
