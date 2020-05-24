@@ -16,8 +16,12 @@ namespace Lineside {
       unsigned int glitchMicroseconds = 0;
       GPIOEdge callBackEdge = GPIOEdge::Either;
 
-      if( settings.count("glitch") == 1 ) {
-	glitchMicroseconds = std::stoul(settings.at("glitch"));
+      if( settings.count(GPInputProvider::glitchSetting) == 1 ) {
+	glitchMicroseconds = std::stoul(settings.at(GPInputProvider::glitchSetting));
+      }
+
+      if( settings.count(GPInputProvider::pudSetting) == 1 ) {
+	pull = Parse<GPIOPull>(settings.at(GPInputProvider::pudSetting));
       }
       
       return this->gpioProvider->GetGPInput(pinId, pull, glitchMicroseconds, callBackEdge);

@@ -9,6 +9,9 @@ namespace Lineside {
   namespace PiGPIOd {
     class GPInputProvider : public HardwareProvider<BinaryInputPin> {
     public:
+      const std::string glitchSetting = "glitch";
+      const std::string pudSetting = "pud";
+      
       GPInputProvider(std::shared_ptr<GPIOProvider> provider);
 
       virtual std::unique_ptr<BinaryInputPin>
