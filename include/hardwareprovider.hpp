@@ -16,7 +16,7 @@ namespace Lineside {
 
     virtual ~HardwareProvider() {}
 
-    virtual std::shared_ptr<Hardware> GetHardware(const std::string& hardwareId,
+    virtual std::unique_ptr<Hardware> GetHardware(const std::string& hardwareId,
 						  const std::map<std::string,std::string>& settings) = 0;
   };
 }
