@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE( GetPin )
 
   std::string pinId = "5";
   auto settings = std::map<std::string,std::string>();
-  settings["glitch"] = "90000000";
+  settings["glitch"] = "300000";
   settings["pud"] = "Down";
 
   auto bip = provider->GetHardware( pinId, settings );
