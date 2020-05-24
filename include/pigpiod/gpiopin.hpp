@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "pimanager.hpp"
 
 #include "gpiomode.hpp"
@@ -9,6 +11,8 @@ namespace Lineside {
     //! Class for controlling a GPIO pin
     class GPIOPin {
     public:
+      typedef std::function<void(int,unsigned int,unsigned int, uint32_t)> CallBackFn;
+      
       GPIOPin(const std::shared_ptr<PiManager> owner,
 	      const unsigned int pinId);
 
