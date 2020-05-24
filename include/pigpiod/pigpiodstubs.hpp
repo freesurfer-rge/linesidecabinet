@@ -54,9 +54,8 @@ extern "C" {
   
   int gpio_write(int pi, unsigned gpio, unsigned level);
 
-  typedef void (*CBFunc_t)
-  (int pi, unsigned user_gpio, unsigned level, uint32_t tick);
-
+  int set_glitch_filter(int pi, unsigned user_gpio, unsigned steady);
+  
   typedef void (*CBFuncEx_t)
   (int pi, unsigned user_gpio, unsigned level, uint32_t tick, void *userdata);
   

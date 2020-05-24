@@ -9,9 +9,13 @@
 #include "pigpiod/gpiopin.hpp"
 
 
+//! Trampoline function for callbacks
+/*!
+  This function exists to permit callbacks from the pigiod library into our code.
+ */
 void CallBackTrampoline(int pi, unsigned user_gpio, unsigned level, uint32_t tick, void *userdata) {
-  auto f = static_cast<Lineside::PiGPIOd::GPIOPin::CallBackFn*>(userdata);
-  (*f)(pi, user_gpio, level, tick);
+  auto pin = static_cast<Lineside::PiGPIOd::GPIOPin*>(userdata);
+  pin->InvokeCallBack(pi, user_gpio, level, tick);
 }
 
 
@@ -65,17 +69,32 @@ namespace Lineside {
       }
     }
 
-    void  GPIOPin::SetCallback(GPIOEdge edge, CallBackFn f) {
+    void GPIOPin::SetCallback(GPIOEdge edge, CallBackFn f) {
       this->callBack = f;
 
       int libraryResult = callback_ex(this->pi->getId(),
 				      this->pin,
 				      static_cast<unsigned>(edge),
 				      &CallBackTrampoline,
-				      &(this->callBack));
+				      this);
       if( libraryResult < 0 ) {
 	throw PiGPIOdException("callback_ex", libraryResult);
       }
+    }
+
+    void GPIOPin::InvokeCallBack(int pi, unsigned user_gpio, unsigned level, uint32_t tick) {
+      if( (pi != this->getPi()) || (user_gpio != this->getPin()) ) {
+	std::stringstream msg;
+	msg << __FUNCTION__
+	    << ": Got invalid args. "
+	    << pi << " "
+	    << user_gpio << " "
+	    << level << " "
+	    << tick;
+	throw std::logic_error(msg.str());
+      }
+
+      this->callBack(level);
     }
   }
 }
