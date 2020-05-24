@@ -3,15 +3,15 @@
 #include "hardwareprovider.hpp"
 
 #include "pigpiod/gpioprovider.hpp"
-#include "pigpiod/gpoutput.hpp"
+#include "pigpiod/gpinput.hpp"
 
 namespace Lineside {
   namespace PiGPIOd {
-    class GPOutputProvider : public HardwareProvider<BinaryOutputPin> {
+    class GPInputProvider : public HardwareProvider<BinaryInputPin> {
     public:
-      GPOutputProvider(std::shared_ptr<GPIOProvider> provider);
+      GPInputProvider(std::shared_ptr<GPIOProvider> provider);
 
-      virtual std::unique_ptr<BinaryOutputPin>
+      virtual std::unique_ptr<BinaryInputPin>
       GetHardware(const std::string& hardwareId,
 		  const std::map<std::string,std::string>& settings) override;
     private:

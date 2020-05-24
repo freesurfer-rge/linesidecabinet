@@ -10,16 +10,30 @@ namespace Lineside {
       allocatedPins() {}
 
     std::unique_ptr<GPOutput> GPIOProvider::GetGPOutput(const unsigned char pinId) {
+      this->ReservePin(pinId);
+      return std::unique_ptr<GPOutput>(new GPOutput(this->pi->GetGPIOPin(pinId)));
+    }
+
+    std::unique_ptr<GPInput>
+    GPIOProvider::GetGPInput(const unsigned char pinId,
+			     const GPIOPull pull,
+			     const unsigned int glitchSteadyMicroseconds,
+			     const GPIOEdge callBackEdge) {
+      this->ReservePin(pinId);
+      return std::unique_ptr<GPInput>(new GPInput(this->pi->GetGPIOPin(pinId),
+						  pull,
+						  glitchSteadyMicroseconds,
+						  callBackEdge));
+    }
+
+    void GPIOProvider::ReservePin(const unsigned char pinId) {
       if( this->allocatedPins.count(pinId) != 0 ) {
 	// Want to print as number, not character
 	std::stringstream msg;
 	msg << static_cast<int>(pinId);
 	throw DuplicateKeyException(msg.str());
       }
-      
-      auto result = std::unique_ptr<GPOutput>(new GPOutput(this->pi->GetGPIOPin(pinId)));
       this->allocatedPins.insert(pinId);
-      return result;
     }
   }
 }

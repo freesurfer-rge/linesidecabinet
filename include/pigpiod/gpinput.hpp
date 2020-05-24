@@ -9,9 +9,9 @@ namespace Lineside {
     class GPInput : public BinaryInputPin {
     public:
       GPInput(std::unique_ptr<GPIOPin> piPin,
-	      GPIOPull pull,
-	      unsigned int glitchSteadyMicroseconds,
-	      GPIOEdge callbackEdge);
+	      const GPIOPull pull,
+	      const unsigned int glitchSteadyMicroseconds,
+	      const GPIOEdge callBackEdge);
 
       virtual bool Get() const override;
 

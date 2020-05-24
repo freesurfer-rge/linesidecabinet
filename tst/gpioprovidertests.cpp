@@ -28,6 +28,22 @@ BOOST_AUTO_TEST_CASE( GetOneOutput )
   BOOST_CHECK_EQUAL( pin->Get(), false );
 }
 
+BOOST_AUTO_TEST_CASE( GetOneInput )
+{
+  auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
+
+  Lineside::PiGPIOd::GPIOProvider provider(pm);
+
+  const unsigned int glitchmicrosecs = 0;
+  auto pin = provider.GetGPInput(5,
+				 Lineside::PiGPIOd::GPIOPull::Down,
+				 glitchmicrosecs,
+				 Lineside::PiGPIOd::GPIOEdge::Either);
+  
+  // With the pulldown resistor, the pin should be off even with real hardware
+  BOOST_CHECK_EQUAL( pin->Get(), false );
+}
+
 BOOST_AUTO_TEST_CASE( NoDoublePinId )
 {
   const unsigned char pinId = 5;
