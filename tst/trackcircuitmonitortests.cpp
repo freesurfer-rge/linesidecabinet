@@ -94,6 +94,7 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
   const Lineside::ItemId id(10);
   const std::string controller = "BIP";
   const std::string controllerData = "07";
+  const std::chrono::seconds expectedSleepRequest = std::chrono::seconds(60);
 
   Lineside::TrackCircuitMonitorData tcmd;
   tcmd.id = id;
@@ -121,7 +122,7 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
 
   // Have TCM send unconditionally
   auto sleepTime = pwItem->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(5000) );
+  BOOST_CHECK( sleepTime == expectedSleepRequest );
   BOOST_CHECK_EQUAL( mockRTC->lastItemId, id );
   BOOST_CHECK_EQUAL( mockRTC->lastOccupied, false );
   mockRTC->lastItemId = Lineside::ItemId(0);
@@ -135,7 +136,7 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
 
   // Send again, will no longer have state change
   sleepTime = pwItem->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(5000) );
+  BOOST_CHECK( sleepTime == expectedSleepRequest );
   BOOST_CHECK_EQUAL( mockRTC->lastItemId, id );
   BOOST_CHECK_EQUAL( mockRTC->lastOccupied, true );
   BOOST_CHECK_EQUAL( pwItem->HaveStateChange(), false );
@@ -148,7 +149,7 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
   
   // Send again, will no longer have state change
   sleepTime = pwItem->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(5000) );
+  BOOST_CHECK( sleepTime == expectedSleepRequest );
   BOOST_CHECK_EQUAL( mockRTC->lastItemId, id );
   BOOST_CHECK_EQUAL( mockRTC->lastOccupied, false );
   BOOST_CHECK_EQUAL( pwItem->HaveStateChange(), false );
