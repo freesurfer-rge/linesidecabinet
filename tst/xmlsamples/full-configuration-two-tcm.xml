@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <LinesideCabinet>
   <SoftwareManager>
-    <RTC address="addr" port="8081" />
+    <RTC address="addr" port="8082" />
     <Settings>
-      <Setting key="aKey" value="bValue" />
+      <Setting key="aKey" value="cValue" />
     </Settings>
   </SoftwareManager>
   <HardwareManager>
     <I2CDevices />
-    <Settings />
+    <Settings>
+      <Setting key="hwA" value="hwB" />
+    </Settings>
   </HardwareManager>
-  <!-- Start of the item list -->
+  <!-- Start of the Permanent Way Items -->
   <PermanentWayItems>
     <TrackCircuitMonitor id="00:ff:00:aa">
       <BinaryInput controller="GPIO" controllerData="17">
 	<Settings>
           <Setting key="glitch" value="300000" />
-	  <Setting key="pud" value="Down" />
 	</Settings>
       </BinaryInput>
     </TrackCircuitMonitor>
     <!-- Comment -->
-    <TrackCircuitMonitor id="ff:00:00:11">
+    <TrackCircuitMonitor id="00:ff:00:aa">
       <BinaryInput controller="GPIO" controllerData="22">
 	<Settings>
           <Setting key="glitch" value="300000" />
-	  <Setting key="pud" value="Down" />
 	</Settings>
       </BinaryInput>
     </TrackCircuitMonitor>

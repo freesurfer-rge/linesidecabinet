@@ -10,6 +10,7 @@ configure_file(pwitem-trackcircuitmonitor.xml . COPYONLY)
 configure_file(pwitem-multiaspectsignalhead.xml . COPYONLY)
 
 configure_file(pwitemlist.xml . COPYONLY)
+configure_file(pwitemlist-two-tcm.xml . COPYONLY)
 
 configure_file(softwaremanagerdata-fragment.xml . COPYONLY)
 
@@ -18,3 +19,4 @@ configure_file(i2cdevicelist-fragment.xml . COPYONLY)
 configure_file(hardwaremanager-fragment.xml . COPYONLY)
 
 configure_file(full-configuration-sample.xml . COPYONLY)
+configure_file(full-configuration-two-tcm.xml . COPYONLY)
