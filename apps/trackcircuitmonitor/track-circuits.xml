@@ -15,6 +15,7 @@
       <BinaryInput controller="GPIO" controllerData="17">
 	<Settings>
           <Setting key="glitch" value="300000" />
+	  <Setting key="pud" value="Down" />
 	</Settings>
       </BinaryInput>
     </TrackCircuitMonitor>
@@ -23,6 +24,7 @@
       <BinaryInput controller="GPIO" controllerData="22">
 	<Settings>
           <Setting key="glitch" value="300000" />
+	  <Setting key="pud" value="Down" />
 	</Settings>
       </BinaryInput>
     </TrackCircuitMonitor>
