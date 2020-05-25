@@ -18,6 +18,7 @@
 // ====================
 
 const std::string pwitemlistFragment = "pwitemlist.xml";
+const std::string pwitemlistTwoTCMFragment = "pwitemlist-two-tcm.xml";
 
 // ====================
 
@@ -55,6 +56,34 @@ BOOST_AUTO_TEST_CASE( SmokePWItemListReader )
   Lineside::ItemId stmId;
   stmId.Parse("00:0e:2a:5f");
   BOOST_CHECK_EQUAL( stmd->id, stmId );
+}
+
+BOOST_AUTO_TEST_CASE( TwoTrackCircuitMonitors )
+{
+  Lineside::xml::XercesGuard xg;
+  auto parser = GetParser();
+
+  auto rootElement = GetRootElementOfFile(parser, pwitemlistTwoTCMFragment);
+  BOOST_REQUIRE(rootElement);
+
+  Lineside::xml::PWItemListReader reader;
+  auto listElement = reader.GetPWItemListElement(rootElement);
+  BOOST_REQUIRE(listElement);
+
+  std::vector<std::shared_ptr<Lineside::PWItemData>> pwItems = reader.Read(listElement);
+  BOOST_REQUIRE_EQUAL( pwItems.size(), 2 );
+
+  std::vector<Lineside::ItemId> expectedIds;
+  Lineside::ItemId id;
+  id.Parse("00:fe:00:1a");
+  expectedIds.push_back(id);
+  id.Parse("00:fe:00:00");
+  expectedIds.push_back(id);
+  for( size_t i=0; i<pwItems.size(); i++ ) {
+    auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(pwItems.at(i));
+    BOOST_REQUIRE( tcmd );
+    BOOST_CHECK_EQUAL( tcmd->id, expectedIds.at(i) );
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
