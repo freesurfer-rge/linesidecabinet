@@ -1,6 +1,7 @@
 set(srcs)
 
 list(APPEND srcs main.cpp)
+list(APPEND srcs stubsoftwaremanager.cpp)
 
 add_executable(TrackCircuitMonitor ${srcs})
 
