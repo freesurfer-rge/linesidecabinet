@@ -19,3 +19,4 @@ configure_file(i2cdevicelist-fragment.xml . COPYONLY)
 configure_file(hardwaremanager-fragment.xml . COPYONLY)
 
 configure_file(full-configuration-sample.xml . COPYONLY)
+configure_file(full-configuration-two-tcm.xml . COPYONLY)

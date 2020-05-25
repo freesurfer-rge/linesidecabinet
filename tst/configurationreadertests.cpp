@@ -9,6 +9,7 @@
 // ==============
 
 const std::string configurationFile = "full-configuration-sample.xml";
+const std::string configFileTwoTCM = "full-configuration-two-tcm.xml";
 
 // ==============
 
@@ -26,7 +27,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( res.swManager.rtcAddress, "addr" );
   BOOST_CHECK_EQUAL( res.swManager.rtcPort, 8081 );
   BOOST_REQUIRE_EQUAL( res.swManager.settings.size(), 1 );
-  BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "bValue" );
+  BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "cValue" );
 
   // Check the hardware manager
   BOOST_REQUIRE_EQUAL( res.hwManager.i2cDevices.size(), 1 );
@@ -51,6 +52,34 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.controllerData, "07" );
   BOOST_REQUIRE_EQUAL( tcmd0->inputPinRequest.settings.size(), 1 );
   BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.settings.at("glitch"), "20000" );
+}
+
+BOOST_AUTO_TEST_CASE( ReadTwoTCM )
+{
+  Lineside::xml::ConfigurationReader reader;
+
+  auto fullPath = GetPathToSampleXML( configFileTwoTCM );
+  
+  auto res = reader.Read( fullPath );
+
+  // Check the software manager
+  BOOST_CHECK_EQUAL( res.swManager.rtcAddress, "addr" );
+  BOOST_CHECK_EQUAL( res.swManager.rtcPort, 8082 );
+  BOOST_REQUIRE_EQUAL( res.swManager.settings.size(), 1 );
+  BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "bValue" );
+
+  // Check the hardware manager
+  BOOST_REQUIRE_EQUAL( res.hwManager.i2cDevices.size(), 0 );
+
+  BOOST_REQUIRE_EQUAL( res.hwManager.settings.size(), 1 );
+  BOOST_CHECK_EQUAL( res.hwManager.settings.at("hwA"), "hwB" );
+
+  // Check the list of PWItems
+  BOOST_REQUIRE_EQUAL( res.pwItems.size(), 2 );
+  for( size_t i=0; i<2; ++i ) {
+    auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(res.pwItems.at(i));
+    BOOST_REQUIRE( tcmd );
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
