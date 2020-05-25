@@ -10,6 +10,7 @@
     <I2CDevices />
     <Settings />
   </HardwareManager>
+  <!-- Start of the item list -->
   <PermanentWayItems>
     <TrackCircuitMonitor id="00:ff:00:aa">
       <BinaryInput controller="GPIO" controllerData="17">
@@ -19,8 +20,8 @@
 	</Settings>
       </BinaryInput>
     </TrackCircuitMonitor>
-    <!-- -------- -->
-    <TrackCircuitMonitor id="00:ff:00:aa">
+    <!-- Comment -->
+    <TrackCircuitMonitor id="ff:00:00:11">
       <BinaryInput controller="GPIO" controllerData="22">
 	<Settings>
           <Setting key="glitch" value="300000" />
