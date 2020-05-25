@@ -12,6 +12,7 @@
       <Setting key="hwA" value="hwB" />
     </Settings>
   </HardwareManager>
+  <!-- Start of the Permanent Way Items -->
   <PermanentWayItems>
     <TrackCircuitMonitor id="00:ff:00:aa">
       <BinaryInput controller="GPIO" controllerData="17">
@@ -20,7 +21,7 @@
 	</Settings>
       </BinaryInput>
     </TrackCircuitMonitor>
-    <!-- -------- -->
+    <!-- Comment -->
     <TrackCircuitMonitor id="00:ff:00:aa">
       <BinaryInput controller="GPIO" controllerData="22">
 	<Settings>

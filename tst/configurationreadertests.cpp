@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( res.swManager.rtcAddress, "addr" );
   BOOST_CHECK_EQUAL( res.swManager.rtcPort, 8081 );
   BOOST_REQUIRE_EQUAL( res.swManager.settings.size(), 1 );
-  BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "cValue" );
+  BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "bValue" );
 
   // Check the hardware manager
   BOOST_REQUIRE_EQUAL( res.hwManager.i2cDevices.size(), 1 );
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE( ReadTwoTCM )
   BOOST_CHECK_EQUAL( res.swManager.rtcAddress, "addr" );
   BOOST_CHECK_EQUAL( res.swManager.rtcPort, 8082 );
   BOOST_REQUIRE_EQUAL( res.swManager.settings.size(), 1 );
-  BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "bValue" );
+  BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "cValue" );
 
   // Check the hardware manager
   BOOST_REQUIRE_EQUAL( res.hwManager.i2cDevices.size(), 0 );
@@ -75,10 +75,14 @@ BOOST_AUTO_TEST_CASE( ReadTwoTCM )
   BOOST_CHECK_EQUAL( res.hwManager.settings.at("hwA"), "hwB" );
 
   // Check the list of PWItems
+  Lineside::ItemId expectedId;
+  expectedId.Parse("00:ff:00:aa");
   BOOST_REQUIRE_EQUAL( res.pwItems.size(), 2 );
   for( size_t i=0; i<2; ++i ) {
     auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(res.pwItems.at(i));
     BOOST_REQUIRE( tcmd );
+    // All items share the same id. This is permitted when reading in the configuration
+    BOOST_CHECK_EQUAL( expectedId, tcmd->id );
   }
 }
 
