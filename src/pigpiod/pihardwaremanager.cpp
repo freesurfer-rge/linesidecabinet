@@ -1,3 +1,6 @@
+#include "pigpiod/gpinputprovider.hpp"
+#include "pigpiod/gpoutputprovider.hpp"
+
 #include "pigpiod/pihardwaremanager.hpp"
 
 
@@ -14,6 +17,9 @@ namespace Lineside {
 
       auto gpOutputProvider = std::make_shared<GPOutputProvider>(this->gpioProvider);
       this->bopProviderRegistrar.Register(this->GPIO, gpOutputProvider);
+
+      auto gpInputProvider = std::make_shared<GPInputProvider>(this->gpioProvider);
+      this->bipProviderRegistrar.Register(this->GPIO, gpInputProvider);
     }
   }
 }

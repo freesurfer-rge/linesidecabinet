@@ -38,9 +38,12 @@ list(APPEND srcs configurationreadertests.cpp)
 
 list(APPEND srcs pwitemmanagertests.cpp)
 
+list(APPEND srcs gpiopulltests.cpp)
 list(APPEND srcs pimanagertests.cpp)
+list(APPEND srcs gpiopintests.cpp)
 list(APPEND srcs gpioprovidertests.cpp)
 list(APPEND srcs gpoutputprovidertests.cpp)
+list(APPEND srcs gpinputprovidertests.cpp)
 list(APPEND srcs pihardwaremanagertests.cpp)
 
 add_executable(LinesideTest ${srcs})

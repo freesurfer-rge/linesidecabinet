@@ -5,7 +5,6 @@
 
 #include "pigpiod/pimanager.hpp"
 #include "pigpiod/gpioprovider.hpp"
-#include "pigpiod/gpoutputprovider.hpp"
 
 namespace Lineside {
   namespace PiGPIOd {
