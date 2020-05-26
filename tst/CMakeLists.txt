@@ -35,7 +35,7 @@ target_include_directories(LinesideTest
 target_include_directories(LinesideTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
 
-add_test(NAME AllTests COMMAND LinesideTest)
+add_test(NAME Quick COMMAND LinesideTest --run_test=\!@LongRunning)
 
 add_subdirectory(mocks)
 
