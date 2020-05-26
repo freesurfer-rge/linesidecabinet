@@ -26,22 +26,18 @@ list(APPEND srcs trackcircuitmonitortests.cpp)
 
 list(APPEND srcs pwitemmanagertests.cpp)
 
-list(APPEND srcs gpiopulltests.cpp)
-list(APPEND srcs pimanagertests.cpp)
-list(APPEND srcs gpiopintests.cpp)
-list(APPEND srcs gpioprovidertests.cpp)
-list(APPEND srcs gpoutputprovidertests.cpp)
-list(APPEND srcs gpinputprovidertests.cpp)
-list(APPEND srcs pihardwaremanagertests.cpp)
 
 add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest
   SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(LinesideTest PRIVATE .)
 target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
 
 add_test(NAME AllTests COMMAND LinesideTest)
 
 add_subdirectory(mocks)
+
+add_subdirectory(pigpiod)
 
 add_subdirectory(xml)
 add_subdirectory(xmlsamples)
