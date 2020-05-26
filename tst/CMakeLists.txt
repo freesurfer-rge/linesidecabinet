@@ -24,18 +24,6 @@ list(APPEND srcs servoturnoutmotortests.cpp)
 
 list(APPEND srcs trackcircuitmonitortests.cpp)
 
-list(APPEND srcs xmlutils.cpp)
-list(APPEND srcs xercesguardtests.cpp)
-list(APPEND srcs settingsreadertests.cpp)
-list(APPEND srcs devicerequestdatatests.cpp)
-list(APPEND srcs pwitemdatareadertests.cpp)
-list(APPEND srcs pwitemlistreadertests.cpp)
-list(APPEND srcs softwaremanagerdatareadertests.cpp)
-list(APPEND srcs i2cdevicedatareadertests.cpp)
-list(APPEND srcs i2cdevicelistreadertests.cpp)
-list(APPEND srcs hardwaremanagerdatareadertests.cpp)
-list(APPEND srcs configurationreadertests.cpp)
-
 list(APPEND srcs pwitemmanagertests.cpp)
 
 list(APPEND srcs gpiopulltests.cpp)
@@ -55,5 +43,5 @@ add_test(NAME AllTests COMMAND LinesideTest)
 
 add_subdirectory(mocks)
 
-
+add_subdirectory(xml)
 add_subdirectory(xmlsamples)
