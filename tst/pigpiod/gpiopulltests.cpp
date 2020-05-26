@@ -14,6 +14,8 @@ Lineside::PiGPIOd::GPIOPull pulls[] = { Lineside::PiGPIOd::GPIOPull::Off,
 auto nameToPullZip = boost::unit_test::data::make(pullNames)
   ^ boost::unit_test::data::make(pulls);
 
+BOOST_AUTO_TEST_SUITE( pigpiod )
+
 BOOST_AUTO_TEST_SUITE( GPIOPull )
 
 BOOST_DATA_TEST_CASE( ToString, nameToPullZip, name, pull )
@@ -32,5 +34,7 @@ BOOST_DATA_TEST_CASE( Parse, nameToPullZip, name, pull )
 {
   BOOST_CHECK_EQUAL( pull, Lineside::Parse<Lineside::PiGPIOd::GPIOPull>(name) );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

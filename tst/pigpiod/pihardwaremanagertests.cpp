@@ -2,6 +2,8 @@
 
 #include "pigpiod/pihardwaremanager.hpp"
 
+BOOST_AUTO_TEST_SUITE( pigpiod )
+
 BOOST_AUTO_TEST_SUITE( PiHardwareManager )
 
 BOOST_AUTO_TEST_CASE( SmokeOutputPin )
@@ -54,5 +56,7 @@ BOOST_AUTO_TEST_CASE( CheckGPIODevice )
 
   BOOST_CHECK_EQUAL( pi.GPIO, "GPIO" );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -2,6 +2,8 @@
 
 #include "pigpiod/gpinputprovider.hpp"
 
+BOOST_AUTO_TEST_SUITE( pigpiod )
+
 BOOST_AUTO_TEST_SUITE( GPInputProvider )
 
 BOOST_AUTO_TEST_CASE( Smoke )
@@ -40,5 +42,7 @@ BOOST_AUTO_TEST_CASE( GetPin )
   // With pulldown resistor, should always be in off state
   BOOST_CHECK_EQUAL( bip->Get(), false );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

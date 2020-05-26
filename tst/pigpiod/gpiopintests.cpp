@@ -2,6 +2,8 @@
 
 #include "pigpiod/gpiopin.hpp"
 
+BOOST_AUTO_TEST_SUITE( pigpiod )
+
 BOOST_AUTO_TEST_SUITE( GPIOPin )
 
 BOOST_AUTO_TEST_CASE( Smoke )
@@ -42,5 +44,7 @@ BOOST_AUTO_TEST_CASE( CallBackInvoked )
   BOOST_CHECK( funcCalled );
   BOOST_CHECK( !level );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

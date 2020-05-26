@@ -2,6 +2,8 @@
 
 #include "pigpiod/gpoutputprovider.hpp"
 
+BOOST_AUTO_TEST_SUITE( pigpiod )
+
 BOOST_AUTO_TEST_SUITE( GPOutputProvider )
 
 BOOST_AUTO_TEST_CASE( Smoke )
@@ -43,5 +45,7 @@ BOOST_AUTO_TEST_CASE( GetPin )
   auto gpbop = dynamic_cast<Lineside::PiGPIOd::GPOutput*>(bop.get());
   BOOST_REQUIRE(gpbop);
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
