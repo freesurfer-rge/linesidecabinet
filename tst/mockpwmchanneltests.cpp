@@ -2,6 +2,8 @@
 
 #include "mocks/mockpwmchannel.hpp"
 
+BOOST_AUTO_TEST_SUITE( Mocks )
+
 BOOST_AUTO_TEST_SUITE(MockPWMChannelValidation)
 
 BOOST_AUTO_TEST_CASE(ConstructAndGet)
@@ -50,5 +52,7 @@ BOOST_AUTO_TEST_CASE(DoubleSet)
   BOOST_CHECK_EQUAL( update1.second, i2 );
   BOOST_CHECK( update1.first > update0.first );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

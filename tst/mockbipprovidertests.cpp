@@ -5,6 +5,8 @@
 #include "mocks/mockbipprovider.hpp"
 #include "exceptionmessagecheck.hpp"
 
+BOOST_AUTO_TEST_SUITE( Mocks )
+
 BOOST_AUTO_TEST_SUITE(MockBIPProviderValidation)
 
 BOOST_AUTO_TEST_CASE(ConstructOne)
@@ -53,5 +55,7 @@ BOOST_AUTO_TEST_CASE(NoDoubleRequest)
 			 Lineside::DuplicateKeyException,
 			 GetExceptionMessageChecker<Lineside::DuplicateKeyException>(msg) );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
