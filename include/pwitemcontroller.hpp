@@ -40,7 +40,7 @@ namespace Lineside {
     
   private:
     enum class ControllerState { Constructed, Active, Inactive };
-    const std::chrono::seconds MaximumWaitSeconds = std::chrono::seconds(5);
+    const std::chrono::seconds MaximumWaitSeconds = std::chrono::seconds(120);
     
     std::shared_ptr<PWItemModel> model;
     ItemId id;

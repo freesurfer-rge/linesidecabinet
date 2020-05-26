@@ -71,7 +71,8 @@ void PauseForThread() {
 
 // ===================================
 
-BOOST_AUTO_TEST_SUITE(PWItemController)
+BOOST_AUTO_TEST_SUITE(PWItemController,
+		      *boost::unit_test::description("Tests of the PWItemController"))
 
 BOOST_AUTO_TEST_CASE(BasicLifeCycle, *boost::unit_test::timeout(2))
 {
@@ -130,7 +131,9 @@ BOOST_AUTO_TEST_CASE(ShortDurationSleeps, *boost::unit_test::timeout(2))
   }
 }
 
-BOOST_AUTO_TEST_CASE(LongSleepIgnored, *boost::unit_test::timeout(30))
+BOOST_AUTO_TEST_CASE(LongSleepIgnored,
+		     *boost::unit_test::timeout(600)
+		     *boost::unit_test::label("LongRunning"))
 {
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
@@ -138,13 +141,13 @@ BOOST_AUTO_TEST_CASE(LongSleepIgnored, *boost::unit_test::timeout(30))
   BOOST_CHECK_EQUAL(model->onRunCallTimes.size(), 0);
 
   // Set too long sleep request
-  model->onRunWait = std::chrono::seconds(20);
+  model->onRunWait = std::chrono::seconds(550);
 
   controller->Activate();
-  std::this_thread::sleep_for(std::chrono::seconds(25));
+  std::this_thread::sleep_for(std::chrono::seconds(400));
 
-  // Should get at least four OnRun() calls due to MaximumWaitTime
-  BOOST_CHECK_GE( model->onRunCallTimes.size(), 4 );
+  // Should get at least three OnRun() calls due to MaximumWaitTime
+  BOOST_CHECK_GE( model->onRunCallTimes.size(), 3 );
   
 }
 
