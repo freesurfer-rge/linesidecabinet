@@ -22,6 +22,8 @@ const std::string pwitemlistTwoTCMFragment = "pwitemlist-two-tcm.xml";
 
 // ====================
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( PWItemListReader )
 
 BOOST_AUTO_TEST_CASE( SmokePWItemListReader )
@@ -85,5 +87,7 @@ BOOST_AUTO_TEST_CASE( TwoTrackCircuitMonitors )
     BOOST_CHECK_EQUAL( tcmd->id, expectedIds.at(i) );
   }
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

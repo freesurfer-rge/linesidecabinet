@@ -15,6 +15,8 @@ const std::string i2cdevicedataFragment = "i2cdevice-fragment.xml";
 
 // ==============
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( I2CDeviceDataReader )
 
 BOOST_AUTO_TEST_CASE( SmokeReader )
@@ -39,5 +41,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( result.settings.at("A"), "B" );
   BOOST_CHECK_EQUAL( result.settings.at("1"), "2" );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

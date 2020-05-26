@@ -18,6 +18,8 @@ const std::string pwmchannelFragment = "devicerequest-pwmchannel.xml";
 
 // ================================
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( DeviceRequestDataReader )
 
 BOOST_AUTO_TEST_CASE( SmokeBinaryInput )
@@ -77,5 +79,7 @@ BOOST_AUTO_TEST_CASE( SmokePWMChannel )
   BOOST_CHECK_EQUAL( result.controllerData, "01" );
   BOOST_REQUIRE_EQUAL( result.settings.size(), 0 );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

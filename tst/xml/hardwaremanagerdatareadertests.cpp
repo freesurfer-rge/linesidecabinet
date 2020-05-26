@@ -15,6 +15,8 @@ const std::string hardwaremanagerFragment = "hardwaremanager-fragment.xml";
 
 // ==============
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( HardwareManagerDataReader )
 
 BOOST_AUTO_TEST_CASE( SmokeReader )
@@ -42,5 +44,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_REQUIRE_EQUAL( result.settings.size(), 1 );
   BOOST_CHECK_EQUAL( result.settings.at("some"), "thing" );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

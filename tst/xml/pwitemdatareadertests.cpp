@@ -25,6 +25,8 @@ const std::string multiaspectsignalheadFragment = "pwitem-multiaspectsignalhead.
 
 // ===========================
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( PWItemDataReader )
 
 BOOST_AUTO_TEST_CASE( SmokeServoTurnoutMotorData )
@@ -131,5 +133,7 @@ BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )
   BOOST_CHECK_EQUAL( f1Request.controllerData, "08" );
   BOOST_CHECK_EQUAL( f1Request.settings.size(), 0 );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

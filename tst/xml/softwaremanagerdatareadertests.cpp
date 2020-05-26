@@ -15,6 +15,8 @@ const std::string softwaremanagerdataFragment = "softwaremanagerdata-fragment.xm
 
 // ==============
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( SoftwareManagerDataReader )
 
 BOOST_AUTO_TEST_CASE( SmokeReader )
@@ -34,5 +36,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_REQUIRE_EQUAL( result.settings.size(), 1 );
   BOOST_CHECK_EQUAL( result.settings.at("a"), "b" );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
