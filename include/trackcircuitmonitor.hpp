@@ -14,7 +14,7 @@ namespace Lineside {
   //! Class to monitor a track circuit and send notifications to rail traffic control
   class TrackCircuitMonitor : public PWItemModel, public Notifiable<bool> {
   public:
-    const std::chrono::milliseconds SleepRequest = std::chrono::milliseconds(5000);
+    const std::chrono::milliseconds SleepRequest = std::chrono::seconds(60);
     
     virtual void OnActivate() override;
 
