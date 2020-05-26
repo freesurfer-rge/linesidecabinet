@@ -6,6 +6,8 @@
 #include "pigpiod/gpiopin.hpp"
 #include "pigpiod/pigpiodexceptions.hpp"
 
+BOOST_AUTO_TEST_SUITE( pigpiod )
+
 BOOST_AUTO_TEST_SUITE( PiManager )
 
 BOOST_AUTO_TEST_CASE( Smoke )
@@ -71,5 +73,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinException )
 
 
 #endif
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -16,6 +16,7 @@ const std::string simpleSettingsFragment = "settings-fragment.xml";
 const std::string simpleSettingsCommentFragment = "settings-comment-fragment.xml";
 
 // =================================
+BOOST_AUTO_TEST_SUITE( xml )
 
 BOOST_AUTO_TEST_SUITE( SettingsReader )
 
@@ -59,5 +60,7 @@ BOOST_AUTO_TEST_CASE( SmokeSimpleFragmentWithComment )
   BOOST_CHECK_EQUAL( result.at("c"), "d" );
   BOOST_CHECK_EQUAL( result.at("3"), "4" );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -1,10 +1,10 @@
 set(srcs test.cpp)
 
 list(APPEND srcs mockbiptests.cpp)
+list(APPEND srcs mockbipprovidertests.cpp)
+list(APPEND srcs mockbopprovidertests.cpp)
 list(APPEND srcs mockpwmchanneltests.cpp)
 list(APPEND srcs mockpwmchannelprovidertests.cpp)
-list(APPEND srcs mockbopprovidertests.cpp)
-list(APPEND srcs mockbipprovidertests.cpp)
 
 list(APPEND srcs turnoutstatetests.cpp)
 list(APPEND srcs signalstatetests.cpp)
@@ -24,36 +24,22 @@ list(APPEND srcs servoturnoutmotortests.cpp)
 
 list(APPEND srcs trackcircuitmonitortests.cpp)
 
-list(APPEND srcs xmlutils.cpp)
-list(APPEND srcs xercesguardtests.cpp)
-list(APPEND srcs settingsreadertests.cpp)
-list(APPEND srcs devicerequestdatatests.cpp)
-list(APPEND srcs pwitemdatareadertests.cpp)
-list(APPEND srcs pwitemlistreadertests.cpp)
-list(APPEND srcs softwaremanagerdatareadertests.cpp)
-list(APPEND srcs i2cdevicedatareadertests.cpp)
-list(APPEND srcs i2cdevicelistreadertests.cpp)
-list(APPEND srcs hardwaremanagerdatareadertests.cpp)
-list(APPEND srcs configurationreadertests.cpp)
-
 list(APPEND srcs pwitemmanagertests.cpp)
 
-list(APPEND srcs gpiopulltests.cpp)
-list(APPEND srcs pimanagertests.cpp)
-list(APPEND srcs gpiopintests.cpp)
-list(APPEND srcs gpioprovidertests.cpp)
-list(APPEND srcs gpoutputprovidertests.cpp)
-list(APPEND srcs gpinputprovidertests.cpp)
-list(APPEND srcs pihardwaremanagertests.cpp)
 
 add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest
   SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
+# The following is so that subdirectories can find things like
+# exceptionmessagecheck.hpp
+target_include_directories(LinesideTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
 
-add_test(NAME AllTests COMMAND LinesideTest)
+add_test(NAME Quick COMMAND LinesideTest --run_test=\!@LongRunning)
 
 add_subdirectory(mocks)
 
+add_subdirectory(pigpiod)
 
+add_subdirectory(xml)
 add_subdirectory(xmlsamples)

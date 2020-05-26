@@ -13,6 +13,8 @@ const std::string configFileTwoTCM = "full-configuration-two-tcm.xml";
 
 // ==============
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( ConfigurationReader )
 
 BOOST_AUTO_TEST_CASE( SmokeReader )
@@ -85,5 +87,7 @@ BOOST_AUTO_TEST_CASE( ReadTwoTCM )
     BOOST_CHECK_EQUAL( expectedId, tcmd->id );
   }
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

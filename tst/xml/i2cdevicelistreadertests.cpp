@@ -15,6 +15,8 @@ const std::string i2cdevicelistFragment = "i2cdevicelist-fragment.xml";
 
 // ==============
 
+BOOST_AUTO_TEST_SUITE( xml )
+
 BOOST_AUTO_TEST_SUITE( I2CDeviceListReader )
 
 BOOST_AUTO_TEST_CASE( SmokeReader )
@@ -47,5 +49,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( dev1.name, "dev2" );
   BOOST_REQUIRE_EQUAL( dev1.settings.size(), 0 );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

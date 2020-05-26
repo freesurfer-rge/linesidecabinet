@@ -12,6 +12,8 @@
  */
 
 
+BOOST_AUTO_TEST_SUITE( Mocks )
+
 BOOST_AUTO_TEST_SUITE(MockBIPValidation)
 
 BOOST_AUTO_TEST_CASE(GetAndSet)
@@ -96,5 +98,7 @@ BOOST_AUTO_TEST_CASE(ExpiredTargetHarmless)
   // Still should be OK
   BOOST_CHECK_NO_THROW(mb.Set(true));
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

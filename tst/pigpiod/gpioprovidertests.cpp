@@ -5,6 +5,8 @@
 #include "linesideexceptions.hpp"
 #include "pigpiod/gpioprovider.hpp"
 
+BOOST_AUTO_TEST_SUITE( pigpiod )
+
 BOOST_AUTO_TEST_SUITE( GPIOProvider )
 
 BOOST_AUTO_TEST_CASE( Smoke )
@@ -58,5 +60,7 @@ BOOST_AUTO_TEST_CASE( NoDoublePinId )
 			 Lineside::DuplicateKeyException,
 			 GetExceptionMessageChecker<Lineside::DuplicateKeyException>(msg) );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
