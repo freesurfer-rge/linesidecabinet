@@ -9,6 +9,8 @@ enable_testing()
 # --------
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
+find_package(Threads REQUIRED)
+
 find_package(Boost REQUIRED COMPONENTS filesystem system program_options)
 
 find_package(Doxygen)
@@ -37,15 +39,6 @@ string(
   )
 
 add_compile_options("${_warning_opts}")
-
-# Threading options for the compiler
-string(
-  APPEND _thread_opts
-  "$<$<CXX_COMPILER_ID:GNU>:-pthread;>"
-  )
-add_compile_options("${_thread_opts}")
-add_link_options("${_thread_opts}")
-
 
 # Profiling options (GCC only for now)
 string(
