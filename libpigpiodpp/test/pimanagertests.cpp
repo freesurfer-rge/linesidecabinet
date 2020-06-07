@@ -1,43 +1,38 @@
 #include <boost/test/unit_test.hpp>
 
-#include "exceptionmessagecheck.hpp"
-
-#include "pigpiod/pimanager.hpp"
-#include "pigpiod/gpiopin.hpp"
-#include "pigpiod/pigpiodexceptions.hpp"
-
-BOOST_AUTO_TEST_SUITE( pigpiod )
+#include "pigpiodpp/pimanager.hpp"
+#include "pigpiodpp/gpiopin.hpp"
+#include "pigpiodpp/pigpiodexceptions.hpp"
 
 BOOST_AUTO_TEST_SUITE( PiManager )
 
 BOOST_AUTO_TEST_CASE( Smoke )
 {
-  auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 }
 
 BOOST_AUTO_TEST_CASE( NoDoubleInitialise )
 {
-  auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
   std::string msg("CreatePiManager: Already initialised");
-  BOOST_CHECK_EXCEPTION( Lineside::PiGPIOd::PiManager::CreatePiManager(),
-			 std::logic_error,
-			 GetExceptionMessageChecker<std::logic_error>(msg) );
+  BOOST_CHECK_THROW( PiGPIOdpp::PiManager::CreatePiManager(),
+		     std::logic_error );
 }
 
 BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
 {
-  auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
   // Have to pick a 'safe' GPIO for real hardware
   auto gpio1 = pm->GetGPIOPin(5);
   BOOST_REQUIRE( gpio1 );
   BOOST_CHECK_EQUAL( pm.use_count(), 2 );
-
-  gpio1->SetMode( Lineside::PiGPIOd::GPIOMode::Output );
+  
+  gpio1->SetMode( PiGPIOdpp::GPIOMode::Output );
   gpio1->Write(false);
   // Even if we're using the stub, it will always return 0
   BOOST_CHECK( !gpio1->Read() );
@@ -55,7 +50,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
  */
 BOOST_AUTO_TEST_CASE( SmokeGPIOPinException )
 {
-  auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
   /*
@@ -65,15 +60,11 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinException )
   auto gpio1 = pm->GetGPIOPin(1024);
   BOOST_REQUIRE( gpio1 );
 
-  std::string msg("Error from pigpiod on calling 'set_mode'. Error code is '-3' with explanation: GPIO not 0-53");
-  BOOST_CHECK_EXCEPTION( gpio1->SetMode( Lineside::PiGPIOd::GPIOMode::Output ),
-			 Lineside::PiGPIOd::PiGPIOdException,
-			 GetExceptionMessageChecker<Lineside::PiGPIOd::PiGPIOdException>(msg) );
+  BOOST_CHECK_THROW( gpio1->SetMode( PiGPIOdpp::GPIOMode::Output ),
+		     PiGPIOdpp::PiGPIOdException );
 }
 
 
 #endif
-
-BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
