@@ -7,12 +7,13 @@ parameters:
 steps:
 - script: make test
   displayName: "Run all tests"
-  workingDirectory: 
+  workingDirectory: ${{ parameters.testDir }}
 
 - task: PublishTestResults@2
   displayName: "Publish test results"
   condition: succeededOrFailed()
   inputs:
+    workingDirectory: ${{ parameters.testDir }}
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/*JUNIT.xml'
     searchFolder: test_results
