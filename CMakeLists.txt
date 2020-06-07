@@ -11,7 +11,8 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH}
 
 find_package(Threads REQUIRED)
 
-find_package(Boost REQUIRED COMPONENTS filesystem system program_options)
+find_package(Boost REQUIRED
+  COMPONENTS filesystem program_options)
 
 find_package(Doxygen)
 

@@ -14,3 +14,4 @@ list(APPEND srcs softwaremanagerdatareadertests.cpp)
 list(APPEND srcs xercesguardtests.cpp)
 
 target_sources(LinesideTest PRIVATE ${srcs})
+target_link_libraries(LinesideTest PUBLIC Boost::filesystem)

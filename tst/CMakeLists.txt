@@ -28,12 +28,10 @@ list(APPEND srcs pwitemmanagertests.cpp)
 
 
 add_executable(LinesideTest ${srcs})
-target_include_directories(LinesideTest
-  SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
 # The following is so that subdirectories can find things like
 # exceptionmessagecheck.hpp
 target_include_directories(LinesideTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(LinesideTest lineside ${Boost_LIBRARIES})
+target_link_libraries(LinesideTest PUBLIC lineside Boost::boost)
 
 add_test(NAME Quick COMMAND LinesideTest --run_test=\!@LongRunning)
 
