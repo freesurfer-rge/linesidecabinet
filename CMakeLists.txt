@@ -17,19 +17,12 @@ find_package(Boost REQUIRED
 find_package(Doxygen)
 
 find_package(XercesC REQUIRED)
-
-find_package(pigpio)
 # --------
 
 # Configure the language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
-# Handle pigpiod
-if( pigpio_FOUND )
-  add_compile_definitions("HAVE_PIGPIO")
-endif()
 
 # Warning options for the compiler
 string(
@@ -51,9 +44,10 @@ add_link_options("${_profile_opts}")
 
 # --------
 
-add_subdirectory( src )
-add_subdirectory( tst )
-add_subdirectory( apps )
+add_subdirectory( libpigpiodpp )
+#add_subdirectory( src )
+#add_subdirectory( tst )
+#add_subdirectory( apps )
 
 # --------
 
