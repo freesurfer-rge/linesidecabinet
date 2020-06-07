@@ -2,6 +2,7 @@
 
 #include <string>
 
+//! Namespace for the C++ wrapper of PiGPIOd
 namespace PiGPIOdpp {
   //! The concept of parsing
   /*!
