@@ -10,7 +10,7 @@ if( pigpio_FOUND )
   target_compile_definitions(pigpiodpp PRIVATE "HAVE_PIGPIO")
   target_include_directories(pigpiodpp
     SYSTEM PRIVATE ${pigpio_INCLUDE_DIR})
-  target_link_libraries(pigpiodpp PRIVATE ${pigpiod_if2_LIBRARY)
+  target_link_libraries(pigpiodpp PRIVATE ${pigpiod_if2_LIBRARY})
 else()
   target_include_directories(pigpiodpp
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
