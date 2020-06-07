@@ -33,7 +33,7 @@ add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(LinesideTest PUBLIC lineside Boost::boost Boost::filesystem)
 
-add_test(NAME Quick COMMAND LinesideTest --log_sink=${TEST_RESULTS_DIRECTORY}/LinesideTest-JUNIT.xml ${TEST_COMMON_ARGS} --run_test=\!@LongRunning)
+add_test(NAME linesideQuick COMMAND LinesideTest --log_sink=${TEST_RESULTS_DIRECTORY}/LinesideTest-JUNIT.xml ${TEST_COMMON_ARGS} --run_test=\!@LongRunning)
 
 add_subdirectory(mocks)
 

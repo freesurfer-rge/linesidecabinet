@@ -13,9 +13,8 @@ steps:
   displayName: "Publish test results"
   condition: succeededOrFailed()
   inputs:
-    workingDirectory: ${{ parameters.testDir }}
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/*JUNIT.xml'
-    searchFolder: test_results
+    searchFolder: ${{ parameters.testDir }}
     failTaskOnFailedTests: true
     testRunTitle: ${{ parameters.testTitle }}
