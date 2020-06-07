@@ -3,15 +3,14 @@
 #ifdef HAVE_PIGPIO
 #include <pigpiod_if2.h>
 #else
-#include "pigpiod/pigpiodstubs.hpp"
+#include "pigpiodpp/pigpiodstubs.hpp"
 #endif
 
-namespace Lineside {
-  namespace PiGPIOd {
-    enum class GPIOEdge {
-			 Rising = RISING_EDGE,
-			 Falling = FALLING_EDGE,
-			 Either = EITHER_EDGE
-    };
-  }
+namespace PiGPIOdpp {
+  //! Enumeration of edges for input pin level changes
+  enum class GPIOEdge {
+		       Rising = RISING_EDGE,
+		       Falling = FALLING_EDGE,
+		       Either = EITHER_EDGE
+  };
 }

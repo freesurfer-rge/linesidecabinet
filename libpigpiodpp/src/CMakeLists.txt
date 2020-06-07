@@ -5,6 +5,8 @@ add_library(pigpiodpp)
 set(srcs)
 
 list(APPEND srcs gpiopull.cpp)
+list(APPEND srcs gpiopin.cpp)
+list(APPEND srcs pimanager.cpp)
 
 if( pigpio_FOUND )
   target_compile_definitions(pigpiodpp PRIVATE "HAVE_PIGPIO")
