@@ -10,7 +10,7 @@ BOOST_AUTO_TEST_CASE( Smoke )
 {
   std::shared_ptr<Lineside::PiGPIOd::GPInputProvider> provider;
   {
-    auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
+    auto pm = PiGPIOdpp::PiManager::CreatePiManager();
     
     auto gpioProvider = std::make_shared<Lineside::PiGPIOd::GPIOProvider>(pm);
     
@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE( GetPin )
 {
   std::shared_ptr<Lineside::PiGPIOd::GPInputProvider> provider;
   {
-    auto pm = Lineside::PiGPIOd::PiManager::CreatePiManager();
+    auto pm = PiGPIOdpp::PiManager::CreatePiManager();
     
     auto gpioProvider = std::make_shared<Lineside::PiGPIOd::GPIOProvider>(pm);
     

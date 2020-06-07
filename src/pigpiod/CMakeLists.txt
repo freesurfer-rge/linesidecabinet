@@ -9,5 +9,5 @@ list(APPEND srcs gpinputprovider.cpp)
 list(APPEND srcs pihardwaremanager.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
-target_link_libraries(lineside PRIVATE pigpiodpp)
+target_link_libraries(lineside PUBLIC pigpiodpp)
 
