@@ -31,7 +31,7 @@ add_executable(LinesideTest ${srcs})
 # The following is so that subdirectories can find things like
 # exceptionmessagecheck.hpp
 target_include_directories(LinesideTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(LinesideTest PUBLIC lineside Boost::boost)
+target_link_libraries(LinesideTest PUBLIC lineside Boost::boost Boost::filesystem)
 
 add_test(NAME Quick COMMAND LinesideTest --run_test=\!@LongRunning)
 

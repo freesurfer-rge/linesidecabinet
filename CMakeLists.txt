@@ -11,7 +11,8 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH}
 
 find_package(Threads REQUIRED)
 
-find_package(Boost REQUIRED
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.65 REQUIRED
   COMPONENTS filesystem program_options)
 
 find_package(Doxygen)
@@ -47,7 +48,7 @@ add_link_options("${_profile_opts}")
 add_subdirectory( libpigpiodpp )
 add_subdirectory( src )
 add_subdirectory( tst )
-#add_subdirectory( apps )
+add_subdirectory( apps )
 
 # --------
 
