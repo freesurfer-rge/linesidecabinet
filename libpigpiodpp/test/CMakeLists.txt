@@ -1,6 +1,7 @@
 set(srcs test.cpp)
 
 list(APPEND srcs gpiopulltests.cpp)
+list(APPEND srcs gpiopintests.cpp)
 
 
 add_executable(PiGPIOdppTest ${srcs})
