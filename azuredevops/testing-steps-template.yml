@@ -15,6 +15,6 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/*JUNIT.xml'
-    searchFolder: 
+    searchFolder: test_results
     failTaskOnFailedTests: true
     testRunTitle: ${{ parameters.testTitle }}
