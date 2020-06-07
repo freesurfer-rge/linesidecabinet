@@ -11,7 +11,8 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH}
 
 find_package(Threads REQUIRED)
 
-set(Boost_USE_STATIC_LIBS ON)
+# Follow needed on OSX due to DYLD_LIBRARY_PATH issues when running ctest
+# set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.65 REQUIRED
   COMPONENTS filesystem program_options)
 
