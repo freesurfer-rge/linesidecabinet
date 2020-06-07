@@ -14,9 +14,9 @@ namespace Lineside {
 				 const std::map<std::string,std::string>& settings) {
       unsigned char pinId = std::stoul(hardwareId);
 
-      GPIOPull pull = GPIOPull::Off;
+      PiGPIOdpp::GPIOPull pull = PiGPIOdpp::GPIOPull::Off;
       unsigned int glitchMicroseconds = 0;
-      GPIOEdge callBackEdge = GPIOEdge::Either;
+      PiGPIOdpp::GPIOEdge callBackEdge = PiGPIOdpp::GPIOEdge::Either;
 
       size_t settingsUsed = 0;
       if( settings.count(GPInputProvider::glitchSetting) == 1 ) {
@@ -25,7 +25,7 @@ namespace Lineside {
       }
 
       if( settings.count(GPInputProvider::pudSetting) == 1 ) {
-	pull = Parse<GPIOPull>(settings.at(GPInputProvider::pudSetting));
+	pull = PiGPIOdpp::Parse<PiGPIOdpp::GPIOPull>(settings.at(GPInputProvider::pudSetting));
 	settingsUsed++;
       }
 

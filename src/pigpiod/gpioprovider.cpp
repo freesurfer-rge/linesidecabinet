@@ -5,7 +5,7 @@
 
 namespace Lineside {
   namespace PiGPIOd {
-    GPIOProvider::GPIOProvider(std::shared_ptr<PiManager> piHardware) :
+    GPIOProvider::GPIOProvider(std::shared_ptr<PiGPIOdpp::PiManager> piHardware) :
       pi(piHardware),
       allocatedPins() {}
 
@@ -13,19 +13,19 @@ namespace Lineside {
       this->ReservePin(pinId);
       return std::unique_ptr<GPOutput>(new GPOutput(this->pi->GetGPIOPin(pinId)));
     }
-
+    
     std::unique_ptr<GPInput>
     GPIOProvider::GetGPInput(const unsigned char pinId,
-			     const GPIOPull pull,
+			     const PiGPIOdpp::GPIOPull pull,
 			     const unsigned int glitchSteadyMicroseconds,
-			     const GPIOEdge callBackEdge) {
+			     const PiGPIOdpp::GPIOEdge callBackEdge) {
       this->ReservePin(pinId);
       return std::unique_ptr<GPInput>(new GPInput(this->pi->GetGPIOPin(pinId),
 						  pull,
 						  glitchSteadyMicroseconds,
 						  callBackEdge));
     }
-
+    
     void GPIOProvider::ReservePin(const unsigned char pinId) {
       if( this->allocatedPins.count(pinId) != 0 ) {
 	// Want to print as number, not character

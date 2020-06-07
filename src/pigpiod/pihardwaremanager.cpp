@@ -8,7 +8,7 @@ namespace Lineside {
   namespace PiGPIOd {
     PiHardwareManager::PiHardwareManager(const HardwareManagerData& data) :
       HardwareManager(),
-      piManager(PiManager::CreatePiManager()),
+      piManager(PiGPIOdpp::PiManager::CreatePiManager()),
       gpioProvider() {
       if( data.settings.size() != 0 ) {
 	throw std::logic_error("Settings not supported for PiHardwareManager");

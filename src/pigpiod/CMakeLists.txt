@@ -1,14 +1,5 @@
 set(srcs)
 
-if( NOT pigpio_FOUND )
-  list(APPEND srcs pigpiodstubs.cpp)
-endif()
-
-list(APPEND srcs pimanager.cpp)
-list(APPEND srcs gpiopin.cpp)
-
-list(APPEND srcs gpiopull.cpp)
-
 list(APPEND srcs gpoutput.cpp)
 list(APPEND srcs gpinput.cpp)
 list(APPEND srcs gpioprovider.cpp)
@@ -18,9 +9,5 @@ list(APPEND srcs gpinputprovider.cpp)
 list(APPEND srcs pihardwaremanager.cpp)
 
 target_sources( lineside PRIVATE ${srcs} )
+target_link_libraries(lineside PRIVATE pigpiodpp)
 
-if( pigpio_FOUND )
-  target_include_directories(lineside SYSTEM
-    PRIVATE ${pigpio_INCLUDE_DIR})
-  target_link_libraries(lineside PRIVATE ${pigpiod_if2_LIBRARY})
-endif()

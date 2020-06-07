@@ -2,22 +2,22 @@
 
 #include "binaryinputpin.hpp"
 
-#include "pigpiod/gpiopin.hpp"
+#include "pigpiodpp/gpiopin.hpp"
 
 namespace Lineside {
   namespace PiGPIOd {
     class GPInput : public BinaryInputPin {
     public:
-      GPInput(std::unique_ptr<GPIOPin> piPin,
-	      const GPIOPull pull,
+      GPInput(std::unique_ptr<PiGPIOdpp::GPIOPin> piPin,
+	      const PiGPIOdpp::GPIOPull pull,
 	      const unsigned int glitchSteadyMicroseconds,
-	      const GPIOEdge callBackEdge);
+	      const PiGPIOdpp::GPIOEdge callBackEdge);
 
       virtual bool Get() const override;
 
       void ReceiveUpdate(const bool level);
     private:
-      std::unique_ptr<GPIOPin> pin;
+      std::unique_ptr<PiGPIOdpp::GPIOPin> pin;
     };
   }
 }

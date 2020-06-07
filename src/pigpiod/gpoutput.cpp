@@ -2,9 +2,9 @@
 
 namespace Lineside {
   namespace PiGPIOd {
-    GPOutput::GPOutput(std::unique_ptr<GPIOPin> piPin) :
+    GPOutput::GPOutput(std::unique_ptr<PiGPIOdpp::GPIOPin> piPin) :
       pin(std::move(piPin)) {
-      this->pin->SetMode(GPIOMode::Output);
+      this->pin->SetMode(PiGPIOdpp::GPIOMode::Output);
       this->Set(false);
     }
 

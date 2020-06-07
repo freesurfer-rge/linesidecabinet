@@ -4,12 +4,12 @@
 
 namespace Lineside {
   namespace PiGPIOd {
-    GPInput::GPInput(std::unique_ptr<GPIOPin> piPin,
-		     GPIOPull pull,
+    GPInput::GPInput(std::unique_ptr<PiGPIOdpp::GPIOPin> piPin,
+		     PiGPIOdpp::GPIOPull pull,
 		     unsigned int glitchSteadyMicroseconds,
-		     GPIOEdge callBackEdge) :
+		     PiGPIOdpp::GPIOEdge callBackEdge) :
       pin(std::move(piPin)) {
-      this->pin->SetMode(GPIOMode::Input);
+      this->pin->SetMode(PiGPIOdpp::GPIOMode::Input);
       this->pin->SetPUDResistor(pull);
       this->pin->SetGlitchFilter(glitchSteadyMicroseconds);
 

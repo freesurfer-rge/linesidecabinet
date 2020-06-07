@@ -3,7 +3,7 @@
 #include "hardwaremanagerdata.hpp"
 #include "hardwaremanager.hpp"
 
-#include "pigpiod/pimanager.hpp"
+#include "pigpiodpp/pimanager.hpp"
 #include "pigpiod/gpioprovider.hpp"
 
 namespace Lineside {
@@ -15,7 +15,7 @@ namespace Lineside {
       PiHardwareManager(const HardwareManagerData& data);
       
     private:
-      std::shared_ptr<PiManager> piManager;
+      std::shared_ptr<PiGPIOdpp::PiManager> piManager;
       std::shared_ptr<GPIOProvider> gpioProvider;
     };
   }
