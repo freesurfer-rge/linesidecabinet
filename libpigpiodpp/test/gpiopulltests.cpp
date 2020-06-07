@@ -4,23 +4,21 @@
 
 #include <sstream>
 
-#include "pigpiod/gpiopull.hpp"
+#include "pigpiodpp/gpiopull.hpp"
 
 char const* pullNames[] = { "Off", "Down", "Up" };
-Lineside::PiGPIOd::GPIOPull pulls[] = { Lineside::PiGPIOd::GPIOPull::Off,
-					Lineside::PiGPIOd::GPIOPull::Down,
-					Lineside::PiGPIOd::GPIOPull::Up };
+PiGPIOdpp::GPIOPull pulls[] = { PiGPIOdpp::GPIOPull::Off,
+				PiGPIOdpp::GPIOPull::Down,
+				PiGPIOdpp::GPIOPull::Up };
 
 auto nameToPullZip = boost::unit_test::data::make(pullNames)
   ^ boost::unit_test::data::make(pulls);
-
-BOOST_AUTO_TEST_SUITE( pigpiod )
 
 BOOST_AUTO_TEST_SUITE( GPIOPull )
 
 BOOST_DATA_TEST_CASE( ToString, nameToPullZip, name, pull )
 {
-  BOOST_CHECK_EQUAL( name, Lineside::PiGPIOd::ToString(pull) );
+  BOOST_CHECK_EQUAL( name, PiGPIOdpp::ToString(pull) );
 }
 
 BOOST_DATA_TEST_CASE( StreamInsertion, nameToPullZip, name, pull )
@@ -32,9 +30,7 @@ BOOST_DATA_TEST_CASE( StreamInsertion, nameToPullZip, name, pull )
 
 BOOST_DATA_TEST_CASE( Parse, nameToPullZip, name, pull )
 {
-  BOOST_CHECK_EQUAL( pull, Lineside::Parse<Lineside::PiGPIOd::GPIOPull>(name) );
+  BOOST_CHECK_EQUAL( pull, PiGPIOdpp::Parse<PiGPIOdpp::GPIOPull>(name) );
 }
-
-BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

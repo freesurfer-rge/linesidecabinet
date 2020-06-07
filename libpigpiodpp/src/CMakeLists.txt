@@ -12,8 +12,6 @@ if( pigpio_FOUND )
     SYSTEM PRIVATE ${pigpio_INCLUDE_DIR})
   target_link_libraries(pigpiodpp PRIVATE ${pigpiod_if2_LIBRARY})
 else()
-  target_include_directories(pigpiodpp
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
   list(APPEND srcs pigpiodstubs.cpp)
 endif()
 

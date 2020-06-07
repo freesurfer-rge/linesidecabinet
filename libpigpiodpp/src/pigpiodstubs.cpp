@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <boost/predef.h>
 
-#include "pigpiodstubs.hpp"
+#include "pigpiodpp/pigpiodstubs.hpp"
 
 const int piId = 0;
 
