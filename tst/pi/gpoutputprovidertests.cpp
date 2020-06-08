@@ -1,21 +1,21 @@
 #include <boost/test/unit_test.hpp>
 
-#include "pigpiod/gpoutputprovider.hpp"
+#include "pi/gpoutputprovider.hpp"
 
-BOOST_AUTO_TEST_SUITE( pigpiod )
+BOOST_AUTO_TEST_SUITE( pi )
 
 BOOST_AUTO_TEST_SUITE( GPOutputProvider )
 
 BOOST_AUTO_TEST_CASE( Smoke )
 {
-  std::shared_ptr<Lineside::PiGPIOd::GPOutputProvider> provider;
+  std::shared_ptr<Lineside::Pi::GPOutputProvider> provider;
   
   {  
     auto pm = PiGPIOdpp::PiManager::CreatePiManager();
 
-    auto gpioProvider = std::make_shared<Lineside::PiGPIOd::GPIOProvider>(pm);
+    auto gpioProvider = std::make_shared<Lineside::Pi::GPIOProvider>(pm);
 
-    provider = std::make_shared<Lineside::PiGPIOd::GPOutputProvider>(gpioProvider);
+    provider = std::make_shared<Lineside::Pi::GPOutputProvider>(gpioProvider);
   }
 
   BOOST_REQUIRE(provider);
@@ -23,13 +23,13 @@ BOOST_AUTO_TEST_CASE( Smoke )
 
 BOOST_AUTO_TEST_CASE( GetPin )
 {
-  std::shared_ptr<Lineside::PiGPIOd::GPOutputProvider> provider;
+  std::shared_ptr<Lineside::Pi::GPOutputProvider> provider;
   {  
     auto pm = PiGPIOdpp::PiManager::CreatePiManager();
 
-    auto gpioProvider = std::make_shared<Lineside::PiGPIOd::GPIOProvider>(pm);
+    auto gpioProvider = std::make_shared<Lineside::Pi::GPIOProvider>(pm);
 
-    provider = std::make_shared<Lineside::PiGPIOd::GPOutputProvider>(gpioProvider);
+    provider = std::make_shared<Lineside::Pi::GPOutputProvider>(gpioProvider);
   }
 
   BOOST_REQUIRE(provider);
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( GetPin )
   // Should start with pin in off state
   BOOST_CHECK_EQUAL( bop->Get(), false );
 
-  auto gpbop = dynamic_cast<Lineside::PiGPIOd::GPOutput*>(bop.get());
+  auto gpbop = dynamic_cast<Lineside::Pi::GPOutput*>(bop.get());
   BOOST_REQUIRE(gpbop);
 }
 

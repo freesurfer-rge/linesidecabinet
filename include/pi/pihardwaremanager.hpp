@@ -7,6 +7,7 @@
 #include "pi/gpioprovider.hpp"
 
 namespace Lineside {
+  //! Namespace for holding hardware implementations for the Raspberry Pi
   namespace Pi {
     class PiHardwareManager : public HardwareManager {
     public:
