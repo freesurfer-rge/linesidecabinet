@@ -1,8 +1,6 @@
 #include "lineside/trackcircuitmonitordata.hpp"
 #include "lineside/trackcircuitmonitor.hpp"
 
-#include "lineside/utility.hpp"
-
 namespace Lineside {
   std::shared_ptr<PWItemModel>
   TrackCircuitMonitorData::Construct(HardwareManager& hw,

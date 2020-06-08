@@ -1,4 +1,4 @@
-#include "lineside/utility.hpp"
+#include "lineside/linesideexceptions.hpp"
 
 #include "lineside/multiaspectsignalhead.hpp"
 

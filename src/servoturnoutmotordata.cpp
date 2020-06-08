@@ -1,6 +1,5 @@
 #include "lineside/servoturnoutmotordata.hpp"
 
-#include "lineside/utility.hpp"
 #include "lineside/servoturnoutmotor.hpp"
 
 namespace Lineside {

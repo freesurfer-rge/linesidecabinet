@@ -2,8 +2,6 @@
 
 #include "lineside/trackcircuitmonitor.hpp"
 
-#include "lineside/utility.hpp"
-
 namespace Lineside {
   void TrackCircuitMonitor::OnActivate() {}
 

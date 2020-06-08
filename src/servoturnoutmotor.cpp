@@ -1,7 +1,5 @@
 #include <thread>
 
-#include "lineside/utility.hpp"
-
 #include "lineside/servoturnoutmotor.hpp"
 
 namespace Lineside {
