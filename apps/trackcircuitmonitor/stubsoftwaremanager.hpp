@@ -1,7 +1,7 @@
 #pragma once
 
-#include "rtcclient.hpp"
-#include "softwaremanager.hpp"
+#include "lineside/rtcclient.hpp"
+#include "lineside/softwaremanager.hpp"
 
 class StubRTCClient : public Lineside::RTCClient {
 public:

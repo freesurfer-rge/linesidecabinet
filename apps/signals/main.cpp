@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "pigpiod/pihardwaremanager.hpp"
-#include "xml/configurationreader.hpp"
-#include "multiaspectsignalheaddata.hpp"
+#include "lineside/pi/pihardwaremanager.hpp"
+#include "lineside/xml/configurationreader.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
 
-#include "pwitemmanager.hpp"
+#include "lineside/pwitemmanager.hpp"
 
 #include "cmdlineopts.hpp"
 #include "stubsoftwaremanager.hpp"
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     auto config = cr.Read(opts.configFilePath);
     CheckPWItems(config.pwItems);
 
-    auto hw = std::make_shared<Lineside::PiGPIOd::PiHardwareManager>(config.hwManager);
+    auto hw = std::make_shared<Lineside::Pi::PiHardwareManager>(config.hwManager);
     auto sw = std::make_shared<StubSoftwareManager>();
     Lineside::PWItemManager pwItemManager( hw, sw );
 

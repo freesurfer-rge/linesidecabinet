@@ -1,10 +1,9 @@
 #include <string>
 #include <vector>
 
-#include "signalstate.hpp"
-#include "signalflash.hpp"
-#include "multiaspectsignalhead.hpp"
-#include "utility.hpp"
+#include "lineside/signalstate.hpp"
+#include "lineside/signalflash.hpp"
+#include "lineside/multiaspectsignalhead.hpp"
 
 #include "runonconsole.hpp"
 

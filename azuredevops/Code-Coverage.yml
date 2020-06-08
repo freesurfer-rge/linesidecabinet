@@ -15,7 +15,7 @@ pool:
 
 variables:
   buildDir: $(Agent.TempDirectory)/bld
-  testDir: $(buildDir)/tst
+  testDir: $(buildDir)
   PyVer: 3.6
 
 jobs:

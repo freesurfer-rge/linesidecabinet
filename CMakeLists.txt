@@ -11,25 +11,20 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH}
 
 find_package(Threads REQUIRED)
 
-find_package(Boost REQUIRED
+# Follow needed on OSX due to DYLD_LIBRARY_PATH issues when running ctest
+# set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.65 REQUIRED
   COMPONENTS filesystem program_options)
 
 find_package(Doxygen)
 
 find_package(XercesC REQUIRED)
-
-find_package(pigpio)
 # --------
 
 # Configure the language standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
-# Handle pigpiod
-if( pigpio_FOUND )
-  add_compile_definitions("HAVE_PIGPIO")
-endif()
 
 # Warning options for the compiler
 string(
@@ -51,8 +46,14 @@ add_link_options("${_profile_opts}")
 
 # --------
 
-add_subdirectory( src )
-add_subdirectory( tst )
+# Set up testing settings
+
+set(TEST_COMMON_ARGS --log_level=all --log_format=JUNIT --report_sink=stdout)
+
+# --------
+
+add_subdirectory( libpigpiodpp )
+add_subdirectory( liblineside )
 add_subdirectory( apps )
 
 # --------

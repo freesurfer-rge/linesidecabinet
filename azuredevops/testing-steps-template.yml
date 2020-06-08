@@ -5,7 +5,7 @@ parameters:
   testTitle: 'Lineside Test Run'
 
 steps:
-- script: ./LinesideTest --log_level=all --log_format=JUNIT --log_sink=test-results-JUNIT.xml --report_sink=stdout
+- script: make test
   displayName: "Run all tests"
   workingDirectory: ${{ parameters.testDir }}
 
