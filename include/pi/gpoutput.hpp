@@ -5,7 +5,7 @@
 #include "pigpiodpp/gpiopin.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     class GPOutput : public BinaryOutputPin {
     public:
       GPOutput(std::unique_ptr<PiGPIOdpp::GPIOPin> piPin);

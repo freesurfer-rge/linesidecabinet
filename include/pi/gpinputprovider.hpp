@@ -2,11 +2,11 @@
 
 #include "hardwareprovider.hpp"
 
-#include "pigpiod/gpioprovider.hpp"
-#include "pigpiod/gpinput.hpp"
+#include "pi/gpioprovider.hpp"
+#include "pi/gpinput.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     class GPInputProvider : public HardwareProvider<BinaryInputPin> {
     public:
       const std::string glitchSetting = "glitch";

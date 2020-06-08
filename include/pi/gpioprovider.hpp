@@ -3,11 +3,11 @@
 #include <set>
 
 #include "pigpiodpp/pimanager.hpp"
-#include "pigpiod/gpoutput.hpp"
-#include "pigpiod/gpinput.hpp"
+#include "pi/gpoutput.hpp"
+#include "pi/gpinput.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     class GPIOProvider {
     public:
       GPIOProvider(std::shared_ptr<PiGPIOdpp::PiManager> piHardware);

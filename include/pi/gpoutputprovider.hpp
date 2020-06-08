@@ -2,11 +2,11 @@
 
 #include "hardwareprovider.hpp"
 
-#include "pigpiod/gpioprovider.hpp"
-#include "pigpiod/gpoutput.hpp"
+#include "pi/gpioprovider.hpp"
+#include "pi/gpoutput.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     class GPOutputProvider : public HardwareProvider<BinaryOutputPin> {
     public:
       GPOutputProvider(std::shared_ptr<GPIOProvider> provider);
