@@ -13,6 +13,7 @@ if( pigpio_FOUND )
     SYSTEM PRIVATE ${pigpio_INCLUDE_DIR})
   target_link_libraries(pigpiodpp PRIVATE ${pigpiod_if2_LIBRARY})
 else()
+  message(STATUS "Using stubs in place of pigpiod")
   list(APPEND srcs pigpiodstubs.cpp)
 endif()
 
