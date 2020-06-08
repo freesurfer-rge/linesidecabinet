@@ -1,13 +1,12 @@
 find_package(pigpio)
 
-add_library(pigpiodpp)
-
 set(srcs)
 
 list(APPEND srcs gpiopull.cpp)
 list(APPEND srcs gpiopin.cpp)
 list(APPEND srcs pimanager.cpp)
 
+# Have to do different things if we find the C pigpiod library
 if( pigpio_FOUND )
   target_compile_definitions(pigpiodpp PUBLIC "HAVE_PIGPIO")
   target_include_directories(pigpiodpp
@@ -18,5 +17,3 @@ else()
 endif()
 
 target_sources(pigpiodpp PRIVATE ${srcs})
-target_include_directories(pigpiodpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
-target_link_libraries(pigpiodpp PRIVATE Boost::boost)
