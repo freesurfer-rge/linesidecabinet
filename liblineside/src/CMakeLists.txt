@@ -23,12 +23,7 @@ list(APPEND srcs multiaspectsignalhead.cpp)
 
 list(APPEND srcs pwitemmanager.cpp)
 
-add_library(lineside)
-target_include_directories(lineside
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
-target_link_libraries(lineside
-  PUBLIC Threads::Threads
-  PRIVATE Boost::boost)
+# -- 
 
 target_sources(lineside PRIVATE ${srcs})
 
