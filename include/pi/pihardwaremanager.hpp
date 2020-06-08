@@ -4,10 +4,10 @@
 #include "hardwaremanager.hpp"
 
 #include "pigpiodpp/pimanager.hpp"
-#include "pigpiod/gpioprovider.hpp"
+#include "pi/gpioprovider.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     class PiHardwareManager : public HardwareManager {
     public:
       const std::string GPIO = "GPIO";

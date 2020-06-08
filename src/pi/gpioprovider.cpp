@@ -1,10 +1,10 @@
 #include <sstream>
 
-#include "pigpiod/gpioprovider.hpp"
+#include "pi/gpioprovider.hpp"
 #include "linesideexceptions.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     GPIOProvider::GPIOProvider(std::shared_ptr<PiGPIOdpp::PiManager> piHardware) :
       pi(piHardware),
       allocatedPins() {}

@@ -1,7 +1,7 @@
-#include "pigpiod/gpoutputprovider.hpp"
+#include "pi/gpoutputprovider.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     GPOutputProvider::GPOutputProvider(std::shared_ptr<GPIOProvider> provider) :
       HardwareProvider<BinaryOutputPin>(),
       gpioProvider(provider) {}

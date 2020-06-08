@@ -1,9 +1,9 @@
 #include <sstream>
 
-#include "pigpiod/gpinputprovider.hpp"
+#include "pi/gpinputprovider.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     GPInputProvider::GPInputProvider(std::shared_ptr<GPIOProvider> provider) :
       HardwareProvider<BinaryInputPin>(),
       gpioProvider(provider) {}

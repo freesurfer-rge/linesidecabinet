@@ -31,4 +31,4 @@ target_link_libraries(lineside
   PRIVATE Boost::boost)
 
 add_subdirectory(xml)
-add_subdirectory(pigpiod)
+add_subdirectory(pi)

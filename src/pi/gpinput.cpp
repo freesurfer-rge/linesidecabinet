@@ -1,9 +1,9 @@
 #include <boost/predef.h>
 
-#include "pigpiod/gpinput.hpp"
+#include "pi/gpinput.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     GPInput::GPInput(std::unique_ptr<PiGPIOdpp::GPIOPin> piPin,
 		     PiGPIOdpp::GPIOPull pull,
 		     unsigned int glitchSteadyMicroseconds,

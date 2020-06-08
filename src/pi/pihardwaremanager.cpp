@@ -1,11 +1,11 @@
-#include "pigpiod/gpinputprovider.hpp"
-#include "pigpiod/gpoutputprovider.hpp"
+#include "pi/gpinputprovider.hpp"
+#include "pi/gpoutputprovider.hpp"
 
-#include "pigpiod/pihardwaremanager.hpp"
+#include "pi/pihardwaremanager.hpp"
 
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     PiHardwareManager::PiHardwareManager(const HardwareManagerData& data) :
       HardwareManager(),
       piManager(PiGPIOdpp::PiManager::CreatePiManager()),

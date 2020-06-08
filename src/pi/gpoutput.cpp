@@ -1,7 +1,7 @@
-#include "pigpiod/gpoutput.hpp"
+#include "pi/gpoutput.hpp"
 
 namespace Lineside {
-  namespace PiGPIOd {
+  namespace Pi {
     GPOutput::GPOutput(std::unique_ptr<PiGPIOdpp::GPIOPin> piPin) :
       pin(std::move(piPin)) {
       this->pin->SetMode(PiGPIOdpp::GPIOMode::Output);
