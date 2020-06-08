@@ -37,13 +37,13 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
   // Even if we're using the stub, it will always return 0
   BOOST_CHECK( !gpio1->Read() );
   gpio1->Write(true);
-#ifdef HAVE_PIGPIO
+#ifdef PIGPIODPP_HAVE_PIGPIO
   // Following can only work if we have a real Pi
   BOOST_CHECK( gpio1->Read() );
 #endif
 }
 
-#ifdef HAVE_PIGPIO
+#ifdef PIGPIODPP_HAVE_PIGPIO
 /*
   The following look for responses from the real PiGPIOd library
   As such, they have to run on a Pi

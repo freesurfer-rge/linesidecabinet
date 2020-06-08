@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 
-#ifdef HAVE_PIGPIO
+#ifdef PIGPIODPP_HAVE_PIGPIO
 #include <pigpiod_if2.h>
 #else
 #include "pigpiodpp/pigpiodstubs.hpp"

@@ -9,7 +9,7 @@
 //! Stream to be used for output from the stubs (default std::cout)
 extern std::ostream* pigpiodOS;
 
-#ifdef HAVE_PIGPIO
+#ifdef PIGPIODPP_HAVE_PIGPIO
 #error "The real pigpiod library is available. Do not use stubs"
 #endif
 
