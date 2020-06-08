@@ -3,10 +3,10 @@
 #include <atomic>
 #include <mutex>
 
-#include "notifiable.hpp"
-#include "pwitemmodel.hpp"
-#include "binaryinputpin.hpp"
-#include "rtcclient.hpp"
+#include "lineside/notifiable.hpp"
+#include "lineside/pwitemmodel.hpp"
+#include "lineside/binaryinputpin.hpp"
+#include "lineside/rtcclient.hpp"
 
 namespace Lineside {
   class TrackCircuitMonitorData;

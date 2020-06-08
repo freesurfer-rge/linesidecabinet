@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include "xml/utilities.hpp"
+#include "lineside/xml/utilities.hpp"
 
 #include "xmlutils.hpp"
 

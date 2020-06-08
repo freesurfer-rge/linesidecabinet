@@ -5,9 +5,9 @@
 #include <condition_variable>
 #include <memory>
 
-#include "notifiable.hpp"
+#include "lineside/notifiable.hpp"
 
-#include "itemid.hpp"
+#include "lineside/itemid.hpp"
 
 namespace Lineside {
   class PWItemModel;

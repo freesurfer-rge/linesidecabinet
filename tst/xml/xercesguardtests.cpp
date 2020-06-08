@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include "xml/xercesguard.hpp"
+#include "lineside/xml/xercesguard.hpp"
 
 BOOST_AUTO_TEST_SUITE( xml )
 

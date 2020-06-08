@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include "utility.hpp"
+#include "lineside/linesideexceptions.hpp"
 
 #include "mocks/mockbopprovider.hpp"
 #include "exceptionmessagecheck.hpp"

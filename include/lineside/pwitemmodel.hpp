@@ -2,9 +2,9 @@
 
 #include <chrono>
 
-#include "notifier.hpp"
+#include "lineside/notifier.hpp"
 
-#include "itemid.hpp"
+#include "lineside/itemid.hpp"
 
 namespace Lineside {
   //! Base class for Permanent Way Items

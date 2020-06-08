@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "linesideexceptions.hpp"
+#include "lineside/linesideexceptions.hpp"
 
 #include "mockpwmchannelprovider.hpp"
 

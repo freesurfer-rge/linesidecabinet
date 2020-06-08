@@ -2,9 +2,9 @@
 
 #include <map>
 
-#include "pwitemdata.hpp"
-#include "devicerequestdata.hpp"
-#include "signalaspect.hpp"
+#include "lineside/pwitemdata.hpp"
+#include "lineside/devicerequestdata.hpp"
+#include "lineside/signalaspect.hpp"
 
 namespace Lineside {
   class BinaryOutputPin;

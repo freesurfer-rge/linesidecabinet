@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include "multiaspectsignalheaddata.hpp"
-#include "linesideexceptions.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/linesideexceptions.hpp"
 
 #include "exceptionmessagecheck.hpp"
 

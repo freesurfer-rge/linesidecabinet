@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 
-#include "softwaremanagerdata.hpp"
-#include "hardwaremanagerdata.hpp"
-#include "pwitemdata.hpp"
+#include "lineside/softwaremanagerdata.hpp"
+#include "lineside/hardwaremanagerdata.hpp"
+#include "lineside/pwitemdata.hpp"
 
 namespace Lineside {
   //! Class to hold all configuration data

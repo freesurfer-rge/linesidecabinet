@@ -2,8 +2,8 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "multiaspectsignalheaddata.hpp"
-#include "multiaspectsignalhead.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/multiaspectsignalhead.hpp"
 
 #include "mockmanagerfixture.hpp"
 

@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
-#include "servoturnoutmotordata.hpp"
-#include "servoturnoutmotor.hpp"
+#include "lineside/servoturnoutmotordata.hpp"
+#include "lineside/servoturnoutmotor.hpp"
 
 #include "notifytarget.hpp"
 #include "mockmanagerfixture.hpp"

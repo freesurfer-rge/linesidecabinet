@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include "itemid.hpp"
-#include "pwitemmodel.hpp"
-#include "hardwaremanager.hpp"
-#include "softwaremanager.hpp"
+#include "lineside/itemid.hpp"
+#include "lineside/pwitemmodel.hpp"
+#include "lineside/hardwaremanager.hpp"
+#include "lineside/softwaremanager.hpp"
 
 namespace Lineside {
   //! Abstract base class for configuration data for permanent way items

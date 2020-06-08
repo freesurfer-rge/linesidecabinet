@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hardwaremanager.hpp"
+#include "lineside/hardwaremanager.hpp"
 
 #include "mockbipprovider.hpp"
 #include "mockbopprovider.hpp"

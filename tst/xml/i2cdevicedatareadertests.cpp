@@ -4,10 +4,10 @@
 
 #include "xmlutils.hpp"
 
-#include "xml/xercesguard.hpp"
-#include "xml/utilities.hpp"
+#include "lineside/xml/xercesguard.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/i2cdevicedatareader.hpp"
+#include "lineside/xml/i2cdevicedatareader.hpp"
 
 // ==============
 

@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "notifiable.hpp"
+#include "lineside/notifiable.hpp"
 
 namespace Lineside {
   //! A template class for sending notifications

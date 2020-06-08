@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "itemid.hpp"
+#include "lineside/itemid.hpp"
 
 BOOST_AUTO_TEST_SUITE(ItemId)
 

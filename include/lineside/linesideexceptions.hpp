@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "itemid.hpp"
+#include "lineside/itemid.hpp"
 
 namespace Lineside {
   //! Base class for all exceptions from this library

@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
-#include "trackcircuitmonitordata.hpp"
-#include "trackcircuitmonitor.hpp"
+#include "lineside/trackcircuitmonitordata.hpp"
+#include "lineside/trackcircuitmonitor.hpp"
 
 #include "mockmanagerfixture.hpp"
 

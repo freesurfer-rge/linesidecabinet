@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "rtcclient.hpp"
+#include "lineside/rtcclient.hpp"
 
 namespace Lineside {
   //! Abstraction for access to software resources

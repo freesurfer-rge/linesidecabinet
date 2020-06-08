@@ -1,10 +1,10 @@
 #pragma once
 
-#include "registrar.hpp"
-#include "hardwareprovider.hpp"
-#include "binaryoutputpin.hpp"
-#include "binaryinputpin.hpp"
-#include "pwmchannel.hpp"
+#include "lineside/registrar.hpp"
+#include "lineside/hardwareprovider.hpp"
+#include "lineside/binaryoutputpin.hpp"
+#include "lineside/binaryinputpin.hpp"
+#include "lineside/pwmchannel.hpp"
 
 namespace Lineside {
   //! Type for objects which supply binary output pins

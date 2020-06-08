@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include "pi/gpinputprovider.hpp"
+#include "lineside/pi/gpinputprovider.hpp"
 
 BOOST_AUTO_TEST_SUITE( pi )
 

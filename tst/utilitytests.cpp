@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "utility.hpp"
+#include "lineside/utility.hpp"
 
 BOOST_AUTO_TEST_SUITE(Utility)
 

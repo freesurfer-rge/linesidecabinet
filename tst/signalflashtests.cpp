@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-#include "signalflash.hpp"
+#include "lineside/signalflash.hpp"
 
 char const* flashNames[] = { "Steady", "Flashing" };
 Lineside::SignalFlash flashes[] = { Lineside::SignalFlash::Steady,

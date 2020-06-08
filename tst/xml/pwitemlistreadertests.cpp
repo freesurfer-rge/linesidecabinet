@@ -6,14 +6,14 @@
 
 #include "xmlutils.hpp"
 
-#include "xml/xercesguard.hpp"
-#include "xml/utilities.hpp"
+#include "lineside/xml/xercesguard.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/pwitemlistreader.hpp"
+#include "lineside/xml/pwitemlistreader.hpp"
 
-#include "servoturnoutmotordata.hpp"
-#include "trackcircuitmonitordata.hpp"
-#include "multiaspectsignalheaddata.hpp"
+#include "lineside/servoturnoutmotordata.hpp"
+#include "lineside/trackcircuitmonitordata.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
 
 // ====================
 

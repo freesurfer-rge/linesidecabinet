@@ -4,12 +4,12 @@
 #include <vector>
 #include <map>
 
-#include "hardwaremanager.hpp"
-#include "softwaremanager.hpp"
-#include "itemid.hpp"
-#include "pwitemcontroller.hpp"
-#include "pwitemmodel.hpp"
-#include "pwitemdata.hpp"
+#include "lineside/hardwaremanager.hpp"
+#include "lineside/softwaremanager.hpp"
+#include "lineside/itemid.hpp"
+#include "lineside/pwitemcontroller.hpp"
+#include "lineside/pwitemmodel.hpp"
+#include "lineside/pwitemdata.hpp"
 
 namespace Lineside {
   //! Class to manage permanent way items

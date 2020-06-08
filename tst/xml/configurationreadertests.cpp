@@ -2,9 +2,9 @@
 
 #include "xmlutils.hpp"
 
-#include "xml/configurationreader.hpp"
+#include "lineside/xml/configurationreader.hpp"
 
-#include "trackcircuitmonitordata.hpp"
+#include "lineside/trackcircuitmonitordata.hpp"
 
 // ==============
 

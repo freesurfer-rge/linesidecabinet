@@ -2,9 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "registrar.hpp"
-
-#include "utility.hpp"
+#include "lineside/registrar.hpp"
 
 // ==========================================
 

@@ -2,8 +2,8 @@
 
 #include <map>
 
-#include "hardwareprovider.hpp"
-#include "pwmchannel.hpp"
+#include "lineside/hardwareprovider.hpp"
+#include "lineside/pwmchannel.hpp"
 #include "mockpwmchannel.hpp"
 
 class MockPWMChannelProvider : public Lineside::HardwareProvider<Lineside::PWMChannel> {

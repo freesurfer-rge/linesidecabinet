@@ -6,16 +6,16 @@
 
 #include "xmlutils.hpp"
 
-#include "xml/xercesguard.hpp"
-#include "xml/utilities.hpp"
+#include "lineside/xml/xercesguard.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/servoturnoutmotordatareader.hpp"
-#include "xml/trackcircuitmonitordatareader.hpp"
-#include "xml/multiaspectsignalheaddatareader.hpp"
+#include "lineside/xml/servoturnoutmotordatareader.hpp"
+#include "lineside/xml/trackcircuitmonitordatareader.hpp"
+#include "lineside/xml/multiaspectsignalheaddatareader.hpp"
 
-#include "servoturnoutmotordata.hpp"
-#include "trackcircuitmonitordata.hpp"
-#include "multiaspectsignalheaddata.hpp"
+#include "lineside/servoturnoutmotordata.hpp"
+#include "lineside/trackcircuitmonitordata.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
 
 // ===========================
 

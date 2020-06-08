@@ -6,9 +6,9 @@
 
 #include "xmlutils.hpp"
 
-#include "xml/xercesguard.hpp"
-#include "xml/utilities.hpp"
-#include "xml/settingsreader.hpp"
+#include "lineside/xml/xercesguard.hpp"
+#include "lineside/xml/utilities.hpp"
+#include "lineside/xml/settingsreader.hpp"
 
 // =================================
 

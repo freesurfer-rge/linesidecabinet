@@ -1,6 +1,6 @@
 #pragma once
 
-#include "itemid.hpp"
+#include "lineside/itemid.hpp"
 
 namespace Lineside {
   //! Abstraction for communication with rail traffic control

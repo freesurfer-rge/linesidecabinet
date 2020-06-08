@@ -1,4 +1,4 @@
-#include "notifiable.hpp"
+#include "lineside/notifiable.hpp"
 
 class NotifyTarget : public Lineside::Notifiable<bool> {
 public:

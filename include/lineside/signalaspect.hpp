@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "parse.hpp"
+#include "lineside/parse.hpp"
 
 namespace Lineside {
   //! Enumeration of allowed signal aspects

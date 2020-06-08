@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "notifier.hpp"
+#include "lineside/notifier.hpp"
 
 namespace Lineside {
   //! Abstraction for a binary input pin

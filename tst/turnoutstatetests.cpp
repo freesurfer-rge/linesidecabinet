@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include "turnoutstate.hpp"
+#include "lineside/turnoutstate.hpp"
 
 BOOST_AUTO_TEST_SUITE( TurnoutState )
 

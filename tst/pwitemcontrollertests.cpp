@@ -2,8 +2,8 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "pwitemmodel.hpp"
-#include "pwitemcontroller.hpp"
+#include "lineside/pwitemmodel.hpp"
+#include "lineside/pwitemcontroller.hpp"
 
 #include "exceptionmessagecheck.hpp"
 

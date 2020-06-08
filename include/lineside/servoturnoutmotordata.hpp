@@ -1,7 +1,7 @@
 #pragma once
 
-#include "pwitemdata.hpp"
-#include "devicerequestdata.hpp"
+#include "lineside/pwitemdata.hpp"
+#include "lineside/devicerequestdata.hpp"
 
 namespace Lineside {
   class ServoTurnoutMotorData : public PWItemData {

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "pwitemmodel.hpp"
+#include "lineside/pwitemmodel.hpp"
 
-#include "turnoutstate.hpp"
+#include "lineside/turnoutstate.hpp"
 
 namespace Lineside {
   class TurnoutMotor : public PWItemModel {

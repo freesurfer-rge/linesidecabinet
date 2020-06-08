@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-#include "signalaspect.hpp"
+#include "lineside/signalaspect.hpp"
 
 char const* aspectNames[] = { "Red", "Yellow1", "Yellow2", "Green" };
 Lineside::SignalAspect aspects[] = { Lineside::SignalAspect::Red,

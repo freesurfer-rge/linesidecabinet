@@ -2,8 +2,8 @@
 
 #include <mutex>
 
-#include "turnoutmotor.hpp"
-#include "pwmchannel.hpp"
+#include "lineside/turnoutmotor.hpp"
+#include "lineside/pwmchannel.hpp"
 
 namespace Lineside {
   class ServoTurnoutMotorData;

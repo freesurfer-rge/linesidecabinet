@@ -1,6 +1,6 @@
 #pragma once
 
-#include "binaryoutputpin.hpp"
+#include "lineside/binaryoutputpin.hpp"
 
 class MockBOP : public Lineside::BinaryOutputPin {
 public:

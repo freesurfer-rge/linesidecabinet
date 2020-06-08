@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "linesideexceptions.hpp"
+#include "lineside/linesideexceptions.hpp"
 
 namespace Lineside {
   //! Class to register and retrieve items

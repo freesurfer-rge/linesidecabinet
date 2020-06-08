@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "i2cdevicedata.hpp"
+#include "lineside/i2cdevicedata.hpp"
 
 namespace Lineside {
   //! Class to hold data for the hardware manager

@@ -1,14 +1,13 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/predef.h>
 
-#include "multiaspectsignalheaddata.hpp"
-#include "multiaspectsignalhead.hpp"
-#include "servoturnoutmotordata.hpp"
-#include "servoturnoutmotor.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/multiaspectsignalhead.hpp"
+#include "lineside/servoturnoutmotordata.hpp"
+#include "lineside/servoturnoutmotor.hpp"
 
 
-#include "utility.hpp"
-#include "pwitemmanager.hpp"
+#include "lineside/pwitemmanager.hpp"
 
 #include "mockmanagerfixture.hpp"
 

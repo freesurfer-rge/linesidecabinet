@@ -5,13 +5,13 @@
 #include <chrono>
 #include <string>
 
-#include "signalstate.hpp"
-#include "signalaspect.hpp"
-#include "signalflash.hpp"
+#include "lineside/signalstate.hpp"
+#include "lineside/signalaspect.hpp"
+#include "lineside/signalflash.hpp"
 
-#include "binaryoutputpin.hpp"
+#include "lineside/binaryoutputpin.hpp"
 
-#include "pwitemmodel.hpp"
+#include "lineside/pwitemmodel.hpp"
 
 namespace Lineside {
   class MultiAspectSignalHeadData;

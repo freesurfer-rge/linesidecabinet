@@ -2,8 +2,8 @@
 
 #include "exceptionmessagecheck.hpp"
 
-#include "linesideexceptions.hpp"
-#include "pi/gpioprovider.hpp"
+#include "lineside/linesideexceptions.hpp"
+#include "lineside/pi/gpioprovider.hpp"
 
 BOOST_AUTO_TEST_SUITE( pi )
 

@@ -3,7 +3,7 @@
 #include <vector>
 #include <chrono>
 
-#include "pwmchannel.hpp"
+#include "lineside/pwmchannel.hpp"
 
 class MockPWMChannel : public Lineside::PWMChannel {
 public:

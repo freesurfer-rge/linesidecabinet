@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-#include "signalstate.hpp"
+#include "lineside/signalstate.hpp"
 
 char const* stateNames[] = { "Red", "DoubleYellow", "Yellow", "Green" };
 Lineside::SignalState states[] = { Lineside::SignalState::Red,

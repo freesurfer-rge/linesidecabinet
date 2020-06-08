@@ -2,8 +2,8 @@
 
 #include <map>
 
-#include "hardwareprovider.hpp"
-#include "binaryinputpin.hpp"
+#include "lineside/hardwareprovider.hpp"
+#include "lineside/binaryinputpin.hpp"
 #include "mockbip.hpp"
 
 class MockBIPProvider : public Lineside::HardwareProvider<Lineside::BinaryInputPin> {

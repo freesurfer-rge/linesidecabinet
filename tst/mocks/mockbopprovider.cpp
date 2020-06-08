@@ -1,4 +1,4 @@
-#include "linesideexceptions.hpp"
+#include "lineside/linesideexceptions.hpp"
 
 #include "mockbopprovider.hpp"
 
