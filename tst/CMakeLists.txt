@@ -33,8 +33,10 @@ add_executable(LinesideTest ${srcs})
 target_include_directories(LinesideTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(LinesideTest PUBLIC lineside Boost::boost Boost::filesystem)
 
-add_test(NAME linesideQuick COMMAND LinesideTest --log_sink=LinesideTest-Quick-JUNIT.xml ${TEST_COMMON_ARGS} --run_test=\!@LongRunning)
-add_test(NAME linesideLongRunning COMMAND LinesideTest --log_sink=LinesideTest-LongRunning-JUNIT.xml ${TEST_COMMON_ARGS} --run_test=@LongRunning)
+#  To inhibit the longer running tests, add
+# --run_test=\!@LongRunning
+# to the command
+add_test(NAME lineside COMMAND LinesideTest --log_sink=LinesideTest-JUNIT.xml ${TEST_COMMON_ARGS})
 
 add_subdirectory(mocks)
 
