@@ -3,8 +3,9 @@
 #include <set>
 
 #include "pigpiodpp/pimanager.hpp"
-#include "pi/gpoutput.hpp"
-#include "pi/gpinput.hpp"
+
+#include "lineside/pi/gpoutput.hpp"
+#include "lineside/pi/gpinput.hpp"
 
 namespace Lineside {
   namespace Pi {

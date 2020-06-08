@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "pi/gpinputprovider.hpp"
+#include "lineside/pi/gpinputprovider.hpp"
 
 namespace Lineside {
   namespace Pi {

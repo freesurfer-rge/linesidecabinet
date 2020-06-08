@@ -1,6 +1,6 @@
 #pragma once
 
-#include "binaryinputpin.hpp"
+#include "lineside/binaryinputpin.hpp"
 
 #include "pigpiodpp/gpiopin.hpp"
 

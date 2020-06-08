@@ -1,10 +1,10 @@
 #pragma once
-
-#include "hardwaremanagerdata.hpp"
-#include "hardwaremanager.hpp"
-
 #include "pigpiodpp/pimanager.hpp"
-#include "pi/gpioprovider.hpp"
+
+#include "lineside/hardwaremanagerdata.hpp"
+#include "lineside/hardwaremanager.hpp"
+
+#include "lineside/pi/gpioprovider.hpp"
 
 namespace Lineside {
   //! Namespace for holding hardware implementations for the Raspberry Pi

@@ -1,7 +1,7 @@
-#include "pi/gpinputprovider.hpp"
-#include "pi/gpoutputprovider.hpp"
+#include "lineside/pi/gpinputprovider.hpp"
+#include "lineside/pi/gpoutputprovider.hpp"
 
-#include "pi/pihardwaremanager.hpp"
+#include "lineside/pi/pihardwaremanager.hpp"
 
 
 namespace Lineside {

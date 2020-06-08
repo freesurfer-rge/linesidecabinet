@@ -1,7 +1,7 @@
 #include <sstream>
 
-#include "pi/gpioprovider.hpp"
-#include "linesideexceptions.hpp"
+#include "lineside/pi/gpioprovider.hpp"
+#include "lineside/linesideexceptions.hpp"
 
 namespace Lineside {
   namespace Pi {

@@ -1,6 +1,6 @@
 #include <boost/predef.h>
 
-#include "pi/gpinput.hpp"
+#include "lineside/pi/gpinput.hpp"
 
 namespace Lineside {
   namespace Pi {

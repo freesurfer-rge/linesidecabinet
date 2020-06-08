@@ -1,9 +1,9 @@
 #pragma once
 
-#include "hardwareprovider.hpp"
+#include "lineside/hardwareprovider.hpp"
 
-#include "pi/gpioprovider.hpp"
-#include "pi/gpinput.hpp"
+#include "lineside/pi/gpioprovider.hpp"
+#include "lineside/pi/gpinput.hpp"
 
 namespace Lineside {
   namespace Pi {
