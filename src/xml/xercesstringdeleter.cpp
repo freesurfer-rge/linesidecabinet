@@ -1,4 +1,4 @@
-#include "xml/xercesstringdeleter.hpp"
+#include "lineside/xml/xercesstringdeleter.hpp"
 
 namespace Lineside {
   namespace xml {

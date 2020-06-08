@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <xercesc/dom/DOMElement.hpp>
-#include "pwitemdata.hpp"
+#include "lineside/pwitemdata.hpp"
 
 namespace Lineside {
   namespace xml {

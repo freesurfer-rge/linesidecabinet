@@ -1,7 +1,7 @@
 #pragma once
 
 #include <xercesc/dom/DOMElement.hpp>
-#include "devicerequestdata.hpp"
+#include "lineside/devicerequestdata.hpp"
 
 namespace Lineside {
   namespace xml {

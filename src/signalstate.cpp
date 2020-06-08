@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <boost/bimap.hpp>
 
-#include "signalstate.hpp"
+#include "lineside/signalstate.hpp"
 
 namespace Lineside {
   static boost::bimap<SignalState,std::string> convertor;

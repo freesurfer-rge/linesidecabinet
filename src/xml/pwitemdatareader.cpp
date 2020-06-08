@@ -1,6 +1,6 @@
-#include "xml/utilities.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/pwitemdatareader.hpp"
+#include "lineside/xml/pwitemdatareader.hpp"
 
 namespace Lineside {
   namespace xml {

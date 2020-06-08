@@ -25,7 +25,7 @@ list(APPEND srcs pwitemmanager.cpp)
 
 add_library(lineside ${srcs})
 target_include_directories(lineside
-  PUBLIC ${PROJECT_SOURCE_DIR}/include)
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 target_link_libraries(lineside
   PUBLIC Threads::Threads
   PRIVATE Boost::boost)

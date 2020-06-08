@@ -1,6 +1,6 @@
 #pragma once
 
-#include "xml/pwitemdatareader.hpp"
+#include "lineside/xml/pwitemdatareader.hpp"
 
 namespace Lineside {
   namespace xml {

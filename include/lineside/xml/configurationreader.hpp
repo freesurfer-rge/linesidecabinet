@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "configurationdata.hpp"
+#include "lineside/configurationdata.hpp"
 
-#include "xml/xercesguard.hpp"
+#include "lineside/xml/xercesguard.hpp"
 
 namespace Lineside {
   namespace xml {

@@ -1,8 +1,8 @@
 #include <sstream>
 
-#include "trackcircuitmonitor.hpp"
+#include "lineside/trackcircuitmonitor.hpp"
 
-#include "utility.hpp"
+#include "lineside/utility.hpp"
 
 namespace Lineside {
   void TrackCircuitMonitor::OnActivate() {}

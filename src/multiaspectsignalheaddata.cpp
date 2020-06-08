@@ -1,7 +1,7 @@
-#include "multiaspectsignalheaddata.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
 
-#include "multiaspectsignalhead.hpp"
-#include "utility.hpp"
+#include "lineside/multiaspectsignalhead.hpp"
+#include "lineside/utility.hpp"
 
 namespace Lineside {
   MultiAspectSignalHeadData::MultiAspectSignalHeadData() :

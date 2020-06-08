@@ -1,6 +1,6 @@
-#include "utility.hpp"
+#include "lineside/utility.hpp"
 
-#include "multiaspectsignalhead.hpp"
+#include "lineside/multiaspectsignalhead.hpp"
 
 namespace Lineside {
   void MultiAspectSignalHead::OnActivate() {

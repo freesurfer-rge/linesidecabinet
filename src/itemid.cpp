@@ -3,7 +3,7 @@
 
 #include <boost/endian/arithmetic.hpp>
 
-#include "itemid.hpp"
+#include "lineside/itemid.hpp"
 
 namespace Lineside {
   const size_t fieldWidth = 2;

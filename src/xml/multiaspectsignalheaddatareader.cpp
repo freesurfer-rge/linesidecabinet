@@ -1,11 +1,11 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
-#include "multiaspectsignalheaddata.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
 
-#include "xml/utilities.hpp"
-#include "xml/devicerequestdatareader.hpp"
+#include "lineside/xml/utilities.hpp"
+#include "lineside/xml/devicerequestdatareader.hpp"
 
-#include "xml/multiaspectsignalheaddatareader.hpp"
+#include "lineside/xml/multiaspectsignalheaddatareader.hpp"
 
 
 namespace Lineside {

@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <boost/bimap.hpp>
 
-#include "turnoutstate.hpp"
+#include "lineside/turnoutstate.hpp"
 
 namespace Lineside {
   static boost::bimap<TurnoutState,std::string> convertor;

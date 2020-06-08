@@ -1,4 +1,4 @@
-#include "pi/gpoutput.hpp"
+#include "lineside/pi/gpoutput.hpp"
 
 namespace Lineside {
   namespace Pi {

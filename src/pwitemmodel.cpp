@@ -1,4 +1,4 @@
-#include "pwitemmodel.hpp"
+#include "lineside/pwitemmodel.hpp"
 
 namespace Lineside {
   void PWItemModel::RegisterController(const unsigned int reqSrcId,

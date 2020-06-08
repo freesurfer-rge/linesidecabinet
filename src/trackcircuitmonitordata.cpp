@@ -1,7 +1,7 @@
-#include "trackcircuitmonitordata.hpp"
-#include "trackcircuitmonitor.hpp"
+#include "lineside/trackcircuitmonitordata.hpp"
+#include "lineside/trackcircuitmonitor.hpp"
 
-#include "utility.hpp"
+#include "lineside/utility.hpp"
 
 namespace Lineside {
   std::shared_ptr<PWItemModel>

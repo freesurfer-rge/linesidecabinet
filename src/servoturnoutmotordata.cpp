@@ -1,7 +1,7 @@
-#include "servoturnoutmotordata.hpp"
+#include "lineside/servoturnoutmotordata.hpp"
 
-#include "utility.hpp"
-#include "servoturnoutmotor.hpp"
+#include "lineside/utility.hpp"
+#include "lineside/servoturnoutmotor.hpp"
 
 namespace Lineside {
   ServoTurnoutMotorData::ServoTurnoutMotorData() :

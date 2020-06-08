@@ -2,7 +2,7 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "hardwaremanagerdata.hpp"
+#include "lineside/hardwaremanagerdata.hpp"
 
 namespace Lineside {
   namespace xml {

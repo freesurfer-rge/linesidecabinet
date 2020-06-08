@@ -1,9 +1,9 @@
-#include "trackcircuitmonitordata.hpp"
+#include "lineside/trackcircuitmonitordata.hpp"
 
-#include "xml/utilities.hpp"
-#include "xml/devicerequestdatareader.hpp"
+#include "lineside/xml/utilities.hpp"
+#include "lineside/xml/devicerequestdatareader.hpp"
 
-#include "xml/trackcircuitmonitordatareader.hpp"
+#include "lineside/xml/trackcircuitmonitordatareader.hpp"
 
 namespace Lineside {
   namespace xml {

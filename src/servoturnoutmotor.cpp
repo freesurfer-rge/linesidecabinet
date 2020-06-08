@@ -1,8 +1,8 @@
 #include <thread>
 
-#include "utility.hpp"
+#include "lineside/utility.hpp"
 
-#include "servoturnoutmotor.hpp"
+#include "lineside/servoturnoutmotor.hpp"
 
 namespace Lineside {
   void ServoTurnoutMotor::OnActivate() {

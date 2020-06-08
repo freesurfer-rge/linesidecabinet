@@ -1,9 +1,9 @@
-#include "servoturnoutmotordata.hpp"
+#include "lineside/servoturnoutmotordata.hpp"
 
-#include "xml/utilities.hpp"
-#include "xml/devicerequestdatareader.hpp"
+#include "lineside/xml/utilities.hpp"
+#include "lineside/xml/devicerequestdatareader.hpp"
 
-#include "xml/servoturnoutmotordatareader.hpp"
+#include "lineside/xml/servoturnoutmotordatareader.hpp"
 
 namespace Lineside {
   namespace xml {

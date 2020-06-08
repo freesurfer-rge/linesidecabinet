@@ -1,6 +1,6 @@
 #include "xercesc/util/PlatformUtils.hpp"
 
-#include "xml/xercesguard.hpp"
+#include "lineside/xml/xercesguard.hpp"
 
 namespace Lineside {
   namespace xml {

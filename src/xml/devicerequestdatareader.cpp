@@ -1,7 +1,7 @@
-#include "xml/utilities.hpp"
-#include "xml/settingsreader.hpp"
+#include "lineside/xml/utilities.hpp"
+#include "lineside/xml/settingsreader.hpp"
 
-#include "xml/devicerequestdatareader.hpp"
+#include "lineside/xml/devicerequestdatareader.hpp"
 
 namespace Lineside {
   namespace xml {

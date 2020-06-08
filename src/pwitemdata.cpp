@@ -1,6 +1,6 @@
 #include <boost/predef.h>
 
-#include "pwitemdata.hpp"
+#include "lineside/pwitemdata.hpp"
 
 namespace Lineside {
 #if defined(BOOST_COMP_GNUC)

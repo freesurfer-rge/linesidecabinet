@@ -1,4 +1,4 @@
-#include "binaryinputpin.hpp"
+#include "lineside/binaryinputpin.hpp"
 
 namespace Lineside {
   void BinaryInputPin::RegisterListener(const unsigned int requestedSourceId,

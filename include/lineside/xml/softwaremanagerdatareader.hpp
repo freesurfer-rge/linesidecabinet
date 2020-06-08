@@ -2,7 +2,7 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "softwaremanagerdata.hpp"
+#include "lineside/softwaremanagerdata.hpp"
 
 namespace Lineside {
   namespace xml {

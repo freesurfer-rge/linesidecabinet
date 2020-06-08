@@ -1,9 +1,9 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
-#include "xml/utilities.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/i2cdevicedatareader.hpp"
-#include "xml/i2cdevicelistreader.hpp"
+#include "lineside/xml/i2cdevicedatareader.hpp"
+#include "lineside/xml/i2cdevicelistreader.hpp"
 
 
 

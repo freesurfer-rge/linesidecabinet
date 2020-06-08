@@ -1,12 +1,12 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
-#include "xml/utilities.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/servoturnoutmotordatareader.hpp"
-#include "xml/trackcircuitmonitordatareader.hpp"
-#include "xml/multiaspectsignalheaddatareader.hpp"
+#include "lineside/xml/servoturnoutmotordatareader.hpp"
+#include "lineside/xml/trackcircuitmonitordatareader.hpp"
+#include "lineside/xml/multiaspectsignalheaddatareader.hpp"
 
-#include "xml/pwitemlistreader.hpp"
+#include "lineside/xml/pwitemlistreader.hpp"
 
 namespace Lineside {
   namespace xml {

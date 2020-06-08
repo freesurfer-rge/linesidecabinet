@@ -1,8 +1,8 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
-#include "xml/utilities.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/settingsreader.hpp"
+#include "lineside/xml/settingsreader.hpp"
 
 namespace Lineside {
   namespace xml {

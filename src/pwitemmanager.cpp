@@ -1,6 +1,6 @@
-#include "linesideexceptions.hpp"
+#include "lineside/linesideexceptions.hpp"
 
-#include "pwitemmanager.hpp"
+#include "lineside/pwitemmanager.hpp"
 
 namespace Lineside {
   PWItemManager::~PWItemManager() {

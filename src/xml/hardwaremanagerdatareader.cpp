@@ -1,10 +1,10 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
-#include "xml/utilities.hpp"
-#include "xml/settingsreader.hpp"
-#include "xml/i2cdevicelistreader.hpp"
+#include "lineside/xml/utilities.hpp"
+#include "lineside/xml/settingsreader.hpp"
+#include "lineside/xml/i2cdevicelistreader.hpp"
 
-#include "xml/hardwaremanagerdatareader.hpp"
+#include "lineside/xml/hardwaremanagerdatareader.hpp"
 
 namespace Lineside {
   namespace xml {

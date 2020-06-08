@@ -2,7 +2,7 @@
 
 #include <xercesc/dom/DOMNodeList.hpp>
 
-#include "xml/utilities.hpp"
+#include "lineside/xml/utilities.hpp"
 
 namespace Lineside {
   namespace xml {

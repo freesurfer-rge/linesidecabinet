@@ -6,7 +6,7 @@
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "xml/xercesstringdeleter.hpp"
+#include "lineside/xml/xercesstringdeleter.hpp"
 
 namespace Lineside {
   namespace xml {

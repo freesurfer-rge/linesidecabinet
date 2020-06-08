@@ -2,7 +2,7 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "i2cdevicedata.hpp"
+#include "lineside/i2cdevicedata.hpp"
 
 namespace Lineside {
   namespace xml {

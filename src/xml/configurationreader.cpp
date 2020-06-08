@@ -2,13 +2,13 @@
 
 #include <xercesc/parsers/XercesDOMParser.hpp>
 
-#include "xml/utilities.hpp"
+#include "lineside/xml/utilities.hpp"
 
-#include "xml/softwaremanagerdatareader.hpp"
-#include "xml/hardwaremanagerdatareader.hpp"
-#include "xml/pwitemlistreader.hpp"
+#include "lineside/xml/softwaremanagerdatareader.hpp"
+#include "lineside/xml/hardwaremanagerdatareader.hpp"
+#include "lineside/xml/pwitemlistreader.hpp"
 
-#include "xml/configurationreader.hpp"
+#include "lineside/xml/configurationreader.hpp"
 
 namespace Lineside {
   namespace xml {

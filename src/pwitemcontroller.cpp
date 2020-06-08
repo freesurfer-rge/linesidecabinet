@@ -3,10 +3,10 @@
 
 #include <boost/predef.h>
 
-#include "linesideexceptions.hpp"
-#include "pwitemmodel.hpp"
+#include "lineside/linesideexceptions.hpp"
+#include "lineside/pwitemmodel.hpp"
 
-#include "pwitemcontroller.hpp"
+#include "lineside/pwitemcontroller.hpp"
 
 namespace Lineside {
   std::shared_ptr<PWItemController> PWItemController::Construct(std::shared_ptr<PWItemModel> pwim) {
