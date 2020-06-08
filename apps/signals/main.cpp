@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "pi/pihardwaremanager.hpp"
-#include "xml/configurationreader.hpp"
-#include "multiaspectsignalheaddata.hpp"
+#include "lineside/pi/pihardwaremanager.hpp"
+#include "lineside/xml/configurationreader.hpp"
+#include "lineside/multiaspectsignalheaddata.hpp"
 
-#include "pwitemmanager.hpp"
+#include "lineside/pwitemmanager.hpp"
 
 #include "cmdlineopts.hpp"
 #include "stubsoftwaremanager.hpp"
