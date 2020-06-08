@@ -48,9 +48,7 @@ add_link_options("${_profile_opts}")
 
 # Set up testing settings
 
-#set(TEST_RESULTS_DIRECTORY ${PROJECT_BINARY_DIR}/test_results)
 set(TEST_COMMON_ARGS --log_level=all --log_format=JUNIT --report_sink=stdout)
-#file(MAKE_DIRECTORY "${TEST_RESULTS_DIRECTORY}")
 
 # --------
 
