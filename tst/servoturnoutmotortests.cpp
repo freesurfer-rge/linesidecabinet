@@ -29,7 +29,6 @@ BOOST_AUTO_TEST_CASE(Construct)
   auto stm = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>(pwItem);
   BOOST_REQUIRE( stm );
   BOOST_REQUIRE_EQUAL( stm.use_count(), 2 ); // pwItem and stm itself
-  BOOST_FAIL("Check error");
 }
 
 BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
