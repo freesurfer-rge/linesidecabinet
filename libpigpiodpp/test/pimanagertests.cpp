@@ -2,7 +2,6 @@
 
 #include "pigpiodpp/pimanager.hpp"
 #include "pigpiodpp/gpiopin.hpp"
-#include "pigpiodpp/pigpiodexceptions.hpp"
 
 BOOST_AUTO_TEST_SUITE( PiManager )
 
