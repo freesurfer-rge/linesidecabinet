@@ -73,6 +73,8 @@ extern "C" {
   // ===================================================
 
   int i2c_open(int pi, unsigned i2c_bus, unsigned i2c_addr, unsigned i2c_flags);
+
+  int i2c_close(int pi, unsigned handle);
   
   // ===================================================
   

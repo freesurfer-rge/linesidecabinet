@@ -117,6 +117,13 @@ int i2c_open(int pi, unsigned i2c_bus, unsigned i2c_addr, unsigned i2c_flags) {
   return 0;
 }
 
+int i2c_close(int pi, unsigned handle) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << handle;
+  return 0;
+}
+
 // =============================================================================
 
 char *pigpio_error(int errnum) {

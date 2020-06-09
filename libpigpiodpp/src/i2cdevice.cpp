@@ -25,4 +25,17 @@ namespace PiGPIOdpp {
       throw PiGPIOdException("i2c_open", this->handle);
     }
   }
+
+  I2CDevice::~I2CDevice() {
+    if( this->handle >= 0 ) {
+      auto res = i2c_close(this->pi->getId(),
+			   this->handle);
+      if( res != 0 ) {
+	// Can't throw from a destructor
+	std::clog << __FUNCTION__
+		  << ": i2c_close failed"
+		  << std::endl;
+      }
+    }
+  }
 }
