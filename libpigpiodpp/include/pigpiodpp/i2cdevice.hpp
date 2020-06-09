@@ -28,6 +28,10 @@ namespace PiGPIOdpp {
       return this->handle;
     }
 
+    void WriteByte(uint8_t targetRegister, uint8_t value);
+
+    void WriteWord(uint8_t targetRegister, uint16_t value);
+
   private:
     std::shared_ptr<PiManager> pi;
     const unsigned int i2cBus;

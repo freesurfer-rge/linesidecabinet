@@ -38,4 +38,24 @@ namespace PiGPIOdpp {
       }
     }
   }
+
+  void I2CDevice::WriteByte(uint8_t targetRegister, uint8_t value) {
+    auto libraryResult = i2c_write_byte_data(this->pi->getId(),
+					     this->handle,
+					     targetRegister,
+					     value);
+    if( libraryResult != 0 ) {
+      throw PiGPIOdException("i2c_write_byte_data", libraryResult);
+    }
+  }
+
+  void I2CDevice::WriteWord(uint8_t targetRegister, uint16_t value) {
+    auto libraryResult = i2c_write_word_data(this->pi->getId(),
+					     this->handle,
+					     targetRegister,
+					     value);
+    if( libraryResult != 0 ) {
+      throw PiGPIOdException("i2c_write_byte_data", libraryResult);
+    }
+  }
 }
