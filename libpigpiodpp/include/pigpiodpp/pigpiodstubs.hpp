@@ -71,6 +71,10 @@ extern "C" {
   int callback_cancel(unsigned callback_id);
   
   // ===================================================
+
+  int i2c_open(int pi, unsigned i2c_bus, unsigned i2c_addr, unsigned i2c_flags);
+  
+  // ===================================================
   
   char *pigpio_error(int errnum);
 #ifdef __cplusplus

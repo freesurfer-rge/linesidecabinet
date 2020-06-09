@@ -108,6 +108,17 @@ int callback_cancel(unsigned callback_id) {
 
 // =============================================================================
 
+int i2c_open(int pi, unsigned i2c_bus, unsigned i2c_addr, unsigned i2c_flags) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << i2c_bus
+	       << " " << i2c_addr
+	       << " " << i2c_flags << std::endl;
+  return 0;
+}
+
+// =============================================================================
+
 char *pigpio_error(int errnum) {
   (*pigpiodOS) << __FUNCTION__
 	       << " " << errnum << std::endl;
