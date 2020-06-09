@@ -108,6 +108,42 @@ int callback_cancel(unsigned callback_id) {
 
 // =============================================================================
 
+int i2c_open(int pi, unsigned i2c_bus, unsigned i2c_addr, unsigned i2c_flags) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << i2c_bus
+	       << " " << i2c_addr
+	       << " " << i2c_flags << std::endl;
+  return 10;
+}
+
+int i2c_close(int pi, unsigned handle) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << handle << std::endl;
+  return 0;
+}
+
+int i2c_write_byte_data(int pi, unsigned handle, unsigned i2c_reg, unsigned bVal) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << handle
+	       << " " << i2c_reg
+	       << " " << bVal << std::endl;
+  return 0;
+}
+
+int i2c_write_word_data(int pi, unsigned handle, unsigned i2c_reg, unsigned wVal) {
+  (*pigpiodOS) << __FUNCTION__
+	       << " " << pi
+	       << " " << handle
+	       << " " << i2c_reg
+	       << " " << wVal << std::endl;
+  return 0;
+}
+
+// =============================================================================
+
 char *pigpio_error(int errnum) {
   (*pigpiodOS) << __FUNCTION__
 	       << " " << errnum << std::endl;

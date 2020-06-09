@@ -2,7 +2,7 @@
 
 #include "pigpiodpp/pimanager.hpp"
 #include "pigpiodpp/gpiopin.hpp"
-#include "pigpiodpp/pigpiodexceptions.hpp"
+#include "pigpiodpp/pigpiodppexception.hpp"
 
 BOOST_AUTO_TEST_SUITE( PiManager )
 
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinException )
   BOOST_REQUIRE( gpio1 );
 
   BOOST_CHECK_THROW( gpio1->SetMode( PiGPIOdpp::GPIOMode::Output ),
-		     PiGPIOdpp::PiGPIOdException );
+		     PiGPIOdpp::PiGPIOdppException );
 }
 
 

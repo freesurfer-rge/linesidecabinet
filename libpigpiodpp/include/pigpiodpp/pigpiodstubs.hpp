@@ -71,6 +71,16 @@ extern "C" {
   int callback_cancel(unsigned callback_id);
   
   // ===================================================
+
+  int i2c_open(int pi, unsigned i2c_bus, unsigned i2c_addr, unsigned i2c_flags);
+
+  int i2c_close(int pi, unsigned handle);
+
+  int i2c_write_byte_data(int pi, unsigned handle, unsigned i2c_reg, unsigned bVal);
+  
+  int i2c_write_word_data(int pi, unsigned handle, unsigned i2c_reg, unsigned wVal);
+
+  // ===================================================
   
   char *pigpio_error(int errnum);
 #ifdef __cplusplus
