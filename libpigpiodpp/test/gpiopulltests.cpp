@@ -30,9 +30,9 @@ BOOST_AUTO_TEST_SUITE( GPIOPull )
 
 BOOST_AUTO_TEST_CASE( CheckValues )
 {
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOPull::Off, PI_PUD_OFF );
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOPull::Down, PI_PUD_DOWN );
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOPull::Up, PI_PUD_UP );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOPull::Off), PI_PUD_OFF );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOPull::Down), PI_PUD_DOWN );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOPull::Up), PI_PUD_UP );
 }
 
 BOOST_DATA_TEST_CASE( ToString, nameToPullZip, name, pull )

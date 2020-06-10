@@ -3,7 +3,7 @@
 #ifdef PIGPIODPP_HAVE_PIGPIO
 #include <pigpiod_if2.h>
 #else
-#include "pigpiodpp/pigpiodstubs.hpp"
+#include "pigpiodstubs.hpp"
 #endif
 
 #include "pigpiodpp/pigpiodppexception.hpp"

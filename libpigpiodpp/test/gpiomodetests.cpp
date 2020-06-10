@@ -13,8 +13,8 @@ BOOST_AUTO_TEST_SUITE( GPIOMode )
 
 BOOST_AUTO_TEST_CASE( CheckValues )
 {
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOMode::Input, PI_INPUT );
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOMode::Output, PI_OUTPUT );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOMode::Input), PI_INPUT );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOMode::Output), PI_OUTPUT );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

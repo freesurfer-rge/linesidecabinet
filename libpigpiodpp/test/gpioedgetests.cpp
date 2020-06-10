@@ -14,9 +14,10 @@ BOOST_AUTO_TEST_SUITE( GPIOEdge )
 
 BOOST_AUTO_TEST_CASE( CheckValues )
 {
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOEdge::Rising, RISING_EDGE );
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOEdge::Falling, RISING_EDGE );
-  BOOST_CHECK_EQUAL( PiGPIOdpp::GPIOEdge::Either, RISING_EDGE );
+  // Don't have the stream operators set up
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOEdge::Rising), RISING_EDGE );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOEdge::Falling), FALLING_EDGE );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOEdge::Either), EITHER_EDGE );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
