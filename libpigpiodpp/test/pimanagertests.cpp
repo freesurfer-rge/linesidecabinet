@@ -55,12 +55,13 @@ BOOST_AUTO_TEST_CASE( SmokeI2CDevice )
   auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
+  const unsigned int busId = 0;
+  const unsigned int deviceId = 0x1;
   if( haveHardware ) {
-    // Expect failure since nothing is connected (probably)
-    BOOST_FAIL("Need to fill in");
+    // Expect failure from a bare Pi
+    BOOST_CHECK_THROW( pm->GetI2CDevice(busId, deviceId),
+		       PiGPIOdpp::PiGPIOdppException );
   } else {
-    const unsigned int busId = 0;
-    const unsigned int deviceId = 0x1;
     auto device = pm->GetI2CDevice(busId, deviceId);
     BOOST_CHECK_EQUAL( device->getPi(), pm->getId() );
     BOOST_CHECK_EQUAL( device->getI2CBus(), busId );
