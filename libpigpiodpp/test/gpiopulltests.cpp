@@ -6,6 +6,16 @@
 
 #include "pigpiodpp/gpiopull.hpp"
 
+#ifdef PIGPIODPP_HAVE_PIGPIO
+#include <pigpiod_if2.h>
+#else
+#define PI_PUD_OFF  0
+#define PI_PUD_DOWN 1
+#define PI_PUD_UP   2
+#endif
+
+// ==================
+
 char const* pullNames[] = { "Off", "Down", "Up" };
 PiGPIOdpp::GPIOPull pulls[] = { PiGPIOdpp::GPIOPull::Off,
 				PiGPIOdpp::GPIOPull::Down,
@@ -14,7 +24,16 @@ PiGPIOdpp::GPIOPull pulls[] = { PiGPIOdpp::GPIOPull::Off,
 auto nameToPullZip = boost::unit_test::data::make(pullNames)
   ^ boost::unit_test::data::make(pulls);
 
+// ===================
+
 BOOST_AUTO_TEST_SUITE( GPIOPull )
+
+BOOST_AUTO_TEST_CASE( CheckValues )
+{
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOPull::Off), PI_PUD_OFF );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOPull::Down), PI_PUD_DOWN );
+  BOOST_CHECK_EQUAL( static_cast<int>(PiGPIOdpp::GPIOPull::Up), PI_PUD_UP );
+}
 
 BOOST_DATA_TEST_CASE( ToString, nameToPullZip, name, pull )
 {

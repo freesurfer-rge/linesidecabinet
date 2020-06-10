@@ -13,40 +13,29 @@ extern std::ostream* pigpiodOS;
 #error "The real pigpiod library is available. Do not use stubs"
 #endif
 
-#define PI_INPUT  0
-#define PI_OUTPUT 1
-
 #define PI_BAD_GPIO -3
-
-#define RISING_EDGE  0
-#define FALLING_EDGE 1
-#define EITHER_EDGE  2
-
-#define PI_PUD_OFF  0
-#define PI_PUD_DOWN 1
-#define PI_PUD_UP   2
-
-typedef enum
-{
-   pigif_bad_send           = -2000,
-   pigif_bad_recv           = -2001,
-   pigif_bad_getaddrinfo    = -2002,
-   pigif_bad_connect        = -2003,
-   pigif_bad_socket         = -2004,
-   pigif_bad_noib           = -2005,
-   pigif_duplicate_callback = -2006,
-   pigif_bad_malloc         = -2007,
-   pigif_bad_callback       = -2008,
-   pigif_notify_failed      = -2009,
-   pigif_callback_not_found = -2010,
-   pigif_unconnected_pi     = -2011,
-   pigif_too_many_pis       = -2012,
-} pigifError_t;
-
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+  
+  typedef enum
+    {
+     pigif_bad_send           = -2000,
+     pigif_bad_recv           = -2001,
+     pigif_bad_getaddrinfo    = -2002,
+     pigif_bad_connect        = -2003,
+     pigif_bad_socket         = -2004,
+     pigif_bad_noib           = -2005,
+     pigif_duplicate_callback = -2006,
+     pigif_bad_malloc         = -2007,
+     pigif_bad_callback       = -2008,
+     pigif_notify_failed      = -2009,
+     pigif_callback_not_found = -2010,
+     pigif_unconnected_pi     = -2011,
+     pigif_too_many_pis       = -2012,
+    } pigifError_t;
+  
   int pigpio_start(char *addrStr, char *portStr);
 
   void pigpio_stop(int pi);
