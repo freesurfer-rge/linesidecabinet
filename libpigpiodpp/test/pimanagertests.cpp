@@ -2,7 +2,14 @@
 
 #include "pigpiodpp/pimanager.hpp"
 #include "pigpiodpp/gpiopin.hpp"
+#include "pigpiodpp/i2cdevice.hpp"
 #include "pigpiodpp/pigpiodppexception.hpp"
+
+#ifdef PIGPIODPP_HAVE_PIGPIO
+const bool haveHardware = true;
+#else
+const bool haveHardware = false;
+#endif
 
 BOOST_AUTO_TEST_SUITE( PiManager )
 
@@ -41,6 +48,25 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
   // Following can only work if we have a real Pi
   BOOST_CHECK( gpio1->Read() );
 #endif
+}
+
+BOOST_AUTO_TEST_CASE( SmokeI2CDevice )
+{
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
+  BOOST_CHECK_EQUAL( pm.use_count(), 1 );
+
+  if( haveHardware ) {
+    // Expect failure since nothing is connected (probably)
+    BOOST_FAIL("Need to fill in");
+  } else {
+    const unsigned int busId = 0;
+    const unsigned int deviceId = 0x1;
+    auto device = pm->GetI2CDevice(busId, deviceId);
+    BOOST_CHECK_EQUAL( device->getPi(), pm->getId() );
+    BOOST_CHECK_EQUAL( device->getI2CBus(), busId );
+    BOOST_CHECK_EQUAL( device->getI2CAddress(), deviceId );
+    BOOST_CHECK( device->getHandle() >= 0 );
+  }
 }
 
 #ifdef PIGPIODPP_HAVE_PIGPIO
