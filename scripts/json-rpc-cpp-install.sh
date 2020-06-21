@@ -9,8 +9,6 @@ echo
 echo "Prerequisites installed"
 echo
 
-sudo updatedb
-
 # Get the sources
 cd /tmp
 git clone https://github.com/cinemast/libjson-rpc-cpp.git
