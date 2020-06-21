@@ -13,6 +13,11 @@ steps:
   displayName: "Install xerces library"
   inputs:
     filePath: scripts/xerces-install.sh
+
+- task: Bash@3
+  displayName: "Install JSON-RPC-CPP"
+  inputs:
+    filePath: scripts/json-rpc-cpp-install.sh
     
 - script: mkdir -p ${{ parameters.bldDir }}
   displayName: 'Create build directory'
