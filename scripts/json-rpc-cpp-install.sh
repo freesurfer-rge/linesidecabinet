@@ -3,7 +3,7 @@ set echo
 # sudo apt-get install libjsonrpccpp-dev libjsonrpccpp-tools
 
 # Install prereqs
-sudo apt-get install libcurl-dev libmicrohttpd-dev libargtable2-dev libjsoncpp-dev libhiredis-dev
+sudo apt-get install libcurl-openssl-dev libmicrohttpd-dev libargtable2-dev libjsoncpp-dev libhiredis-dev
 
 sudo updatedb
 
