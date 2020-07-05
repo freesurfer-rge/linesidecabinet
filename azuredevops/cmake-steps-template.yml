@@ -3,7 +3,7 @@
 parameters:
   srcDir: ''
   bldDir: ''
-  cmakeArgs: '-DBoost_DEBUG=ON -DBOOST_ROOT=/opt/hostedtoolcache/boost/1.69.0/ -DBoost_ARCHITECTURE=-x64'
+  cmakeArgs: '-DBoost_DEBUG=ON -DBOOST_ROOT=/opt/hostedtoolcache/boost/1.69.0/x64 -DBoost_ARCHITECTURE=-x64'
   cmakeExtraArgs: ''
   makeExtraArgs: ''
   makeTarget: ''
@@ -14,7 +14,7 @@ steps:
     echo ""
     locate libboost
   displayName: "Boost debugging"
-  condition: True
+  condition: False
   
 - task: Bash@3
   displayName: "Install xerces library"
