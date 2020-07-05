@@ -37,7 +37,7 @@ namespace Lineside {
 	  return false;
       }
       this->thread = std::thread([this]() {
-				   this->httpServer.listen("localhost", port);
+				   this->httpServer.listen(this->listenInterface.c_str(), port);
 				 });
       return true;
     }
