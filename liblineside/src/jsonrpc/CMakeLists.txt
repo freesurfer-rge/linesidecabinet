@@ -5,7 +5,7 @@ list(APPEND srcs cpphttplibconnector.cpp)
 target_sources(lineside PRIVATE ${srcs})
 
 target_include_directories(lineside
-  PRIVATE
+  PRIVATE SYSTEM
   ${jsonrpccxx_SOURCE_DIR}/include
   ${cpphttplib_SOURCE_DIR}
 )
