@@ -12,7 +12,8 @@ namespace Lineside {
     class CppHttpLibClientConnector : public jsonrpccxx::IClientConnector {
     public:
       explicit CppHttpLibClientConnector(const std::string &host, int port)
-	: httpClient(host.c_str(), port) {}
+	: jsonrpccxx::IClientConnector(),
+	  httpClient(host.c_str(), port) {}
       
       virtual std::string Send(const std::string &request) override;
       

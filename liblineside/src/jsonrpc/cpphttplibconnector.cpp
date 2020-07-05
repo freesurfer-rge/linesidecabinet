@@ -22,7 +22,9 @@ namespace Lineside {
     CppHttpLibServerConnector::CppHttpLibServerConnector(jsonrpccxx::JsonRpcServer& server,
 							 const std::string listenInterface,
 							 const int port)
-      : server(server),
+      : listenMtx(),
+	thread(),
+	server(server),
 	listenInterface(listenInterface),
 	port(port) {
       this->httpServer.Post(rpcPath.c_str(),
