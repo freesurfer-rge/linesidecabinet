@@ -9,6 +9,12 @@ parameters:
   makeTarget: ''
 
 steps:
+- bash: |
+    sudo updatedb
+    echo ""
+    locate libboost
+  displayName: "Boost debugging"
+  
 - task: Bash@3
   displayName: "Install xerces library"
   inputs:
