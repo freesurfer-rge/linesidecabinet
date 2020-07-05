@@ -19,16 +19,36 @@ namespace Lineside {
 
     // =======================================
 
-    CppHttpLibServerConnector::CppHttpLibServerConnector(jsonrpccxx::JsonRpcServer &server,
-							 int port)
+    CppHttpLibServerConnector::CppHttpLibServerConnector(jsonrpccxx::JsonRpcServer& server,
+							 const std::string listenInterface,
+							 const int port)
       : server(server),
+	listenInterface(listenInterface),
 	port(port) {
-      httpServer.Post(rpcPath.c_str(),
-		      [&](const httplib::Request &req, httplib::Response &res) {
-			this->PostAction(req, res);
-		      });
+      this->httpServer.Post(rpcPath.c_str(),
+			    [this](const httplib::Request &req, httplib::Response &res) {
+			      this->PostAction(req, res);
+			    });
     }
 
+    bool CppHttpLibServerConnector::StartListening() {
+      std::lock_guard<std::mutex> lck(this->listenMtx);
+      if (this->httpServer.is_running()) {
+	  return false;
+      }
+      this->thread = std::thread([this]() {
+				   this->httpServer.listen("localhost", port);
+				 });
+      return true;
+    }
+      
+    void CppHttpLibServerConnector::StopListening() {
+      std::lock_guard<std::mutex> lck(this->listenMtx);
+      if (this->httpServer.is_running()) {
+	this->httpServer.stop();
+	this->thread.join();
+      }
+    }
 
     void CppHttpLibServerConnector::PostAction(const httplib::Request &req,
 					       httplib::Response &res) {

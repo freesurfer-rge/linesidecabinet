@@ -23,28 +23,24 @@ namespace Lineside {
     //! Server for JSON RPC
     class CppHttpLibServerConnector {
     public:
-      explicit CppHttpLibServerConnector(jsonrpccxx::JsonRpcServer &server, int port);
+      explicit CppHttpLibServerConnector(jsonrpccxx::JsonRpcServer &server,
+					 std::string listenInterface,
+					 int port);
       
-      virtual ~CppHttpLibServerConnector() { StopListening(); }
-      
-      bool StartListening() {
-	if (httpServer.is_running())
-	  return false;
-	this->thread = std::thread([this]() { this->httpServer.listen("localhost", port); });
-	return true;
+      virtual ~CppHttpLibServerConnector() {
+	this->StopListening();
       }
       
-      void StopListening() {
-	if (httpServer.is_running()) {
-	  httpServer.stop();
-	  this->thread.join();
-	}
-      }
+      bool StartListening();
+      
+      void StopListening();
       
     private:
+      std::mutex listenMtx;
       std::thread thread;
-      jsonrpccxx::JsonRpcServer &server;
+      jsonrpccxx::JsonRpcServer& server;
       httplib::Server httpServer;
+      std::string listenInterface;
       int port;
 
       void PostAction(const httplib::Request &req, httplib::Response &res);
