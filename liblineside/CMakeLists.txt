@@ -6,14 +6,20 @@ add_library(lineside)
 # - When installed (should that ever happen)
 target_include_directories(lineside
   PUBLIC
-    $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PRIVATE
+  ${jsonrpccxx_SOURCE_DIR}/include
+  ${cpphttplib_SOURCE_DIR}
 )
 
 # Setup the linking
 target_link_libraries(lineside
   PUBLIC Threads::Threads
-  PRIVATE Boost::boost)
+  PRIVATE
+  Boost::boost
+  json-rpc-cxx
+  nlohmann_json::nlohmann_json)
 
 add_subdirectory(src)
 add_subdirectory(test)
