@@ -6,8 +6,13 @@ parameters:
 
 steps:
 - script: make test
-  displayName: "Run all tests"
-  workingDirectory: ${{ parameters.testDir }}
+  displayName: "Run pigpiodpp tests"
+  workingDirectory: ${{ parameters.testDir }}/libpigpiodpp
+
+
+- script: make test
+  displayName: "Run lineside tests"
+  workingDirectory: ${{ parameters.testDir }}/liblineside
 
 - task: PublishTestResults@2
   displayName: "Publish test results"
