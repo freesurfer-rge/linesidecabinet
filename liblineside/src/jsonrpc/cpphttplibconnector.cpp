@@ -25,7 +25,7 @@ namespace Lineside {
       : listenMtx(),
 	thread(),
 	server(server),
-	httpsServer(),
+	httpServer(),
 	listenInterface(listenInterface),
 	port(port) {
       this->httpServer.Post(rpcPath.c_str(),
