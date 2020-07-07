@@ -1,4 +1,7 @@
 #include <boost/test/unit_test.hpp>
+#include <boost/test/data/test_case.hpp>
+#include <boost/test/data/monomorphic.hpp>
+
 
 
 #include "lineside/jsonrpc/jsonconvertors.hpp"
@@ -20,6 +23,25 @@ BOOST_AUTO_TEST_CASE( ItemId )
 
   auto id2 = j.get<Lineside::ItemId>();
   BOOST_CHECK_EQUAL( id, id2 );
+}
+
+BOOST_DATA_TEST_CASE( SignalState,
+		      boost::unit_test::data::make(
+						   {
+						    Lineside::SignalState::Red,
+						    Lineside::SignalState::DoubleYellow,
+						    Lineside::SignalState::Yellow,
+						    Lineside::SignalState::Green
+						   }),
+		      state )
+{
+  std::string expected = "\"" + ToString(state) + "\"";
+
+  nlohmann::json j = state;
+  BOOST_CHECK_EQUAL( j.dump(), expected );
+
+  auto state2 = j.get<Lineside::SignalState>();
+  BOOST_CHECK_EQUAL( state, state2 );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
