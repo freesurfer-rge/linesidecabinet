@@ -15,5 +15,5 @@ namespace Lineside {
 				{Lineside::SignalState::Yellow, ToString(Lineside::SignalState::Yellow)},
 				{Lineside::SignalState::DoubleYellow, ToString(Lineside::SignalState::DoubleYellow)},
 				{Lineside::SignalState::Green, ToString(Lineside::SignalState::Green)}
-			       });
+			       })
 }
