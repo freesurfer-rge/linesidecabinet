@@ -39,6 +39,8 @@ add_test(NAME lineside COMMAND LinesideTest --log_sink=LinesideTest-JUNIT.xml ${
 
 add_subdirectory(mocks)
 
+add_subdirectory(jsonrpc)
+
 add_subdirectory(pi)
 
 add_subdirectory(xml)

@@ -24,7 +24,7 @@ namespace Lineside {
     //! Server for JSON RPC
     class CppHttpLibServerConnector {
     public:
-      explicit CppHttpLibServerConnector(std::shared_ptr<jsonrpccxx::JsonRpcServer> server,
+      explicit CppHttpLibServerConnector(jsonrpccxx::JsonRpcServer& server,
 					 std::string listenInterface,
 					 int port);
       
@@ -39,7 +39,7 @@ namespace Lineside {
     private:
       std::mutex listenMtx;
       std::thread thread;
-      std::shared_ptr<jsonrpccxx::JsonRpcServer> server;
+      jsonrpccxx::JsonRpcServer& server;
       httplib::Server httpServer;
       std::string listenInterface;
       int port;

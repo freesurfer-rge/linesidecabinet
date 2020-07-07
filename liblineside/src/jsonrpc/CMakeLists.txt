@@ -1,6 +1,8 @@
 set(srcs)
 
 list(APPEND srcs cpphttplibconnector.cpp)
+#list(APPEND srcs cabinetserver.cpp)
+list(APPEND srcs jsonconvertors.cpp)
 
 target_sources(lineside PRIVATE ${srcs})
 
@@ -10,7 +12,8 @@ target_include_directories(lineside SYSTEM
   ${cpphttplib_SOURCE_DIR}
 )
 target_link_libraries(lineside
+  PUBLIC
+  nlohmann_json::nlohmann_json
   PRIVATE
   json-rpc-cxx
-  nlohmann_json::nlohmann_json
 )
