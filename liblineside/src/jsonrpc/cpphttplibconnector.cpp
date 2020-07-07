@@ -19,7 +19,7 @@ namespace Lineside {
 
     // =======================================
 
-    CppHttpLibServerConnector::CppHttpLibServerConnector(jsonrpccxx::JsonRpcServer& server,
+    CppHttpLibServerConnector::CppHttpLibServerConnector(std::shared_ptr<jsonrpccxx::JsonRpcServer> server,
 							 const std::string listenInterface,
 							 const int port)
       : listenMtx(),
@@ -56,7 +56,7 @@ namespace Lineside {
     void CppHttpLibServerConnector::PostAction(const httplib::Request &req,
 					       httplib::Response &res) {
       res.status = 200;
-      res.set_content(this->server.HandleRequest(req.body), rpcMIME.c_str());
+      res.set_content(this->server->HandleRequest(req.body), rpcMIME.c_str());
     }
   }
 }
