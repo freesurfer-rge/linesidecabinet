@@ -10,13 +10,17 @@ namespace Lineside {
     class CabinetService {
     public:
       CabinetService();
+
+      /*
+	All have non-void return in order to ensure we get errors back
+       */
       
-      void SetMultiAspectSignal(const std::string id,
+      bool SetMultiAspectSignal(const std::string id,
 				const Lineside::SignalState state,
 				const Lineside::SignalFlash flash,
 				const unsigned int feather);
 
-      void SetTurnout(const std::string id,
+      bool SetTurnout(const std::string id,
 		      const Lineside::TurnoutState state);
 
       bool GetTrackCircuit(const std::string id);

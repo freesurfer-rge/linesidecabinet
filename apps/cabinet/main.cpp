@@ -6,7 +6,9 @@
 
 /*
   Some sample calls
-  curl http://localhost:8483/jsonrpc -H "Content-Type application/json" --data '{ "method":"SetMultiAspectSignal", "params":{"id":"00:1a:2b:3c", "state":"DoubleYellow", "flash":"Steady", "feather":0}, "id":1, "jsonrpc": "2.0" }'
+  For some reason, only "GetTrackCircuit" is working right now
+
+  curl http://localhost:8483/jsonrpc -H "Content-Type application/json" --data '{ "method":"SetMultiAspectSignal", "params":{"id":"00:1a:2b:3c", "state":"DoubleYellow", "flash":"Steady", "feather":0}, "jsonrpc": "2.0" }'
 
   curl http://localhost:8483/jsonrpc -H "Content-Type application/json" --data '{ "method":"SetTurnout", "params":{"id":"00:1a:2b:3c", "state":"Straight"}, "id":1, "jsonrpc": "2.0" }'
 
