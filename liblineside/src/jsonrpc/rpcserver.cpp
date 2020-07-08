@@ -1,6 +1,6 @@
 #include "lineside/jsonrpc/jsonconvertors.hpp"
 
-#include "rpcserver.hpp"
+#include "lineside/jsonrpc/rpcserver.hpp"
 
 
 namespace Lineside {

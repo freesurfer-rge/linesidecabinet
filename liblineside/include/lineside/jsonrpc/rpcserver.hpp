@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cabinetservice.hpp"
+#include "lineside/jsonrpc/cabinetservice.hpp"
 
 #include <jsonrpccxx/server.hpp>
 

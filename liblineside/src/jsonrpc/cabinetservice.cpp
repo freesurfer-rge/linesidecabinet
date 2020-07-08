@@ -1,5 +1,5 @@
 #include <iostream>
-#include "cabinetservice.hpp"
+#include "lineside/jsonrpc/cabinetservice.hpp"
 
 
 namespace Lineside {

@@ -1,4 +1,4 @@
-#include "cpphttplibconnector.hpp"
+#include "lineside/jsonrpc/cpphttplibconnector.hpp"
 
 
 namespace Lineside {
