@@ -3,6 +3,7 @@ set(srcs)
 list(APPEND srcs cpphttplibconnector.cpp)
 list(APPEND srcs cabinetservice.cpp)
 list(APPEND srcs jsonconvertors.cpp)
+list(APPEND srcs rpcserver.cpp)
 
 target_sources(lineside PRIVATE ${srcs})
 
