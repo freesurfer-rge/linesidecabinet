@@ -12,12 +12,6 @@ target_include_directories(lineside SYSTEM
   ${cpphttplib_SOURCE_DIR}
 )
 
-target_include_directories(lineside
-  PUBLIC
-  ${jsonrpccxx_SOURCE_DIR}/include
-)
-  
-
 target_link_libraries(lineside
   PUBLIC
   nlohmann_json::nlohmann_json
