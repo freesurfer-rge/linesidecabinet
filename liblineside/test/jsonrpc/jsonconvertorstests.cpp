@@ -2,8 +2,6 @@
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/data/monomorphic.hpp>
 
-
-
 #include "lineside/jsonrpc/jsonconvertors.hpp"
 
 BOOST_AUTO_TEST_SUITE( jsonrpc )
@@ -42,6 +40,23 @@ BOOST_DATA_TEST_CASE( SignalState,
 
   auto state2 = j.get<Lineside::SignalState>();
   BOOST_CHECK_EQUAL( state, state2 );
+}
+
+BOOST_DATA_TEST_CASE( SignalFlash,
+		      boost::unit_test::data::make(
+						   {
+						    Lineside::SignalFlash::Steady,
+						    Lineside::SignalFlash::Flashing
+						   }),
+		      flash )
+{
+  std::string expected = "\"" + ToString(flash) + "\"";
+
+  nlohmann::json j = flash;
+  BOOST_CHECK_EQUAL( j.dump(), expected );
+
+  auto flash2 = j.get<Lineside::SignalFlash>();
+  BOOST_CHECK_EQUAL( flash, flash2 );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
