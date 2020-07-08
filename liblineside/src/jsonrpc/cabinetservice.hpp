@@ -18,6 +18,8 @@ namespace Lineside {
 
       void SetTurnout(const Lineside::ItemId id,
 		      const Lineside::TurnoutState state);
+
+      bool GetTrackCircuit(const Lineside::ItemId id);
 		      
     private:
     };

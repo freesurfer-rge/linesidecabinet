@@ -24,5 +24,11 @@ namespace Lineside {
 		<< id << " "
 		<< state << std::endl;
     }
+
+    bool GetTrackCircuit(const Lineside::ItemId id) {
+      std::cout << __FUNCTION__ << ": "
+		<< id << std::endl;
+      return true;
+    }
   }
 }
