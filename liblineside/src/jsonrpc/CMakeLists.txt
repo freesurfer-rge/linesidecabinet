@@ -8,13 +8,12 @@ list(APPEND srcs rpcserver.cpp)
 target_sources(lineside PRIVATE ${srcs})
 
 target_include_directories(lineside SYSTEM
-  PRIVATE
+  PUBLIC
   ${jsonrpccxx_SOURCE_DIR}/include
   ${cpphttplib_SOURCE_DIR}
 )
 target_link_libraries(lineside
   PUBLIC
   nlohmann_json::nlohmann_json
-  PRIVATE
   json-rpc-cxx
 )
