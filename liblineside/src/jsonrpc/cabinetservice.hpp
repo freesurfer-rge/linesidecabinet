@@ -1,23 +1,25 @@
 #pragma once
 
-#include <jsonrpccxx/server.hpp>
-
 #include "lineside/itemid.hpp"
 #include "lineside/signalstate.hpp"
 #include "lineside/signalflash.hpp"
+#include "lineside/turnoutstate.hpp"
 
 namespace Lineside {
   namespace JsonRPC {
-    class CabinetServer {
+    class CabinetService {
     public:
-      CabinetServer();
+      CabinetService();
       
       void SetMultiAspectSignal(const Lineside::ItemId id,
 				const Lineside::SignalState state,
 				const Lineside::SignalFlash flash,
 				const unsigned int feather);
+
+      void SetTurnout(const Lineside::ItemId id,
+		      const Lineside::TurnoutState state);
+		      
     private:
-      jsonrpccxx::JsonRpc2Server rpcServer;
     };
   }
 }
