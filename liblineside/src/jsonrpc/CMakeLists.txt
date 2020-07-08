@@ -10,7 +10,8 @@ target_sources(lineside PRIVATE ${srcs})
 target_include_directories(lineside SYSTEM
   PUBLIC
   ${cpphttplib_SOURCE_DIR}
-)
+  ${jsonrpccxx_SOURCE_DIR}/include
+  )
 
 target_link_libraries(lineside
   PUBLIC
