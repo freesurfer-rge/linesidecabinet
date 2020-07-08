@@ -25,7 +25,7 @@ namespace Lineside {
 		<< state << std::endl;
     }
 
-    bool GetTrackCircuit(const Lineside::ItemId id) {
+    bool CabinetService::GetTrackCircuit(const Lineside::ItemId id) {
       std::cout << __FUNCTION__ << ": "
 		<< id << std::endl;
       return true;

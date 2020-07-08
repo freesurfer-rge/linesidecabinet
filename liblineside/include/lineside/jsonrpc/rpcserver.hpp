@@ -10,6 +10,10 @@ namespace Lineside {
     public:
       RPCServer();
 
+      jsonrpccxx::JsonRpc2Server& GetServer() {
+	std::cerr << __FUNCTION__ << ": Needs better solution" << std::endl;
+	return this->rpcServer;
+      }
     private:
       std::unique_ptr<CabinetService> cabinet;
       jsonrpccxx::JsonRpc2Server rpcServer;
