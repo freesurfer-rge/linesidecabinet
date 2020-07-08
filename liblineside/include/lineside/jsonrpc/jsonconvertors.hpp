@@ -5,6 +5,7 @@
 #include "lineside/itemid.hpp"
 #include "lineside/signalstate.hpp"
 #include "lineside/signalflash.hpp"
+#include "lineside/turnoutstate.hpp"
 
 namespace Lineside {
   void to_json(nlohmann::json &j, const ItemId& id);
@@ -22,5 +23,11 @@ namespace Lineside {
 			       {
 				{Lineside::SignalFlash::Steady, ToString(Lineside::SignalFlash::Steady)},
 				{Lineside::SignalFlash::Flashing, ToString(Lineside::SignalFlash::Flashing)}
+			       })
+
+  NLOHMANN_JSON_SERIALIZE_ENUM(Lineside::TurnoutState,
+			       {
+				{Lineside::TurnoutState::Straight, ToString(Lineside::TurnoutState::Straight)},
+				{Lineside::TurnoutState::Curved, ToString(Lineside::TurnoutState::Curved)}
 			       })
 }

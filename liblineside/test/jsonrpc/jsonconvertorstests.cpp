@@ -59,6 +59,23 @@ BOOST_DATA_TEST_CASE( SignalFlash,
   BOOST_CHECK_EQUAL( flash, flash2 );
 }
 
+BOOST_DATA_TEST_CASE( TurnoutState,
+		      boost::unit_test::data::make(
+						   {
+						    Lineside::TurnoutState::Straight,
+						    Lineside::TurnoutState::Curved
+						   }),
+		      state )
+{
+  std::string expected = "\"" + ToString(state) + "\"";
+
+  nlohmann::json j = state;
+  BOOST_CHECK_EQUAL( j.dump(), expected );
+
+  auto state2 = j.get<Lineside::TurnoutState>();
+  BOOST_CHECK_EQUAL( state, state2 );
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
