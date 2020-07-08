@@ -7,10 +7,14 @@ list(APPEND srcs rpcserver.cpp)
 
 target_sources(lineside PRIVATE ${srcs})
 
+target_include_directories(lineside SYSTEM
+  PUBLIC
+  ${cpphttplib_SOURCE_DIR}
+)
+
 target_include_directories(lineside
   PUBLIC
   ${jsonrpccxx_SOURCE_DIR}/include
-  ${cpphttplib_SOURCE_DIR}
 )
   
 
