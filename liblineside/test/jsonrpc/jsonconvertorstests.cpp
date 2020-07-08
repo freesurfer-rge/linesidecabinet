@@ -76,6 +76,22 @@ BOOST_DATA_TEST_CASE( TurnoutState,
   BOOST_CHECK_EQUAL( state, state2 );
 }
 
+BOOST_AUTO_TEST_CASE( ParseTurnoutRequestParams )
+{
+  const std::string reqParams = "{\"id\":\"00:1a:2b:3c\", \"state\":\"Straight\"}";
+
+  nlohmann::json j = nlohmann::json::parse(reqParams);
+
+  auto id = j.at("id").get<Lineside::ItemId>();
+  Lineside::ItemId expectedId;
+  expectedId.Parse("00:1a:2b:3c");
+  BOOST_CHECK_EQUAL( id, expectedId );
+
+  auto state = j.at("state").get<Lineside::TurnoutState>();
+  BOOST_CHECK_EQUAL( state, Lineside::TurnoutState::Straight );
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
