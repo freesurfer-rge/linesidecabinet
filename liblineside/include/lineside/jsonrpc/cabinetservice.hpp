@@ -11,15 +11,15 @@ namespace Lineside {
     public:
       CabinetService();
       
-      void SetMultiAspectSignal(const Lineside::ItemId id,
+      void SetMultiAspectSignal(const std::string id,
 				const Lineside::SignalState state,
 				const Lineside::SignalFlash flash,
 				const unsigned int feather);
 
-      void SetTurnout(const Lineside::ItemId id,
+      void SetTurnout(const std::string id,
 		      const Lineside::TurnoutState state);
 
-      bool GetTrackCircuit(const Lineside::ItemId id);
+      bool GetTrackCircuit(const std::string id);
 		      
     private:
     };

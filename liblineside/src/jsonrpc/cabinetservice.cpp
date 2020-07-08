@@ -7,7 +7,7 @@ namespace Lineside {
     
     CabinetService::CabinetService() {}
       
-    void CabinetService::SetMultiAspectSignal(const Lineside::ItemId id,
+    void CabinetService::SetMultiAspectSignal(const std::string id,
 					      const Lineside::SignalState state,
 					      const Lineside::SignalFlash flash,
 					      const unsigned int feather) {
@@ -18,16 +18,18 @@ namespace Lineside {
 		<< feather << std::endl;
     }
 
-    void CabinetService::SetTurnout(const Lineside::ItemId id,
+    void CabinetService::SetTurnout(const std::string id,
 				    const Lineside::TurnoutState state) {
       std::cout << __FUNCTION__ << ": "
 		<< id << " "
 		<< state << std::endl;
     }
 
-    bool CabinetService::GetTrackCircuit(const Lineside::ItemId id) {
+    bool CabinetService::GetTrackCircuit(const std::string id) {
+      Lineside::ItemId targetId;
+      targetId.Parse(id);
       std::cout << __FUNCTION__ << ": "
-		<< id << std::endl;
+		<< targetId << std::endl;
       return true;
     }
   }
