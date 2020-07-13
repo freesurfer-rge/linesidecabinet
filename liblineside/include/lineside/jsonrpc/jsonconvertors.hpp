@@ -7,6 +7,8 @@
 #include "lineside/signalflash.hpp"
 #include "lineside/turnoutstate.hpp"
 
+#include "lineside/jsonrpc/cabinetserviceresponse.hpp"
+
 namespace Lineside {
   void to_json(nlohmann::json &j, const ItemId& id);
   void from_json(const nlohmann::json &j, Lineside::ItemId& id);
@@ -29,5 +31,10 @@ namespace Lineside {
 			       {
 				{Lineside::TurnoutState::Straight, ToString(Lineside::TurnoutState::Straight)},
 				{Lineside::TurnoutState::Curved, ToString(Lineside::TurnoutState::Curved)}
+			       })
+
+  NLOHMANN_JSON_SERIALIZE_ENUM(Lineside::JsonRPC::CabinetServiceResponse,
+			       {
+				{Lineside::JsonRPC::CabinetServiceResponse::Success, "Success"}
 			       })
 }
