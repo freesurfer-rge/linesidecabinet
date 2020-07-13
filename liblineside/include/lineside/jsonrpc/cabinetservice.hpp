@@ -7,25 +7,20 @@
 
 namespace Lineside {
   namespace JsonRPC {
+    //! Interface for use by the RPC side
     class CabinetService {
     public:
-      CabinetService();
-
-      /*
-	All have non-void return in order to ensure we get errors back
-       */
+      virtual ~CabinetService() {}
       
-      bool SetMultiAspectSignal(const std::string id,
-				const Lineside::SignalState state,
-				const Lineside::SignalFlash flash,
-				const unsigned int feather);
+      virtual bool SetMultiAspectSignal(const std::string id,
+					const Lineside::SignalState state,
+					const Lineside::SignalFlash flash,
+					const unsigned int feather) = 0;
 
-      bool SetTurnout(const std::string id,
-		      const Lineside::TurnoutState state);
+      virtual bool SetTurnout(const std::string id,
+			      const Lineside::TurnoutState state) = 0;
 
-      bool GetTrackCircuit(const std::string id);
-		      
-    private:
+      virtual bool GetTrackCircuit(const std::string id) = 0;
     };
   }
 }

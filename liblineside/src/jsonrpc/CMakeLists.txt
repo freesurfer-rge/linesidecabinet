@@ -1,7 +1,7 @@
 set(srcs)
 
 list(APPEND srcs cpphttplibconnector.cpp)
-list(APPEND srcs cabinetservice.cpp)
+list(APPEND srcs cabinetserviceimpl.cpp)
 list(APPEND srcs jsonconvertors.cpp)
 list(APPEND srcs rpcserver.cpp)
 
