@@ -2,7 +2,7 @@
 
 #include "lineside/jsonrpc/rpcserver.hpp"
 #include "lineside/jsonrpc/cpphttplibconnector.hpp"
-
+#include "lineside/jsonrpc/cabinetserviceimpl.hpp"
 
 /*
   Some sample calls
@@ -32,7 +32,9 @@ int main() {
   std::cout << "================" << std::endl;
   std::cout << std::endl;
 
-  Lineside::JsonRPC::RPCServer rpcServer;
+  auto csi = std::make_shared<Lineside::JsonRPC::CabinetServiceImpl>();
+  
+  Lineside::JsonRPC::RPCServer rpcServer(csi);
 
   Lineside::JsonRPC::CppHttpLibServerConnector httpServer(rpcServer.GetServer(),
 							  "0.0.0.0",
