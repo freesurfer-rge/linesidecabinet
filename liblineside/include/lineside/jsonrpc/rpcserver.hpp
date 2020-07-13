@@ -8,14 +8,14 @@ namespace Lineside {
   namespace JsonRPC {
     class RPCServer {
     public:
-      RPCServer();
+      RPCServer(std::shared_ptr<CabinetService> cabinet);
 
       jsonrpccxx::JsonRpc2Server& GetServer() {
 	std::cerr << __FUNCTION__ << ": Needs better solution" << std::endl;
 	return this->rpcServer;
       }
     private:
-      std::unique_ptr<CabinetService> cabinet;
+      std::shared_ptr<CabinetService> cabinet;
       jsonrpccxx::JsonRpc2Server rpcServer;
     };
   }

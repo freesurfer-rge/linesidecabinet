@@ -5,8 +5,8 @@
 
 namespace Lineside {
   namespace JsonRPC {
-    RPCServer::RPCServer() :
-      cabinet(std::make_unique<CabinetService>()),
+    RPCServer::RPCServer(std::shared_ptr<CabinetService> cabinet) :
+      cabinet(cabinet),
       rpcServer() {
       this->rpcServer.Add("SetMultiAspectSignal",
 			  jsonrpccxx::GetHandle(&CabinetService::SetMultiAspectSignal,
