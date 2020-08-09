@@ -47,8 +47,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   auto item0 = res.pwItems.at(0);
   auto tcmd0 = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(item0);
   BOOST_REQUIRE( tcmd0 );
-  Lineside::ItemId expectedId;
-  expectedId.Parse("10:fe:02:1a");
+  auto expectedId = Lineside::Parse<Lineside::ItemId>("10:fe:02:1a");
   BOOST_CHECK_EQUAL( tcmd0->id, expectedId );
   BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.controller, "GPIO" );
   BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.controllerData, "07" );
@@ -77,8 +76,7 @@ BOOST_AUTO_TEST_CASE( ReadTwoTCM )
   BOOST_CHECK_EQUAL( res.hwManager.settings.at("hwA"), "hwB" );
 
   // Check the list of PWItems
-  Lineside::ItemId expectedId;
-  expectedId.Parse("00:ff:00:aa");
+  auto expectedId = Lineside::Parse<Lineside::ItemId>("00:ff:00:aa");
   BOOST_REQUIRE_EQUAL( res.pwItems.size(), 2 );
   for( size_t i=0; i<2; ++i ) {
     auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(res.pwItems.at(i));
