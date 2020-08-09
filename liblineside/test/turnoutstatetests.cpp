@@ -34,4 +34,13 @@ BOOST_AUTO_TEST_CASE( StreamInsertion )
   res.str(std::string());
 }
 
+BOOST_AUTO_TEST_CASE( Parse )
+{
+  auto straight = Lineside::Parse<Lineside::TurnoutState>("Straight");
+  BOOST_CHECK_EQUAL( straight, Lineside::TurnoutState::Straight );
+
+  auto curved = Lineside::Parse<Lineside::TurnoutState>("Curved");
+  BOOST_CHECK_EQUAL( curved, Lineside::TurnoutState::Curved );
+}
+
 BOOST_AUTO_TEST_SUITE_END()
