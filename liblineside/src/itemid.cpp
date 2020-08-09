@@ -89,4 +89,11 @@ namespace Lineside {
     s << (*this);
     return s.str();
   }
+
+  template<>
+  ItemId Parse<ItemId>(const std::string& src ) {
+    ItemId result;
+    result.Parse(src);
+    return result;
+  }
 }
