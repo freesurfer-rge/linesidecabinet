@@ -36,4 +36,24 @@ namespace Lineside {
     
     return res;
   }
+
+  template<>
+  TurnoutState Parse<TurnoutState>(const std::string& src) {
+    if( convertor.empty() ) {
+      initconvertor();
+    }
+
+    try {
+      TurnoutState tState;
+      tState = convertor.right.at(src);
+      return tState;
+    }
+    catch( std::out_of_range& e ) {
+      std::stringstream msg;
+      msg << "Could not parse '";
+      msg << src;
+      msg << "' to TurnoutState";
+      throw std::invalid_argument(msg.str());
+    }
+  }
 }

@@ -7,7 +7,7 @@ namespace Lineside {
     CabinetServiceImpl::CabinetServiceImpl() {}
       
     CabinetServiceResponse
-    CabinetServiceImpl::SetMultiAspectSignal(const std::string id,
+    CabinetServiceImpl::SetMultiAspectSignal(const Lineside::ItemId id,
 					     const Lineside::SignalState state,
 					     const Lineside::SignalFlash flash,
 					     const unsigned int feather) {
@@ -20,7 +20,19 @@ namespace Lineside {
     }
 
     CabinetServiceResponse
-    CabinetServiceImpl::SetTurnout(const std::string id,
+    CabinetServiceImpl::SetMultiAspectSignalString(const std::string id,
+						   const std::string state,
+						   const std::string flash,
+						   const unsigned int feather ) {
+      Lineside::ItemId idObj;
+      idObj.Parse(id);
+      auto stateEnum = Lineside::Parse<Lineside::SignalState>(state);
+      auto flashEnum = Lineside::Parse<Lineside::SignalFlash>(flash);
+      return this->SetMultiAspectSignal(idObj, stateEnum, flashEnum, feather);
+    }
+
+    CabinetServiceResponse
+    CabinetServiceImpl::SetTurnout(const Lineside::ItemId id,
 				   const Lineside::TurnoutState state) {
       std::cout << __FUNCTION__ << ": "
 		<< id << " "
@@ -29,12 +41,25 @@ namespace Lineside {
       return CabinetServiceResponse::Success;
     }
 
-    bool CabinetServiceImpl::GetTrackCircuit(const std::string id) {
-      Lineside::ItemId targetId;
-      targetId.Parse(id);
+    CabinetServiceResponse
+    CabinetServiceImpl::SetTurnoutString(const std::string id,
+					 const std::string state) {
+      Lineside::ItemId idObj;
+      idObj.Parse(id);
+      auto stateEnum = Lineside::Parse<Lineside::TurnoutState>(state);
+      return this->SetTurnout(idObj, stateEnum);
+    }
+
+    bool CabinetServiceImpl::GetTrackCircuit(const Lineside::ItemId id) {
       std::cout << __FUNCTION__ << ": "
-		<< targetId << std::endl;
+		<< id << std::endl;
       return true;
+    }
+
+    bool CabinetServiceImpl::GetTrackCircuitString(const std::string id) {
+      Lineside::ItemId idObj;
+      idObj.Parse(id);
+      return this->GetTrackCircuit(idObj);
     }
   }
 }
