@@ -11,15 +11,29 @@ namespace Lineside {
 
       virtual
       CabinetServiceResponse
-      SetMultiAspectSignal(const std::string id,
+      SetMultiAspectSignal(const Lineside::ItemId id,
 			   const Lineside::SignalState state,
 			   const Lineside::SignalFlash flash,
+			   const unsigned int feather) override;
+      
+      virtual
+      CabinetServiceResponse
+      SetMultiAspectSignal(const std::string id,
+			   const std::string state,
+			   const std::string flash,
 			   const unsigned int feather) override;
 
       virtual
       CabinetServiceResponse
-      SetTurnout(const std::string id,
+      SetTurnout(const Lineside::ItemId id,
 		 const Lineside::TurnoutState state) override;
+      
+      virtual
+      CabinetServiceRespose
+      SetTurnout(const std::string id,
+		 const std::string state) override;
+
+      virtual bool GetTrackCircuit(const Lineside::ItemId id) override;
 
       virtual bool GetTrackCircuit(const std::string id) override;
     };
