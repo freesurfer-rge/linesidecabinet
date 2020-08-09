@@ -46,7 +46,7 @@ namespace Lineside {
 	with converting the custom types.
        */
       virtual
-      CabinetServiceRespose
+      CabinetServiceResponse
       SetTurnout(const std::string id,
 		 const std::string state) = 0;
 

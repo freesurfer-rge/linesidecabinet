@@ -29,7 +29,7 @@ namespace Lineside {
 		 const Lineside::TurnoutState state) override;
       
       virtual
-      CabinetServiceRespose
+      CabinetServiceResponse
       SetTurnout(const std::string id,
 		 const std::string state) override;
 
