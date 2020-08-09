@@ -20,10 +20,10 @@ namespace Lineside {
     }
 
     CabinetServiceResponse
-    CabinetServiceImpl::SetMultiAspectSignal(const std::string id,
-					     const std::string state,
-					     const std::string flash,
-					     const unsigned int feather ) {
+    CabinetServiceImpl::SetMultiAspectSignalString(const std::string id,
+						   const std::string state,
+						   const std::string flash,
+						   const unsigned int feather ) {
       Lineside::ItemId idObj;
       idObj.Parse(id);
       auto stateEnum = Lineside::Parse<Lineside::SignalState>(state);
@@ -41,10 +41,25 @@ namespace Lineside {
       return CabinetServiceResponse::Success;
     }
 
+    CabinetServiceResponse
+    CabinetServiceImpl::SetTurnoutString(const std::string id,
+					 const std::string state) {
+      Lineside::ItemId idObj;
+      idObj.Parse(id);
+      auto stateEnum = Lineside::Parse<Lineside::TurnoutState>(state);
+      return this->SetTurnout(idObj, stateEnum);
+    }
+
     bool CabinetServiceImpl::GetTrackCircuit(const Lineside::ItemId id) {
       std::cout << __FUNCTION__ << ": "
 		<< id << std::endl;
       return true;
+    }
+
+    bool CabinetServiceImpl::GetTrackCircuitString(const std::string id) {
+      Lineside::ItemId idObj;
+      idObj.Parse(id);
+      return this->GetTrackCircuit(idObj);
     }
   }
 }

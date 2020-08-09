@@ -9,7 +9,7 @@ namespace Lineside {
       cabinet(cabinet),
       rpcServer() {
       this->rpcServer.Add("SetMultiAspectSignal",
-			  jsonrpccxx::GetHandle(&CabinetService::SetMultiAspectSignal,
+			  jsonrpccxx::GetHandle(&CabinetService::SetMultiAspectSignalString,
 						*(this->cabinet.get())),
 			  {"id", "state", "flash", "feather"});
       
