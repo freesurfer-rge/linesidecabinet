@@ -10,10 +10,7 @@ namespace Lineside {
       }
 
       auto idStr = GetAttributeByName(pwItemElement, "id");
-
-      Lineside::ItemId result;
-      result.Parse(idStr);
-      return result;
+      return Lineside::Parse<Lineside::ItemId>(idStr);
     }
   }
 }

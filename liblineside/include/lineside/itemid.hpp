@@ -4,6 +4,8 @@
 #include <iostream>
 #include <random>
 
+#include "lineside/parse.hpp"
+
 //! Namespace for this project
 namespace Lineside {
   //! Class to hold an identifier for an item.
@@ -58,12 +60,15 @@ namespace Lineside {
       return !((*this)==item);
     }
 
+    //! Convert to a string
     std::string ToString() const;
 
+    //! Create a zero-valued id
     static ItemId Nil() {
       return ItemId();
     }
 
+    //! Create a random id
     static ItemId Random() {
       unsigned long seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
       std::default_random_engine rand(seed);
@@ -80,6 +85,10 @@ namespace Lineside {
 
   //! Stream extraction operator for Lineside::ItemId objects
   std::istream& operator>>(std::istream& is, Lineside::ItemId& item);
+
+  //! Template specialisation for parsing
+  template<>
+  ItemId Parse<ItemId>(const std::string& src );
 }
 
 

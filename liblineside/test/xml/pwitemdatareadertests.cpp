@@ -47,8 +47,7 @@ BOOST_AUTO_TEST_CASE( SmokeServoTurnoutMotorData )
   auto result = reader.Read(servoTurnoutMotorElement);
   BOOST_REQUIRE(result);
 
-  Lineside::ItemId expectedId;
-  expectedId.Parse("00:fe:1a:af");
+  auto expectedId = Lineside::Parse<Lineside::ItemId>("00:fe:1a:af");
   BOOST_CHECK_EQUAL( result->id, expectedId );
 
   auto stmd = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotorData>(result);
@@ -77,8 +76,7 @@ BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
   auto result = reader.Read(tcmElement);
   BOOST_REQUIRE(result);
 
-  Lineside::ItemId expectedId;
-  expectedId.Parse("00:ff:00:aa");
+  auto expectedId = Lineside::Parse<Lineside::ItemId>("00:ff:00:aa");
   BOOST_CHECK_EQUAL( result->id, expectedId );
 
   auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(result);
@@ -106,8 +104,7 @@ BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )
   auto result = reader.Read(mashElement);
   BOOST_REQUIRE(result);
 
-  Lineside::ItemId expectedId;
-  expectedId.Parse("00:1a:2b:3c");
+  auto expectedId = Lineside::Parse<Lineside::ItemId>("00:1a:2b:3c");
   BOOST_CHECK_EQUAL( result->id, expectedId );
 
   auto mashd = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHeadData>(result);

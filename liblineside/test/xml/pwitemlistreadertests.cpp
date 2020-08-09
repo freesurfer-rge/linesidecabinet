@@ -43,20 +43,17 @@ BOOST_AUTO_TEST_CASE( SmokePWItemListReader )
 
   auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(pwItems.at(0));
   BOOST_REQUIRE( tcmd );
-  Lineside::ItemId tcmId;
-  tcmId.Parse("00:fe:00:1a");
+  auto tcmId = Lineside::Parse<Lineside::ItemId>("00:fe:00:1a");
   BOOST_CHECK_EQUAL( tcmd->id, tcmId );
 
   auto mashd = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHeadData>(pwItems.at(1));
   BOOST_REQUIRE( mashd );
-  Lineside::ItemId mashId;
-  mashId.Parse("00:1f:2e:3d");
+  auto mashId = Lineside::Parse<Lineside::ItemId>("00:1f:2e:3d");
   BOOST_CHECK_EQUAL( mashd->id, mashId );
 
   auto stmd = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotorData>(pwItems.at(2));
   BOOST_REQUIRE( stmd );
-  Lineside::ItemId stmId;
-  stmId.Parse("00:0e:2a:5f");
+  auto stmId = Lineside::Parse<Lineside::ItemId>("00:0e:2a:5f");
   BOOST_CHECK_EQUAL( stmd->id, stmId );
 }
 
@@ -76,11 +73,8 @@ BOOST_AUTO_TEST_CASE( TwoTrackCircuitMonitors )
   BOOST_REQUIRE_EQUAL( pwItems.size(), 2 );
 
   std::vector<Lineside::ItemId> expectedIds;
-  Lineside::ItemId id;
-  id.Parse("00:fe:00:1a");
-  expectedIds.push_back(id);
-  id.Parse("00:fe:00:00");
-  expectedIds.push_back(id);
+  expectedIds.push_back(Lineside::Parse<Lineside::ItemId>("00:fe:00:1a"));
+  expectedIds.push_back(Lineside::Parse<Lineside::ItemId>("00:fe:00:00"));
   for( size_t i=0; i<pwItems.size(); i++ ) {
     auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(pwItems.at(i));
     BOOST_REQUIRE( tcmd );

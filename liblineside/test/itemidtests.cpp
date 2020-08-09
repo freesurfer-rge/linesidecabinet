@@ -279,6 +279,28 @@ BOOST_AUTO_TEST_CASE(SmokeGoldenValues)
   }
 }
 
+BOOST_AUTO_TEST_CASE(StaticParse)
+{
+  std::map<Lineside::ItemId::IdType,std::string> gv;
+  gv[145875] = "00:02:39:d3";
+  gv[1234553784] = "49:95:cb:b8";
+  gv[4294967295] = "ff:ff:ff:ff";
+  gv[4278190081] = "ff:00:00:01";
+  gv[2341] = "00:00:09:25";
+  gv[12419] = "00:00:30:83";
+  gv[345629] = "00:05:46:1d";
+  gv[125688] = "00:01:ea:f8";
+  gv[445337500] = "1a:8b:4f:9c";
+  
+  for( auto it=gv.begin(); it !=gv.end(); ++it ) {
+    Lineside::ItemId expected(it->first);
+
+    auto id = Lineside::Parse<Lineside::ItemId>(it->second);
+    
+    BOOST_CHECK_EQUAL(expected, id);
+  }
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
