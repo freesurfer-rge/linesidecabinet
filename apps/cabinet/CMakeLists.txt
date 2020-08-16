@@ -7,3 +7,5 @@ list(APPEND srcs stubsoftwaremanager.cpp)
 add_executable(LinesideCabinet ${srcs})
 
 target_link_libraries(LinesideCabinet PUBLIC lineside Boost::program_options)
+
+configure_file(sample-configuration.xml . COPYONLY)
