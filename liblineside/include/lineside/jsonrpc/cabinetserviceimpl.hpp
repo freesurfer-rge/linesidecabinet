@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+#include "lineside/pwitemmanager.hpp"
+
 #include "lineside/jsonrpc/cabinetservice.hpp"
 
 namespace Lineside {
@@ -7,7 +10,7 @@ namespace Lineside {
     //! Implementation of the CabinetService
     class CabinetServiceImpl : public CabinetService {
     public:
-      CabinetServiceImpl();
+      CabinetServiceImpl(std::shared_ptr<const PWItemManager> itemManager);
 
       virtual
       CabinetServiceResponse
@@ -36,6 +39,9 @@ namespace Lineside {
       virtual bool GetTrackCircuit(const Lineside::ItemId id) override;
 
       virtual bool GetTrackCircuitString(const std::string id) override;
+
+    private:
+      std::shared_ptr<const PWItemManager> pwim;
     };
   }
 }

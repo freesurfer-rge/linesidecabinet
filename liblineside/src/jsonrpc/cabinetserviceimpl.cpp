@@ -1,10 +1,14 @@
 #include <iostream>
+
+#include "lineside/multiaspectsignalhead.hpp"
+
 #include "lineside/jsonrpc/cabinetserviceimpl.hpp"
 
 namespace Lineside {
   namespace JsonRPC {
     
-    CabinetServiceImpl::CabinetServiceImpl() {}
+    CabinetServiceImpl::CabinetServiceImpl(std::shared_ptr<const PWItemManager> itemManager)
+      : pwim(itemManager) {}
       
     CabinetServiceResponse
     CabinetServiceImpl::SetMultiAspectSignal(const Lineside::ItemId id,
@@ -16,6 +20,13 @@ namespace Lineside {
 		<< state << " "
 		<< flash << " "
 		<< feather << std::endl;
+      auto item = &(this->pwim->GetPWItemModelById(id));
+      auto mash = dynamic_cast<Lineside::MultiAspectSignalHead*>(item);
+      if( mash ) {
+	mash->SetState(state, flash, feather);
+      } else {
+	throw std::logic_error("Not a MultiAspectSignalHead" + id.ToString());
+      }
       return CabinetServiceResponse::Success;
     }
 
