@@ -1,10 +1,16 @@
 #include <iostream>
+
+#include "lineside/multiaspectsignalhead.hpp"
+#include "lineside/turnoutmotor.hpp"
+#include "lineside/trackcircuitmonitor.hpp"
+
 #include "lineside/jsonrpc/cabinetserviceimpl.hpp"
 
 namespace Lineside {
   namespace JsonRPC {
     
-    CabinetServiceImpl::CabinetServiceImpl() {}
+    CabinetServiceImpl::CabinetServiceImpl(std::shared_ptr<const PWItemManager> itemManager)
+      : pwim(itemManager) {}
       
     CabinetServiceResponse
     CabinetServiceImpl::SetMultiAspectSignal(const Lineside::ItemId id,
@@ -16,6 +22,9 @@ namespace Lineside {
 		<< state << " "
 		<< flash << " "
 		<< feather << std::endl;
+      Lineside::PWItemModel& item = this->pwim->GetPWItemModelById(id);
+      Lineside::MultiAspectSignalHead& mash = dynamic_cast<Lineside::MultiAspectSignalHead&>(item);
+      mash.SetState(state, flash, feather);
       return CabinetServiceResponse::Success;
     }
 
@@ -36,7 +45,9 @@ namespace Lineside {
       std::cout << __FUNCTION__ << ": "
 		<< id << " "
 		<< state << std::endl;
-      
+      Lineside::PWItemModel& item = this->pwim->GetPWItemModelById(id);
+      Lineside::TurnoutMotor& turnout = dynamic_cast<Lineside::TurnoutMotor&>(item);
+      turnout.SetState(state);
       return CabinetServiceResponse::Success;
     }
 
@@ -51,7 +62,9 @@ namespace Lineside {
     bool CabinetServiceImpl::GetTrackCircuit(const Lineside::ItemId id) {
       std::cout << __FUNCTION__ << ": "
 		<< id << std::endl;
-      return true;
+      Lineside::PWItemModel& item = this->pwim->GetPWItemModelById(id);
+      Lineside::TrackCircuitMonitor& tcm = dynamic_cast<Lineside::TrackCircuitMonitor&>(item);
+      return tcm.GetState();
     }
 
     bool CabinetServiceImpl::GetTrackCircuitString(const std::string id) {
