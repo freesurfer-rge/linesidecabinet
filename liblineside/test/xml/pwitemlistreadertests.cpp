@@ -75,10 +75,14 @@ BOOST_AUTO_TEST_CASE( TwoTrackCircuitMonitors )
   std::vector<Lineside::ItemId> expectedIds;
   expectedIds.push_back(Lineside::Parse<Lineside::ItemId>("00:fe:00:1a"));
   expectedIds.push_back(Lineside::Parse<Lineside::ItemId>("00:fe:00:00"));
+  std::vector<Lineside::TrackCircuitSensor> expectedSensors;
+  expectedSensors.push_back(Lineside::TrackCircuitSensor::OccupiedIsLow);
+  expectedSensors.push_back(Lineside::TrackCircuitSensor::OccupiedIsHigh);
   for( size_t i=0; i<pwItems.size(); i++ ) {
     auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(pwItems.at(i));
     BOOST_REQUIRE( tcmd );
     BOOST_CHECK_EQUAL( tcmd->id, expectedIds.at(i) );
+    BOOST_CHECK_EQUAL( tcmd->sensor, expectedSensors.at(i) );
   }
 }
 

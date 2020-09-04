@@ -80,6 +80,7 @@ BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
   BOOST_CHECK_EQUAL( result->id, expectedId );
 
   auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(result);
+  BOOST_CHECK_EQUAL( tcmd->sensor, Lineside::TrackCircuitSensor::OccupiedIsLow );
   BOOST_CHECK_EQUAL( tcmd->inputPinRequest.controller, "GPIO" );
   BOOST_CHECK_EQUAL( tcmd->inputPinRequest.controllerData, "07" );
   BOOST_CHECK_EQUAL( tcmd->inputPinRequest.settings.size(), 1 );

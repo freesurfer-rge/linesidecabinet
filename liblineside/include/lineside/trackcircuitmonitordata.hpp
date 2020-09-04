@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lineside/pwitemdata.hpp"
+#include "lineside/trackcircuitsensor.hpp"
 #include "lineside/devicerequestdata.hpp"
 
 namespace Lineside {
@@ -9,8 +10,10 @@ namespace Lineside {
   public:
     TrackCircuitMonitorData() :
       PWItemData(),
+      sensor(),
       inputPinRequest() {}
 
+    TrackCircuitSensor sensor;
     DeviceRequestData inputPinRequest;
 
     virtual std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
