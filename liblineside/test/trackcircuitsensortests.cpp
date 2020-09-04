@@ -6,7 +6,7 @@
 
 #include "lineside/trackcircuitsensor.hpp"
 
-char const* sensorNames[] = { "Steady", "Flashing" };
+char const* sensorNames[] = { "OccupiedIsLow", "OccupiedIsHigh" };
 Lineside::TrackCircuitSensor sensors[] = {
   Lineside::TrackCircuitSensor::OccupiedIsLow,
   Lineside::TrackCircuitSensor::OccupiedIsHigh
