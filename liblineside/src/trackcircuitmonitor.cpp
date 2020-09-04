@@ -23,7 +23,7 @@ namespace Lineside {
   }
 
   bool TrackCircuitMonitor::GetState() const {
-    return this->monitorPin->Get();
+    return this->monitorPin->Get() == ( Lineside::TrackCircuitSensor::OccupiedIsHigh == this->sensor );
   }
 
   void TrackCircuitMonitor::Notify(const unsigned int sourceId,
