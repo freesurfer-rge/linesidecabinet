@@ -24,6 +24,8 @@ namespace Lineside {
       auto result = std::make_shared<Lineside::TrackCircuitMonitorData>();
 
       result->id = this->ReadIdAttribute( pwItemElement );
+      std::string sensorString = GetAttributeByName( pwItemElement, "sensor" );
+      result->sensor = Lineside::Parse<Lineside::TrackCircuitSensor>(sensorString);
 
       auto inputPinElement = GetSingleElementByName( pwItemElement, "BinaryInput" );
 

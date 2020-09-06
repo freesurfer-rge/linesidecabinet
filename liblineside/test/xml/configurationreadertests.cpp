@@ -49,6 +49,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_REQUIRE( tcmd0 );
   auto expectedId = Lineside::Parse<Lineside::ItemId>("10:fe:02:1a");
   BOOST_CHECK_EQUAL( tcmd0->id, expectedId );
+  BOOST_CHECK_EQUAL( tcmd0->sensor, Lineside::TrackCircuitSensor::OccupiedIsHigh );
   BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.controller, "GPIO" );
   BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.controllerData, "07" );
   BOOST_REQUIRE_EQUAL( tcmd0->inputPinRequest.settings.size(), 1 );
@@ -83,6 +84,7 @@ BOOST_AUTO_TEST_CASE( ReadTwoTCM )
     BOOST_REQUIRE( tcmd );
     // All items share the same id. This is permitted when reading in the configuration
     BOOST_CHECK_EQUAL( expectedId, tcmd->id );
+    BOOST_CHECK_EQUAL( tcmd->sensor, Lineside::TrackCircuitSensor::OccupiedIsHigh );
   }
 }
 

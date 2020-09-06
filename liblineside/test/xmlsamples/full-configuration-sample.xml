@@ -15,7 +15,7 @@
     </Settings>
   </HardwareManager>
   <PermanentWayItems>
-    <TrackCircuitMonitor id="10:fe:02:1a">
+    <TrackCircuitMonitor id="10:fe:02:1a" sensor="OccupiedIsHigh">
       <BinaryInput controller="GPIO" controllerData="07">
 	<Settings>
 	  <Setting key="glitch" value="20000" />

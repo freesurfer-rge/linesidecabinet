@@ -13,10 +13,10 @@ namespace Lineside {
     struct enabler : public TrackCircuitMonitor {
     public:
       friend class TrackCircuitMonitorData;
-      enabler(const ItemId id) : TrackCircuitMonitor(id) {}
+      enabler(const ItemId id, const TrackCircuitSensor sensor) : TrackCircuitMonitor(id, sensor) {}
     };
-    auto result = std::make_shared<enabler>(this->id);
-
+    auto result = std::make_shared<enabler>(this->id, this->sensor);
+    
     // Link up the input pin
     bip->RegisterListener(this->id.Get(), result);
     result->monitorPin = std::move(bip);

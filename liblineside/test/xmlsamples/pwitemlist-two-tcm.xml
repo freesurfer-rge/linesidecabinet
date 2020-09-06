@@ -3,7 +3,7 @@
   <!-- Start with a comment -->
   <PermanentWayItems>
     <!-- Here begins the list -->
-    <TrackCircuitMonitor id="00:fe:00:1a">
+    <TrackCircuitMonitor id="00:fe:00:1a" sensor="OccupiedIsLow">
       <!-- A single input pin -->
       <BinaryInput controller="GPIO" controllerData="07">
 	<Settings>
@@ -13,7 +13,7 @@
       </BinaryInput>
     </TrackCircuitMonitor>
     <!-- And the next TCM -->
-    <TrackCircuitMonitor id="00:fe:00:00">
+    <TrackCircuitMonitor id="00:fe:00:00" sensor="OccupiedIsHigh">
       <!-- A single input pin -->
       <BinaryInput controller="GPIO" controllerData="08">
 	<Settings>

@@ -12,16 +12,16 @@
   </HardwareManager>
   <!-- Start of the item list -->
   <PermanentWayItems>
-    <TrackCircuitMonitor id="00:ff:00:aa">
+    <TrackCircuitMonitor id="00:ff:00:aa" sensor="OccupiedIsHigh">
       <BinaryInput controller="GPIO" controllerData="17">
 	<Settings>
           <Setting key="glitch" value="300000" />
-	  <Setting key="pud" value="Down" />
+	  <Setting key="pud" value="Up" />
 	</Settings>
       </BinaryInput>
     </TrackCircuitMonitor>
     <!-- Comment -->
-    <TrackCircuitMonitor id="ff:00:00:11">
+    <TrackCircuitMonitor id="ff:00:00:11" sensor="OccupiedIsLow">
       <BinaryInput controller="GPIO" controllerData="22">
 	<Settings>
           <Setting key="glitch" value="300000" />

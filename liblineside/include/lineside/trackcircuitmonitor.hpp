@@ -7,6 +7,7 @@
 #include "lineside/pwitemmodel.hpp"
 #include "lineside/binaryinputpin.hpp"
 #include "lineside/rtcclient.hpp"
+#include "lineside/trackcircuitsensor.hpp"
 
 namespace Lineside {
   class TrackCircuitMonitorData;
@@ -33,16 +34,18 @@ namespace Lineside {
   private:
     friend class TrackCircuitMonitorData;
 
-    TrackCircuitMonitor(const ItemId tcmId) :
+    TrackCircuitMonitor(const ItemId tcmId, const TrackCircuitSensor sensor) :
       PWItemModel(tcmId),
       updateMtx(),
       lastNotificationState(false),
       monitorPin(),
-      rtc() {}
+      rtc(),
+      sensor(sensor) {}
 
     std::mutex updateMtx;
     std::atomic<bool> lastNotificationState;
     std::unique_ptr<BinaryInputPin> monitorPin;
     std::shared_ptr<RTCClient> rtc;
+    const TrackCircuitSensor sensor;
   };
 }

@@ -10,6 +10,7 @@ list(APPEND srcs turnoutstatetests.cpp)
 list(APPEND srcs signalstatetests.cpp)
 list(APPEND srcs signalaspecttests.cpp)
 list(APPEND srcs signalflashtests.cpp)
+list(APPEND srcs trackcircuitsensortests.cpp)
 
 list(APPEND srcs itemidtests.cpp)
 list(APPEND srcs exceptiontests.cpp)
