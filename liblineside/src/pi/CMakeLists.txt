@@ -8,6 +8,7 @@ list(APPEND srcs gpinputprovider.cpp)
 
 list(APPEND srcs i2cdevice.cpp)
 list(APPEND srcs pca9685.cpp)
+list(APPEND srcs i2cdevicefactory.cpp)
 
 list(APPEND srcs pihardwaremanager.cpp)
 

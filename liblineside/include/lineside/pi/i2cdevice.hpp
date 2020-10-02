@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <memory>
 
 #include "pigpiodpp/i2cdevice.hpp"
@@ -11,12 +12,14 @@ namespace Lineside {
     //! Base class for implementing an I2C hardware provider
     class I2CDevice : public std::enable_shared_from_this<I2CDevice> {
     public:
-      I2CDevice(std::unique_ptr<PiGPIOdpp::I2CDevice> i2cCommunicator);
+      I2CDevice(std::unique_ptr<PiGPIOdpp::I2CDevice> i2cCommunicator,
+		const std::string& deviceName);
 
       virtual ~I2CDevice();
 
       virtual void Register(HardwareManager& hwManager) = 0;
 
+      const std::string name;
     protected:
       std::unique_ptr<PiGPIOdpp::I2CDevice> communicator;
     };
