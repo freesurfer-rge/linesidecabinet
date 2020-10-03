@@ -3,11 +3,7 @@
 #cmakedefine01 pigpio_FOUND
 
 namespace PiGPIOdpp {
-  const bool piAvailable =
-#if pigpio_FOUND
-    true
-#else
-    false
-#endif
-    ;
+  const bool piAvailable = pigpio_FOUND;
 }
+
+#undef pigpio_FOUND
