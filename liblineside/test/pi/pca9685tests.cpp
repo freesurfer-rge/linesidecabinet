@@ -39,34 +39,41 @@ BOOST_AUTO_TEST_CASE( Smoke )
 
 BOOST_AUTO_TEST_CASE( GetPCA9685Channel )
 {
-  const std::string devName = "Test";
-  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
-  
-  std::shared_ptr<Lineside::Pi::I2CDevice> device;
+  std::unique_ptr<Lineside::PWMChannel> pwmChannel;
+
+  // Nest so that all the explicit shared pointers are destructed
   {
-    Lineside::I2CDeviceData data;
-    data.kind = "pca9685";
-    data.bus = 0;
-    data.address = 1;
-    data.name = devName;
-    data.settings["referenceClock"] = "25e6";
-    data.settings["pwmFrequency"] = "50";
+    const std::string devName = "Test";
+    auto pm = PiGPIOdpp::PiManager::CreatePiManager();
     
-    Lineside::Pi::I2CDeviceFactory f;
+    std::shared_ptr<Lineside::Pi::I2CDevice> device;
+    {
+      Lineside::I2CDeviceData data;
+      data.kind = "pca9685";
+      data.bus = 0;
+      data.address = 1;
+      data.name = devName;
+      data.settings["referenceClock"] = "25e6";
+      data.settings["pwmFrequency"] = "50";
+      
+      Lineside::Pi::I2CDeviceFactory f;
+      
+      device = f.Manufacture(*pm, data);
+      BOOST_TEST_MESSAGE( "Device manufacture complete" );
+    }
+    BOOST_REQUIRE( device );
     
-    device = f.Manufacture(*pm, data);
-    BOOST_TEST_MESSAGE( "Device manufacture complete" );
+    auto pca9685 = std::dynamic_pointer_cast<Lineside::Pi::PCA9685>(device);
+    BOOST_REQUIRE( pca9685 );
+    
+    const std::string channelId = "10";
+    std::map<std::string,std::string> channelSettings;
+
+    pwmChannel = pca9685->GetHardware(channelId, channelSettings);
+    BOOST_REQUIRE(pwmChannel);
+    BOOST_TEST_MESSAGE( "Channel created" );
   }
-  BOOST_REQUIRE( device );
-
-  auto pca9685 = std::dynamic_pointer_cast<Lineside::Pi::PCA9685>(device);
-  BOOST_REQUIRE( pca9685 );
-
-  const std::string channelId = "10";
-  std::map<std::string,std::string> channelSettings;
-
-  auto pwmChannel = pca9685->GetHardware(channelId, channelSettings);
-  BOOST_REQUIRE(pwmChannel);
+  // If everything is set correctly internally, the following will still work
   pwmChannel->Set(10);
   BOOST_CHECK_EQUAL( pwmChannel->Get(), 10 );
   auto pca9685Channel = dynamic_cast<Lineside::Pi::PCA9685Channel*>(pwmChannel.get());
