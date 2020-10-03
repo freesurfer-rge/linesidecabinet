@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <set>
 
 #include "lineside/pi/i2cdevice.hpp"
 
@@ -31,6 +32,7 @@ namespace Lineside {
       
       double referenceClock;
       double pwmFrequency;
+      std::set<unsigned char> assignedChannels;
       
       void CheckChannel(const unsigned char channel) const;
       unsigned char StartRegister(const unsigned char channel) const;

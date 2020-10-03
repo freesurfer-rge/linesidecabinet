@@ -10,18 +10,17 @@ BOOST_AUTO_TEST_SUITE( PCA9685 )
 BOOST_AUTO_TEST_CASE( Smoke )
 {
   const std::string devName = "Test";
-  std::map<std::string,std::string> settings;
-  
   auto pm = PiGPIOdpp::PiManager::CreatePiManager();
 
   std::shared_ptr<Lineside::Pi::I2CDevice> device;
   {
     Lineside::I2CDeviceData data;
-    data.kind = "PCA9685";
+    data.kind = "pca9685";
     data.bus = 0;
     data.address = 1;
     data.name = devName;
-    data.settings = settings;
+    data.settings["referenceClock"] = "25e6";
+    data.settings["pwmFrequency"] = "50";
 
     Lineside::Pi::I2CDeviceFactory f;
 

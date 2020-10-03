@@ -3,7 +3,7 @@
 #include <thread>
 
 #include "lineside/pi/pca9685.hpp"
-
+#include "lineside/pi/pca9685channel.hpp"
 
 namespace Lineside {
   namespace Pi {
@@ -13,7 +13,8 @@ namespace Lineside {
       I2CDevice(std::move(i2cCommunicator), deviceName),
       Lineside::PWMCProvider(),
       referenceClock(-1),
-      pwmFrequency(-1) {
+      pwmFrequency(-1),
+      assignedChannels() {
       // Extract the settings
       if( settings.count(refClockSetting) != 1 ) {
 	std::stringstream msg;
@@ -86,6 +87,36 @@ namespace Lineside {
 					       ptrPCA9685);
     }
 
+    std::unique_ptr<Lineside::PWMChannel>
+    PCA9685::GetHardware(const std::string& hardwareId,
+			 const std::map<std::string,std::string>& settings) {
+      if( settings.size() > 0 ) {
+	std::stringstream msg;
+	msg << __FUNCTION__
+	    << ": Settings not supported for PCA9685";
+	throw std::out_of_range(msg.str().c_str());
+      }
+      const unsigned int channel = std::stoul(hardwareId);
+      if( channel >= PCA9685::channels ) {
+	std::stringstream msg;
+	msg << __FUNCTION__
+	    << ": channelId " << hardwareId << " out of range";
+	throw std::out_of_range(msg.str().c_str());
+      }
+
+      if( this->assignedChannels.count(channel) != 0 ) {
+	std::stringstream msg;
+	msg << __FUNCTION__
+	    << ": channelId " << hardwareId << " already assigned";
+	throw std::out_of_range(msg.str().c_str());
+      }
+
+      auto myself = std::dynamic_pointer_cast<PCA9685>(this->shared_from_this());
+      auto result = std::make_unique<PCA9685Channel>(myself,channel);
+      this->assignedChannels.insert(channel);
+      return result;
+    }
+    
     unsigned char PCA9685::StartRegister(const unsigned char channel) const {
       this->CheckChannel(channel);
       
