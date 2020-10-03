@@ -7,6 +7,7 @@ list(APPEND srcs gpiopull.cpp)
 list(APPEND srcs gpiopin.cpp)
 list(APPEND srcs pimanager.cpp)
 list(APPEND srcs i2cdevice.cpp)
+list(APPEND srcs piavailable.cpp)
 
 # Have to do different things if we find the C pigpiod library
 if( pigpio_FOUND )
