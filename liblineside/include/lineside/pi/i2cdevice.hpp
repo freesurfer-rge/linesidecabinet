@@ -10,6 +10,9 @@
 namespace Lineside {
   namespace Pi {
     //! Base class for implementing an I2C hardware provider
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnon-virtual-dtor" // False positive on enable_shared_from_this
     class I2CDevice : public std::enable_shared_from_this<I2CDevice> {
     public:
       I2CDevice(std::unique_ptr<PiGPIOdpp::I2CDevice> i2cCommunicator,
@@ -23,5 +26,6 @@ namespace Lineside {
     protected:
       std::unique_ptr<PiGPIOdpp::I2CDevice> communicator;
     };
+#pragma GCC diagnostic pop
   }
 }
