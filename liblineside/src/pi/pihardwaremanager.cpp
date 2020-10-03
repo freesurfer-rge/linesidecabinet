@@ -2,7 +2,7 @@
 #include "lineside/pi/gpoutputprovider.hpp"
 
 #include "lineside/pi/pihardwaremanager.hpp"
-
+#include "lineside/pi/i2cdevicefactory.hpp"
 
 namespace Lineside {
   namespace Pi {
@@ -20,6 +20,13 @@ namespace Lineside {
 
       auto gpInputProvider = std::make_shared<GPInputProvider>(this->gpioProvider);
       this->bipProviderRegistrar.Register(this->GPIO, gpInputProvider);
+
+      for( auto devData : data.i2cDevices ) {
+	I2CDeviceFactory f;
+	auto i2cDev = f.Manufacture( *(this->piManager), devData );
+
+	i2cDev->Register(*this);
+      }
     }
   }
 }

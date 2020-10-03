@@ -1,5 +1,3 @@
-find_package(pigpio)
-
 set(srcs)
 
 list(APPEND srcs pigpiodppexceptions.cpp)
