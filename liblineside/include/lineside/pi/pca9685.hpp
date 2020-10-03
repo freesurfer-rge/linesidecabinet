@@ -6,6 +6,8 @@
 
 namespace Lineside {
   namespace Pi {
+    class PCA9685Channel;
+    
     class PCA9685 : public I2CDevice, public Lineside::PWMCProvider {
     public:
       const std::string refClockSetting = "referenceClock";
@@ -21,6 +23,8 @@ namespace Lineside {
       GetHardware(const std::string& hardwareId,
 		  const std::map<std::string,std::string>& settings) override;
     private:
+      friend class PCA9685Channel;
+      
       const unsigned char channels = 16;
       const int registerMODE1 = 0x00;
       const int registerPRESCALE = 0xfe;
