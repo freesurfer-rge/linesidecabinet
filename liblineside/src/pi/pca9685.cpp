@@ -65,6 +65,18 @@ namespace Lineside {
 	this->communicator->WriteWord(startRegister, 0);
       }
     }
+
+    void PCA9685::SetChannelValue(const unsigned char channel,
+				  const unsigned int value) const {
+      if( value >= 4096 ) {
+	std::stringstream msg;
+	msg << __FUNCTION__
+	    << ": Invalid value " << value;
+	throw std::out_of_range( msg.str().c_str() );
+      }
+      this->communicator->WriteWord(this->StopRegister(channel),
+				    value);
+    }
     
     void PCA9685::Register(HardwareManager& hwManager) {
       // Get a shared pointer and navigate around the types

@@ -32,6 +32,9 @@ namespace Lineside {
       unsigned char StartRegister(const unsigned char channel) const;
       unsigned char StopRegister(const unsigned char channel) const;
 
+      void SetChannelValue(const unsigned char channel,
+			   const unsigned int value) const;
+
       void CommunicatePause() const;
     };
   }
