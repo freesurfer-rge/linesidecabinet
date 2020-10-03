@@ -1,11 +1,14 @@
 #include <boost/test/unit_test.hpp>
 
+#include "pigpiodpp/piavailable.hpp"
+
 #include "lineside/pi/pca9685.hpp"
 #include "lineside/pi/i2cdevicefactory.hpp"
 
 BOOST_AUTO_TEST_SUITE( pi )
 
-BOOST_AUTO_TEST_SUITE( PCA9685 )
+BOOST_AUTO_TEST_SUITE( PCA9685,
+		       * boost::unit_test::enable_if<!PiGPIOdpp::piAvailable>() )
 
 BOOST_AUTO_TEST_CASE( Smoke )
 {

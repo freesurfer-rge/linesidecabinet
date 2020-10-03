@@ -1,0 +1,13 @@
+#pragma once
+
+#cmakedefine01 pigpio_FOUND
+
+namespace PiGPIOdpp {
+  const bool piAvailable =
+#if pigpio_FOUND
+    true
+#else
+    false
+#endif
+    ;
+}
