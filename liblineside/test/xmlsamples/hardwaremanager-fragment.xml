@@ -2,7 +2,11 @@
 <Test>
   <HardwareManager>
     <I2CDevices>
-      <I2CDevice kind="pca9685" bus="0" address="0xFF" name="pwm0" />
+      <I2CDevice kind="pca9685" bus="0" address="0xFF" name="pwm0">
+	<Settings>
+	  <Setting key="key9685" value="val9685" />
+	</Settings>
+      </I2CDevice>
     </I2CDevices>
     <Settings>
       <Setting key="some" value="thing" />
