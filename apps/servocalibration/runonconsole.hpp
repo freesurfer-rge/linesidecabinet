@@ -1,3 +1,5 @@
 #pragma once
 
-void RunOnConsole();
+#include "lineside/pwmchannel.hpp"
+
+void RunOnConsole(Lineside::PWMChannel& servo);

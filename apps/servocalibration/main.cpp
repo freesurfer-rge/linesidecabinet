@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     auto servo = provider->GetHardware(std::to_string(opts.channel),
 				       settings);
     
-    RunOnConsole();
+    RunOnConsole(*servo);
   }
   catch(std::exception& e) {
     std::cerr << "Error: " << e.what() << std::endl;
