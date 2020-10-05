@@ -16,7 +16,8 @@ namespace Lineside {
       return HasChildElement(parent, this->HardwareManagerElement);
     }
 
-    xercesc::DOMElement* HardwareManagerDataReader::GetHardwareManagerElement( const xercesc::DOMElement *parent ) const {
+    xercesc::DOMElement*
+    HardwareManagerDataReader::GetHardwareManagerElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");
       }
@@ -29,7 +30,8 @@ namespace Lineside {
       return hardwaremanagerElement;
     }
 
-    Lineside::HardwareManagerData HardwareManagerDataReader::Read( const xercesc::DOMElement *hardwaremanagerElement ) const {
+    Lineside::HardwareManagerData
+    HardwareManagerDataReader::Read( const xercesc::DOMElement *hardwaremanagerElement ) const {
       if( !hardwaremanagerElement ) {
 	throw std::logic_error("Bad hardwaremanagerElement ptr");
       }
