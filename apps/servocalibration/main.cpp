@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "lineside/pwmchannel.hpp"
 #include "lineside/pi/pihardwaremanager.hpp"
 #include "lineside/xml/configurationreader.hpp"
 
@@ -22,6 +23,11 @@ int main(int argc, char* argv[]) {
 
     auto hw = std::make_shared<Lineside::Pi::PiHardwareManager>(config.hwManager);
 
+    auto provider = hw->pwmcProviderRegistrar.Retrieve(opts.device);
+    std::map<std::string,std::string> settings;
+    auto servo = provider->GetHardware(std::to_string(opts.channel),
+				       settings);
+    
     RunOnConsole();
   }
   catch(std::exception& e) {
