@@ -13,7 +13,7 @@ public:
   bool helpMessagePrinted;
   std::string configFilePath;
   std::string device;
-  unsigned char channel;
+  unsigned int channel;
 
   void Populate(int argc, char* argv[]);
 };

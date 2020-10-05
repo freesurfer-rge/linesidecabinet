@@ -26,7 +26,7 @@ void CmdLineOpts::Populate(int argc, char* argv[]) {
     ("help", "Show help message")
     (configOptSpec.c_str(), bpo::value<std::string>(&(this->configFilePath)), configOptDesc.c_str())
     (deviceOptSpec.c_str(), bpo::value<std::string>(&(this->device)), deviceOptDesc.c_str())
-    (channelOptSpect.c_str(), bpo::value<unsigned char>(&(this->channel)), channelOptDesc.c_str())
+    (channelOptSpec.c_str(), bpo::value<unsigned int>(&(this->channel)), channelOptDesc.c_str())
     ;
   
   bpo::variables_map vm;
@@ -58,7 +58,7 @@ void CmdLineOpts::Populate(int argc, char* argv[]) {
       throw std::out_of_range("Channel must be in range 0 to 15");
     }
   } else {
-    throw std::runtime_error("Device not specified");
+    throw std::runtime_error("Channel not specified");
   }
 }
 
