@@ -52,7 +52,9 @@ namespace Lineside {
       
       if( elementList->getLength() != 1 ) {
 	std::stringstream msg;
-	msg << "Did not find exactly one child element " << name;
+	auto parentName = XMLChToStr(parent->getTagName());
+	msg << "Did not find exactly one child element " << name
+	    << " in element " << parentName;
 	throw std::runtime_error(msg.str());
       }
       
