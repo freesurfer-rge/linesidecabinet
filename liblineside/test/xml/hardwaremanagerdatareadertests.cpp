@@ -40,7 +40,9 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( dev0.bus, 0 );
   BOOST_CHECK_EQUAL( dev0.address, 0xFF );
   BOOST_CHECK_EQUAL( dev0.name, "pwm0" );
-
+  BOOST_REQUIRE_EQUAL( dev0.settings.size(), 1 );
+  BOOST_CHECK_EQUAL( dev0.settings.at("key9685"), "val9685" );
+  
   BOOST_REQUIRE_EQUAL( result.settings.size(), 1 );
   BOOST_CHECK_EQUAL( result.settings.at("some"), "thing" );
 }

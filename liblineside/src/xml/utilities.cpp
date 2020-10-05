@@ -43,25 +43,27 @@ namespace Lineside {
 						 const std::string name ) {
       auto TAG_Name = StrToXMLCh(name);
 
-      auto elementList = parent->getElementsByTagName( TAG_Name.get() );
-      if( elementList == nullptr ) {
-	std::stringstream msg;
-	msg << "Failed getElementsByTagName call for " << name;
-	throw std::runtime_error(msg.str());
+      int resultCount = 0;
+      xercesc::DOMElement* result = nullptr;
+      
+      // We only want the direct children, so can't use getElementsByTagName
+      auto childList = parent->getChildNodes();
+      for( XMLSize_t i=0; i<childList->getLength(); i++ ) {
+	auto child = childList->item(i);
+	if( IsElementNode(child) ) {
+	  auto element = dynamic_cast<xercesc::DOMElement*>(child);
+
+	  if( xercesc::XMLString::equals( element->getTagName(), TAG_Name.get() )) {
+	    resultCount++;
+	    result = element;
+	  }
+	}
       }
       
-      if( elementList->getLength() != 1 ) {
+      if( resultCount != 1 ) {
 	std::stringstream msg;
-	msg << "Did not find exactly one child element " << name;
-	throw std::runtime_error(msg.str());
-      }
-      
-      auto result = dynamic_cast<xercesc::DOMElement*>(elementList->item(0));
-      if( result == nullptr ) {
-	std::stringstream msg;
-	msg << "Failed to obtain item "
-	    << name
-	    << " from elementList";
+	msg << "Did not find exactly one child element " << name
+	    << " in element " << XMLChToStr(parent->getTagName());
 	throw std::runtime_error(msg.str());
       }
       
