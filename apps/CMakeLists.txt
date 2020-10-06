@@ -1,4 +1,5 @@
 add_subdirectory(servocalibration)
 add_subdirectory(signals)
 add_subdirectory(trackcircuitmonitor)
+add_subdirectory(turnouts)
 add_subdirectory(cabinet)

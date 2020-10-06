@@ -1,9 +1,8 @@
 #include <string>
 #include <vector>
 
-#include "lineside/signalstate.hpp"
-#include "lineside/signalflash.hpp"
-#include "lineside/multiaspectsignalhead.hpp"
+#include "lineside/turnoutstate.hpp"
+#include "lineside/turnoutmotor.hpp"
 
 #include "runonconsole.hpp"
 
@@ -31,19 +30,6 @@ std::vector<std::string>  stringtotokens( const std::string s) {
   return tokens;
 }
 
-void HandleMASH( Lineside::MultiAspectSignalHead& mash,
-		 std::vector<std::string>& tokens ) {
-  if( tokens.size() != 4 ) {
-    std::cerr << __FUNCTION__ << ": Needs four tokens" << std::endl;
-    return;
-  }
-  
-  auto state = Lineside::Parse<Lineside::SignalState>(tokens.at(1));
-  auto flash = Lineside::Parse<Lineside::SignalFlash>(tokens.at(2));
-  auto feather = std::stoul(tokens.at(3));
-
-  mash.SetState(state, flash, feather);
-}
 
 void RunOnConsole(Lineside::PWItemManager& pwItemManager) {
   std::cout << "Entering main loop" << std::endl;
@@ -66,8 +52,10 @@ void RunOnConsole(Lineside::PWItemManager& pwItemManager) {
 	target.Parse(tokens.at(0));
 
 	Lineside::PWItemModel& pwItem = pwItemManager.GetPWItemModelById(target);
-	Lineside::MultiAspectSignalHead& mash = dynamic_cast<Lineside::MultiAspectSignalHead&>(pwItem);
-	HandleMASH( mash, tokens );
+	Lineside::TurnoutMotor& to = dynamic_cast<Lineside::TurnoutMotor&>(pwItem);
+	Lineside::TurnoutState state;
+	state = Lineside::Parse<Lineside::TurnoutState>(tokens.at(1));
+	to.SetState(state);
       }
       catch( std::exception& e ) {
 	std::cerr << e.what() << std::endl;

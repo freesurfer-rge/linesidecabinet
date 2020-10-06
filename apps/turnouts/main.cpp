@@ -3,7 +3,7 @@
 
 #include "lineside/pi/pihardwaremanager.hpp"
 #include "lineside/xml/configurationreader.hpp"
-#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/servoturnoutmotordata.hpp"
 
 #include "lineside/pwitemmanager.hpp"
 
@@ -13,9 +13,9 @@
 
 void CheckPWItems(const std::vector<std::shared_ptr<Lineside::PWItemData>>& pwItems) {
   for( auto it=pwItems.begin(); it!=pwItems.end(); ++it ) {
-    auto signal = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHeadData>(*it);
+    auto signal = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotorData>(*it);
     if( !signal ) {
-      throw std::runtime_error("All PWItems must be of type MultiAspectSignalHead");
+      throw std::runtime_error("All PWItems must be of type ServoTurnoutMotor");
     }
   }
 }
