@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<LinesideCabinet>
+  <SoftwareManager>
+    <RTC address="addr" port="8081" />
+    <Settings />
+  </SoftwareManager>
+  <HardwareManager>
+    <I2CDevices>
+      <I2CDevice kind="pca9685" bus="1" address="0x40" name="sc01">
+	<Settings>
+	  <Setting key="referenceClock" value="25e6" />
+	  <Setting key="pwmFrequency" value="50" />
+	</Settings>
+      </I2CDevice>
+    </I2CDevices>
+    <Settings />
+  </HardwareManager>
+  <PermanentWayItems>
+    <ServoTurnoutMotor id="00:aa:bb:cc" straight="200" curved="400" >
+      <PWMChannel controller="sc01" controllerData="00" />
+    </ServoTurnoutMotor>
+    <ServoTurnoutMotor id="00:dd:ee:ff" straight="200" curved="300" >
+      <PWMChannel controller="sc01" controllerData="15" />
+    </ServoTurnoutMotor>
+  </PermanentWayItems>
+</LinesideCabinet>
