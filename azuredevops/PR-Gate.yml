@@ -3,6 +3,15 @@ pr:
 
 trigger: none # No CI builds
 
+
+schedules:
+- cron: "0 5 * * 6" # Time is UTC
+  displayName: Saturday Gated Build
+  branches:
+    include:
+      - master
+  always: true
+
 pool:
   vmImage: 'ubuntu-latest'
 

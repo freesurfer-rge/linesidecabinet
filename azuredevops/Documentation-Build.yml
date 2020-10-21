@@ -3,8 +3,8 @@ pr: none
 trigger: none
 
 schedules:
-- cron: "0 5 * * 1-5" # Time is UTC
-  displayName: Nightly Build
+- cron: "0 5 * * 3" # Time is UTC
+  displayName: Wednesday Doc Build
   branches:
     include:
       - master

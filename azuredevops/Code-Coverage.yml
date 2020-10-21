@@ -3,8 +3,8 @@ pr: none
 trigger: none # Not a CI build
 
 schedules:
-- cron: "0 6 * * *" # Time is UTC
-  displayName: Nightly Build
+- cron: "0 6 * * 1,5" # Time is UTC
+  displayName: Mon & Fri build
   branches:
     include:
       - master
