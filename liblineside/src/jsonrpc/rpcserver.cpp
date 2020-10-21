@@ -10,7 +10,7 @@ namespace Lineside {
       rpcServer() {
       // Due to difficulties handling custom types, need to use 'String' versions
       this->rpcServer.Add("SetMultiAspectSignal",
-			  jsonrpccxx::GetHandle(&CabinetService::SetMultiAspectSignalString,
+			  jsonrpccxx::GetHandle(&CabinetService::SetMultiAspectSignal,
 						*(this->cabinet.get())),
 			  {"id", "state", "flash", "feather"});
       
