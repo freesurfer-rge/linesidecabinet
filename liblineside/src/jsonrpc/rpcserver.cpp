@@ -5,6 +5,7 @@
 
 namespace Lineside {
   namespace JsonRPC {
+    
     RPCServer::RPCServer(std::shared_ptr<CabinetService> cabinet) :
       cabinet(cabinet),
       rpcServer() {
@@ -15,12 +16,12 @@ namespace Lineside {
 			  {"id", "state", "flash", "feather"});
       
       this->rpcServer.Add("SetTurnout",
-			  jsonrpccxx::GetHandle(&CabinetService::SetTurnoutString,
+			  jsonrpccxx::GetHandle(&CabinetService::SetTurnout,
 						*(this->cabinet.get())),
 			  {"id", "state"});
       
       this->rpcServer.Add("GetTrackCircuit",
-			  jsonrpccxx::GetHandle(&CabinetService::GetTrackCircuitString,
+			  jsonrpccxx::GetHandle(&CabinetService::GetTrackCircuit,
 						*(this->cabinet.get())),
 			  {"id"});
     }
