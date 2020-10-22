@@ -24,43 +24,14 @@ namespace Lineside {
 			   const Lineside::SignalFlash flash,
 			   const unsigned int feather) = 0;
 
-      //! Function to set the state of a multiaspect signal
-      /*!
-	This is a dupicate with string arguments in case there are issues
-	with converting the custom types.
-       */
-      virtual
-      CabinetServiceResponse
-      SetMultiAspectSignalString(const std::string id,
-				 const std::string state,
-				 const std::string flash,
-				 const unsigned int feather) = 0;
-
       //! Function to set the state of a turnout
       virtual
       CabinetServiceResponse
       SetTurnout(const Lineside::ItemId id,
 		 const Lineside::TurnoutState state) = 0;
-      
-      //! Function to set the state of a turnout
-      /*!
-	This is a dupicate with string arguments in case there are issues
-	with converting the custom types.
-       */
-      virtual
-      CabinetServiceResponse
-      SetTurnoutString(const std::string id,
-		       const std::string state) = 0;
 
       //! Function to get the state of a track circuit
       virtual bool GetTrackCircuit(const Lineside::ItemId id) = 0;
-
-      //! Function to get the state of a track circuit
-      /*!
-	This is a dupicate with string arguments in case there are issues
-	with converting the custom types.
-       */
-      virtual bool GetTrackCircuitString(const std::string id) = 0;
     };
   }
 }
