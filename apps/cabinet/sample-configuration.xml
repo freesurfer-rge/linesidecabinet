@@ -7,8 +7,15 @@
     </Settings>
   </SoftwareManager>
   <HardwareManager>
-    <I2CDevices />
-    <Settings />
+    <I2CDevices>
+      <I2CDevice kind="pca9685" bus="1" address="0x40" name="sc01">
+        <Settings>
+          <Setting key="referenceClock" value="25e6" />
+          <Setting key="pwmFrequency" value="50" />
+        </Settings>
+      </I2CDevice>
+    </I2CDevices>
+    <Settings/>
   </HardwareManager>
   <!-- Start of the item list -->
   <PermanentWayItems>
@@ -45,5 +52,9 @@
         <BinaryOutput controller="GPIO" controllerData="05" />
       </Feather>
     </MultiAspectSignalHead>
+    <!-- Another comment -->
+    <ServoTurnoutMotor id="00:aa:bb:cc" straight="200" curved="400" >
+      <PWMChannel controller="sc01" controllerData="00" />
+    </ServoTurnoutMotor>
   </PermanentWayItems>
 </LinesideCabinet>
