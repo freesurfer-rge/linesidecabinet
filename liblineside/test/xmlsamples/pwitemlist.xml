@@ -13,7 +13,7 @@
       </BinaryInput>
     </TrackCircuitMonitor>
     <!-- And another type -->
-    <MultiAspectSignalHead id="00:1f:2e:3d">
+    <DirectDriveMASH id="00:1f:2e:3d">
       <Aspect name="Red">
 	<BinaryOutput controller="GPIO" controllerData="03" />
       </Aspect>
@@ -26,7 +26,7 @@
       <Feather route="1">
 	<BinaryOutput controller="GPIO2" controllerData="08" />
       </Feather>
-    </MultiAspectSignalHead>
+    </DirectDriveMASH>
     <!-- The turnout type is next -->
     <ServoTurnoutMotor id="00:0e:2a:5f" straight="130" curved="400" >
       <PWMChannel controller="sc01" controllerData="01" />

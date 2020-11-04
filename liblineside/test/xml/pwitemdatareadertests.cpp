@@ -11,17 +11,17 @@
 
 #include "lineside/xml/servoturnoutmotordatareader.hpp"
 #include "lineside/xml/trackcircuitmonitordatareader.hpp"
-#include "lineside/xml/multiaspectsignalheaddatareader.hpp"
+#include "lineside/xml/directdrivemashdatareader.hpp"
 
 #include "lineside/servoturnoutmotordata.hpp"
 #include "lineside/trackcircuitmonitordata.hpp"
-#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/directdrivemashdata.hpp"
 
 // ===========================
 
 const std::string servoturnoutmotorFragment = "pwitem-servoturnoutmotor.xml";
 const std::string trackcircuitmonitorFragment = "pwitem-trackcircuitmonitor.xml";
-const std::string multiaspectsignalheadFragment = "pwitem-multiaspectsignalhead.xml";
+const std::string directdrivemashFragment = "pwitem-directdrivemash.xml";
 
 // ===========================
 
@@ -87,18 +87,18 @@ BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
   BOOST_CHECK_EQUAL( tcmd->inputPinRequest.settings.at("glitch"), "10000" );
 }
 
-BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )
+BOOST_AUTO_TEST_CASE( SmokeDirectDriveMASHData )
 {
   Lineside::xml::XercesGuard xg;
   auto parser = GetParser();
 
-  auto rootElement = GetRootElementOfFile(parser, multiaspectsignalheadFragment);
+  auto rootElement = GetRootElementOfFile(parser, directdrivemashFragment);
   BOOST_REQUIRE(rootElement);
 
-  auto mashElement = Lineside::xml::GetSingleElementByName(rootElement, "MultiAspectSignalHead" );
+  auto mashElement = Lineside::xml::GetSingleElementByName(rootElement, "DirectDriveMASH" );
   BOOST_REQUIRE( mashElement );
 
-  Lineside::xml::MultiAspectSignalHeadDataReader reader;
+  Lineside::xml::DirectDriveMASHDataReader reader;
   
   BOOST_CHECK( reader.MatchingElement(mashElement) );
 
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )
   auto expectedId = Lineside::Parse<Lineside::ItemId>("00:1a:2b:3c");
   BOOST_CHECK_EQUAL( result->id, expectedId );
 
-  auto mashd = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHeadData>(result);
+  auto mashd = std::dynamic_pointer_cast<Lineside::DirectDriveMASHData>(result);
   BOOST_REQUIRE(mashd);
   
   BOOST_CHECK_EQUAL( mashd->aspectRequests.size(), 3 );

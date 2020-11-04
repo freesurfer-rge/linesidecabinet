@@ -13,7 +13,7 @@
 
 #include "lineside/servoturnoutmotordata.hpp"
 #include "lineside/trackcircuitmonitordata.hpp"
-#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/directdrivemashdata.hpp"
 
 // ====================
 
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE( SmokePWItemListReader )
   auto tcmId = Lineside::Parse<Lineside::ItemId>("00:fe:00:1a");
   BOOST_CHECK_EQUAL( tcmd->id, tcmId );
 
-  auto mashd = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHeadData>(pwItems.at(1));
+  auto mashd = std::dynamic_pointer_cast<Lineside::DirectDriveMASHData>(pwItems.at(1));
   BOOST_REQUIRE( mashd );
   auto mashId = Lineside::Parse<Lineside::ItemId>("00:1f:2e:3d");
   BOOST_CHECK_EQUAL( mashd->id, mashId );

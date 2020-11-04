@@ -1,8 +1,8 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/predef.h>
 
-#include "lineside/multiaspectsignalheaddata.hpp"
-#include "lineside/multiaspectsignalhead.hpp"
+#include "lineside/directdrivemashdata.hpp"
+#include "lineside/directdrivemash.hpp"
 #include "lineside/servoturnoutmotordata.hpp"
 #include "lineside/servoturnoutmotor.hpp"
 
@@ -18,10 +18,10 @@
 const std::string redData = "07";
 const std::string greenData = "08";
 
-static void AddAspect( Lineside::MultiAspectSignalHeadData& mashd,
-		const std::string controller,
-		const Lineside::SignalAspect a,
-		const std::string data ) {
+static void AddAspect( Lineside::DirectDriveMASHData& mashd,
+		       const std::string controller,
+		       const Lineside::SignalAspect a,
+		       const std::string data ) {
   Lineside::DeviceRequestData req;
   req.controller = controller;
   req.controllerData = data;
@@ -29,9 +29,9 @@ static void AddAspect( Lineside::MultiAspectSignalHeadData& mashd,
   mashd.aspectRequests[a] = req;
 }
 
-static std::shared_ptr<Lineside::MultiAspectSignalHeadData> MakeTwoAspect( const Lineside::ItemId id,
-									   const std::string controller ) {
-  auto mashd = std::make_shared<Lineside::MultiAspectSignalHeadData>();
+static std::shared_ptr<Lineside::DirectDriveMASHData> MakeTwoAspect( const Lineside::ItemId id,
+								     const std::string controller ) {
+  auto mashd = std::make_shared<Lineside::DirectDriveMASHData>();
 
   mashd->id = id;
   AddAspect( *mashd, controller, Lineside::SignalAspect::Red, redData );
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-value"
 #endif
-  BOOST_CHECK_NO_THROW( dynamic_cast<Lineside::MultiAspectSignalHead&>(res) );
+  BOOST_CHECK_NO_THROW( dynamic_cast<Lineside::DirectDriveMASH&>(res) );
 #if defined(BOOST_COMP_GNUC)
 #pragma GCC diagnostic pop
 #elif defined(BOOST_COMP_CLANG)

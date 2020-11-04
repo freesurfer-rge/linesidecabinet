@@ -8,12 +8,12 @@
 
 namespace Lineside {
   class BinaryOutputPin;
-  class MultiAspectSignalHead;
+  class DirectDriveMASH;
   
   //! Class for configuration data for multiple aspect signal heads
-  class MultiAspectSignalHeadData : public PWItemData {
+  class DirectDriveMASHData : public PWItemData {
   public:
-    MultiAspectSignalHeadData();
+    DirectDriveMASHData();
 
     std::map<SignalAspect,DeviceRequestData> aspectRequests;
     std::map<unsigned int,DeviceRequestData> featherRequests;
@@ -29,9 +29,9 @@ namespace Lineside {
 					      const DeviceRequestData& drd ) const;
     
     void PopulateAspects(HardwareManager& hw,
-			 std::shared_ptr<MultiAspectSignalHead> target ) const;
+			 std::shared_ptr<DirectDriveMASH> target ) const;
 
     void PopulateFeathers(HardwareManager& hw,
-			  std::shared_ptr<MultiAspectSignalHead> target) const;
+			  std::shared_ptr<DirectDriveMASH> target) const;
   };
 }
