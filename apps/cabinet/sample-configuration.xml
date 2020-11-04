@@ -38,7 +38,7 @@
       </BinaryInput>
     </TrackCircuitMonitor>
     <!-- Comment -->
-    <MultiAspectSignalHead id="00:1a:2b:3c">
+    <DirectDriveMASH id="00:1a:2b:3c">
       <Aspect name="Red">
         <BinaryOutput controller="GPIO" controllerData="19" />
       </Aspect>
@@ -51,7 +51,7 @@
       <Feather route="1">
         <BinaryOutput controller="GPIO" controllerData="05" />
       </Feather>
-    </MultiAspectSignalHead>
+    </DirectDriveMASH>
     <!-- Another comment -->
     <ServoTurnoutMotor id="00:aa:bb:cc" straight="200" curved="400" >
       <PWMChannel controller="sc01" controllerData="00" />
