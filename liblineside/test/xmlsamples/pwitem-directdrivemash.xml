@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Test>
-  <MultiAspectSignalHead id="00:1a:2b:3c">
+  <DirectDriveMASH id="00:1a:2b:3c">
     <Aspect name="Red">
       <BinaryOutput controller="GPIO" controllerData="03" />
     </Aspect>
@@ -13,5 +13,5 @@
     <Feather route="1">
       <BinaryOutput controller="GPIO2" controllerData="08" />
     </Feather>
-  </MultiAspectSignalHead>
+  </DirectDriveMASH>
 </Test>

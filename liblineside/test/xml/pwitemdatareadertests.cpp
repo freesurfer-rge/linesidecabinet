@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
   BOOST_CHECK_EQUAL( tcmd->inputPinRequest.settings.at("glitch"), "10000" );
 }
 
-BOOST_AUTO_TEST_CASE( SmokeMultiaspectSignalHeadData )
+BOOST_AUTO_TEST_CASE( SmokeDirectDriveMASHData )
 {
   Lineside::xml::XercesGuard xg;
   auto parser = GetParser();
