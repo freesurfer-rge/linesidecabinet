@@ -2,8 +2,8 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "lineside/multiaspectsignalheaddata.hpp"
-#include "lineside/multiaspectsignalhead.hpp"
+#include "lineside/directdrivemashdata.hpp"
+#include "lineside/directdrivemash.hpp"
 
 #include "mockmanagerfixture.hpp"
 
@@ -19,7 +19,7 @@ const std::string yellow2Data = "13";
 const std::string feather1Data = "15";
 const std::string feather2Data = "19";
 
-void AddAspect( Lineside::MultiAspectSignalHeadData& mashd,
+void AddAspect( Lineside::DirectDriveMASHData& mashd,
 		const std::string controller,
 		const Lineside::SignalAspect a,
 		const std::string data ) {
@@ -30,33 +30,33 @@ void AddAspect( Lineside::MultiAspectSignalHeadData& mashd,
   mashd.aspectRequests[a] = req;
 }
 
-Lineside::MultiAspectSignalHeadData MakeTwoAspect( const Lineside::ItemId id,
-						   const std::string controller ) {
-  Lineside::MultiAspectSignalHeadData mashd;
-
+Lineside::DirectDriveMASHData MakeTwoAspect( const Lineside::ItemId id,
+					     const std::string controller ) {
+  Lineside::DirectDriveMASHData mashd;
+  
   mashd.id = id;
   AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
   AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
-
+  
   return mashd;
 }
 
-Lineside::MultiAspectSignalHeadData MakeThreeAspect( const Lineside::ItemId id,
-						     const std::string controller ) {
-  Lineside::MultiAspectSignalHeadData mashd;
-
+Lineside::DirectDriveMASHData MakeThreeAspect( const Lineside::ItemId id,
+					       const std::string controller ) {
+  Lineside::DirectDriveMASHData mashd;
+  
   mashd.id = id;
   AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
   AddAspect( mashd, controller, Lineside::SignalAspect::Yellow1, yellow1Data );
   AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
-
+  
   return mashd;
 }
 
-Lineside::MultiAspectSignalHeadData MakeFourAspect( const Lineside::ItemId id,
-						    const std::string controller ) {
-  Lineside::MultiAspectSignalHeadData mashd;
-
+Lineside::DirectDriveMASHData MakeFourAspect( const Lineside::ItemId id,
+					      const std::string controller ) {
+  Lineside::DirectDriveMASHData mashd;
+  
   mashd.id = id;
   AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
   AddAspect( mashd, controller, Lineside::SignalAspect::Yellow1, yellow1Data );
@@ -66,7 +66,7 @@ Lineside::MultiAspectSignalHeadData MakeFourAspect( const Lineside::ItemId id,
   return mashd;
 }
 
-void AddFeather( Lineside::MultiAspectSignalHeadData& mashd,
+void AddFeather( Lineside::DirectDriveMASHData& mashd,
 		 const unsigned int featherId,
 		 const std::string controller,
 		 const std::string data ) {
@@ -78,7 +78,7 @@ void AddFeather( Lineside::MultiAspectSignalHeadData& mashd,
 }
 		 
 
-Lineside::MultiAspectSignalHeadData MakeTwoAspectOneFeather( const Lineside::ItemId id,
+Lineside::DirectDriveMASHData MakeTwoAspectOneFeather( const Lineside::ItemId id,
 							     const std::string controller ) {
   auto mashd = MakeTwoAspect(id, controller);
   AddFeather(mashd, 1, controller, feather1Data);
@@ -86,7 +86,7 @@ Lineside::MultiAspectSignalHeadData MakeTwoAspectOneFeather( const Lineside::Ite
   return mashd;
 }
 
-Lineside::MultiAspectSignalHeadData MakeTwoAspectTwoFeather( const Lineside::ItemId id,
+Lineside::DirectDriveMASHData MakeTwoAspectTwoFeather( const Lineside::ItemId id,
 							     const std::string controller ) {
   auto mashd = MakeTwoAspect(id, controller);
   AddFeather(mashd, 1, controller, feather1Data);
@@ -98,7 +98,7 @@ Lineside::MultiAspectSignalHeadData MakeTwoAspectTwoFeather( const Lineside::Ite
 
 // =====================================
 
-BOOST_FIXTURE_TEST_SUITE(MultiAspectSignalHead, MockManagerFixture)
+BOOST_FIXTURE_TEST_SUITE(DirectDriveMASH, MockManagerFixture)
 
 BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
 {
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   // Ensure we have got the right number of output pins assigned
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(ConstructThreeAspect)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   // Ensure we have got the right number of output pins assigned
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(ConstructFourAspect)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   // Ensure we have got the right number of output pins assigned
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithOneFeather)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   // Ensure we have got the right number of output pins assigned
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithTwoFeathers)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   // Ensure we have got the right number of output pins assigned
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetState)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
@@ -243,7 +243,7 @@ BOOST_AUTO_TEST_CASE(ThreeAspectSetState)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_CASE(FourAspectSetState)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
@@ -302,7 +302,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateWithTwoFeathers)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadAspect)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   auto forbiddenStates = std::set<Lineside::SignalState> { Lineside::SignalState::Yellow,
@@ -369,7 +369,7 @@ BOOST_AUTO_TEST_CASE(ThreeAspectSetStateThrowsOnBadAspect)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   auto forbiddenStates = std::set<Lineside::SignalState> { Lineside::SignalState::DoubleYellow };
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadFeather)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
@@ -436,7 +436,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeatherSetStateThrowsOnBadFeather)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
   
   auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
@@ -471,7 +471,7 @@ BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspect)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
@@ -494,7 +494,7 @@ BOOST_AUTO_TEST_CASE(ShowsRedOnActivateFourAspect)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
@@ -521,7 +521,7 @@ BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspectWithFeather)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
@@ -546,7 +546,7 @@ BOOST_AUTO_TEST_CASE(OnRunTwoAspectSteady)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   resMASH->OnActivate();
@@ -588,7 +588,7 @@ BOOST_AUTO_TEST_CASE(OnRunThreeAspectSteady)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   resMASH->OnActivate();
@@ -636,7 +636,7 @@ BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   resMASH->OnActivate();
@@ -699,7 +699,7 @@ BOOST_AUTO_TEST_CASE( OnRunTwoAspectFlashing )
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
 
   resMASH->OnActivate();
@@ -741,7 +741,7 @@ BOOST_AUTO_TEST_CASE( OnRunTwoAspectTwoFeather )
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
   
   resMASH->OnActivate();
@@ -793,7 +793,7 @@ BOOST_AUTO_TEST_CASE(OnRunFeatherDoesNotFlash)
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
   
   resMASH->OnActivate();
@@ -840,7 +840,7 @@ BOOST_AUTO_TEST_CASE( OnDeactivateTurnsAllOff )
   auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
   BOOST_REQUIRE( res );
   BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::MultiAspectSignalHead>(res);
+  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
   BOOST_REQUIRE( resMASH );
   
   resMASH->OnActivate();

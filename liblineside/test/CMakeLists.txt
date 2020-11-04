@@ -17,8 +17,8 @@ list(APPEND srcs exceptiontests.cpp)
 list(APPEND srcs registrartests.cpp)
 list(APPEND srcs pwitemcontrollertests.cpp)
 
-list(APPEND srcs multiaspectsignalheaddatatests.cpp)
-list(APPEND srcs multiaspectsignalheadtests.cpp)
+list(APPEND srcs directdrivemashdatatests.cpp)
+list(APPEND srcs directdrivemashtests.cpp)
 
 list(APPEND srcs servoturnoutmotortests.cpp)
 

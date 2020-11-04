@@ -2,16 +2,16 @@
 
 #include <sstream>
 
-#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/directdrivemashdata.hpp"
 #include "lineside/linesideexceptions.hpp"
 
 #include "exceptionmessagecheck.hpp"
 
-BOOST_AUTO_TEST_SUITE(MultiAspectSignalHeadData)
+BOOST_AUTO_TEST_SUITE(DirectDriveMASHData)
 
 BOOST_AUTO_TEST_CASE(NoRedAspect)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
   mashd.id = 15;
 
   std::string msg = "Configuration problem for 00:00:00:0f - Red aspect missing";
@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE(NoRedAspect)
 
 BOOST_AUTO_TEST_CASE(NoGreenAspect)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
   mashd.id = 14;
 
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(NoGreenAspect)
 
 BOOST_AUTO_TEST_CASE(Yellow2AspectButNoYellow1)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
   mashd.id = 13;
 
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(Yellow2AspectButNoYellow1)
 
 BOOST_AUTO_TEST_CASE(TwoAspectOK)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
 
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectOK)
 
 BOOST_AUTO_TEST_CASE(ThreeAspectOK)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
 
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(ThreeAspectOK)
 
 BOOST_AUTO_TEST_CASE(FourAspectOK)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
 
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(FourAspectOK)
 
 BOOST_AUTO_TEST_CASE(FeathersZeroDefined)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
   mashd.id = 255;
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(FeathersZeroDefined)
 
 BOOST_AUTO_TEST_CASE(FeathersNonSequential)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
   mashd.id = 255;
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE(FeathersNonSequential)
 
 BOOST_AUTO_TEST_CASE(SingleFeatherOK)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
   mashd.id = 255;
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE(SingleFeatherOK)
 
 BOOST_AUTO_TEST_CASE(TwoFeathersOK)
 {
-  Lineside::MultiAspectSignalHeadData mashd;
+  Lineside::DirectDriveMASHData mashd;
   mashd.id = 255;
   mashd.aspectRequests[Lineside::SignalAspect::Red] = Lineside::DeviceRequestData();
   mashd.aspectRequests[Lineside::SignalAspect::Green] = Lineside::DeviceRequestData();
