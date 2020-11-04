@@ -2,7 +2,6 @@
 
 #include "lineside/pi/pihardwaremanager.hpp"
 #include "lineside/xml/configurationreader.hpp"
-#include "lineside/multiaspectsignalheaddata.hpp"
 
 #include "lineside/pwitemmanager.hpp"
 
