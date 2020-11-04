@@ -8,12 +8,12 @@
 
 namespace Lineside {
   class BinaryOutputPin;
-  class MultiAspectSignalHead;
+  class DirectDriveMASH;
   
   //! Class for configuration data for multiple aspect signal heads
-  class MultiAspectSignalHeadData : public PWItemData {
+  class DirectDriveMASHData : public PWItemData {
   public:
-    MultiAspectSignalHeadData();
+    DirectDriveMASHData();
 
     std::map<SignalAspect,DeviceRequestData> aspectRequests;
     std::map<unsigned int,DeviceRequestData> featherRequests;

@@ -14,10 +14,10 @@
 #include "lineside/pwitemmodel.hpp"
 
 namespace Lineside {
-  class MultiAspectSignalHeadData;
+  class DirectDriveMASHData;
 
   //! Implementation of a multiple aspect signal head
-  class MultiAspectSignalHead : public PWItemModel {
+  class DirectDriveMASH : public PWItemModel {
   public:
     const std::chrono::milliseconds FlashInterval = std::chrono::milliseconds(500);
 
@@ -35,7 +35,7 @@ namespace Lineside {
 		  const unsigned int wantedFeather);
 
   private:
-    friend class MultiAspectSignalHeadData;
+    friend class DirectDriveMASHData;
 
     std::mutex stateChangeMtx;
     
@@ -55,7 +55,7 @@ namespace Lineside {
     
     std::vector<std::unique_ptr<BinaryOutputPin>> feathers;
 
-    MultiAspectSignalHead(const ItemId signalHeadId) :
+    DirectDriveMASH(const ItemId signalHeadId) :
       PWItemModel(signalHeadId),
       stateChangeMtx(),
       currentState(SignalState::Red),

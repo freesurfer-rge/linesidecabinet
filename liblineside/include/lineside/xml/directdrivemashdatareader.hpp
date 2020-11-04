@@ -4,7 +4,7 @@
 
 namespace Lineside {
   namespace xml {
-    class MultiAspectSignalHeadDataReader : public PWItemDataReader {
+    class DirectDriveMASHDataReader : public PWItemDataReader {
     public:
       virtual bool MatchingElement( const xercesc::DOMElement *element ) const override;
       
