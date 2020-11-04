@@ -1,18 +1,18 @@
 #include "lineside/linesideexceptions.hpp"
 
-#include "lineside/multiaspectsignalhead.hpp"
+#include "lineside/directdrivemash.hpp"
 
 namespace Lineside {
-  void MultiAspectSignalHead::OnActivate() {
+  void DirectDriveMASH::OnActivate() {
     this->turnAllOff();
     this->red->Set(true);
   }
 
-  void MultiAspectSignalHead::OnDeactivate() {
+  void DirectDriveMASH::OnDeactivate() {
     this->turnAllOff();
   }
 
-  std::chrono::milliseconds MultiAspectSignalHead::OnRun() {
+  std::chrono::milliseconds DirectDriveMASH::OnRun() {
     std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
 
     if( this->HaveStateChange() || (this->currentFlash == SignalFlash::Flashing)) {
@@ -26,10 +26,10 @@ namespace Lineside {
 	this->currentFlash = this->desiredFlash;
 	this->currentFeather = this->desiredFeather;
       }
-    return MultiAspectSignalHead::FlashInterval;
+    return DirectDriveMASH::FlashInterval;
   }
 
-  bool MultiAspectSignalHead::HaveStateChange() {
+  bool DirectDriveMASH::HaveStateChange() {
     bool changeState = this->desiredState != this->currentState;
     bool changeFlash = this->desiredFlash != this->currentFlash;
     bool changeFeather = this->desiredFeather != this->currentFeather;
@@ -37,7 +37,7 @@ namespace Lineside {
     return changeState || changeFlash || changeFeather;
   }
 
-  void MultiAspectSignalHead::SetState(const SignalState wantedState,
+  void DirectDriveMASH::SetState(const SignalState wantedState,
 				       const SignalFlash wantedFlash,
 				       const unsigned int wantedFeather ) {
     std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
@@ -69,9 +69,9 @@ namespace Lineside {
     this->WakeController();
   }
 
-  std::string MultiAspectSignalHead::buildStateString(const SignalState state,
-						      const SignalFlash flash,
-						      const unsigned int feather) const {
+  std::string DirectDriveMASH::buildStateString(const SignalState state,
+						const SignalFlash flash,
+						const unsigned int feather) const {
     std::stringstream result;
     result << "{"
 	   << state << ","
@@ -80,7 +80,7 @@ namespace Lineside {
     return result.str();
   }
   
-  void MultiAspectSignalHead::turnAllOff() {
+  void DirectDriveMASH::turnAllOff() {
     // Always have Red and Green aspects
     this->green->Set(false);
     this->red->Set(false);
@@ -99,7 +99,7 @@ namespace Lineside {
     }
   }
 
-  void MultiAspectSignalHead::setStateFromDesired() {
+  void DirectDriveMASH::setStateFromDesired() {
     // Assumes that turnAllOff() called previously, and that
     // SetState has prevented desiredState being invalid
     const bool isSteady = this->desiredFlash == SignalFlash::Steady;
@@ -122,7 +122,7 @@ namespace Lineside {
     this->lastFlashStatus = !this->lastFlashStatus;
   }
 
-  void MultiAspectSignalHead::setFeatherFromDesired() {
+  void DirectDriveMASH::setFeatherFromDesired() {
     // Assumes that turnAllOff() called previously, and that
     // SetState has prevented desiredFeather being invalid
     if( this->desiredFeather > 0 ) {

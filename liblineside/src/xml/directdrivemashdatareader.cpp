@@ -1,30 +1,30 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
-#include "lineside/multiaspectsignalheaddata.hpp"
+#include "lineside/directdrivemashdata.hpp"
 
 #include "lineside/xml/utilities.hpp"
 #include "lineside/xml/devicerequestdatareader.hpp"
 
-#include "lineside/xml/multiaspectsignalheaddatareader.hpp"
+#include "lineside/xml/directdrivemashdatareader.hpp"
 
 
 namespace Lineside {
   namespace xml {
-    bool MultiAspectSignalHeadDataReader::MatchingElement( const xercesc::DOMElement *element ) const {
+    bool DirectDriveMASHDataReader::MatchingElement( const xercesc::DOMElement *element ) const {
       if( !element ) {
 	throw std::logic_error("Bad element");
       }
 
-      auto TAG_MASH = StrToXMLCh("MultiAspectSignalHead");
+      auto TAG_MASH = StrToXMLCh("DirectDriveMASH");
 
       return xercesc::XMLString::equals( element->getTagName(), TAG_MASH.get() );
     }
     
-    std::shared_ptr<Lineside::PWItemData> MultiAspectSignalHeadDataReader::Read( const xercesc::DOMElement *pwItemElement ) const {
+    std::shared_ptr<Lineside::PWItemData> DirectDriveMASHDataReader::Read( const xercesc::DOMElement *pwItemElement ) const {
       if( !pwItemElement ) {
 	throw std::logic_error("Bad pwItemElement");
       }
-      auto result = std::make_shared<Lineside::MultiAspectSignalHeadData>();
+      auto result = std::make_shared<Lineside::DirectDriveMASHData>();
 
       result->id = this->ReadIdAttribute( pwItemElement );
 

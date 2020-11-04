@@ -29,9 +29,9 @@ namespace Lineside {
 					      const DeviceRequestData& drd ) const;
     
     void PopulateAspects(HardwareManager& hw,
-			 std::shared_ptr<MultiAspectSignalHead> target ) const;
+			 std::shared_ptr<DirectDriveMASH> target ) const;
 
     void PopulateFeathers(HardwareManager& hw,
-			  std::shared_ptr<MultiAspectSignalHead> target) const;
+			  std::shared_ptr<DirectDriveMASH> target) const;
   };
 }

@@ -19,8 +19,8 @@ list(APPEND srcs servoturnoutmotor.cpp)
 list(APPEND srcs trackcircuitmonitordata.cpp)
 list(APPEND srcs trackcircuitmonitor.cpp)
 
-list(APPEND srcs multiaspectsignalheaddata.cpp)
-list(APPEND srcs multiaspectsignalhead.cpp)
+list(APPEND srcs directdrivemashdata.cpp)
+list(APPEND srcs directdrivemash.cpp)
 
 list(APPEND srcs pwitemmanager.cpp)
 

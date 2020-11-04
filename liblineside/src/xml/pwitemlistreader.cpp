@@ -4,7 +4,7 @@
 
 #include "lineside/xml/servoturnoutmotordatareader.hpp"
 #include "lineside/xml/trackcircuitmonitordatareader.hpp"
-#include "lineside/xml/multiaspectsignalheaddatareader.hpp"
+#include "lineside/xml/directdrivemashdatareader.hpp"
 
 #include "lineside/xml/pwitemlistreader.hpp"
 
@@ -41,7 +41,7 @@ namespace Lineside {
       // Construct the set of readers
       std::vector<std::unique_ptr<PWItemDataReader>> readers;
       readers.push_back(std::unique_ptr<PWItemDataReader>(new ServoTurnoutMotorDataReader));
-      readers.push_back(std::unique_ptr<PWItemDataReader>(new MultiAspectSignalHeadDataReader));
+      readers.push_back(std::unique_ptr<PWItemDataReader>(new DirectDriveMASHDataReader));
       readers.push_back(std::unique_ptr<PWItemDataReader>(new TrackCircuitMonitorDataReader));
 
       // Loop over the child nodes
