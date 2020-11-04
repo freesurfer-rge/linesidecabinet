@@ -5,19 +5,15 @@
 #include <chrono>
 #include <string>
 
-#include "lineside/signalstate.hpp"
-#include "lineside/signalaspect.hpp"
-#include "lineside/signalflash.hpp"
-
+#include "lineside/multiaspectsignalhead.hpp"
 #include "lineside/binaryoutputpin.hpp"
 
-#include "lineside/pwitemmodel.hpp"
 
 namespace Lineside {
   class DirectDriveMASHData;
 
-  //! Implementation of a multiple aspect signal head
-  class DirectDriveMASH : public PWItemModel {
+  //! Implementation of a multiple aspect signal head where each pin is directly controlled
+  class DirectDriveMASH : public MultiAspectSignalHead {
   public:
     const std::chrono::milliseconds FlashInterval = std::chrono::milliseconds(500);
 
@@ -30,9 +26,9 @@ namespace Lineside {
     virtual bool HaveStateChange() override;
 
     //! Set the desired state of the signal head
-    void SetState(const SignalState wantedState,
+    virtual void SetState(const SignalState wantedState,
 		  const SignalFlash wantedFlash,
-		  const unsigned int wantedFeather);
+		  const unsigned int wantedFeather) override;
 
   private:
     friend class DirectDriveMASHData;
@@ -56,7 +52,7 @@ namespace Lineside {
     std::vector<std::unique_ptr<BinaryOutputPin>> feathers;
 
     DirectDriveMASH(const ItemId signalHeadId) :
-      PWItemModel(signalHeadId),
+      MultiAspectSignalHead(signalHeadId),
       stateChangeMtx(),
       currentState(SignalState::Red),
       desiredState(SignalState::Red),
