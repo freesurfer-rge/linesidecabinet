@@ -2,13 +2,11 @@
 
 namespace Tendril {
   //! Something which can receive notifications
-  template<typename T>
+  template<typename NotificationType>
   class Notifiable {
   public:
-    typedef T NotificationType;
-    
     virtual ~Notifiable() {}
     
-    virtual void Notify(const NotificationType notification) = 0;
+    virtual void Notify(const NotificationType& notification) = 0;
   };
 }
