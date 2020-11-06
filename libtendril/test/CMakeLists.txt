@@ -2,6 +2,7 @@ set(srcs test.cpp)
 
 list(APPEND srcs mockboptests.cpp)
 list(APPEND srcs mocknotifiabletests.cpp)
+list(APPEND srcs notifiertests.cpp)
 
 add_executable(TendrilTest ${srcs})
 target_link_libraries(TendrilTest PUBLIC tendril Boost::boost)

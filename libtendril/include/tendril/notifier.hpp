@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 
-#include "tentril/notifiable.hpp"
+#include "tendril/notifiable.hpp"
 
-namespace Tentril {
+namespace Tendril {
   template<typename NotificationType>
   class Notifier {
   public:
@@ -17,17 +17,17 @@ namespace Tentril {
     }
 
     void Notify(const NotificationType& notice) const {
-      for( auto it : this->listeners ) {
+      for( auto& it : this->listeners ) {
 	// Get the shared_ptr
-	auto listener = it->listener.lock();
+	auto listener = it.lock();
 
 	if( listener ) {
-	  listener.notify(notice);
+	  listener->Notify(notice);
 	}
       }
     }
 
   private:
-    std::vector<std::weak_ptr<Notifiable<NotificationType>> listeners;
+    std::vector<std::weak_ptr<Notifiable<NotificationType>>> listeners;
   };
 }
