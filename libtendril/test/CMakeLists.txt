@@ -1,5 +1,7 @@
 set(srcs test.cpp)
 
+list(APPEND srcs keyexceptiontests.cpp)
+
 list(APPEND srcs mockboptests.cpp)
 list(APPEND srcs mocknotifiabletests.cpp)
 list(APPEND srcs notifiertests.cpp)
