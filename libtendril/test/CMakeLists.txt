@@ -9,6 +9,8 @@ list(APPEND srcs mockbiptests.cpp)
 list(APPEND srcs mockboparraytests.cpp)
 list(APPEND srcs mockpwmchanneltests.cpp)
 
+list(APPEND srcs mocki2ccommunicatortests.cpp)
+
 list(APPEND srcs registrartests.cpp)
 
 add_executable(TendrilTest ${srcs})

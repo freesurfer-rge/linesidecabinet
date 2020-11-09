@@ -5,4 +5,6 @@ list(APPEND srcs mockbip.cpp)
 list(APPEND srcs mockboparray.cpp)
 list(APPEND srcs mockpwmchannel.cpp)
 
+list(APPEND srcs mocki2ccommunicator.cpp)
+
 target_sources(tendril PRIVATE ${srcs})
