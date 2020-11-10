@@ -1,8 +1,9 @@
 #pragma once
 
 #include <string>
-#include <map>
 #include <memory>
+
+#include "tendril/tendriltypes.hpp"
 
 namespace Tendril {
   typedef std::map<std::string,std::string> SettingsMap;

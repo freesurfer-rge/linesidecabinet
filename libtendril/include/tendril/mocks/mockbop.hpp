@@ -1,6 +1,7 @@
 #pragma once
 
 #include "tendril/binaryoutputpin.hpp"
+#include "tendril/tendriltypes.hpp"
 
 namespace Tendril {
   namespace Mocks {
@@ -8,11 +9,14 @@ namespace Tendril {
     public:
       MockBOP() :
 	BinaryOutputPin(),
-	lastLevel(false) {};
+	lastLevel(false),
+	settings() {};
       
       virtual void Set(const bool level) override;
       
       bool lastLevel;
+
+      SettingsMap settings;
     };
   }
 }
