@@ -1,13 +1,14 @@
 #include <boost/test/unit_test.hpp>
 
-#include "tendril/keyexception.hpp"
-#include "tendril/mocks/mockbopprovider.hpp"
+#include "tendril/mocks/mockbop.hpp"
+#include "tendril/mocks/mockhardwareprovider.hpp"
 
 BOOST_AUTO_TEST_SUITE(MockBOPProvider)
 
 BOOST_AUTO_TEST_CASE( CreateBOP )
 {
-  Tendril::Mocks::MockBOPProvider bopProvider;
+  Tendril::Mocks::MockHardwareProvider<Tendril::BinaryOutputPin,
+				       Tendril::Mocks::MockBOP> bopProvider;
 
   const std::string hardwareId("SomeName");
   Tendril::SettingsMap settings;
@@ -16,21 +17,22 @@ BOOST_AUTO_TEST_CASE( CreateBOP )
   auto bop = bopProvider.GetHardware(hardwareId, settings);
   BOOST_REQUIRE(bop);
 
-  BOOST_CHECK_EQUAL( bopProvider.pins.size(), 1 );
-  BOOST_CHECK_EQUAL( bopProvider.pins.count(hardwareId), 1 );
+  BOOST_CHECK_EQUAL( bopProvider.hardware.size(), 1 );
+  BOOST_CHECK_EQUAL( bopProvider.hardware.count(hardwareId), 1 );
 
   // Start doing bad things with the pointer
   auto mb = dynamic_cast<Tendril::Mocks::MockBOP*>(bop.get());
   BOOST_REQUIRE(mb);
-  BOOST_CHECK_EQUAL( mb, bopProvider.pins.at(hardwareId) );
+  BOOST_CHECK_EQUAL( mb, bopProvider.hardware.at(hardwareId) );
   BOOST_CHECK_EQUAL( mb->settings.size(), settings.size() );
   BOOST_CHECK_EQUAL( mb->settings.at("A"), settings.at("A") );
 }
 
 BOOST_AUTO_TEST_CASE( NoDuplicates )
 {
-  Tendril::Mocks::MockBOPProvider bopProvider;
-
+  Tendril::Mocks::MockHardwareProvider<Tendril::BinaryOutputPin,
+				       Tendril::Mocks::MockBOP> bopProvider;
+  
   const std::string hardwareId("SomeName");
   Tendril::SettingsMap settings;
   
