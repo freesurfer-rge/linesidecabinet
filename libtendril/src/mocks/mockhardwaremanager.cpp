@@ -12,4 +12,4 @@ namespace Tendril::Mocks {
     this->bopArrayProviderRegistrar.Register( BOPArrayProviderId, this->bopArrayProvider );
     this->pwmcProviderRegistrar.Register( PWMCProviderId, this->pwmChannelProvider );
   }
-};
+}
