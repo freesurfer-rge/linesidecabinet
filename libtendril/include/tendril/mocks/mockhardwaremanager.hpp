@@ -4,6 +4,8 @@
 #include "tendril/mocks/mockbip.hpp"
 #include "tendril/mocks/mockboparray.hpp"
 #include "tendril/mocks/mockpwmchannel.hpp"
+
+#include "tendril/mocks/mockboparrayprovider.hpp"
 #include "tendril/mocks/mockhardwareprovider.hpp"
 
 #include "tendril/hardwaremanager.hpp"
@@ -20,7 +22,7 @@ namespace Tendril::Mocks {
 
     std::shared_ptr<MockHardwareProvider<BinaryInputPin, MockBIP>> bipProvider;
     std::shared_ptr<MockHardwareProvider<BinaryOutputPin, MockBOP>> bopProvider;
-    // std::shared_ptr<MockHardwareProvider<BOPArray, MockBOPArray>> bopArrayProvider;
+    std::shared_ptr<MockBOPArrayProvider> bopArrayProvider;
     std::shared_ptr<MockHardwareProvider<PWMChannel, MockPWMChannel>> pwmChannelProvider;
   };
 }
