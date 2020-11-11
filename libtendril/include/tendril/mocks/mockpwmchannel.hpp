@@ -1,6 +1,7 @@
 #pragma once
 
 #include "tendril/pwmchannel.hpp"
+#include "tendril/tendriltypes.hpp"
 
 namespace Tendril::Mocks {
   class MockPWMChannel : public PWMChannel {
@@ -8,12 +9,15 @@ namespace Tendril::Mocks {
     MockPWMChannel() :
       PWMChannel(),
       lastStart(),
-      lastStop() {}
+      lastStop(),
+      settings() {}
     
     virtual void Set(const unsigned int start,
 		     const unsigned int stop) override;
     
     unsigned int lastStart;
     unsigned int lastStop;
+
+    SettingsMap settings;
   };
 }

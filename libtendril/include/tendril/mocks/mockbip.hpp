@@ -1,6 +1,7 @@
 #pragma once
 
 #include "tendril/binaryinputpin.hpp"
+#include "tendril/tendriltypes.hpp"
 
 namespace Tendril {
   namespace Mocks {
@@ -8,13 +9,16 @@ namespace Tendril {
     public:
       MockBIP()
 	: BinaryInputPin(),
-	  state(false) {}
+	  state(false),
+	  settings() {}
 
       virtual bool Get() const override;
 
       void SendNotifications();
       
       bool state;
+      
+      SettingsMap settings;
     };
   }
 }
