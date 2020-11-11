@@ -5,4 +5,5 @@ list(APPEND srcs boparray.cpp)
 
 target_sources(tendril PRIVATE ${srcs})
 
+add_subdirectory(devices)
 add_subdirectory(mocks)
