@@ -13,7 +13,7 @@ list(APPEND srcs mocki2ccommunicatortests.cpp)
 
 list(APPEND srcs registrartests.cpp)
 
-list(APPEND srcs mockbopprovidertests.cpp)
+list(APPEND srcs mockhardwareprovidertests.cpp)
 
 add_executable(TendrilTest ${srcs})
 target_link_libraries(TendrilTest PUBLIC tendril Boost::boost)

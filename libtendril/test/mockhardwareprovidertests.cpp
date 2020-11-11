@@ -3,9 +3,9 @@
 #include "tendril/mocks/mockbop.hpp"
 #include "tendril/mocks/mockhardwareprovider.hpp"
 
-BOOST_AUTO_TEST_SUITE(MockBOPProvider)
+BOOST_AUTO_TEST_SUITE(MockHardwareProvider)
 
-BOOST_AUTO_TEST_CASE( CreateBOP )
+BOOST_AUTO_TEST_CASE( CreateHardware )
 {
   Tendril::Mocks::MockHardwareProvider<Tendril::BinaryOutputPin,
 				       Tendril::Mocks::MockBOP> bopProvider;

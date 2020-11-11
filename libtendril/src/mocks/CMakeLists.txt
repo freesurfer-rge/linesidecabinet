@@ -7,6 +7,4 @@ list(APPEND srcs mockpwmchannel.cpp)
 
 list(APPEND srcs mocki2ccommunicator.cpp)
 
-list(APPEND srcs mockbopprovider.cpp)
-
 target_sources(tendril PRIVATE ${srcs})
