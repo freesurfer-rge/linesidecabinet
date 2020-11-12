@@ -13,7 +13,7 @@
 namespace Tendril::Devices {
   PCA9685::PCA9685(const std::string deviceName,
 		   const SettingsMap& settings,
-		   std::unique_ptr<I2CCommunicator> i2cComms) :
+		   std::unique_ptr<I2CCommunicator>& i2cComms) :
     Device(deviceName),
     HardwareProvider(),
     communicator(std::move(i2cComms)),
@@ -101,7 +101,7 @@ namespace Tendril::Devices {
   
   std::unique_ptr<PWMChannel>
   PCA9685::GetHardware(const std::string& hardwareId,
-		       const std::map<std::string,std::string>& settings) {
+		       const SettingsMap& settings) {
     if( settings.size() > 0 ) {
       std::stringstream msg;
       msg << __FUNCTION__

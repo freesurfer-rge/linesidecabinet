@@ -14,7 +14,7 @@ namespace Tendril::Devices {
     Device(const std::string& deviceName)
       :name(deviceName) {}
 
-    virtual ~Device();
+    virtual ~Device() {}
 
     virtual void Register(HardwareManager& hwmanager) = 0;
 

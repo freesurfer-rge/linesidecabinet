@@ -21,7 +21,7 @@ namespace Tendril::Devices {
 
     PCA9685(const std::string deviceName,
 	    const SettingsMap& settings,
-	    std::unique_ptr<I2CCommunicator> i2cComms);
+	    std::unique_ptr<I2CCommunicator>& i2cComms);
 
     virtual void Register(HardwareManager& hwManager) override;
 
