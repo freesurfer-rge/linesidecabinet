@@ -6,6 +6,10 @@ parameters:
 
 steps:
 - script: make test
+  displayName: "Run tendril tests"
+  workingDirectory: ${{ parameters.testDir }}/libtendril
+  
+- script: make test
   displayName: "Run pigpiodpp tests"
   workingDirectory: ${{ parameters.testDir }}/libpigpiodpp
 
