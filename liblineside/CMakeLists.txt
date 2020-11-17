@@ -12,6 +12,7 @@ target_include_directories(lineside
 
 # Setup the linking
 target_link_libraries(lineside
+  PUBLIC tendril
   PUBLIC Threads::Threads
   PRIVATE Boost::boost)
 
