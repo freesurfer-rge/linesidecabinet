@@ -20,9 +20,10 @@
 void CallBackTrampoline(int pi,
 			unsigned user_gpio,
 			unsigned level,
-			uint32_t tick,void *userdata) {
+			uint32_t tick,
+			void *userdata) {
   auto pin = static_cast<PiGPIOdpp::GPIOPin*>(userdata);
-  pin->InvokeCallBack(pi, user_gpio, level, tick);
+  pin->TriggerNotifications(pi, user_gpio, level, tick);
 }
 
 
@@ -30,10 +31,22 @@ namespace PiGPIOdpp {
    
   GPIOPin::GPIOPin(const std::shared_ptr<PiManager> owner,
 		   const unsigned int pinId) :
+    BinaryOutputPin(),
+    BinaryInputPin(),
     pi(owner),
     pin(pinId),
-    callBack(),
-    callBackId(-1) {}
+    callBackId(-1) {
+    // Set up the notification callback
+    int libraryResult = callback_ex(this->pi->getId(),
+				    this->pin,
+				    static_cast<unsigned>(GPIOEdge::Either),
+				    &CallBackTrampoline,
+				    this);
+    if( libraryResult < 0 ) {
+      throw PiGPIOdppException("callback_ex", libraryResult);
+    }
+    this->callBackId = libraryResult;
+  }
   
   GPIOPin::~GPIOPin() {
     if( this->callBackId >= 0 ) {
@@ -46,6 +59,7 @@ namespace PiGPIOdpp {
 		  << std::endl;
       }
     }
+    // TODO Release the pin from the PiManager
   }
   
   void GPIOPin::SetMode(GPIOMode mode) {
@@ -57,7 +71,7 @@ namespace PiGPIOdpp {
     }
   }
   
-  bool GPIOPin::Read() const {
+  bool GPIOPin::Get() const {
     int libraryResult = gpio_read(this->pi->getId(),
 				  this->pin);
     if( libraryResult == PI_BAD_GPIO ) {
@@ -67,7 +81,7 @@ namespace PiGPIOdpp {
     return static_cast<bool>(libraryResult);
   }
   
-  void GPIOPin::Write(const bool level) {
+  void GPIOPin::Set(const bool level) {
     int libraryResult = gpio_write(this->pi->getId(),
 				   this->pin,
 				   static_cast<unsigned>(level));
@@ -79,7 +93,7 @@ namespace PiGPIOdpp {
   void GPIOPin::SetPUDResistor(GPIOPull pull) {
     int libraryResult = set_pull_up_down(this->pi->getId(),
 					 this->pin,
-					   static_cast<unsigned>(pull));
+					 static_cast<unsigned>(pull));
     if( libraryResult != 0 ) {
       throw PiGPIOdppException("set_pull_up_down", libraryResult);
     }    
@@ -94,21 +108,7 @@ namespace PiGPIOdpp {
     } 
   }
   
-  void GPIOPin::SetCallBack(GPIOEdge edge, CallBackFn f) {
-    this->callBack = f;
-    
-    int libraryResult = callback_ex(this->pi->getId(),
-				    this->pin,
-				    static_cast<unsigned>(edge),
-				    &CallBackTrampoline,
-				    this);
-    if( libraryResult < 0 ) {
-      throw PiGPIOdppException("callback_ex", libraryResult);
-    }
-    this->callBackId = libraryResult;
-  }
-  
-  void GPIOPin::InvokeCallBack(int pi, unsigned user_gpio, unsigned level, uint32_t tick) {
+  void GPIOPin::TriggerNotifications(int pi, unsigned user_gpio, unsigned level, uint32_t tick) {
     if( (pi != this->getPi()) || (user_gpio != this->getPin()) || (level > 2) ) {
       std::stringstream msg;
       msg << __FUNCTION__
@@ -122,7 +122,7 @@ namespace PiGPIOdpp {
     
     // Note that we already checked for level > 2
     if( level < 2 ) {
-      this->callBack(level);
+      this->NotifyUpdate();
     } else {
       std::clog << __FUNCTION__
 		<< pi << " "

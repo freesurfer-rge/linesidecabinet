@@ -40,13 +40,13 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
   BOOST_CHECK_EQUAL( pm.use_count(), 2 );
   
   gpio1->SetMode( PiGPIOdpp::GPIOMode::Output );
-  gpio1->Write(false);
+  gpio1->Set(false);
   // Even if we're using the stub, it will always return 0
-  BOOST_CHECK( !gpio1->Read() );
-  gpio1->Write(true);
+  BOOST_CHECK( !gpio1->Get() );
+  gpio1->Set(true);
 #ifdef PIGPIODPP_HAVE_PIGPIO
   // Following can only work if we have a real Pi
-  BOOST_CHECK( gpio1->Read() );
+  BOOST_CHECK( gpio1->Get() );
 #endif
 }
 

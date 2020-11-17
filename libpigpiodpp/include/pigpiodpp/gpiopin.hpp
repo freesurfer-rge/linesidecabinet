@@ -2,6 +2,9 @@
 
 #include <functional>
 
+#include "tendril/binaryinputpin.hpp"
+#include "tendril/binaryoutputpin.hpp"
+
 #include "pigpiodpp/pimanager.hpp"
 
 #include "pigpiodpp/gpiomode.hpp"
@@ -10,14 +13,8 @@
 
 namespace PiGPIOdpp {
   //! Class for controlling a GPIO pin
-  class GPIOPin {
+  class GPIOPin : public Tendril::BinaryOutputPin, public Tendril::BinaryInputPin {
   public:
-    //! Define the type of callback functions we accept
-    /*!
-      Callback functions are invoked with the level of the associated pin.
-    */
-    typedef std::function<void(const bool)> CallBackFn;
-    
     GPIOPin(const std::shared_ptr<PiManager> owner,
 	    const unsigned int pinId);
     
@@ -33,23 +30,20 @@ namespace PiGPIOdpp {
     
     void SetMode(GPIOMode mode);
     
-    bool Read() const;
+    virtual bool Get() const override;
     
-    void Write(const bool level);
+    virtual void Set(const bool level) override;
     
     void SetPUDResistor(GPIOPull pull);
     
     void SetGlitchFilter(unsigned int steadyMicroseconds);
     
-    void SetCallBack(GPIOEdge edge, CallBackFn f);
-    
-    void InvokeCallBack(int pi, unsigned user_gpio, unsigned level, uint32_t tick);
+    void TriggerNotifications(int pi, unsigned user_gpio, unsigned level, uint32_t tick);
     
   private:
     std::shared_ptr<PiManager> pi;
     const unsigned int pin;
     
-    CallBackFn callBack;
     int callBackId;
   };
 }
