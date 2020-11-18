@@ -2,7 +2,7 @@
 
 #include "pigpiodpp/pimanager.hpp"
 #include "pigpiodpp/gpiopin.hpp"
-#include "pigpiodpp/i2cdevice.hpp"
+#include "pigpiodpp/i2cpi.hpp"
 #include "pigpiodpp/pigpiodppexception.hpp"
 
 #ifdef PIGPIODPP_HAVE_PIGPIO
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinOutput )
 #endif
 }
 
-BOOST_AUTO_TEST_CASE( SmokeI2CDevice )
+BOOST_AUTO_TEST_CASE( SmokeI2CPi )
 {
   auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
@@ -59,10 +59,10 @@ BOOST_AUTO_TEST_CASE( SmokeI2CDevice )
   const unsigned int deviceId = 0x1;
   if( haveHardware ) {
     // Expect failure from a bare Pi
-    BOOST_CHECK_THROW( pm->GetI2CDevice(busId, deviceId),
+    BOOST_CHECK_THROW( pm->GetI2CPi(busId, deviceId),
 		       PiGPIOdpp::PiGPIOdppException );
   } else {
-    auto device = pm->GetI2CDevice(busId, deviceId);
+    auto device = pm->GetI2CPi(busId, deviceId);
     BOOST_CHECK_EQUAL( device->getPi(), pm->getId() );
     BOOST_CHECK_EQUAL( device->getI2CBus(), busId );
     BOOST_CHECK_EQUAL( device->getI2CAddress(), deviceId );

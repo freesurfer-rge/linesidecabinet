@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "pigpiodpp/pigpiodppexception.hpp"
-#include "pigpiodpp/i2cdevice.hpp"
+#include "pigpiodpp/i2cpi.hpp"
 
 #ifdef PIGPIODPP_HAVE_PIGPIO
 const bool haveHardware = true;
@@ -9,7 +9,7 @@ const bool haveHardware = true;
 const bool haveHardware = false;
 #endif
 
-BOOST_AUTO_TEST_SUITE( I2CDevice )
+BOOST_AUTO_TEST_SUITE( I2CPi )
 
 BOOST_AUTO_TEST_CASE( Smoke )
 {
@@ -20,10 +20,10 @@ BOOST_AUTO_TEST_CASE( Smoke )
 
   if( haveHardware ) {
     // Expect failure (on a bare Pi)
-    BOOST_CHECK_THROW(PiGPIOdpp::I2CDevice i2cDev(pm, busId, deviceId),
+    BOOST_CHECK_THROW(PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId),
 		      PiGPIOdpp::PiGPIOdppException);
   } else {
-    PiGPIOdpp::I2CDevice i2cDev(pm, busId, deviceId);
+    PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId);
     
     BOOST_CHECK_EQUAL( i2cDev.getPi(), pm->getId() );
     BOOST_CHECK_EQUAL( i2cDev.getI2CBus(), busId );
@@ -41,10 +41,10 @@ BOOST_AUTO_TEST_CASE( WriteByte )
 
   if( haveHardware ) {
     // Expect failure (on a bare Pi)
-    BOOST_CHECK_THROW(PiGPIOdpp::I2CDevice i2cDev(pm, busId, deviceId),
+    BOOST_CHECK_THROW(PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId),
 		      PiGPIOdpp::PiGPIOdppException);
   } else {
-    PiGPIOdpp::I2CDevice i2cDev(pm, busId, deviceId);
+    PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId);
   
     BOOST_CHECK_NO_THROW( i2cDev.WriteByte(1, 2) );
   }
@@ -59,10 +59,10 @@ BOOST_AUTO_TEST_CASE( WriteWord )
 
   if( haveHardware ) {
     // Expect failure (on a bare Pi)
-    BOOST_CHECK_THROW(PiGPIOdpp::I2CDevice i2cDev(pm, busId, deviceId),
+    BOOST_CHECK_THROW(PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId),
 		      PiGPIOdpp::PiGPIOdppException);
   } else {
-    PiGPIOdpp::I2CDevice i2cDev(pm, busId, deviceId);
+    PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId);
 
     BOOST_CHECK_NO_THROW( i2cDev.WriteWord(4, 5) );
   }

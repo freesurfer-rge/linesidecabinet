@@ -5,7 +5,7 @@
 
 namespace PiGPIOdpp {
   class GPIOPin;
-  class I2CDevice;
+  class I2CPi;
   
   //! Class to wrap the <a href="http://abyz.me.uk/rpi/pigpio/pigpiod.html">pigpiod library</a>
   /*!
@@ -48,8 +48,8 @@ namespace PiGPIOdpp {
     std::unique_ptr<GPIOPin> GetGPIOPin(const unsigned int pinId);
 
     //! Get an I2CDevice for this Pi
-    std::unique_ptr<I2CDevice> GetI2CDevice(const unsigned int i2cBus,
-					    const unsigned int i2cAddress);
+    std::unique_ptr<I2CPi> GetI2CPi(const unsigned int i2cBus,
+				    const unsigned int i2cAddress);
     
     //! Create an instance of PiManager
     /*!

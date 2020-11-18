@@ -3,12 +3,6 @@
 #include "tendril/mocks/mocknotifiable.hpp"
 #include "pigpiodpp/gpiopin.hpp"
 
-#ifdef PIGPIODPP_HAVE_PIGPIO
-const bool haveHardware = true;
-#else
-const bool haveHardware = false;
-#endif
-
 BOOST_AUTO_TEST_SUITE( GPIOPin )
 
 BOOST_AUTO_TEST_CASE( Smoke )

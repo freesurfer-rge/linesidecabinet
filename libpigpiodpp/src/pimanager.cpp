@@ -9,7 +9,7 @@
 #endif
 
 #include "pigpiodpp/gpiopin.hpp"
-#include "pigpiodpp/i2cdevice.hpp"
+#include "pigpiodpp/i2cpi.hpp"
 
 #include "pigpiodpp/pimanager.hpp"
 
@@ -37,9 +37,9 @@ namespace PiGPIOdpp {
     return std::make_unique<GPIOPin>(this->shared_from_this(), pinId);
   }
 
-  std::unique_ptr<I2CDevice> PiManager::GetI2CDevice(const unsigned int i2cBus,
-						     const unsigned int i2cAddress) {
-    return std::make_unique<I2CDevice>(this->shared_from_this(), i2cBus, i2cAddress);
+  std::unique_ptr<I2CPi> PiManager::GetI2CPi(const unsigned int i2cBus,
+					     const unsigned int i2cAddress) {
+    return std::make_unique<I2CPi>(this->shared_from_this(), i2cBus, i2cAddress);
   }
   
   std::shared_ptr<PiManager> PiManager::CreatePiManager() {

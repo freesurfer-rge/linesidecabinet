@@ -8,12 +8,13 @@
 
 #include "pigpiodpp/pigpiodppexception.hpp"
 
-#include "pigpiodpp/i2cdevice.hpp"
+#include "pigpiodpp/i2cpi.hpp"
 
 namespace PiGPIOdpp {
-  I2CDevice::I2CDevice(const std::shared_ptr<PiManager> owner,
-		       const unsigned int i2cBusId,
-		       const unsigned int i2cBusAddress) :
+  I2CPi::I2CPi(const std::shared_ptr<PiManager> owner,
+	       const unsigned int i2cBusId,
+	       const unsigned int i2cBusAddress) :
+    I2CCommunicator(),
     pi(owner),
     i2cBus(i2cBusId),
     i2cAddress(i2cBusAddress),
@@ -28,7 +29,7 @@ namespace PiGPIOdpp {
     }
   }
 
-  I2CDevice::~I2CDevice() {
+  I2CPi::~I2CPi() {
     if( this->handle >= 0 ) {
       auto res = i2c_close(this->pi->getId(),
 			   this->handle);
@@ -41,7 +42,7 @@ namespace PiGPIOdpp {
     }
   }
 
-  void I2CDevice::WriteByte(uint8_t targetRegister, uint8_t value) {
+  void I2CPi::WriteByte(uint8_t targetRegister, uint8_t value) {
     auto libraryResult = i2c_write_byte_data(this->pi->getId(),
 					     this->handle,
 					     targetRegister,
@@ -51,7 +52,7 @@ namespace PiGPIOdpp {
     }
   }
 
-  void I2CDevice::WriteWord(uint8_t targetRegister, uint16_t value) {
+  void I2CPi::WriteWord(uint8_t targetRegister, uint16_t value) {
     auto libraryResult = i2c_write_word_data(this->pi->getId(),
 					     this->handle,
 					     targetRegister,
