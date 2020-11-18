@@ -3,6 +3,12 @@
 #include "tendril/mocks/mocknotifiable.hpp"
 #include "pigpiodpp/gpiopin.hpp"
 
+#ifdef PIGPIODPP_HAVE_PIGPIO
+const bool haveHardware = true;
+#else
+const bool haveHardware = false;
+#endif
+
 BOOST_AUTO_TEST_SUITE( GPIOPin )
 
 BOOST_AUTO_TEST_CASE( Smoke )
@@ -16,6 +22,7 @@ BOOST_AUTO_TEST_CASE( Smoke )
   BOOST_CHECK_EQUAL( pin.getPin(), pinId );
 }
 
+#ifndef PIGPIODPP_HAVE_PIGPIO
 BOOST_AUTO_TEST_CASE( CallBackInvoked )
 {
   const unsigned char pinId = 5;
@@ -34,5 +41,6 @@ BOOST_AUTO_TEST_CASE( CallBackInvoked )
   // in the stub library is hardwired to return false
   BOOST_CHECK_EQUAL( mn->lastNotification, false );
 }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()
