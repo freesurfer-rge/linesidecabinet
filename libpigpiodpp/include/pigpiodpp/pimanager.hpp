@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <mutex>
+#include <set>
 
 namespace PiGPIOdpp {
   class GPIOPin;
@@ -37,6 +38,9 @@ namespace PiGPIOdpp {
   */
   class PiManager : public std::enable_shared_from_this<PiManager> {
   public:
+    const std::set<unsigned int> i2cBus0 {0, 1};
+    const std::set<unsigned int> i2cBus1 {2, 3};
+    
     ~PiManager();
     
     //! Get the identifier for the controlled Pi
@@ -64,6 +68,9 @@ namespace PiGPIOdpp {
     
     //! The id of the Pi we are accessing (for use in other calls to the pigpiod library)
     int id;
+
+    //! The pins requested so far
+    std::set<unsigned int> assignedPins;
     
     //! Indicates if the library has been initialised
     static bool initialised;

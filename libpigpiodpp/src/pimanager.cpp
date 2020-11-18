@@ -17,7 +17,9 @@ namespace PiGPIOdpp {
   std::mutex PiManager::mtx;
   bool PiManager::initialised = false;
 
-  PiManager::PiManager() : id(-1) {
+  PiManager::PiManager()
+    : id(-1),
+      assignedPins() {
     this->id = pigpio_start(nullptr, nullptr);
     if( this->id < 0 ) {
       std::stringstream msg;
