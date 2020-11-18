@@ -35,9 +35,7 @@ namespace PiGPIOdpp {
     BinaryInputPin(),
     pi(owner),
     pin(pinId),
-    callBackId(-1) {
-    this->SetupCallback();
-  }
+    callBackId(-1) {}
   
   GPIOPin::~GPIOPin() {
     this->CancelCallback();
