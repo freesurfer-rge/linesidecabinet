@@ -36,38 +36,26 @@ namespace PiGPIOdpp {
     pi(owner),
     pin(pinId),
     callBackId(-1) {
-    // Set up the notification callback
-    int libraryResult = callback_ex(this->pi->getId(),
-				    this->pin,
-				    static_cast<unsigned>(GPIOEdge::Either),
-				    &CallBackTrampoline,
-				    this);
-    if( libraryResult < 0 ) {
-      throw PiGPIOdppException("callback_ex", libraryResult);
-    }
-    this->callBackId = libraryResult;
+    this->SetupCallback();
   }
   
   GPIOPin::~GPIOPin() {
-    if( this->callBackId >= 0 ) {
-      auto res = callback_cancel(this->callBackId);
-      if( res != 0 ) {
-	// Can't throw an exception from a destructor
-	std::clog << __FUNCTION__
-		  << ": callback_cancel failed to find "
-		  << this->callBackId
-		  << std::endl;
-      }
-    }
+    this->CancelCallback();
     // TODO Release the pin from the PiManager
   }
   
-  void GPIOPin::SetMode(GPIOMode mode) {
+  void GPIOPin::SetMode(const GPIOMode mode) {
     int libraryResult = set_mode(this->pi->getId(),
 				 this->pin,
 				 static_cast<unsigned>(mode));
     if( libraryResult != 0 ) {
       throw PiGPIOdppException("set_mode", libraryResult);
+    }
+
+    if( mode == GPIOMode::Input ) {
+      this->SetupCallback();
+    } else {
+      this->CancelCallback();
     }
   }
   
@@ -128,6 +116,33 @@ namespace PiGPIOdpp {
 		<< pi << " "
 		<< user_gpio << " "
 		<< "Level Unchanged" << std::endl;
+    }
+  }
+
+  void GPIOPin::SetupCallback() {
+    // Set up the notification callback
+    int libraryResult = callback_ex(this->pi->getId(),
+				    this->pin,
+				    static_cast<unsigned>(GPIOEdge::Either),
+				    &CallBackTrampoline,
+				    this);
+    if( libraryResult < 0 ) {
+      throw PiGPIOdppException("callback_ex", libraryResult);
+    }
+    this->callBackId = libraryResult;
+  }
+
+  void GPIOPin::CancelCallback() {
+    if( this->callBackId >= 0 ) {
+      auto res = callback_cancel(this->callBackId);
+      if( res != 0 ) {
+	// Can't throw an exception from a destructor
+	std::clog << __FUNCTION__
+		  << ": callback_cancel failed to find "
+		  << this->callBackId
+		  << std::endl;
+      }
+      this->callBackId = -1;
     }
   }
 }

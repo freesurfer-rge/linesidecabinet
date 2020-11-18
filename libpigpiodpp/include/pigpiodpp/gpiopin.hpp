@@ -28,7 +28,7 @@ namespace PiGPIOdpp {
 	return this->pin;
     }
     
-    void SetMode(GPIOMode mode);
+    void SetMode(const GPIOMode mode);
     
     virtual bool Get() const override;
     
@@ -45,5 +45,9 @@ namespace PiGPIOdpp {
     const unsigned int pin;
     
     int callBackId;
+
+    void SetupCallback();
+
+    void CancelCallback();
   };
 }
