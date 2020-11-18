@@ -7,7 +7,7 @@
 #include "pigpiodstubs.hpp"
 #endif
 
-#include "pigpiodpp/pigpiodppexception.hpp"
+#include "pigpiodpp/libraryexception.hpp"
 
 #include "pigpiodpp/gpiopin.hpp"
 
@@ -47,7 +47,7 @@ namespace PiGPIOdpp {
 				 this->pin,
 				 static_cast<unsigned>(mode));
     if( libraryResult != 0 ) {
-      throw PiGPIOdppException("set_mode", libraryResult);
+      throw LibraryException("set_mode", libraryResult);
     }
 
     if( mode == GPIOMode::Input ) {
@@ -61,7 +61,7 @@ namespace PiGPIOdpp {
     int libraryResult = gpio_read(this->pi->getId(),
 				  this->pin);
     if( libraryResult == PI_BAD_GPIO ) {
-      throw PiGPIOdppException("gpio_read", libraryResult);
+      throw LibraryException("gpio_read", libraryResult);
     }
     
     return static_cast<bool>(libraryResult);
@@ -72,7 +72,7 @@ namespace PiGPIOdpp {
 				   this->pin,
 				   static_cast<unsigned>(level));
     if( libraryResult != 0 ) {
-      throw PiGPIOdppException("gpio_write", libraryResult);
+      throw LibraryException("gpio_write", libraryResult);
     }
   }
   
@@ -81,7 +81,7 @@ namespace PiGPIOdpp {
 					 this->pin,
 					 static_cast<unsigned>(pull));
     if( libraryResult != 0 ) {
-      throw PiGPIOdppException("set_pull_up_down", libraryResult);
+      throw LibraryException("set_pull_up_down", libraryResult);
     }    
   }
   
@@ -90,7 +90,7 @@ namespace PiGPIOdpp {
 					  this->pin,
 					  steadyMicroseconds);
     if( libraryResult != 0 ) {
-      throw PiGPIOdppException("set_glitch_filter", libraryResult);
+      throw LibraryException("set_glitch_filter", libraryResult);
     } 
   }
   
@@ -125,7 +125,7 @@ namespace PiGPIOdpp {
 				    &CallBackTrampoline,
 				    this);
     if( libraryResult < 0 ) {
-      throw PiGPIOdppException("callback_ex", libraryResult);
+      throw LibraryException("callback_ex", libraryResult);
     }
     this->callBackId = libraryResult;
   }

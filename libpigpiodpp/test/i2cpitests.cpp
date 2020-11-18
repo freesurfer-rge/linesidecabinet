@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
-#include "pigpiodpp/pigpiodppexception.hpp"
+#include "pigpiodpp/libraryexception.hpp"
 #include "pigpiodpp/i2cpi.hpp"
 
 #ifdef PIGPIODPP_HAVE_PIGPIO
@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE( Smoke )
   if( haveHardware ) {
     // Expect failure (on a bare Pi)
     BOOST_CHECK_THROW(PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId),
-		      PiGPIOdpp::PiGPIOdppException);
+		      PiGPIOdpp::LibraryException);
   } else {
     PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId);
     
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( WriteByte )
   if( haveHardware ) {
     // Expect failure (on a bare Pi)
     BOOST_CHECK_THROW(PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId),
-		      PiGPIOdpp::PiGPIOdppException);
+		      PiGPIOdpp::LibraryException);
   } else {
     PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId);
   
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE( WriteWord )
   if( haveHardware ) {
     // Expect failure (on a bare Pi)
     BOOST_CHECK_THROW(PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId),
-		      PiGPIOdpp::PiGPIOdppException);
+		      PiGPIOdpp::LibraryException);
   } else {
     PiGPIOdpp::I2CPi i2cDev(pm, busId, deviceId);
 

@@ -2,13 +2,12 @@
 
 #include <stdexcept>
 
-
 namespace PiGPIOdpp {
-  //! Class for exceptions from the PiGPIOdpp library
-  class PiGPIOdppException : public std::runtime_error {
+  //! Class for exceptions from the underlying pigpiod library
+  class LibraryException : public std::runtime_error {
   public:
-    explicit PiGPIOdppException(const std::string calledMethod,
-				const int returnCode);
+    explicit LibraryException(const std::string calledMethod,
+			      const int returnCode);
     
     const std::string methodName;
     const int errorCode;

@@ -6,11 +6,11 @@
 #include "pigpiodstubs.hpp"
 #endif
 
-#include "pigpiodpp/pigpiodppexception.hpp"
+#include "pigpiodpp/libraryexception.hpp"
 
 namespace PiGPIOdpp {
-  PiGPIOdppException::PiGPIOdppException( const std::string calledMethod,
-					  const int returnCode ) :
+  LibraryException::LibraryException( const std::string calledMethod,
+				      const int returnCode ) :
     std::runtime_error(""),
     methodName(calledMethod),
     errorCode(returnCode),
@@ -22,7 +22,7 @@ namespace PiGPIOdpp {
     this->message = tmp.str();
   }
 
-  const char* PiGPIOdppException::what() const noexcept {
+  const char* LibraryException::what() const noexcept {
     return this->message.c_str();
   }
 }

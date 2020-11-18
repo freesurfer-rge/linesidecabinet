@@ -1,6 +1,6 @@
 set(srcs)
 
-list(APPEND srcs pigpiodppexceptions.cpp)
+list(APPEND srcs libraryexception.cpp)
 list(APPEND srcs pinassignedexception.cpp)
 list(APPEND srcs gpiopull.cpp)
 list(APPEND srcs gpiopin.cpp)

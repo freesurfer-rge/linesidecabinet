@@ -6,7 +6,7 @@
 #include "pigpiodstubs.hpp"
 #endif
 
-#include "pigpiodpp/pigpiodppexception.hpp"
+#include "pigpiodpp/libraryexception.hpp"
 
 #include "pigpiodpp/i2cpi.hpp"
 
@@ -25,7 +25,7 @@ namespace PiGPIOdpp {
 			    this->i2cAddress,
 			    NoOpenFlags);
     if( this->handle < 0 ) {
-      throw PiGPIOdppException("i2c_open", this->handle);
+      throw LibraryException("i2c_open", this->handle);
     }
   }
 
@@ -48,7 +48,7 @@ namespace PiGPIOdpp {
 					     targetRegister,
 					     value);
     if( libraryResult != 0 ) {
-      throw PiGPIOdppException("i2c_write_byte_data", libraryResult);
+      throw LibraryException("i2c_write_byte_data", libraryResult);
     }
   }
 
@@ -58,7 +58,7 @@ namespace PiGPIOdpp {
 					     targetRegister,
 					     value);
     if( libraryResult != 0 ) {
-      throw PiGPIOdppException("i2c_write_byte_data", libraryResult);
+      throw LibraryException("i2c_write_byte_data", libraryResult);
     }
   }
 }

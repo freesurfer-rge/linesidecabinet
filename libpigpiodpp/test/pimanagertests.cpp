@@ -3,7 +3,7 @@
 #include "pigpiodpp/pimanager.hpp"
 #include "pigpiodpp/gpiopin.hpp"
 #include "pigpiodpp/i2cpi.hpp"
-#include "pigpiodpp/pigpiodppexception.hpp"
+#include "pigpiodpp/libraryexception.hpp"
 
 #ifdef PIGPIODPP_HAVE_PIGPIO
 const bool haveHardware = true;
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE( SmokeI2CPi )
   if( haveHardware ) {
     // Expect failure from a bare Pi
     BOOST_CHECK_THROW( pm->GetI2CPi(busId, deviceId),
-		       PiGPIOdpp::PiGPIOdppException );
+		       PiGPIOdpp::LibraryException );
   } else {
     auto device = pm->GetI2CPi(busId, deviceId);
     BOOST_CHECK_EQUAL( device->getPi(), pm->getId() );
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE( SmokeGPIOPinException )
   BOOST_REQUIRE( gpio1 );
 
   BOOST_CHECK_THROW( gpio1->SetMode( PiGPIOdpp::GPIOMode::Output ),
-		     PiGPIOdpp::PiGPIOdppException );
+		     PiGPIOdpp::LibraryException );
 }
 
 
