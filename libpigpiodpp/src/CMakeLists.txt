@@ -9,6 +9,8 @@ list(APPEND srcs pimanager.cpp)
 list(APPEND srcs i2cpi.cpp)
 list(APPEND srcs piboparray.cpp)
 
+list(APPEND srcs pibopprovider.cpp)
+
 # Have to do different things if we find the C pigpiod library
 if( pigpio_FOUND )
   target_compile_definitions(pigpiodpp PUBLIC "PIGPIODPP_HAVE_PIGPIO")

@@ -9,6 +9,8 @@ list(APPEND srcs gpiopintests.cpp)
 list(APPEND srcs i2cpitests.cpp)
 list(APPEND srcs piboparraytests.cpp)
 
+list(APPEND srcs pibopprovidertests.cpp)
+
 
 add_executable(PiGPIOdppTest ${srcs})
 target_link_libraries(PiGPIOdppTest PUBLIC pigpiodpp Boost::boost)
