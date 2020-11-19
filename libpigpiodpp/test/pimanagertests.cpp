@@ -7,12 +7,6 @@
 #include "pigpiodpp/pinassignedexception.hpp"
 #include "pigpiodpp/i2cdeviceassignedexception.hpp"
 
-#ifdef PIGPIODPP_HAVE_PIGPIO
-const bool haveHardware = true;
-#else
-const bool haveHardware = false;
-#endif
-
 BOOST_AUTO_TEST_SUITE( PiManager )
 
 BOOST_AUTO_TEST_CASE( Smoke )
