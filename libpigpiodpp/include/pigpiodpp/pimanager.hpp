@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <memory>
 #include <mutex>
 #include <set>
@@ -38,8 +39,14 @@ namespace PiGPIOdpp {
   */
   class PiManager : public std::enable_shared_from_this<PiManager> {
   public:
-    const std::set<unsigned int> i2cBus0 {0, 1};
-    const std::set<unsigned int> i2cBus1 {2, 3};
+    //! Number of GPIO pins
+    const unsigned int nPins = 28;
+
+    //! GPIO pins used by I2C Buses
+    const std::array<std::set<unsigned int>,2> i2cBusPins {
+      std::set<unsigned int>{0, 1},
+      std::set<unsigned int>{2, 3}
+    };
     
     ~PiManager();
     
@@ -71,6 +78,12 @@ namespace PiGPIOdpp {
 
     //! The pins requested so far
     std::set<unsigned int> assignedPins;
+
+    //! Whether the I2C buses have been initialised
+    std::array<bool,2> i2cInitialised;
+
+    //! Reserve a pin (or throw)
+    void ReservePin(unsigned int pin);
     
     //! Indicates if the library has been initialised
     static bool initialised;

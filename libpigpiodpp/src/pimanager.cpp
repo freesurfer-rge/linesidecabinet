@@ -8,6 +8,7 @@
 #include "pigpiodstubs.hpp"
 #endif
 
+#include "pigpiodpp/pinassignedexception.hpp"
 #include "pigpiodpp/gpiopin.hpp"
 #include "pigpiodpp/i2cpi.hpp"
 
@@ -19,7 +20,8 @@ namespace PiGPIOdpp {
 
   PiManager::PiManager()
     : id(-1),
-      assignedPins() {
+      assignedPins(),
+      i2cInitialised() {
     this->id = pigpio_start(nullptr, nullptr);
     if( this->id < 0 ) {
       std::stringstream msg;
@@ -36,12 +38,29 @@ namespace PiGPIOdpp {
   }
   
   std::unique_ptr<GPIOPin> PiManager::GetGPIOPin(const unsigned int pinId) {
+    this->ReservePin(pinId);
     return std::make_unique<GPIOPin>(this->shared_from_this(), pinId);
   }
 
   std::unique_ptr<I2CPi> PiManager::GetI2CPi(const unsigned int i2cBus,
 					     const unsigned int i2cAddress) {
+    if( !this->i2cInitialised.at(i2cBus) ) {
+      for( auto p: this->i2cBusPins.at(i2cBus) ) {
+	this->ReservePin(p);
+      }
+      this->i2cInitialised.at(i2cBus) = true;
+    }
     return std::make_unique<I2CPi>(this->shared_from_this(), i2cBus, i2cAddress);
+  }
+
+  void PiManager::ReservePin(unsigned int pin) {
+    if( pin > this->nPins ) {
+      throw std::out_of_range(std::to_string(pin));
+    }
+    if( this->assignedPins.count(pin) != 0 ) {
+      throw PinAssignedException(pin);
+    }
+    this->assignedPins.insert(pin);
   }
   
   std::shared_ptr<PiManager> PiManager::CreatePiManager() {

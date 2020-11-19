@@ -4,6 +4,7 @@
 #include "pigpiodpp/gpiopin.hpp"
 #include "pigpiodpp/i2cpi.hpp"
 #include "pigpiodpp/libraryexception.hpp"
+#include "pigpiodpp/pinassignedexception.hpp"
 
 #ifdef PIGPIODPP_HAVE_PIGPIO
 const bool haveHardware = true;
@@ -70,28 +71,37 @@ BOOST_AUTO_TEST_CASE( SmokeI2CPi )
   }
 }
 
-#ifdef PIGPIODPP_HAVE_PIGPIO
-/*
-  The following look for responses from the real PiGPIOd library
-  As such, they have to run on a Pi
- */
-BOOST_AUTO_TEST_CASE( SmokeGPIOPinException )
+BOOST_AUTO_TEST_CASE( GetTwoI2CPi )
 {
   auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
-  /*
-    The value requested is too big, but this isn't checked until
-    pigpiod
-  */
-  auto gpio1 = pm->GetGPIOPin(1024);
-  BOOST_REQUIRE( gpio1 );
-
-  BOOST_CHECK_THROW( gpio1->SetMode( PiGPIOdpp::GPIOMode::Output ),
-		     PiGPIOdpp::LibraryException );
+  const unsigned int busId = 0;
+  BOOST_CHECK_NO_THROW( pm->GetI2CPi(busId, 0) );
+  BOOST_CHECK_NO_THROW( pm->GetI2CPi(busId, 1) );
 }
 
+BOOST_AUTO_TEST_CASE( PinOutOfRange )
+{
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
+  BOOST_CHECK_EQUAL( pm.use_count(), 1 );
+  
+  BOOST_CHECK_THROW( pm->GetGPIOPin(1024),
+		     std::out_of_range );
+}
 
-#endif
+BOOST_AUTO_TEST_CASE( DuplicatePin )
+{
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
+  BOOST_CHECK_EQUAL( pm.use_count(), 1 );
+
+  auto pin0 = pm->GetGPIOPin(2);
+
+  BOOST_CHECK_EXCEPTION( pm->GetI2CPi(1, 10),
+			 PiGPIOdpp::PinAssignedException,
+			 [=](const PiGPIOdpp::PinAssignedException& pae) {
+			   return pae.pinId == 2;
+			 });
+}
 
 BOOST_AUTO_TEST_SUITE_END()
