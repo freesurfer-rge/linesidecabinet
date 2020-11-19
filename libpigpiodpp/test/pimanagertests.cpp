@@ -5,6 +5,7 @@
 #include "pigpiodpp/i2cpi.hpp"
 #include "pigpiodpp/libraryexception.hpp"
 #include "pigpiodpp/pinassignedexception.hpp"
+#include "pigpiodpp/i2cdeviceassignedexception.hpp"
 
 #ifdef PIGPIODPP_HAVE_PIGPIO
 const bool haveHardware = true;
@@ -77,7 +78,8 @@ BOOST_AUTO_TEST_CASE( GetTwoI2CPi )
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
   const unsigned int busId = 0;
-  BOOST_CHECK_NO_THROW( pm->GetI2CPi(busId, 0) );
+  auto dev0 = pm->GetI2CPi(busId, 0);
+  BOOST_REQUIRE( dev0 );
   BOOST_CHECK_NO_THROW( pm->GetI2CPi(busId, 1) );
 }
 
@@ -101,6 +103,25 @@ BOOST_AUTO_TEST_CASE( DuplicatePin )
 			 PiGPIOdpp::PinAssignedException,
 			 [=](const PiGPIOdpp::PinAssignedException& pae) {
 			   return pae.pinId == 2;
+			 });
+}
+
+BOOST_AUTO_TEST_CASE( DuplicateI2CDevice )
+{
+  auto pm = PiGPIOdpp::PiManager::CreatePiManager();
+  BOOST_CHECK_EQUAL( pm.use_count(), 1 );
+
+  const unsigned int busId = 0;
+  const unsigned int deviceId = 0x1;
+
+  auto dev0 = pm->GetI2CPi(busId, deviceId);
+
+  BOOST_CHECK_EXCEPTION( pm->GetI2CPi(busId, deviceId),
+			 PiGPIOdpp::I2CDeviceAssignedException,
+			 [=](const PiGPIOdpp::I2CDeviceAssignedException& i2cdae) {
+			   bool result = (i2cdae.busId == busId);
+			   result = result && ( i2cdae.deviceId == deviceId);
+			   return result;
 			 });
 }
 

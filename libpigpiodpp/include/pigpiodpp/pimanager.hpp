@@ -79,8 +79,8 @@ namespace PiGPIOdpp {
     //! The pins requested so far
     std::set<unsigned int> assignedPins;
 
-    //! Whether the I2C buses have been initialised
-    std::array<bool,2> i2cInitialised;
+    //! I2CDevices
+    std::array<std::set<unsigned int>, 2> i2cDevices;
 
     //! Reserve a pin (or throw)
     void ReservePin(unsigned int pin);

@@ -9,6 +9,7 @@
 #endif
 
 #include "pigpiodpp/pinassignedexception.hpp"
+#include "pigpiodpp/i2cdeviceassignedexception.hpp"
 #include "pigpiodpp/gpiopin.hpp"
 #include "pigpiodpp/i2cpi.hpp"
 
@@ -21,7 +22,7 @@ namespace PiGPIOdpp {
   PiManager::PiManager()
     : id(-1),
       assignedPins(),
-      i2cInitialised() {
+      i2cDevices() {
     this->id = pigpio_start(nullptr, nullptr);
     if( this->id < 0 ) {
       std::stringstream msg;
@@ -44,12 +45,15 @@ namespace PiGPIOdpp {
 
   std::unique_ptr<I2CPi> PiManager::GetI2CPi(const unsigned int i2cBus,
 					     const unsigned int i2cAddress) {
-    if( !this->i2cInitialised.at(i2cBus) ) {
+    if( this->i2cDevices.at(i2cBus).size() == 0 ) {
       for( auto p: this->i2cBusPins.at(i2cBus) ) {
 	this->ReservePin(p);
       }
-      this->i2cInitialised.at(i2cBus) = true;
     }
+    if( this->i2cDevices.at(i2cBus).count(i2cAddress) != 0 ) {
+      throw I2CDeviceAssignedException(i2cBus, i2cAddress);
+    }
+    this->i2cDevices.at(i2cBus).insert(i2cAddress);
     return std::make_unique<I2CPi>(this->shared_from_this(), i2cBus, i2cAddress);
   }
 

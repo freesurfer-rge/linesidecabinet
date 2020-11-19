@@ -2,6 +2,7 @@ set(srcs)
 
 list(APPEND srcs libraryexception.cpp)
 list(APPEND srcs pinassignedexception.cpp)
+list(APPEND srcs i2cdeviceassignedexception.cpp)
 list(APPEND srcs gpiopull.cpp)
 list(APPEND srcs gpiopin.cpp)
 list(APPEND srcs pimanager.cpp)
