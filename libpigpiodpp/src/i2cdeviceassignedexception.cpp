@@ -7,7 +7,8 @@ namespace PiGPIOdpp {
 							 const unsigned int device)
     : runtime_error(""),
       busId(bus),
-      deviceId(device) {
+      deviceId(device),
+      message() {
     std::stringstream tmp;
     tmp << "I2C device " << this->deviceId;
     tmp << " on bus " << this->busId;
