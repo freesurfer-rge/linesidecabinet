@@ -59,17 +59,12 @@ BOOST_AUTO_TEST_CASE( SmokeI2CPi )
 
   const unsigned int busId = 1;
   const unsigned int deviceId = 0x8;
-  if( haveHardware ) {
-    // Expect failure from a bare Pi
-    BOOST_CHECK_THROW( pm->GetI2CPi(busId, deviceId),
-		       PiGPIOdpp::LibraryException );
-  } else {
-    auto device = pm->GetI2CPi(busId, deviceId);
-    BOOST_CHECK_EQUAL( device->getPi(), pm->getId() );
-    BOOST_CHECK_EQUAL( device->getI2CBus(), busId );
-    BOOST_CHECK_EQUAL( device->getI2CAddress(), deviceId );
-    BOOST_CHECK( device->getHandle() >= 0 );
-  }
+
+  auto device = pm->GetI2CPi(busId, deviceId);
+  BOOST_CHECK_EQUAL( device->getPi(), pm->getId() );
+  BOOST_CHECK_EQUAL( device->getI2CBus(), busId );
+  BOOST_CHECK_EQUAL( device->getI2CAddress(), deviceId );
+  BOOST_CHECK( device->getHandle() >= 0 );
 }
 
 BOOST_AUTO_TEST_CASE( GetTwoI2CPi )
