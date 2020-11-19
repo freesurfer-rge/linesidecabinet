@@ -1,6 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "tendril/mocks/mocknotifiable.hpp"
+#include "pigpiodpp/pimanager.hpp"
 #include "pigpiodpp/gpiopin.hpp"
 
 BOOST_AUTO_TEST_SUITE( GPIOPin )

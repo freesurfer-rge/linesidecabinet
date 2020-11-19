@@ -8,6 +8,7 @@
 #endif
 
 #include "pigpiodpp/libraryexception.hpp"
+#include "pigpiodpp/pimanager.hpp"
 
 #include "pigpiodpp/gpiopin.hpp"
 
@@ -40,6 +41,10 @@ namespace PiGPIOdpp {
   GPIOPin::~GPIOPin() {
     this->CancelCallback();
     // TODO Release the pin from the PiManager
+  }
+  
+  int GPIOPin::getPi() const {
+    return this->pi->getId();
   }
   
   void GPIOPin::SetMode(const GPIOMode mode) {

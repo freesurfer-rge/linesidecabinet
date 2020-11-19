@@ -7,6 +7,7 @@ list(APPEND srcs gpiopulltests.cpp)
 list(APPEND srcs pimanagertests.cpp)
 list(APPEND srcs gpiopintests.cpp)
 list(APPEND srcs i2cpitests.cpp)
+list(APPEND srcs piboparraytests.cpp)
 
 
 add_executable(PiGPIOdppTest ${srcs})

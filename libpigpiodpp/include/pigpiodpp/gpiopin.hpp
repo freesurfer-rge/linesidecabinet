@@ -5,13 +5,14 @@
 #include "tendril/binaryinputpin.hpp"
 #include "tendril/binaryoutputpin.hpp"
 
-#include "pigpiodpp/pimanager.hpp"
 
 #include "pigpiodpp/gpiomode.hpp"
 #include "pigpiodpp/gpioedge.hpp"
 #include "pigpiodpp/gpiopull.hpp"
 
 namespace PiGPIOdpp {
+  class PiManager;
+  
   //! Class for controlling a GPIO pin
   class GPIOPin : public Tendril::BinaryOutputPin, public Tendril::BinaryInputPin {
   public:
@@ -20,9 +21,7 @@ namespace PiGPIOdpp {
     
     ~GPIOPin();
     
-    int getPi() const {
-      return this->pi->getId();
-    }
+    int getPi() const;
     
     unsigned int getPin() const {
 	return this->pin;
