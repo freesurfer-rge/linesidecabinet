@@ -11,6 +11,7 @@ list(APPEND srcs piboparraytests.cpp)
 
 list(APPEND srcs pibopprovidertests.cpp)
 list(APPEND srcs piboparrayprovidertests.cpp)
+list(APPEND srcs pibipprovidertests.cpp)
 
 
 add_executable(PiGPIOdppTest ${srcs})
