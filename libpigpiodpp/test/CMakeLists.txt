@@ -10,6 +10,7 @@ list(APPEND srcs i2cpitests.cpp)
 list(APPEND srcs piboparraytests.cpp)
 
 list(APPEND srcs pibopprovidertests.cpp)
+list(APPEND srcs piboparrayprovidertests.cpp)
 
 
 add_executable(PiGPIOdppTest ${srcs})

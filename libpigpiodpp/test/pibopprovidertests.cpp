@@ -13,6 +13,8 @@ BOOST_AUTO_TEST_CASE( Smoke )
 
   PiGPIOdpp::PiBOPProvider pbp(pm);
 
+  BOOST_CHECK_EQUAL( pbp.getPi(), pm->getId() );
+
   std::string deviceId = "10";
   Tendril::SettingsMap settings;
 
@@ -21,6 +23,7 @@ BOOST_AUTO_TEST_CASE( Smoke )
 
   auto gpio = dynamic_cast<PiGPIOdpp::GPIOPin*>(res.get());
   BOOST_REQUIRE( gpio );
+  BOOST_CHECK_EQUAL( gpio->getPi(), pm->getId() );
 }
 
 BOOST_AUTO_TEST_CASE( NoDuplicates )

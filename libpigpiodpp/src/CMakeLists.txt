@@ -10,6 +10,7 @@ list(APPEND srcs i2cpi.cpp)
 list(APPEND srcs piboparray.cpp)
 
 list(APPEND srcs pibopprovider.cpp)
+list(APPEND srcs piboparrayprovider.cpp)
 
 # Have to do different things if we find the C pigpiod library
 if( pigpio_FOUND )
