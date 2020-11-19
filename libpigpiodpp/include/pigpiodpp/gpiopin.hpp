@@ -1,7 +1,5 @@
 #pragma once
 
-#include <functional>
-
 #include "tendril/binaryinputpin.hpp"
 #include "tendril/binaryoutputpin.hpp"
 

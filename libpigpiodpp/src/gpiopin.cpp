@@ -99,7 +99,11 @@ namespace PiGPIOdpp {
     } 
   }
   
-  void GPIOPin::TriggerNotifications(int pi, unsigned user_gpio, unsigned level, uint32_t tick) {
+  void GPIOPin::TriggerNotifications(int pi,
+				     unsigned user_gpio,
+				     unsigned level,
+				     uint32_t tick) {
+    // No need to lock, since NotifyUpdate already does this
     if( (pi != this->getPi()) || (user_gpio != this->getPin()) || (level > 2) ) {
       std::stringstream msg;
       msg << __FUNCTION__
@@ -123,6 +127,8 @@ namespace PiGPIOdpp {
   }
 
   void GPIOPin::SetupCallback() {
+    std::lock_guard<std::mutex> lock(this->notifyMutex);
+    
     // Set up the notification callback
     int libraryResult = callback_ex(this->pi->getId(),
 				    this->pin,
@@ -136,6 +142,8 @@ namespace PiGPIOdpp {
   }
 
   void GPIOPin::CancelCallback() {
+    std::lock_guard<std::mutex> lock(this->notifyMutex);
+    
     if( this->callBackId >= 0 ) {
       auto res = callback_cancel(this->callBackId);
       if( res != 0 ) {
