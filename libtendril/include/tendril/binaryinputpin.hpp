@@ -25,7 +25,7 @@ namespace Tendril {
     std::mutex notifyMutex;
 
     //! Sends the notifications (uses mutex)
-    void NotifyUpdate();
+    void NotifyUpdate(const bool latestValue);
 
   private:
     Notifier<bool> notifier;

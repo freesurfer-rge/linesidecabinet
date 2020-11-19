@@ -8,8 +8,8 @@ namespace Tendril {
   }
 
   void
-  BinaryInputPin::NotifyUpdate() {
+  BinaryInputPin::NotifyUpdate(const bool latestValue) {
     std::lock_guard<std::mutex> lock(this->notifyMutex);
-    this->notifier.Notify(this->Get());
+    this->notifier.Notify(latestValue);
   }
 }

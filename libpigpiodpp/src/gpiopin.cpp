@@ -117,8 +117,9 @@ namespace PiGPIOdpp {
     
     // Note that we already checked for level > 2
     if( level < 2 ) {
-      this->NotifyUpdate();
+      this->NotifyUpdate(static_cast<bool>(level));
     } else {
+      // level==2 means 'unchanged'
       std::clog << __FUNCTION__
 		<< pi << " "
 		<< user_gpio << " "

@@ -7,7 +7,7 @@ namespace Tendril {
     }
 
     void MockBIP::SendNotifications() {
-      this->NotifyUpdate();
+      this->NotifyUpdate(this->Get());
     }
   }
 }
