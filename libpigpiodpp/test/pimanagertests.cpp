@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE( SmokeI2CPi )
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
   const unsigned int busId = 1;
-  const unsigned int deviceId = 0x1;
+  const unsigned int deviceId = 0x8;
   if( haveHardware ) {
     // Expect failure from a bare Pi
     BOOST_CHECK_THROW( pm->GetI2CPi(busId, deviceId),
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE( DuplicateI2CDevice )
   auto pm = PiGPIOdpp::PiManager::CreatePiManager();
   BOOST_CHECK_EQUAL( pm.use_count(), 1 );
 
-  const unsigned int busId = 0;
+  const unsigned int busId = 1;
   const unsigned int deviceId = 0x1;
 
   auto dev0 = pm->GetI2CPi(busId, deviceId);
