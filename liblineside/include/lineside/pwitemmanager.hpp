@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 
-#include "lineside/hardwaremanager.hpp"
+#include "tendril/hardwaremanager.hpp"
 #include "lineside/softwaremanager.hpp"
 #include "lineside/itemid.hpp"
 #include "lineside/pwitemcontroller.hpp"
@@ -15,7 +15,7 @@ namespace Lineside {
   //! Class to manage permanent way items
   class PWItemManager {
   public:
-    PWItemManager( std::shared_ptr<HardwareManager> hardwareManager,
+    PWItemManager( std::shared_ptr<Tendril::HardwareManager> hardwareManager,
 		   std::shared_ptr<SoftwareManager> softwareManager )
       : hwManager(hardwareManager),
 	swManager(softwareManager),
@@ -28,7 +28,7 @@ namespace Lineside {
     PWItemModel& GetPWItemModelById( const ItemId id ) const;
 
   private:
-    std::shared_ptr<HardwareManager> hwManager;
+    std::shared_ptr<Tendril::HardwareManager> hwManager;
     std::shared_ptr<SoftwareManager> swManager;
     std::map<ItemId,std::shared_ptr<PWItemController>> pwItems;
   };
