@@ -4,7 +4,7 @@
 
 namespace Lineside {
   void ServoTurnoutMotor::OnActivate() {
-    this->servo->Set(this->pwmStraight);
+    this->servo->Set(0, this->pwmStraight);
     this->currentState = TurnoutState::Straight;
     this->desiredState = TurnoutState::Straight;
   }
@@ -29,11 +29,11 @@ namespace Lineside {
       // Count from 1 since we don't have to move to the starting position
       for( unsigned int i=1; i<this->MoveSteps; i++ ) {
 	unsigned int nxt = startPWM + (i*pwmStep);
-	this->servo->Set(nxt);
+	this->servo->Set(0, nxt);
 	std::this_thread::sleep_for(this->MoveSleep);
       }
       // Make the last step exact
-      this->servo->Set(stopPWM);
+      this->servo->Set(0, stopPWM);
     }
     this->currentState = this->desiredState;
     

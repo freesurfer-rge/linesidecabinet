@@ -5,8 +5,9 @@
 #include <chrono>
 #include <string>
 
+#include "tendril/binaryoutputpin.hpp"
+
 #include "lineside/multiaspectsignalhead.hpp"
-#include "lineside/binaryoutputpin.hpp"
 
 
 namespace Lineside {
@@ -44,12 +45,12 @@ namespace Lineside {
 
     bool lastFlashStatus;
     
-    std::unique_ptr<BinaryOutputPin> red;
-    std::unique_ptr<BinaryOutputPin> yellow1;
-    std::unique_ptr<BinaryOutputPin> yellow2;
-    std::unique_ptr<BinaryOutputPin> green;
+    std::unique_ptr<Tendril::BinaryOutputPin> red;
+    std::unique_ptr<Tendril::BinaryOutputPin> yellow1;
+    std::unique_ptr<Tendril::BinaryOutputPin> yellow2;
+    std::unique_ptr<Tendril::BinaryOutputPin> green;
     
-    std::vector<std::unique_ptr<BinaryOutputPin>> feathers;
+    std::vector<std::unique_ptr<Tendril::BinaryOutputPin>> feathers;
 
     DirectDriveMASH(const ItemId signalHeadId) :
       MultiAspectSignalHead(signalHeadId),

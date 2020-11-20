@@ -12,7 +12,7 @@ namespace Lineside {
     unsigned int curved;
     DeviceRequestData pwmChannelRequest;
 
-    virtual std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
+    virtual std::shared_ptr<PWItemModel> Construct(Tendril::HardwareManager& hw,
 						   SoftwareManager& sw) const override;
   };
 }

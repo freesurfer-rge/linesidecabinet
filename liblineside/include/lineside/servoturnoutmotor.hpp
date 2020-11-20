@@ -2,8 +2,9 @@
 
 #include <mutex>
 
+#include "tendril/pwmchannel.hpp"
+
 #include "lineside/turnoutmotor.hpp"
-#include "lineside/pwmchannel.hpp"
 
 namespace Lineside {
   class ServoTurnoutMotorData;
@@ -29,7 +30,7 @@ namespace Lineside {
     unsigned int pwmStraight;
     unsigned int pwmCurved;
     TurnoutState desiredState;
-    std::unique_ptr<PWMChannel> servo;
+    std::unique_ptr<Tendril::PWMChannel> servo;
     std::mutex stateChangeMtx;
 
     ServoTurnoutMotor(const ItemId turnoutId) :

@@ -2,9 +2,10 @@
 
 #include <memory>
 
+#include "tendril/hardwaremanager.hpp"
+
 #include "lineside/itemid.hpp"
 #include "lineside/pwitemmodel.hpp"
-#include "lineside/hardwaremanager.hpp"
 #include "lineside/softwaremanager.hpp"
 
 namespace Lineside {
@@ -19,7 +20,7 @@ namespace Lineside {
 
     //! Method to construct a permanent way item
     virtual
-    std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
+    std::shared_ptr<PWItemModel> Construct(Tendril::HardwareManager& hw,
 					   SoftwareManager& sw) const = 0;
 
   protected:

@@ -1,3 +1,5 @@
+#include "tendril/pwmchannel.hpp"
+
 #include "lineside/servoturnoutmotordata.hpp"
 
 #include "lineside/servoturnoutmotor.hpp"
@@ -9,13 +11,13 @@ namespace Lineside {
     curved(),
     pwmChannelRequest() {}
 
-  std::shared_ptr<PWItemModel> ServoTurnoutMotorData::Construct( HardwareManager& hw,
-								 SoftwareManager& sw ) const {
+  std::shared_ptr<PWItemModel> ServoTurnoutMotorData::Construct(Tendril::HardwareManager& hw,
+								SoftwareManager& sw ) const {
     // Work around compiler warning/error
     this->UnusedSoftwareManager(sw);
     
     auto pwmChannelProvider = hw.pwmcProviderRegistrar.Retrieve(this->pwmChannelRequest.controller);
-    std::unique_ptr<PWMChannel> servo;
+    std::unique_ptr<Tendril::PWMChannel> servo;
     servo = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
 					    this->pwmChannelRequest.settings);
     

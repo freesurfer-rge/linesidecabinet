@@ -3,7 +3,7 @@
 
 namespace Lineside {
   std::shared_ptr<PWItemModel>
-  TrackCircuitMonitorData::Construct(HardwareManager& hw,
+  TrackCircuitMonitorData::Construct(Tendril::HardwareManager& hw,
 				     SoftwareManager& sw) const {
     auto bipProvider = hw.bipProviderRegistrar.Retrieve(this->inputPinRequest.controller);
     auto bip = bipProvider->GetHardware( this->inputPinRequest.controllerData,
@@ -18,7 +18,7 @@ namespace Lineside {
     auto result = std::make_shared<enabler>(this->id, this->sensor);
     
     // Link up the input pin
-    bip->RegisterListener(this->id.Get(), result);
+    bip->RegisterListener(result);
     result->monitorPin = std::move(bip);
 
     // Get RTC client

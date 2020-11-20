@@ -1,3 +1,4 @@
+#include "lineside/linesideexceptions.hpp"
 #include "lineside/directdrivemashdata.hpp"
 
 #include "lineside/directdrivemash.hpp"
@@ -44,7 +45,7 @@ namespace Lineside {
   }
   
   std::shared_ptr<PWItemModel>
-  DirectDriveMASHData::Construct(HardwareManager& hw,
+  DirectDriveMASHData::Construct(Tendril::HardwareManager& hw,
 				 SoftwareManager& sw ) const {
     // Work around unused parameter warning
     this->UnusedSoftwareManager(sw);
@@ -65,15 +66,15 @@ namespace Lineside {
     return result;
   }
   
-  std::unique_ptr<BinaryOutputPin>
-  DirectDriveMASHData::FetchBOP(HardwareManager& hw,
+  std::unique_ptr<Tendril::BinaryOutputPin>
+  DirectDriveMASHData::FetchBOP(Tendril::HardwareManager& hw,
 				const DeviceRequestData& drd ) const {
     auto bopProvider = hw.bopProviderRegistrar.Retrieve(drd.controller);
     return bopProvider->GetHardware( drd.controllerData, drd.settings );
   }
   
   void
-  DirectDriveMASHData::PopulateAspects(HardwareManager& hw,
+  DirectDriveMASHData::PopulateAspects(Tendril::HardwareManager& hw,
 				       std::shared_ptr<DirectDriveMASH> target ) const {
     // Calling from private method, so can assume CheckData() has been called
     
@@ -91,7 +92,7 @@ namespace Lineside {
   }
   
   void
-  DirectDriveMASHData::PopulateFeathers(HardwareManager& hw,
+  DirectDriveMASHData::PopulateFeathers(Tendril::HardwareManager& hw,
 					std::shared_ptr<DirectDriveMASH> target ) const {
     // Calling from private method, so assume CheckData() has been called
     
