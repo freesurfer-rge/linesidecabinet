@@ -7,7 +7,6 @@ list(APPEND srcs signalflash.cpp)
 list(APPEND srcs trackcircuitsensor.cpp)
 
 list(APPEND srcs itemid.cpp)
-list(APPEND srcs binaryinputpin.cpp)
 list(APPEND srcs pwitemmodel.cpp)
 list(APPEND srcs pwitemcontroller.cpp)
 
