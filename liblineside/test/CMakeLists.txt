@@ -42,7 +42,6 @@ add_subdirectory(mocks)
 
 add_subdirectory(jsonrpc)
 
-add_subdirectory(pi)
 
 add_subdirectory(xml)
 add_subdirectory(xmlsamples)

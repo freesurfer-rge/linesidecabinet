@@ -29,5 +29,4 @@ list(APPEND srcs pwitemmanager.cpp)
 target_sources(lineside PRIVATE ${srcs})
 
 add_subdirectory(xml)
-add_subdirectory(pi)
 add_subdirectory(jsonrpc)
