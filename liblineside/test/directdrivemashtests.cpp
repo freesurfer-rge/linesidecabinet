@@ -2,870 +2,217 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "lineside/directdrivemashdata.hpp"
+#include "tendril/mocks/mockbop.hpp"
+
+// #include "lineside/directdrivemashdata.hpp"
 #include "lineside/directdrivemash.hpp"
 
-#include "mockmanagerfixture.hpp"
 
 #include "exceptionmessagecheck.hpp"
 
 // =====================================
 
-const std::string redData = "07";
-const std::string greenData = "08";
-const std::string yellow1Data = "11";
-const std::string yellow2Data = "13";
+BOOST_AUTO_TEST_SUITE(DirectDriveMASH)
 
-const std::string feather1Data = "15";
-const std::string feather2Data = "19";
-
-void AddAspect( Lineside::DirectDriveMASHData& mashd,
-		const std::string controller,
-		const Lineside::SignalAspect a,
-		const std::string data ) {
-  Lineside::DeviceRequestData req;
-  req.controller = controller;
-  req.controllerData = data;
-
-  mashd.aspectRequests[a] = req;
-}
-
-Lineside::DirectDriveMASHData MakeTwoAspect( const Lineside::ItemId id,
-					     const std::string controller ) {
-  Lineside::DirectDriveMASHData mashd;
-  
-  mashd.id = id;
-  AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
-  AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
-  
-  return mashd;
-}
-
-Lineside::DirectDriveMASHData MakeThreeAspect( const Lineside::ItemId id,
-					       const std::string controller ) {
-  Lineside::DirectDriveMASHData mashd;
-  
-  mashd.id = id;
-  AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
-  AddAspect( mashd, controller, Lineside::SignalAspect::Yellow1, yellow1Data );
-  AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
-  
-  return mashd;
-}
-
-Lineside::DirectDriveMASHData MakeFourAspect( const Lineside::ItemId id,
-					      const std::string controller ) {
-  Lineside::DirectDriveMASHData mashd;
-  
-  mashd.id = id;
-  AddAspect( mashd, controller, Lineside::SignalAspect::Red, redData );
-  AddAspect( mashd, controller, Lineside::SignalAspect::Yellow1, yellow1Data );
-  AddAspect( mashd, controller, Lineside::SignalAspect::Yellow2, yellow2Data );
-  AddAspect( mashd, controller, Lineside::SignalAspect::Green, greenData );
-
-  return mashd;
-}
-
-void AddFeather( Lineside::DirectDriveMASHData& mashd,
-		 const unsigned int featherId,
-		 const std::string controller,
-		 const std::string data ) {
-  Lineside::DeviceRequestData req;
-  req.controller = controller;
-  req.controllerData = data;
-
-  mashd.featherRequests[featherId] = req;;
-}
-		 
-
-Lineside::DirectDriveMASHData MakeTwoAspectOneFeather( const Lineside::ItemId id,
-							     const std::string controller ) {
-  auto mashd = MakeTwoAspect(id, controller);
-  AddFeather(mashd, 1, controller, feather1Data);
-
-  return mashd;
-}
-
-Lineside::DirectDriveMASHData MakeTwoAspectTwoFeather( const Lineside::ItemId id,
-							     const std::string controller ) {
-  auto mashd = MakeTwoAspect(id, controller);
-  AddFeather(mashd, 1, controller, feather1Data);
-  AddFeather(mashd, 2, controller, feather2Data);
-
-  return mashd;
-}
-
-
-// =====================================
-
-BOOST_FIXTURE_TEST_SUITE(DirectDriveMASH, MockManagerFixture)
-
-BOOST_AUTO_TEST_CASE(ConstructTwoAspect)
+BOOST_AUTO_TEST_CASE(TwoAspect)
 {
   const Lineside::ItemId id(11);
 
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
+  // Create the target
+  Lineside::DirectDriveMASH target(id);
+  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
 
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
+  // Copy the pointers so that we can see the state 
+  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
+  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  BOOST_REQUIRE( red );
+  BOOST_REQUIRE( green );
 
-  // Ensure we have got the right number of output pins assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 2 );
+  // Construction state
+  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
 
-  // Check that the right pins were assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
-}
-
-BOOST_AUTO_TEST_CASE(ConstructThreeAspect)
-{
-  const Lineside::ItemId id(12);
-
-  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId );
+  // Activate
+  target.OnActivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
   
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  // Ensure we have got the right number of output pins assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 3 );
-
-  // Check that the right pins were assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(yellow1Data), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
-}
-
-BOOST_AUTO_TEST_CASE(ConstructFourAspect)
-{
-  const Lineside::ItemId id(12);
-  
-  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId );
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  // Ensure we have got the right number of output pins assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 4 );
-
-  // Check that the right pins were assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(yellow1Data), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(yellow2Data), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
-}
-
-BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithOneFeather)
-{
-  const Lineside::ItemId id(16);
-
-  auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
-
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  // Ensure we have got the right number of output pins assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 3 );
-
-  // Check that the right pins were assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(feather1Data), 1);
-}
-
-BOOST_AUTO_TEST_CASE(ConstructTwoAspectWithTwoFeathers)
-{
-  const Lineside::ItemId id(19);
-
-  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
-
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  // Ensure we have got the right number of output pins assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.size(), 4 );
-
-  // Check that the right pins were assigned
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(redData), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(greenData), 1 );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(feather1Data), 1);
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.count(feather2Data), 1);
-}
-
-BOOST_AUTO_TEST_CASE(TwoAspectSetState)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
-							 Lineside::SignalState::Green };
-  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-							Lineside::SignalFlash::Flashing };
-  const unsigned int feather = 0;
-  for( auto itState=allowedStates.begin();
-       itState!=allowedStates.end();
-       ++itState ) {
-    for( auto itFlash=allowedFlash.begin();
-	 itFlash!=allowedFlash.end();
-	 ++itFlash ) {
-      BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, feather ) );
-    }
-  }
-}
-
-BOOST_AUTO_TEST_CASE(ThreeAspectSetState)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
-							 Lineside::SignalState::Yellow,
-							 Lineside::SignalState::Green };
-  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-							Lineside::SignalFlash::Flashing };
-  const unsigned int feather = 0;
-  for( auto itState=allowedStates.begin();
-       itState!=allowedStates.end();
-       ++itState ) {
-    for( auto itFlash=allowedFlash.begin();
-	 itFlash!=allowedFlash.end();
-	 ++itFlash ) {
-      BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, feather ) );
-    }
-  }
-}
-
-BOOST_AUTO_TEST_CASE(FourAspectSetState)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
-							 Lineside::SignalState::Yellow,
-							 Lineside::SignalState::DoubleYellow,
-							 Lineside::SignalState::Green };
-  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-							Lineside::SignalFlash::Flashing };
-  const unsigned int feather = 0;
-  for( auto itState=allowedStates.begin();
-       itState!=allowedStates.end();
-       ++itState ) {
-    for( auto itFlash=allowedFlash.begin();
-	 itFlash!=allowedFlash.end();
-	 ++itFlash ) {
-      BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, feather ) );
-    }
-  }
-}
-
-BOOST_AUTO_TEST_CASE(TwoAspectSetStateWithTwoFeathers)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
-							 Lineside::SignalState::Green };
-  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-							Lineside::SignalFlash::Flashing };
-  auto allowedFeather = std::set<unsigned int> { 0, 1, 2 };
-  
-  for( auto itState=allowedStates.begin();
-       itState!=allowedStates.end();
-       ++itState ) {
-    for( auto itFlash=allowedFlash.begin();
-	 itFlash!=allowedFlash.end();
-	 ++itFlash ) {
-      for( auto itFeather=allowedFeather.begin();
-	   itFeather!=allowedFeather.end();
-	   ++itFeather ) {
-	BOOST_CHECK_NO_THROW( resMASH->SetState( *itState, *itFlash, *itFeather ) );
-      }
-    }
-  }
-}
-
-BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadAspect)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  auto forbiddenStates = std::set<Lineside::SignalState> { Lineside::SignalState::Yellow,
-							   Lineside::SignalState::DoubleYellow };
-  auto checkFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-						      Lineside::SignalFlash::Flashing };
-  const unsigned int feather = 0;
-  for( auto itState=forbiddenStates.begin();
-       itState!=forbiddenStates.end();
-       ++itState ) {
-    for( auto itFlash=checkFlash.begin();
-	 itFlash!=checkFlash.end();
-	 ++itFlash ) {
-      std::stringstream msg;
-      msg << "Invalid state for " << id << ".";
-      msg << " State was: {"
-	  << *itState << "," << *itFlash << "," << feather << "}";
-      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, feather ),
-			     Lineside::InvalidStateException,
-			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
-    }
-  }
-}
-    
-BOOST_AUTO_TEST_CASE(ThreeAspectSetStateThrowsOnBadAspect)
-{
-  const Lineside::ItemId id(16);
-  
-  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  auto forbiddenStates = std::set<Lineside::SignalState> { Lineside::SignalState::DoubleYellow };
-  auto checkFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-						      Lineside::SignalFlash::Flashing };
-  const unsigned int feather = 0;
-  for( auto itState=forbiddenStates.begin();
-       itState!=forbiddenStates.end();
-       ++itState ) {
-    for( auto itFlash=checkFlash.begin();
-	 itFlash!=checkFlash.end();
-	 ++itFlash ) {
-      std::stringstream msg;
-      msg << "Invalid state for " << id << ".";
-      msg << " State was: {"
-	  << *itState << "," << *itFlash << "," << feather << "}";
-      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, feather ),
-			     Lineside::InvalidStateException,
-			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
-    }
-  }
-}
-
-BOOST_AUTO_TEST_CASE(TwoAspectSetStateThrowsOnBadFeather)
-{
-  const Lineside::ItemId id(15);
-  
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
-							 Lineside::SignalState::Green };
-  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-							Lineside::SignalFlash::Flashing };
-  const unsigned int badFeather = 1;
-  for( auto itState=allowedStates.begin();
-       itState!=allowedStates.end();
-       ++itState ) {
-    for( auto itFlash=allowedFlash.begin();
-	 itFlash!=allowedFlash.end();
-	 ++itFlash ) {
-      std::stringstream msg;
-      msg << "Invalid state for " << id << ".";
-      msg << " State was: {"
-	  << *itState << "," << *itFlash << "," << badFeather << "}";
-      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, badFeather ),
-			     Lineside::InvalidStateException,
-			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
-    }
-  }
-}
-
-BOOST_AUTO_TEST_CASE(TwoAspectOneFeatherSetStateThrowsOnBadFeather)
-{
-  const Lineside::ItemId id(85);
-  
-  auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-  
-  auto allowedStates = std::set<Lineside::SignalState> { Lineside::SignalState::Red,
-							 Lineside::SignalState::Green };
-  auto allowedFlash = std::set<Lineside::SignalFlash> { Lineside::SignalFlash::Steady,
-							Lineside::SignalFlash::Flashing };
-  const unsigned int badFeather = 2;
-  for( auto itState=allowedStates.begin();
-       itState!=allowedStates.end();
-       ++itState ) {
-    for( auto itFlash=allowedFlash.begin();
-	 itFlash!=allowedFlash.end();
-	 ++itFlash ) {
-      std::stringstream msg;
-      msg << "Invalid state for " << id << ".";
-      msg << " State was: {"
-	  << *itState << "," << *itFlash << "," << badFeather << "}";
-      BOOST_CHECK_EXCEPTION( resMASH->SetState( *itState, *itFlash, badFeather ),
-			     Lineside::InvalidStateException,
-			     GetExceptionMessageChecker<Lineside::InvalidStateException>( msg.str() ));
-    }
-  }
-}
-
-
-BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspect)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-
-  // Activate the signal head
-  res->OnActivate();
-
-  // Check we're now showing Red
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-}
-
-BOOST_AUTO_TEST_CASE(ShowsRedOnActivateFourAspect)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-
-  // Activate the signal head
-  res->OnActivate();
-
-  // Check we're now showing Red
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-}
-
-BOOST_AUTO_TEST_CASE(ShowsRedOnActivateTwoAspectWithFeather)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspectOneFeather( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-
-  // Activate the signal head
-  res->OnActivate();
-
-  // Check we're now showing Red
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-}
-
-BOOST_AUTO_TEST_CASE(OnRunTwoAspectSteady)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  resMASH->OnActivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-
-  // Set to Green
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  auto sleepTime = resMASH->OnRun();
+  // Set to green
+  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0);
+  auto sleepTime = target.OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
 
-  // Setting to Green again should give no change
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
+  // Call OnRun again, but we didn't set it flashing
+  sleepTime = target.OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  
-  // Set to Red
-  resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
+
+  // Set to flashing red
+  target.SetState(Lineside::SignalState::Red, Lineside::SignalFlash::Flashing, 0);
+  sleepTime = target.OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-}
+  BOOST_CHECK_EQUAL( red->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
 
-BOOST_AUTO_TEST_CASE(OnRunThreeAspectSteady)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeThreeAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  resMASH->OnActivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-
-  // Set to Green
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  auto sleepTime = resMASH->OnRun();
+  // Call OnRun again, and this time we are flashing
+  sleepTime = target.OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
 
-  // Set to Yellow
-  resMASH->SetState( Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
+  // And one more time, since the aspect should be back on
+  sleepTime = target.OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-  
-  // Set to Red
-  resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-}
-
-BOOST_AUTO_TEST_CASE(OnRunFourAspectSteady)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeFourAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  resMASH->OnActivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-
-  // Set to Green
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  auto sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-  
-  // Set to Double Yellow
-  resMASH->SetState( Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-  
-  // Set to Yellow
-  resMASH->SetState( Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-  
-  // Set to Red
-  resMASH->SetState( Lineside::SignalState::Red, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(yellow2Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-}
-
-BOOST_AUTO_TEST_CASE( OnRunTwoAspectFlashing )
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-
-  resMASH->OnActivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-
-  // Set to Flashing Green
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Flashing, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-
-  // First call should set to on
-  auto sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-
-  // Call again and it should be off
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-
-  // And call again, it should be back on
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-}
-
-BOOST_AUTO_TEST_CASE( OnRunTwoAspectTwoFeather )
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-  
-  resMASH->OnActivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
-
-  // Turn on one feather
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 1 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  auto sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-
-  // Turn on the other feather
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-
-  // Turn the feathers off
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-}
-
-BOOST_AUTO_TEST_CASE(OnRunFeatherDoesNotFlash)
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-  
-  resMASH->OnActivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
-
-    // Set to Flashing Green with a feather
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Flashing, 1 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-
-  // Feather should be on...
-  auto sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-
-  // Call again and feather should remain on
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-
-  // And call again, feather should remain on
-  sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
-}
-
-BOOST_AUTO_TEST_CASE( OnDeactivateTurnsAllOff )
-{
-  const Lineside::ItemId id(11);
-  
-  auto mashd = MakeTwoAspectTwoFeather( id, this->hwManager->BOPProviderId ); 
-  
-  auto res = mashd.Construct( *(this->hwManager), *(this->swManager) );
-  BOOST_REQUIRE( res );
-  BOOST_CHECK_EQUAL( res->getId(), id );
-  auto resMASH = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(res);
-  BOOST_REQUIRE( resMASH );
-  
-  resMASH->OnActivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
-
-  // Turn on one feather
-  resMASH->SetState( Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 1 );
-  BOOST_CHECK( resMASH->HaveStateChange() );
-  auto sleepTime = resMASH->OnRun();
-  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
-  BOOST_CHECK( !resMASH->HaveStateChange() );
+  BOOST_CHECK_EQUAL( red->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Deactivate
-  resMASH->OnDeactivate();
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather1Data)->Get(), false );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(feather2Data)->Get(), false );
+  target.OnDeactivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+}
+
+BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
+{
+  const Lineside::ItemId id(15);
+
+  // Create the target
+  Lineside::DirectDriveMASH target(id);
+  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+
+  // Copy the pointers so that we can see the state 
+  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
+  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  auto feather = dynamic_cast<Tendril::Mocks::MockBOP*>(target.feathers.at(0).get());
+  BOOST_REQUIRE( red );
+  BOOST_REQUIRE( green );
+  BOOST_REQUIRE( feather );
+
+  // Construction state
+  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather->lastLevel, false );
+
+  // Activate
+  target.OnActivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather->lastLevel, false );
+
+  // Set to flashing green with the feather on
+  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Flashing, 1);
+  auto sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
+  BOOST_CHECK_EQUAL( feather->lastLevel, true );
+
+  // Call OnRun, green aspect should go out, but feather stays on
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather->lastLevel, true );
+
+  // Call once more, and the green aspect comes back on
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
+  BOOST_CHECK_EQUAL( feather->lastLevel, true );
+
+  // Now go for steady green without a feather
+  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0);
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
+  BOOST_CHECK_EQUAL( feather->lastLevel, false );
+
+  // Deactivate
+  target.OnDeactivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather->lastLevel, false );
+}
+
+
+BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
+{
+  const Lineside::ItemId id(3253);
+
+  // Create the target
+  Lineside::DirectDriveMASH target(id);
+  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+
+  // Copy the pointers so that we can see the state 
+  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
+  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  auto feather0 = dynamic_cast<Tendril::Mocks::MockBOP*>(target.feathers.at(0).get());
+  auto feather1 = dynamic_cast<Tendril::Mocks::MockBOP*>(target.feathers.at(1).get());
+  BOOST_REQUIRE( red );
+  BOOST_REQUIRE( green );
+  BOOST_REQUIRE( feather0 );
+  BOOST_REQUIRE( feather1 );
+
+  // Construction state
+  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather0->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather1->lastLevel, false );
+
+  // Activate
+  target.OnActivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather0->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather1->lastLevel, false );
+
+  // Set to green with one feather
+  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 1);
+  auto sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
+  BOOST_CHECK_EQUAL( feather0->lastLevel, true );
+  BOOST_CHECK_EQUAL( feather1->lastLevel, false );
+
+  // And green with the other feather
+  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2);
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
+  BOOST_CHECK_EQUAL( feather0->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather1->lastLevel, true );
+
+  // Green without feathers
+  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0);
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, true );
+  BOOST_CHECK_EQUAL( feather0->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather1->lastLevel, false );
+
+  // Deactivate
+  target.OnDeactivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather0->lastLevel, false );
+  BOOST_CHECK_EQUAL( feather1->lastLevel, false );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -62,7 +62,8 @@ namespace Lineside {
       auto stateString = this->buildStateString(wantedState, wantedFlash, wantedFeather);
       throw InvalidStateException(this->getId(), stateString);
     }
-    
+
+    this->lastFlashStatus = true; // Make sure flashing starts with aspect on
     this->desiredState = wantedState;
     this->desiredFlash = wantedFlash;
     this->desiredFeather = wantedFeather;

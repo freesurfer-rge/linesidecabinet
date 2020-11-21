@@ -14,11 +14,11 @@ list(APPEND srcs pwitemcontrollertests.cpp)
 list(APPEND srcs directdrivemashdatatests.cpp)
 list(APPEND srcs directdrivemashtests.cpp)
 
-list(APPEND srcs servoturnoutmotortests.cpp)
+#list(APPEND srcs servoturnoutmotortests.cpp)
 
-list(APPEND srcs trackcircuitmonitortests.cpp)
+#list(APPEND srcs trackcircuitmonitortests.cpp)
 
-list(APPEND srcs pwitemmanagertests.cpp)
+#list(APPEND srcs pwitemmanagertests.cpp)
 
 
 add_executable(LinesideTest ${srcs})
@@ -33,9 +33,6 @@ target_link_libraries(LinesideTest PUBLIC lineside Boost::boost Boost::filesyste
 add_test(NAME lineside COMMAND LinesideTest --log_sink=LinesideTest-JUNIT.xml ${TEST_COMMON_ARGS})
 
 add_subdirectory(mocks)
-
 add_subdirectory(jsonrpc)
-
-
 add_subdirectory(xml)
 add_subdirectory(xmlsamples)
