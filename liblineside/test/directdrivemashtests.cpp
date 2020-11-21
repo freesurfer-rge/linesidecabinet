@@ -261,4 +261,76 @@ BOOST_AUTO_TEST_CASE( ThreeAspect )
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 }
 
+
+BOOST_AUTO_TEST_CASE( FourAspect )
+{
+  const Lineside::ItemId id(46932);
+
+  // Create the target
+  Lineside::DirectDriveMASH target(id);
+  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.yellow1 = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.yellow2 = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+
+  // Copy the pointers so that we can see the state 
+  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
+  auto yellow1 = dynamic_cast<Tendril::Mocks::MockBOP*>(target.yellow1.get());
+  auto yellow2 = dynamic_cast<Tendril::Mocks::MockBOP*>(target.yellow2.get());
+  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  BOOST_REQUIRE( red );
+  BOOST_REQUIRE( yellow1 );
+  BOOST_REQUIRE( yellow2 );
+  BOOST_REQUIRE( green );
+  
+  // Activate
+  target.OnActivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, true );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // Set to single yellow and steady
+  target.SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
+  auto sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, true );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // Set to double yellow and flashing
+  target.SetState(Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Flashing, 0);
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, true );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // Call OnRun() again, and check that everything is off
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // One more time, and ensure both yellows are on
+  sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, true );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // Deactivate
+  target.OnDeactivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+}
+  
+
 BOOST_AUTO_TEST_SUITE_END()
