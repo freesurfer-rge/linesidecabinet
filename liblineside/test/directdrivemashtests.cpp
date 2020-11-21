@@ -215,4 +215,50 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
   BOOST_CHECK_EQUAL( feather1->lastLevel, false );
 }
 
+
+BOOST_AUTO_TEST_CASE( ThreeAspect )
+{
+  const Lineside::ItemId id(116731);
+
+  // Create the target
+  Lineside::DirectDriveMASH target(id);
+  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.yellow1 = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+
+  // Copy the pointers so that we can see the state 
+  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
+  auto yellow = dynamic_cast<Tendril::Mocks::MockBOP*>(target.yellow1.get());
+  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  BOOST_REQUIRE( red );
+  BOOST_REQUIRE( yellow );
+  BOOST_REQUIRE( green );
+
+  // Construction state
+  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // Activate
+  target.OnActivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, true );
+  BOOST_CHECK_EQUAL( yellow->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // Set to yellow and steady
+  target.SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
+  auto sleepTime = target.OnRun();
+  BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow->lastLevel, true );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+
+  // Deactivate
+  target.OnDeactivate();
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
+}
+
 BOOST_AUTO_TEST_SUITE_END()
