@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "tendril/hardwaremanager.hpp"
+#include "tendril/mocks/utilities.hpp"
 #include "mocks/mocksoftwaremanager.hpp"
 
 struct MockManagerFixture {
@@ -10,7 +11,7 @@ struct MockManagerFixture {
   std::shared_ptr<MockSoftwareManager> swManager;
 
   MockManagerFixture() :
-    hwManager(std::make_shared<Tendril::HardwareManager>()),
+    hwManager(Tendril::Mocks::GetMockHardwareManager()),
     swManager(std::make_shared<MockSoftwareManager>()) {
   }
 };

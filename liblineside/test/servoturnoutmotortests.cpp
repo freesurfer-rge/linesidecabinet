@@ -2,6 +2,7 @@
 
 #include "tendril/mocks/mockhardwareprovider.hpp"
 #include "tendril/mocks/mockpwmchannel.hpp"
+#include "tendril/mocks/utilities.hpp"
 
 #include "lineside/servoturnoutmotordata.hpp"
 #include "lineside/servoturnoutmotor.hpp"
@@ -16,7 +17,7 @@ BOOST_AUTO_TEST_CASE(Construct)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller = Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
@@ -39,7 +40,7 @@ BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller = Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
@@ -74,7 +75,7 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller = Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
