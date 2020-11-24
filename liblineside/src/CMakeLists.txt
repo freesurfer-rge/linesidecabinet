@@ -7,7 +7,6 @@ list(APPEND srcs signalflash.cpp)
 list(APPEND srcs trackcircuitsensor.cpp)
 
 list(APPEND srcs itemid.cpp)
-list(APPEND srcs binaryinputpin.cpp)
 list(APPEND srcs pwitemmodel.cpp)
 list(APPEND srcs pwitemcontroller.cpp)
 
@@ -29,5 +28,4 @@ list(APPEND srcs pwitemmanager.cpp)
 target_sources(lineside PRIVATE ${srcs})
 
 add_subdirectory(xml)
-add_subdirectory(pi)
 add_subdirectory(jsonrpc)

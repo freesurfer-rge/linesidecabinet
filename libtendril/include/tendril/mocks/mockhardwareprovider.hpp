@@ -10,15 +10,14 @@ namespace Tendril::Mocks {
   template<typename T, typename U>
   class MockHardwareProvider : public HardwareProvider<T> {
   public:
-    MockHardwareProvider() :
-      HardwareProvider<T>(),
-      hardware() {
-      static_assert(std::is_base_of<T, U>::value);
-    }
-
+    MockHardwareProvider()
+      : HardwareProvider<T>(),
+	hardware() {}
+    
     virtual std::unique_ptr<T>
     GetHardware(const std::string& hardwareId,
 		const SettingsMap& settings) override {
+      static_assert(std::is_base_of<T, U>::value);
       if( this->hardware.count(hardwareId) != 0 ) {
 	throw DuplicateKeyException(hardwareId);
       }

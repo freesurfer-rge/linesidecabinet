@@ -5,8 +5,9 @@
 #include <chrono>
 #include <string>
 
+#include "tendril/binaryoutputpin.hpp"
+
 #include "lineside/multiaspectsignalhead.hpp"
-#include "lineside/binaryoutputpin.hpp"
 
 
 namespace Lineside {
@@ -17,6 +18,22 @@ namespace Lineside {
   public:
     const std::chrono::milliseconds FlashInterval = std::chrono::milliseconds(500);
 
+    DirectDriveMASH(const ItemId signalHeadId) :
+      MultiAspectSignalHead(signalHeadId),
+      red(),
+      yellow1(),
+      yellow2(),
+      green(),
+      feathers(),
+      stateChangeMtx(),
+      currentState(SignalState::Red),
+      desiredState(SignalState::Red),
+      currentFlash(SignalFlash::Steady),
+      desiredFlash(SignalFlash::Steady),
+      currentFeather(0),
+      desiredFeather(0),
+      lastFlashStatus(true) {}
+    
     virtual void OnActivate() override;
 
     virtual void OnDeactivate() override;
@@ -27,9 +44,20 @@ namespace Lineside {
 
     //! Set the desired state of the signal head
     virtual void SetState(const SignalState wantedState,
-		  const SignalFlash wantedFlash,
-		  const unsigned int wantedFeather) override;
+			  const SignalFlash wantedFlash,
+			  const unsigned int wantedFeather) override;
 
+    // One can argue that the following should be private
+    // However, this class should usually only be accessed through
+    // MultiAspectSignalHead, and making them private makes
+    // testing much harder
+    
+    std::unique_ptr<Tendril::BinaryOutputPin> red;
+    std::unique_ptr<Tendril::BinaryOutputPin> yellow1;
+    std::unique_ptr<Tendril::BinaryOutputPin> yellow2;
+    std::unique_ptr<Tendril::BinaryOutputPin> green;
+    
+    std::vector<std::unique_ptr<Tendril::BinaryOutputPin>> feathers;
   private:
     friend class DirectDriveMASHData;
 
@@ -44,29 +72,6 @@ namespace Lineside {
 
     bool lastFlashStatus;
     
-    std::unique_ptr<BinaryOutputPin> red;
-    std::unique_ptr<BinaryOutputPin> yellow1;
-    std::unique_ptr<BinaryOutputPin> yellow2;
-    std::unique_ptr<BinaryOutputPin> green;
-    
-    std::vector<std::unique_ptr<BinaryOutputPin>> feathers;
-
-    DirectDriveMASH(const ItemId signalHeadId) :
-      MultiAspectSignalHead(signalHeadId),
-      stateChangeMtx(),
-      currentState(SignalState::Red),
-      desiredState(SignalState::Red),
-      currentFlash(SignalFlash::Steady),
-      desiredFlash(SignalFlash::Steady),
-      currentFeather(0),
-      desiredFeather(0),
-      lastFlashStatus(true),
-      red(),
-      yellow1(),
-      yellow2(),
-      green(),
-      feathers() {}
-
     std::string buildStateString(const SignalState state,
 				 const SignalFlash flash,
 				 const unsigned int feather) const;

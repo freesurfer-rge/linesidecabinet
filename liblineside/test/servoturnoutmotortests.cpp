@@ -1,5 +1,9 @@
 #include <boost/test/unit_test.hpp>
 
+#include "tendril/mocks/mockhardwareprovider.hpp"
+#include "tendril/mocks/mockpwmchannel.hpp"
+#include "tendril/mocks/utilities.hpp"
+
 #include "lineside/servoturnoutmotordata.hpp"
 #include "lineside/servoturnoutmotor.hpp"
 
@@ -13,14 +17,14 @@ BOOST_AUTO_TEST_CASE(Construct)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller = Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd.pwmChannelRequest.controller = controller;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
@@ -36,14 +40,14 @@ BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller = Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd.pwmChannelRequest.controller = controller;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
@@ -56,8 +60,12 @@ BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
   pwItem->OnActivate();
   
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
-  auto pwmChannel = this->hwManager->pwmChannelProvider->channels.at(controllerData);
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+  auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
+  auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
+  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
+  auto lastUpdate = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
+  BOOST_CHECK_EQUAL( lastUpdate.second, straight );
 }
 
 BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
@@ -68,14 +76,14 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller = Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd.pwmChannelRequest.controller = controller;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
@@ -98,9 +106,13 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   BOOST_CHECK_EQUAL( nt->lastNotificationSource, notifySrcId );
   BOOST_CHECK_EQUAL( nt->lastNotification, true );
   // However, the actual state never changed
-  auto pwmChannel = this->hwManager->pwmChannelProvider->channels.at(controllerData);
+  auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
+  auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
+  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+  auto lastUpdate = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
+  BOOST_CHECK_EQUAL( lastUpdate.second, straight );
   
   // Check that we're indicating an update
   BOOST_CHECK(pwItem->HaveStateChange());
@@ -114,9 +126,12 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
 
   // Since the actual internal currentState never changed...
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+  lastUpdate = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
+  BOOST_CHECK_EQUAL( lastUpdate.second, straight );
   BOOST_CHECK(!pwItem->HaveStateChange());
 }
+
 
 BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
 {
@@ -126,14 +141,14 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller =  Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd.pwmChannelRequest.controller = controller;
   stmd.pwmChannelRequest.controllerData = controllerData;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
@@ -142,7 +157,9 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   BOOST_CHECK_EQUAL( pwItem->getId(), id );
   auto stm = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotor>(pwItem);
   BOOST_REQUIRE( stm );
-  auto pwmChannel = this->hwManager->pwmChannelProvider->channels.at(controllerData);
+  auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
+  auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
+  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
   BOOST_REQUIRE( pwmChannel );
 
   // Call the onActivate method
@@ -159,7 +176,9 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   auto stop = std::chrono::high_resolution_clock::now();
 
   // Check we got to the right place
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), curved );
+  auto lastPosition = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastPosition.first, 0 );
+  BOOST_CHECK_EQUAL( lastPosition.second, curved );
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Curved );
 
   // Check we took an appropriate time
@@ -175,7 +194,8 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   for( size_t i=1; i<pwmChannel->updates.size(); i++ ) {
     auto prev = pwmChannel->updates.at(i-1);
     auto curr = pwmChannel->updates.at(i);
-    BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
+    BOOST_CHECK_EQUAL( curr.first, 0 );
+    BOOST_CHECK_EQUAL( prev.first, 0 );
     // Since curved > straight above...
     BOOST_CHECK_GT( curr.second, prev.second );
     BOOST_CHECK_GE( prev.second, straight );
@@ -190,7 +210,9 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   requestedSleep = stm->OnRun();
   stop = std::chrono::high_resolution_clock::now();
 
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+  lastPosition = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastPosition.first, 0 );
+  BOOST_CHECK_EQUAL( lastPosition.second, straight );
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
   BOOST_CHECK( stop-start >= stm->MoveSleep*(stm->MoveSteps-1) );
   BOOST_CHECK( requestedSleep == stm->SleepInterval );
@@ -199,7 +221,8 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   for( size_t i=1; i<pwmChannel->updates.size(); i++ ) {
     auto prev = pwmChannel->updates.at(i-1);
     auto curr = pwmChannel->updates.at(i);
-    BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
+    BOOST_CHECK_EQUAL( curr.first, 0 );
+    BOOST_CHECK_EQUAL( prev.first, 0 );
     // Since curved > straight above...
     BOOST_CHECK_LT( curr.second, prev.second );
     BOOST_CHECK_GE( prev.second, straight );

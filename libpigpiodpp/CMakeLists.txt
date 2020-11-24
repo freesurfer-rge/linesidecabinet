@@ -14,6 +14,7 @@ target_include_directories(pigpiodpp
 
 # Setup the linking
 target_link_libraries(pigpiodpp
+  PUBLIC tendril
   PUBLIC Threads::Threads
   PRIVATE Boost::boost)
 

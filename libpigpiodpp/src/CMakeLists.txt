@@ -1,10 +1,17 @@
 set(srcs)
 
-list(APPEND srcs pigpiodppexceptions.cpp)
+list(APPEND srcs libraryexception.cpp)
+list(APPEND srcs pinassignedexception.cpp)
+list(APPEND srcs i2cdeviceassignedexception.cpp)
 list(APPEND srcs gpiopull.cpp)
 list(APPEND srcs gpiopin.cpp)
 list(APPEND srcs pimanager.cpp)
-list(APPEND srcs i2cdevice.cpp)
+list(APPEND srcs i2cpi.cpp)
+list(APPEND srcs piboparray.cpp)
+
+list(APPEND srcs pibopprovider.cpp)
+list(APPEND srcs piboparrayprovider.cpp)
+list(APPEND srcs pibipprovider.cpp)
 
 # Have to do different things if we find the C pigpiod library
 if( pigpio_FOUND )

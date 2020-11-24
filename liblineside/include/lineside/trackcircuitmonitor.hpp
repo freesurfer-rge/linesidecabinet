@@ -3,9 +3,10 @@
 #include <atomic>
 #include <mutex>
 
-#include "lineside/notifiable.hpp"
+#include "tendril/notifiable.hpp"
+#include "tendril/binaryinputpin.hpp"
+
 #include "lineside/pwitemmodel.hpp"
-#include "lineside/binaryinputpin.hpp"
 #include "lineside/rtcclient.hpp"
 #include "lineside/trackcircuitsensor.hpp"
 
@@ -13,7 +14,7 @@ namespace Lineside {
   class TrackCircuitMonitorData;
 
   //! Class to monitor a track circuit and send notifications to rail traffic control
-  class TrackCircuitMonitor : public PWItemModel, public Notifiable<bool> {
+  class TrackCircuitMonitor : public PWItemModel, public Tendril::Notifiable<bool> {
   public:
     const std::chrono::milliseconds SleepRequest = std::chrono::seconds(60);
     
@@ -30,7 +31,7 @@ namespace Lineside {
     bool GetState() const;
 
     //! Method called when the monitored BinaryInputPin changes state
-    virtual void Notify(const unsigned int sourceId, const bool notification) override;
+    virtual void Notify(const bool& notification) override;
   private:
     friend class TrackCircuitMonitorData;
 
@@ -44,7 +45,7 @@ namespace Lineside {
 
     std::mutex updateMtx;
     std::atomic<bool> lastNotificationState;
-    std::unique_ptr<BinaryInputPin> monitorPin;
+    std::unique_ptr<Tendril::BinaryInputPin> monitorPin;
     std::shared_ptr<RTCClient> rtc;
     const TrackCircuitSensor sensor;
   };

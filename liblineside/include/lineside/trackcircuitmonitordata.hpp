@@ -16,7 +16,7 @@ namespace Lineside {
     TrackCircuitSensor sensor;
     DeviceRequestData inputPinRequest;
 
-    virtual std::shared_ptr<PWItemModel> Construct(HardwareManager& hw,
+    virtual std::shared_ptr<PWItemModel> Construct(Tendril::HardwareManager& hw,
 						   SoftwareManager& sw ) const override;
   };
 }

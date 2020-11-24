@@ -1,5 +1,9 @@
 #include <boost/test/unit_test.hpp>
 
+#include "tendril/mocks/mockbip.hpp"
+#include "tendril/mocks/mockhardwareprovider.hpp"
+#include "tendril/mocks/utilities.hpp"
+
 #include "lineside/trackcircuitmonitordata.hpp"
 #include "lineside/trackcircuitmonitor.hpp"
 
@@ -32,7 +36,7 @@ BOOST_FIXTURE_TEST_SUITE(TrackCircuitMonitor, MockManagerFixture)
 BOOST_AUTO_TEST_CASE(Construct)
 {
   const Lineside::ItemId id(10);
-  const std::string controller = "BIP";
+  const std::string controller = Tendril::Mocks::BIPProviderId;
   const std::string controllerData = "07";
 
   Lineside::TrackCircuitMonitorData tcmd;
@@ -48,15 +52,17 @@ BOOST_AUTO_TEST_CASE(Construct)
   BOOST_REQUIRE( tcm );
   BOOST_REQUIRE_EQUAL( tcm.use_count(), 2 ); // pwItem and tcm itself
 
-  BOOST_CHECK_EQUAL( this->hwManager->bipProvider->pins.size(), 1 );
-  auto bip = this->hwManager->bipProvider->pins.at(controllerData);
+  auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
+  auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
+  BOOST_REQUIRE(mockbipProvider);
+  auto bip = mockbipProvider->hardware.at(controllerData);
   BOOST_REQUIRE(bip);
 }
 
 BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedHigh)
 {
   const Lineside::ItemId id(10);
-  const std::string controller = "BIP";
+  const std::string controller = Tendril::Mocks::BIPProviderId;
   const std::string controllerData = "07";
 
   Lineside::TrackCircuitMonitorData tcmd;
@@ -74,19 +80,24 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedHigh)
   auto mockPWItemController = std::make_shared<MockPWItemController>(id);
   tcm->RegisterController( tcm->getId().Get(), mockPWItemController );
   BOOST_CHECK_EQUAL( id, mockPWItemController->expectedId );
-  
-  auto mockBIP = this->hwManager->bipProvider->pins.at(controllerData);
-  BOOST_REQUIRE( mockBIP );
-  BOOST_CHECK_EQUAL( mockBIP->Get(), false );
+
+  auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
+  auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
+  BOOST_REQUIRE(mockbipProvider);
+  auto bip = mockbipProvider->hardware.at(controllerData);
+  BOOST_REQUIRE(bip);
+  BOOST_CHECK_EQUAL( bip->Get(), false );
   BOOST_CHECK_EQUAL( tcm->GetState(), false );
 
   mockPWItemController->gotNotification = false;
-  mockBIP->Set(true);
+  bip->state = true;
+  bip->SendNotifications();
   BOOST_CHECK_EQUAL( tcm->GetState(), true );
   BOOST_CHECK_EQUAL( mockPWItemController->gotNotification, true );
 
   mockPWItemController->gotNotification = false;
-  mockBIP->Set(false);
+  bip->state = false;
+  bip->SendNotifications();
   BOOST_CHECK_EQUAL( tcm->GetState(), false );
   BOOST_CHECK_EQUAL( mockPWItemController->gotNotification, true );
 }
@@ -94,7 +105,7 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedHigh)
 BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedLow)
 {
   const Lineside::ItemId id(10);
-  const std::string controller = "BIP";
+  const std::string controller = Tendril::Mocks::BIPProviderId;
   const std::string controllerData = "07";
 
   Lineside::TrackCircuitMonitorData tcmd;
@@ -113,18 +124,23 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedLow)
   tcm->RegisterController( tcm->getId().Get(), mockPWItemController );
   BOOST_CHECK_EQUAL( id, mockPWItemController->expectedId );
   
-  auto mockBIP = this->hwManager->bipProvider->pins.at(controllerData);
-  BOOST_REQUIRE( mockBIP );
-  BOOST_CHECK_EQUAL( mockBIP->Get(), false );
+  auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
+  auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
+  BOOST_REQUIRE(mockbipProvider);
+  auto bip = mockbipProvider->hardware.at(controllerData);
+  BOOST_REQUIRE( bip );
+  BOOST_CHECK_EQUAL( bip->Get(), false );
   BOOST_CHECK_EQUAL( tcm->GetState(), true );
 
   mockPWItemController->gotNotification = false;
-  mockBIP->Set(true);
+  bip->state = true;
+  bip->SendNotifications();
   BOOST_CHECK_EQUAL( tcm->GetState(), false );
   BOOST_CHECK_EQUAL( mockPWItemController->gotNotification, true );
 
   mockPWItemController->gotNotification = false;
-  mockBIP->Set(false);
+  bip->state = false;
+  bip->SendNotifications();
   BOOST_CHECK_EQUAL( tcm->GetState(), true );
   BOOST_CHECK_EQUAL( mockPWItemController->gotNotification, true );
 }
@@ -133,7 +149,7 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedLow)
 BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
 {
   const Lineside::ItemId id(10);
-  const std::string controller = "BIP";
+  const std::string controller = Tendril::Mocks::BIPProviderId;
   const std::string controllerData = "07";
   const std::chrono::seconds expectedSleepRequest = std::chrono::seconds(60);
 
@@ -153,9 +169,12 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
   tcm->RegisterController( tcm->getId().Get(), mockPWItemController );
   BOOST_CHECK_EQUAL( id, mockPWItemController->expectedId );
   
-  auto mockBIP = this->hwManager->bipProvider->pins.at(controllerData);
-  BOOST_REQUIRE( mockBIP );
-  BOOST_CHECK_EQUAL( mockBIP->Get(), false );
+  auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
+  auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
+  BOOST_REQUIRE(mockbipProvider);
+  auto bip = mockbipProvider->hardware.at(controllerData);
+  BOOST_REQUIRE( bip );
+  BOOST_CHECK_EQUAL( bip->Get(), false );
   BOOST_CHECK_EQUAL( tcm->GetState(), false );
 
   BOOST_CHECK_EQUAL( this->swManager->rtcClientList.size(), 1 );
@@ -173,7 +192,8 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
   BOOST_CHECK_EQUAL( pwItem->HaveStateChange(), false );
 
   // Set the input to occupied
-  mockBIP->Set(true);
+  bip->state = true;
+  bip->SendNotifications();
   BOOST_CHECK_EQUAL( pwItem->HaveStateChange(), true );
 
   // Send again, will no longer have state change
@@ -185,7 +205,8 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
   mockRTC->lastItemId = Lineside::ItemId(0);
 
   // Set back to unoccupied
-  mockBIP->Set(false);
+  bip->state = false;
+  bip->SendNotifications();
   BOOST_CHECK_EQUAL( pwItem->HaveStateChange(), true );
 
   

@@ -1,11 +1,13 @@
 #pragma once
 
+#include <array>
 #include <memory>
 #include <mutex>
+#include <set>
 
 namespace PiGPIOdpp {
   class GPIOPin;
-  class I2CDevice;
+  class I2CPi;
   
   //! Class to wrap the <a href="http://abyz.me.uk/rpi/pigpio/pigpiod.html">pigpiod library</a>
   /*!
@@ -37,6 +39,15 @@ namespace PiGPIOdpp {
   */
   class PiManager : public std::enable_shared_from_this<PiManager> {
   public:
+    //! Number of GPIO pins
+    const unsigned int nPins = 28;
+
+    //! GPIO pins used by I2C Buses
+    const std::array<std::set<unsigned int>,2> i2cBusPins {
+      std::set<unsigned int>{0, 1},
+      std::set<unsigned int>{2, 3}
+    };
+    
     ~PiManager();
     
     //! Get the identifier for the controlled Pi
@@ -48,8 +59,8 @@ namespace PiGPIOdpp {
     std::unique_ptr<GPIOPin> GetGPIOPin(const unsigned int pinId);
 
     //! Get an I2CDevice for this Pi
-    std::unique_ptr<I2CDevice> GetI2CDevice(const unsigned int i2cBus,
-					    const unsigned int i2cAddress);
+    std::unique_ptr<I2CPi> GetI2CPi(const unsigned int i2cBus,
+				    const unsigned int i2cAddress);
     
     //! Create an instance of PiManager
     /*!
@@ -64,6 +75,15 @@ namespace PiGPIOdpp {
     
     //! The id of the Pi we are accessing (for use in other calls to the pigpiod library)
     int id;
+
+    //! The pins requested so far
+    std::set<unsigned int> assignedPins;
+
+    //! I2CDevices
+    std::array<std::set<unsigned int>, 2> i2cDevices;
+
+    //! Reserve a pin (or throw)
+    void ReservePin(unsigned int pin);
     
     //! Indicates if the library has been initialised
     static bool initialised;

@@ -1,5 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
+#include "tendril/mocks/mocknotifiable.hpp"
+#include "pigpiodpp/pimanager.hpp"
 #include "pigpiodpp/gpiopin.hpp"
 
 BOOST_AUTO_TEST_SUITE( GPIOPin )
@@ -15,6 +17,7 @@ BOOST_AUTO_TEST_CASE( Smoke )
   BOOST_CHECK_EQUAL( pin.getPin(), pinId );
 }
 
+#ifndef PIGPIODPP_HAVE_PIGPIO
 BOOST_AUTO_TEST_CASE( CallBackInvoked )
 {
   const unsigned char pinId = 5;
@@ -22,25 +25,17 @@ BOOST_AUTO_TEST_CASE( CallBackInvoked )
 
   PiGPIOdpp::GPIOPin pin(pm, pinId);
 
-  bool funcCalled = false;
-  bool level = false;
-  PiGPIOdpp::GPIOPin::CallBackFn f = [&funcCalled,&level](bool l) {
-				       funcCalled = true;
-				       level = l;
-				     };
+  auto mn = std::make_shared<Tendril::Mocks::MockNotifiable<bool>>();
+  pin.RegisterListener(mn);
 
-  pin.SetCallBack(PiGPIOdpp::GPIOEdge::Either, f);
-
-  // Invoke to true
-  pin.InvokeCallBack(pin.getPi(), pinId, 1, 0);
-  BOOST_CHECK( funcCalled );
-  BOOST_CHECK( level );
-
-  // Invoke to false
-  funcCalled = false;
-  pin.InvokeCallBack(pin.getPi(), pinId, 0, 0);
-  BOOST_CHECK( funcCalled );
-  BOOST_CHECK( !level );
+  // Check that notification happens
+  mn->lastNotification = true;
+  pin.TriggerNotifications(pin.getPi(), pinId, 0, 0);
+  // May fail on a real Pi
+  // The notification does its own read of the pin, and
+  // in the stub library is hardwired to return false
+  BOOST_CHECK_EQUAL( mn->lastNotification, false );
 }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()

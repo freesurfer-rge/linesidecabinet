@@ -8,8 +8,10 @@
 #include "pigpiodstubs.hpp"
 #endif
 
+#include "pigpiodpp/pinassignedexception.hpp"
+#include "pigpiodpp/i2cdeviceassignedexception.hpp"
 #include "pigpiodpp/gpiopin.hpp"
-#include "pigpiodpp/i2cdevice.hpp"
+#include "pigpiodpp/i2cpi.hpp"
 
 #include "pigpiodpp/pimanager.hpp"
 
@@ -17,7 +19,10 @@ namespace PiGPIOdpp {
   std::mutex PiManager::mtx;
   bool PiManager::initialised = false;
 
-  PiManager::PiManager() : id(-1) {
+  PiManager::PiManager()
+    : id(-1),
+      assignedPins(),
+      i2cDevices() {
     this->id = pigpio_start(nullptr, nullptr);
     if( this->id < 0 ) {
       std::stringstream msg;
@@ -34,12 +39,32 @@ namespace PiGPIOdpp {
   }
   
   std::unique_ptr<GPIOPin> PiManager::GetGPIOPin(const unsigned int pinId) {
+    this->ReservePin(pinId);
     return std::make_unique<GPIOPin>(this->shared_from_this(), pinId);
   }
 
-  std::unique_ptr<I2CDevice> PiManager::GetI2CDevice(const unsigned int i2cBus,
-						     const unsigned int i2cAddress) {
-    return std::make_unique<I2CDevice>(this->shared_from_this(), i2cBus, i2cAddress);
+  std::unique_ptr<I2CPi> PiManager::GetI2CPi(const unsigned int i2cBus,
+					     const unsigned int i2cAddress) {
+    if( this->i2cDevices.at(i2cBus).size() == 0 ) {
+      for( auto p: this->i2cBusPins.at(i2cBus) ) {
+	this->ReservePin(p);
+      }
+    }
+    if( this->i2cDevices.at(i2cBus).count(i2cAddress) != 0 ) {
+      throw I2CDeviceAssignedException(i2cBus, i2cAddress);
+    }
+    this->i2cDevices.at(i2cBus).insert(i2cAddress);
+    return std::make_unique<I2CPi>(this->shared_from_this(), i2cBus, i2cAddress);
+  }
+
+  void PiManager::ReservePin(unsigned int pin) {
+    if( pin > this->nPins ) {
+      throw std::out_of_range(std::to_string(pin));
+    }
+    if( this->assignedPins.count(pin) != 0 ) {
+      throw PinAssignedException(pin);
+    }
+    this->assignedPins.insert(pin);
   }
   
   std::shared_ptr<PiManager> PiManager::CreatePiManager() {

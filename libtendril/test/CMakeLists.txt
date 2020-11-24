@@ -17,7 +17,8 @@ list(APPEND srcs registrartests.cpp)
 
 list(APPEND srcs mockhardwareprovidertests.cpp)
 list(APPEND srcs mockboparrayprovidertests.cpp)
-list(APPEND srcs mockhardwaremanagertests.cpp)
+list(APPEND srcs utilitiestests.cpp)
+
 
 list(APPEND srcs pca9685tests.cpp)
 

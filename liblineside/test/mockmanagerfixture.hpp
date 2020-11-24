@@ -2,14 +2,16 @@
 
 #include <memory>
 
-#include "mocks/mockhardwaremanager.hpp"
+#include "tendril/hardwaremanager.hpp"
+#include "tendril/mocks/utilities.hpp"
 #include "mocks/mocksoftwaremanager.hpp"
 
 struct MockManagerFixture {
-  std::shared_ptr<MockHardwareManager> hwManager;
+  std::shared_ptr<Tendril::HardwareManager> hwManager;
   std::shared_ptr<MockSoftwareManager> swManager;
 
   MockManagerFixture() :
-    hwManager(std::make_shared<MockHardwareManager>()),
-    swManager(std::make_shared<MockSoftwareManager>()) {}
+    hwManager(Tendril::Mocks::GetMockHardwareManager()),
+    swManager(std::make_shared<MockSoftwareManager>()) {
+  }
 };
