@@ -3,6 +3,9 @@
 #include "tendril/mocks/mockboparray.hpp"
 #include "tendril/mocks/mockpwmchannel.hpp"
 
+#include "tendril/mocks/mockbip.hpp"
+#include "tendril/mocks/mockbop.hpp"
+#include "tendril/mocks/mockpwmchannel.hpp"
 #include "tendril/mocks/mockboparrayprovider.hpp"
 #include "tendril/mocks/mockhardwareprovider.hpp"
 

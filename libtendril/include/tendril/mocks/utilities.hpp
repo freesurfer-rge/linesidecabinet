@@ -11,15 +11,4 @@ namespace Tendril::Mocks {
   const std::string BOPProviderId = "MockBOP";
   const std::string BOPArrayProviderId = "MockBOPArray";
   const std::string PWMCProviderId = "MockPWMC";
-  
-  class MockHardwareManager : public HardwareManager {
-  public:
-    
-    MockHardwareManager();
-
-    std::shared_ptr<MockHardwareProvider<BinaryInputPin, MockBIP>> bipProvider;
-    std::shared_ptr<MockHardwareProvider<BinaryOutputPin, MockBOP>> bopProvider;
-    std::shared_ptr<MockBOPArrayProvider> bopArrayProvider;
-    std::shared_ptr<MockHardwareProvider<PWMChannel, MockPWMChannel>> pwmChannelProvider;
-  };
 }
