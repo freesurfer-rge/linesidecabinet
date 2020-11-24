@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(SingleSTM)
   const Lineside::ItemId id(10);
   const unsigned int straight = 10;
   const unsigned int curved = 113;
-  const std::string controller = "MockPWMController";
+  const std::string controller = Tendril::Mocks::PWMCProviderId;
   const std::string controllerData = "07";
 
   auto stmd = std::make_shared<Lineside::ServoTurnoutMotorData>();
