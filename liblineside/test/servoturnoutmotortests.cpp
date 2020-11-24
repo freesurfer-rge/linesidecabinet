@@ -63,8 +63,9 @@ BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
   auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
   auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
   auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
-  BOOST_CHECK_EQUAL( pwmChannel->lastStart, 0 );
-  BOOST_CHECK_EQUAL( pwmChannel->lastStop, straight );
+  auto lastUpdate = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
+  BOOST_CHECK_EQUAL( lastUpdate.second, straight );
 }
 
 BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
@@ -109,8 +110,9 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
   auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
-  BOOST_CHECK_EQUAL( pwmChannel->lastStart, 0 );
-  BOOST_CHECK_EQUAL( pwmChannel->lastStop, straight );
+  auto lastUpdate = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
+  BOOST_CHECK_EQUAL( lastUpdate.second, straight );
   
   // Check that we're indicating an update
   BOOST_CHECK(pwItem->HaveStateChange());
@@ -124,8 +126,9 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
 
   // Since the actual internal currentState never changed...
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
-  BOOST_CHECK_EQUAL( pwmChannel->lastStart, 0 );
-  BOOST_CHECK_EQUAL( pwmChannel->lastStop, straight );
+  lastUpdate = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
+  BOOST_CHECK_EQUAL( lastUpdate.second, straight );
   BOOST_CHECK(!pwItem->HaveStateChange());
 }
 
@@ -173,7 +176,9 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   auto stop = std::chrono::high_resolution_clock::now();
 
   // Check we got to the right place
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), curved );
+  auto lastPosition = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastPosition.first, 0 );
+  BOOST_CHECK_EQUAL( lastPosition.second, curved );
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Curved );
 
   // Check we took an appropriate time
@@ -189,7 +194,8 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   for( size_t i=1; i<pwmChannel->updates.size(); i++ ) {
     auto prev = pwmChannel->updates.at(i-1);
     auto curr = pwmChannel->updates.at(i);
-    BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
+    BOOST_CHECK_EQUAL( curr.first, 0 );
+    BOOST_CHECK_EQUAL( prev.first, 0 );
     // Since curved > straight above...
     BOOST_CHECK_GT( curr.second, prev.second );
     BOOST_CHECK_GE( prev.second, straight );
@@ -204,7 +210,9 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   requestedSleep = stm->OnRun();
   stop = std::chrono::high_resolution_clock::now();
 
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+  lastPosition = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastPosition.first, 0 );
+  BOOST_CHECK_EQUAL( lastPosition.second, straight );
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
   BOOST_CHECK( stop-start >= stm->MoveSleep*(stm->MoveSteps-1) );
   BOOST_CHECK( requestedSleep == stm->SleepInterval );
@@ -213,7 +221,8 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   for( size_t i=1; i<pwmChannel->updates.size(); i++ ) {
     auto prev = pwmChannel->updates.at(i-1);
     auto curr = pwmChannel->updates.at(i);
-    BOOST_CHECK( curr.first - prev.first >= stm->MoveSleep );
+    BOOST_CHECK_EQUAL( curr.first, 0 );
+    BOOST_CHECK_EQUAL( prev.first, 0 );
     // Since curved > straight above...
     BOOST_CHECK_LT( curr.second, prev.second );
     BOOST_CHECK_GE( prev.second, straight );
