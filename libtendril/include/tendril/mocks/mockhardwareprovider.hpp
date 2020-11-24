@@ -10,6 +10,10 @@ namespace Tendril::Mocks {
   template<typename T, typename U>
   class MockHardwareProvider : public HardwareProvider<T> {
   public:
+    MockHardwareProvider()
+      : HardwareProvider<T>(),
+	hardware() {}
+    
     virtual std::unique_ptr<T>
     GetHardware(const std::string& hardwareId,
 		const SettingsMap& settings) override {
