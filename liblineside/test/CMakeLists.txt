@@ -14,7 +14,7 @@ list(APPEND srcs pwitemcontrollertests.cpp)
 list(APPEND srcs directdrivemashdatatests.cpp)
 list(APPEND srcs directdrivemashtests.cpp)
 
-#list(APPEND srcs servoturnoutmotortests.cpp)
+list(APPEND srcs servoturnoutmotortests.cpp)
 
 #list(APPEND srcs trackcircuitmonitortests.cpp)
 

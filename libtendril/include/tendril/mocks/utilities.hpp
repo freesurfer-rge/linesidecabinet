@@ -1,22 +1,19 @@
 #pragma once
 
-#include "tendril/mocks/mockbop.hpp"
-#include "tendril/mocks/mockbip.hpp"
-#include "tendril/mocks/mockboparray.hpp"
-#include "tendril/mocks/mockpwmchannel.hpp"
-
-#include "tendril/mocks/mockboparrayprovider.hpp"
-#include "tendril/mocks/mockhardwareprovider.hpp"
+#include <memory>
 
 #include "tendril/hardwaremanager.hpp"
 
 namespace Tendril::Mocks {
+  std::shared_ptr<HardwareManager> GetMockHardwareManager();
+  
+  const std::string BIPProviderId = "MockBIP";
+  const std::string BOPProviderId = "MockBOP";
+  const std::string BOPArrayProviderId = "MockBOPArray";
+  const std::string PWMCProviderId = "MockPWMC";
+  
   class MockHardwareManager : public HardwareManager {
   public:
-    const std::string BIPProviderId = "BIP";
-    const std::string BOPProviderId = "BOP";
-    const std::string BOPArrayProviderId = "BOPArray";
-    const std::string PWMCProviderId = "PWMC";
     
     MockHardwareManager();
 
