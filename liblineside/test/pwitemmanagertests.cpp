@@ -1,6 +1,13 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/predef.h>
 
+#include "tendril/mocks/utilities.hpp"
+#include "tendril/mocks/mockhardwareprovider.hpp"
+#include "tendril/mocks/mockbop.hpp"
+#include "tendril/mocks/mockpwmchannel.hpp"
+
+#include "lineside/linesideexceptions.hpp"
+
 #include "lineside/directdrivemashdata.hpp"
 #include "lineside/directdrivemash.hpp"
 #include "lineside/servoturnoutmotordata.hpp"
@@ -48,7 +55,7 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
 {
   // Make the MASH data
   const Lineside::ItemId id(131);
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId );
+  auto mashd = MakeTwoAspect( id, Tendril::Mocks::BOPProviderId );
 
   std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
   itemList.push_back(mashd);
@@ -59,8 +66,12 @@ BOOST_AUTO_TEST_CASE(SingleMASH)
   im.CreatePWItems( itemList );
   
   // The MASH should be showing a Red aspect
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(redData)->Get(), true );
-  BOOST_CHECK_EQUAL( this->hwManager->bopProvider->pins.at(greenData)->Get(), false );
+  
+  auto mockProvider = this->hwManager->bopProviderRegistrar.Retrieve(Tendril::Mocks::BOPProviderId);
+  auto mockbopProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryOutputPin, Tendril::Mocks::MockBOP>>(mockProvider);
+  BOOST_REQUIRE( mockbopProvider );
+  BOOST_CHECK_EQUAL( mockbopProvider->hardware.at(redData)->lastLevel, true );
+  BOOST_CHECK_EQUAL( mockbopProvider->hardware.at(greenData)->lastLevel, false );
   
   // Check we can get the MASH
   Lineside::PWItemModel& res = im.GetPWItemModelById(id);
@@ -92,7 +103,7 @@ BOOST_AUTO_TEST_CASE(SingleSTM)
   stmd->id = id;
   stmd->straight = straight;
   stmd->curved = curved;
-  stmd->pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd->pwmChannelRequest.controller = Tendril::Mocks::PWMCProviderId;
   stmd->pwmChannelRequest.controllerData = controllerData;
 
   std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
@@ -105,8 +116,12 @@ BOOST_AUTO_TEST_CASE(SingleSTM)
   im.CreatePWItems(itemList);
 
   // Check the servo was set to straight
-  auto pwmChannel = this->hwManager->pwmChannelProvider->channels.at(controllerData);
-  BOOST_CHECK_EQUAL( pwmChannel->Get(), straight );
+  auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
+  auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
+  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
+  auto lastUpdate = pwmChannel->updates.back();
+  BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
+  BOOST_CHECK_EQUAL( lastUpdate.second, straight );
 
   // Check we can get the STM
   Lineside::PWItemModel& res = im.GetPWItemModelById(id);
@@ -130,7 +145,7 @@ BOOST_AUTO_TEST_CASE(DuplicateId)
 {
    // Make the MASH data
   const Lineside::ItemId id(131);
-  auto mashd = MakeTwoAspect( id, this->hwManager->BOPProviderId );
+  auto mashd = MakeTwoAspect( id, Tendril::Mocks::BOPProviderId );
 
   // Make some STM data
   const unsigned int straight = 10;
@@ -142,7 +157,7 @@ BOOST_AUTO_TEST_CASE(DuplicateId)
   stmd->id = id;
   stmd->straight = straight;
   stmd->curved = curved;
-  stmd->pwmChannelRequest.controller = this->hwManager->PWMChannelProviderId;
+  stmd->pwmChannelRequest.controller = Tendril::Mocks::PWMCProviderId;
   stmd->pwmChannelRequest.controllerData = controllerData;
 
   std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
