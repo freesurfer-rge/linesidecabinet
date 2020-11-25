@@ -7,7 +7,9 @@ BOOST_AUTO_TEST_SUITE( PiHardwareManagerFactory )
 BOOST_AUTO_TEST_CASE( Smoke )
 {
   std::vector<Tendril::Devices::I2CDeviceData> devices;
-  auto hwm = PiGPIOdpp::GetHardwareManager(devices);
+  Tendril::HardwareManagerData config;
+  config.i2cDevices = devices;
+  auto hwm = PiGPIOdpp::GetHardwareManager(config);
   BOOST_REQUIRE( hwm );
 
   BOOST_CHECK( hwm->bipProviderRegistrar.Retrieve("GPIO") );
@@ -27,8 +29,10 @@ BOOST_AUTO_TEST_CASE( WithPCA9685 )
   some9685.settings["pwmFrequency"] = "60";
   std::vector<Tendril::Devices::I2CDeviceData> devices;
   devices.push_back(some9685);
+  Tendril::HardwareManagerData config;
+  config.i2cDevices = devices;
   
-  auto hwm = PiGPIOdpp::GetHardwareManager(devices);
+  auto hwm = PiGPIOdpp::GetHardwareManager(config);
   BOOST_REQUIRE( hwm );
 
   BOOST_CHECK( hwm->bipProviderRegistrar.Retrieve("GPIO") );

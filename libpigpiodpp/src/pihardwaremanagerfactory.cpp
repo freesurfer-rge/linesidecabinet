@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "tendril/devices/pca9685.hpp"
 
 #include "pigpiodpp/pimanager.hpp"
@@ -10,7 +12,14 @@
 
 namespace PiGPIOdpp {
   std::shared_ptr<Tendril::HardwareManager>
-  GetHardwareManager(const std::vector<Tendril::Devices::I2CDeviceData>& i2cDevices) {
+  GetHardwareManager(const Tendril::HardwareManagerData& hwData) {
+    if( hwData.settings.size() != 0 ) {
+      std::cerr << __FUNCTION__
+		<< ": Received settings where none expected"
+		<< std::endl;
+      throw std::logic_error("Settings not supported for Pi HardwareMananger");
+    }
+    
     auto result = std::make_shared<Tendril::HardwareManager>();
     auto pimanager = PiManager::CreatePiManager();
 
@@ -25,7 +34,7 @@ namespace PiGPIOdpp {
     result->bopArrayProviderRegistrar.Register(GPIO, bopArrayProvider );
     
     // Setup the I2C devices... may want this in its own class
-    for( auto data: i2cDevices ) {
+    for( auto data: hwData.i2cDevices ) {
       auto i2cpi = new I2CPi(pimanager, data.bus, data.address);
       auto communicator = std::unique_ptr<Tendril::I2CCommunicator>(i2cpi);
       if( data.kind == "pca9685" ) {

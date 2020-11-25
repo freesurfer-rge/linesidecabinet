@@ -30,13 +30,13 @@ namespace Lineside {
       return hardwaremanagerElement;
     }
 
-    Lineside::HardwareManagerData
+    Tendril::HardwareManagerData
     HardwareManagerDataReader::Read( const xercesc::DOMElement *hardwaremanagerElement ) const {
       if( !hardwaremanagerElement ) {
 	throw std::logic_error("Bad hardwaremanagerElement ptr");
       }
       
-      Lineside::HardwareManagerData result;
+      Tendril::HardwareManagerData result;
 
       // Read in the list of I2CDevices
       I2CDeviceListReader i2cReader;
