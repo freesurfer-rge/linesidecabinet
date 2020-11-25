@@ -93,7 +93,7 @@ set(TEST_COMMON_ARGS --log_level=all --log_format=JUNIT --report_sink=stdout)
 add_subdirectory( libtendril )
 add_subdirectory( libpigpiodpp )
 add_subdirectory( liblineside )
-# add_subdirectory( apps ) PENDING LIBTENDRIL CONVERSION
+add_subdirectory( apps )
 
 # --------
 

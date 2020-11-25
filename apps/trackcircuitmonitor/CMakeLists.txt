@@ -9,6 +9,6 @@ add_executable(TrackCircuitMonitor ${srcs})
 # Note that linking against the lineside library will
 # automatically include the corresponding headers in
 # the compile commands
-target_link_libraries(TrackCircuitMonitor PUBLIC lineside Boost::program_options)
+target_link_libraries(TrackCircuitMonitor PUBLIC lineside pigpiodpp Boost::program_options)
 
 configure_file(track-circuits.xml . COPYONLY)

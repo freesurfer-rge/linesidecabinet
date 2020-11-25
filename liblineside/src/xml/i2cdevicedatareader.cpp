@@ -25,7 +25,8 @@ namespace Lineside {
       return xercesc::XMLString::equals( element->getTagName(), TAG_I2CDeviceData.get() );
     }
     
-    xercesc::DOMElement* I2CDeviceDataReader::GetI2CDeviceElement( const xercesc::DOMElement *parent ) const {
+    xercesc::DOMElement*
+    I2CDeviceDataReader::GetI2CDeviceElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");
       }
@@ -38,12 +39,13 @@ namespace Lineside {
       return i2cDeviceElement;
     }
 
-    Lineside::I2CDeviceData I2CDeviceDataReader::Read( const xercesc::DOMElement *i2cDeviceElement ) const {
+    Tendril::Devices::I2CDeviceData
+    I2CDeviceDataReader::Read( const xercesc::DOMElement *i2cDeviceElement ) const {
       if( !i2cDeviceElement ) {
 	throw std::logic_error("Bad i2cDeviceElement ptr");
       }
 
-      Lineside::I2CDeviceData result;
+      Tendril::Devices::I2CDeviceData result;
 
       // Read in the settings
       SettingsReader sr;

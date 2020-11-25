@@ -1,5 +1,5 @@
 #pragma once
 
-#include "lineside/pwmchannel.hpp"
+#include "tendril/pwmchannel.hpp"
 
-void RunOnConsole(Lineside::PWMChannel& servo);
+void RunOnConsole(Tendril::PWMChannel& servo);

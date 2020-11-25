@@ -1,7 +1,8 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "lineside/pi/pihardwaremanager.hpp"
+#include "pigpiodpp/pihardwaremanagerfactory.hpp"
+
 #include "lineside/xml/configurationreader.hpp"
 #include "lineside/servoturnoutmotordata.hpp"
 
@@ -33,7 +34,7 @@ int main(int argc, char* argv[]) {
     auto config = cr.Read(opts.configFilePath);
     CheckPWItems(config.pwItems);
 
-    auto hw = std::make_shared<Lineside::Pi::PiHardwareManager>(config.hwManager);
+    auto hw = PiGPIOdpp::GetHardwareManager(config.hwManager);
     auto sw = std::make_shared<StubSoftwareManager>();
     Lineside::PWItemManager pwItemManager( hw, sw );
 

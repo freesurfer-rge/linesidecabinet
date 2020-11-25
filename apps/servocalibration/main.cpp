@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "lineside/pwmchannel.hpp"
-#include "lineside/pi/pihardwaremanager.hpp"
+#include "tendril/pwmchannel.hpp"
+#include "pigpiodpp/pihardwaremanagerfactory.hpp"
 #include "lineside/xml/configurationreader.hpp"
 
 #include "cmdlineopts.hpp"
@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 
     auto config = cr.Read(opts.configFilePath);
 
-    auto hw = std::make_shared<Lineside::Pi::PiHardwareManager>(config.hwManager);
+    auto hw = PiGPIOdpp::GetHardwareManager(config.hwManager);
 
     auto provider = hw->pwmcProviderRegistrar.Retrieve(opts.device);
     std::map<std::string,std::string> settings;

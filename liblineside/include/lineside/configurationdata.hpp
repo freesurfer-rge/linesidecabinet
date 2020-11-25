@@ -3,8 +3,9 @@
 #include <vector>
 #include <memory>
 
+#include "tendril/hardwaremanagerdata.hpp"
+
 #include "lineside/softwaremanagerdata.hpp"
-#include "lineside/hardwaremanagerdata.hpp"
 #include "lineside/pwitemdata.hpp"
 
 namespace Lineside {
@@ -18,7 +19,7 @@ namespace Lineside {
     
     SoftwareManagerData swManager;
 
-    HardwareManagerData hwManager;
+    Tendril::HardwareManagerData hwManager;
 
     std::vector<std::shared_ptr<PWItemData>> pwItems;
   };

@@ -4,9 +4,10 @@
 #include <string>
 #include <vector>
 
-#include "lineside/i2cdevicedata.hpp"
+#include "tendril/tendriltypes.hpp"
+#include "tendril/devices/i2cdevicedata.hpp"
 
-namespace Lineside {
+namespace Tendril {
   //! Class to hold data for the hardware manager
   class HardwareManagerData {
   public:
@@ -14,7 +15,7 @@ namespace Lineside {
       i2cDevices(),
       settings() {}
     
-    std::vector<I2CDeviceData> i2cDevices;
-    std::map<std::string,std::string> settings;
+    std::vector<Tendril::Devices::I2CDeviceData> i2cDevices;
+    SettingsMap settings;
   };
 }

@@ -6,7 +6,7 @@
 #include "runonconsole.hpp"
 
 
-void RunOnConsole(Lineside::PWMChannel& servo) {
+void RunOnConsole(Tendril::PWMChannel& servo) {
   std::cout << "Entering main loop" << std::endl;
 
   bool done = false;
@@ -21,13 +21,12 @@ void RunOnConsole(Lineside::PWMChannel& servo) {
     } else {
       try {
 	int nextValue = std::stoi(inputLine);
-	servo.Set(nextValue);
+	servo.Set(0, nextValue);
       }
       catch( std::exception& e ) {
 	std::cerr << e.what() << std::endl;
 	continue;
       }
-      
     }
   }
 }

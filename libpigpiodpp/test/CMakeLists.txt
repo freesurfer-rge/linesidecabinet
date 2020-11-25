@@ -13,6 +13,7 @@ list(APPEND srcs pibopprovidertests.cpp)
 list(APPEND srcs piboparrayprovidertests.cpp)
 list(APPEND srcs pibipprovidertests.cpp)
 
+list(APPEND srcs pihardwaremanagerfactorytests.cpp)
 
 add_executable(PiGPIOdppTest ${srcs})
 target_link_libraries(PiGPIOdppTest PUBLIC pigpiodpp Boost::boost)

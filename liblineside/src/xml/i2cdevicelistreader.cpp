@@ -17,7 +17,8 @@ namespace Lineside {
       return HasChildElement( parent, I2CDeviceListReader::ListElement );
     }
 
-    xercesc::DOMElement* I2CDeviceListReader::GetI2CDeviceListElement( const xercesc::DOMElement *parent ) const {
+    xercesc::DOMElement*
+    I2CDeviceListReader::GetI2CDeviceListElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent");
       }
@@ -29,11 +30,12 @@ namespace Lineside {
       return i2cDeviceListElement;
     }
 
-    std::vector<Lineside::I2CDeviceData> I2CDeviceListReader::Read( const xercesc::DOMElement *i2cDeviceListElement ) const {
+    std::vector<Tendril::Devices::I2CDeviceData>
+    I2CDeviceListReader::Read( const xercesc::DOMElement *i2cDeviceListElement ) const {
       if( !i2cDeviceListElement ) {
 	throw std::logic_error("Bad i2cDeviceListElement");
       }
-      auto result = std::vector<Lineside::I2CDeviceData>();
+      auto result = std::vector<Tendril::Devices::I2CDeviceData>();
 
       auto children = i2cDeviceListElement->getChildNodes();
 
