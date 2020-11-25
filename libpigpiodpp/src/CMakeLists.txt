@@ -13,6 +13,8 @@ list(APPEND srcs pibopprovider.cpp)
 list(APPEND srcs piboparrayprovider.cpp)
 list(APPEND srcs pibipprovider.cpp)
 
+list(APPEND srcs pihardwaremanagerfactory.cpp)
+
 # Have to do different things if we find the C pigpiod library
 if( pigpio_FOUND )
   target_compile_definitions(pigpiodpp PUBLIC "PIGPIODPP_HAVE_PIGPIO")
