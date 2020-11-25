@@ -27,7 +27,6 @@ void RunOnConsole(Tendril::PWMChannel& servo) {
 	std::cerr << e.what() << std::endl;
 	continue;
       }
-      
     }
   }
 }
