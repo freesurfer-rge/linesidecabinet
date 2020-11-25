@@ -4,7 +4,7 @@
 
 #include <xercesc/dom/DOMElement.hpp>
 
-#include "lineside/i2cdevicedata.hpp"
+#include "tendril/devices/i2cdevicedata.hpp"
 
 namespace Lineside {
   namespace xml {
@@ -15,9 +15,11 @@ namespace Lineside {
 
       bool HasI2CDeviceList( const xercesc::DOMElement *parent ) const;
 
-      xercesc::DOMElement* GetI2CDeviceListElement( const xercesc::DOMElement *parent ) const;
+      xercesc::DOMElement*
+      GetI2CDeviceListElement( const xercesc::DOMElement *parent ) const;
 
-      std::vector<Lineside::I2CDeviceData> Read( const xercesc::DOMElement *i2cDeviceListElement ) const;
+      std::vector<Tendril::Devices::I2CDeviceData>
+      Read( const xercesc::DOMElement *i2cDeviceListElement ) const;
     };
   }
 }

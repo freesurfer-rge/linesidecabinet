@@ -1,17 +1,21 @@
 #pragma once
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
-#include "hardwaremanager.hpp"
+#include "tendril/hardwaremanager.hpp"
+
+#include "tendril/devices/i2cdevicedata.hpp"
 
 namespace Tendril {
   class HardwareManagerFactory {
   public:
     static HardwareManagerFactory* GetFactory();
 
-    virtual std::shared_ptr<HardwareManager> GetHardwareManager() = 0;
+    virtual std::shared_ptr<HardwareManager>
+    GetHardwareManager(const std::vector<Devices::I2CDeviceData>& i2cDevices) = 0;
 
     virtual ~HardwareManagerFactory() {}
 

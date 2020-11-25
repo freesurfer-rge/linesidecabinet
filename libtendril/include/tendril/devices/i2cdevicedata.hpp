@@ -4,7 +4,9 @@
 #include <map>
 #include <string>
 
-namespace Lineside {
+#include "tendril/tendriltypes.hpp"
+
+namespace Tendril::Devices {
   //! Class to hold data about an I2C device
   class I2CDeviceData {
   public:
@@ -19,6 +21,6 @@ namespace Lineside {
     std::uint16_t bus;
     std::uint16_t address;
     std::string name;
-    std::map<std::string,std::string> settings;
+    SettingsMap settings;
   };
 }
