@@ -8,7 +8,7 @@
 #include "tendril/pwmchannel.hpp"
 
 namespace Tendril {
-  //! Abstract class for managing hardware
+  //! Class for managing hardware
   class HardwareManager {
   public:
     HardwareManager() :
@@ -17,9 +17,16 @@ namespace Tendril {
       bopArrayProviderRegistrar(),
       pwmcProviderRegistrar() {}
 
+    //! Registrar for providers of binary output pins
     Registrar<HardwareProvider<BinaryOutputPin>> bopProviderRegistrar;
+
+    //! Registrar for providers of binary input pins
     Registrar<HardwareProvider<BinaryInputPin>> bipProviderRegistrar;
+
+    //! Registrar for providers of binary output pin arrays
     Registrar<HardwareProvider<BOPArray>> bopArrayProviderRegistrar;
+
+    //! Registrar for providers of PWM channels
     Registrar<HardwareProvider<PWMChannel>> pwmcProviderRegistrar;
   };
 }
