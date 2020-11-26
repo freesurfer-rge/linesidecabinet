@@ -160,7 +160,12 @@ namespace Lineside {
       feather(feather),
       message() {
       std::stringstream tmp;
-      tmp << "Invalid state for " << this->target;
+      tmp << "Invalid state for " << this->target << ". ";
+      tmp << "State was: "
+	  <<  "{"
+	  << state << ","
+	  << flash << ","
+	  << feather << "}";
       this->message = tmp.str();
     }
     

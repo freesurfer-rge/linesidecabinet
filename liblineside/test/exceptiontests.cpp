@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE(InvalidMASHStateException)
   BOOST_CHECK_EQUAL( ise.flash, Lineside::SignalFlash::Steady );
   BOOST_CHECK_EQUAL( ise.feather, 1 );
 
-  const std::string expected = "Invalid state for 00:00:01:00. State was: (DoubleYellow, Steady, 1)";
+  const std::string expected = "Invalid state for 00:00:01:00. State was: {DoubleYellow,Steady,1}";
   BOOST_CHECK_EQUAL( ise.what(), expected );
 }
 
