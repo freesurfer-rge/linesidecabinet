@@ -4,6 +4,8 @@
 #include <sstream>
 
 #include "lineside/itemid.hpp"
+#include "lineside/signalstate.hpp"
+#include "lineside/signalflash.hpp"
 
 namespace Lineside {
   //! Base class for all exceptions from this library
@@ -144,22 +146,28 @@ namespace Lineside {
 
   // ========================================
 
-  //! Exception for attempts to place PWItem into invalid state
-  class InvalidStateException : public LinesideException {
+  //! Exception for attempts set a bad state on a MultiAspectSignalHead
+  class InvalidMASHStateException : public LinesideException {
   public:
-    explicit InvalidStateException(const ItemId targetItem, const std::string stateInfo) :
+    explicit InvalidMASHStateException(const ItemId targetItem,
+				       const SignalState state,
+				       const SignalFlash flash,
+				       const unsigned int feather) :
       LinesideException(""),
       target(targetItem),
-      info(stateInfo),
+      state(state),
+      flash(flash),
+      feather(feather),
       message() {
       std::stringstream tmp;
-      tmp << "Invalid state for " << this->target << ".";
-      tmp << " State was: " << this->info;
+      tmp << "Invalid state for " << this->target;
       this->message = tmp.str();
     }
     
     const ItemId target;
-    const std::string info;
+    const SignalState state;
+    const SignalFlash flash;
+    const unsigned int feather;
     std::string message;
 
     virtual const char* what() const noexcept override {
