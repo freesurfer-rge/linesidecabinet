@@ -11,6 +11,9 @@ namespace PiGPIOdpp {
   class PiManager;
   
   //! Implementation of a BOPArray for pigpiod
+  /*!
+    Uses the GPIO pins on the Pi as an array of output pins
+   */
   class PiBOPArray : public Tendril::BOPArray {
   public:
     PiBOPArray(const std::shared_ptr<PiManager> owner,
@@ -18,6 +21,7 @@ namespace PiGPIOdpp {
     
     ~PiBOPArray() {}
 
+    //! Return the id of the controlled Pi
     int getPi() const;
 
     virtual void Update() override;

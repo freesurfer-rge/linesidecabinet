@@ -8,14 +8,6 @@ namespace Tendril {
     this->pinState.at(i) = level;
   }
 
-  /*!
-    The settings for a BOPArray are expected to be of the form
-    { "O":"GPIO10", "1":"GPIO03" ... }
-    with the keys actually being sequential integers, and the
-    values having meaning to the underlying device. Since
-    these are binary outputs, there should be any other settings
-    required.
-   */
   std::vector<std::string>
   BOPArray::ExtractPinList(const SettingsMap& settings) {
     const std::string unsetPin = "MISSING PIN ID!!!!";

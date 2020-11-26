@@ -6,7 +6,10 @@
 
 #include "lineside/parse.hpp"
 
-//! Namespace for this project
+//! A library for managing permanent way items
+/*!
+  Interactions are managed using the abstractions provided by the Tendril library.
+ */
 namespace Lineside {
   //! Class to hold an identifier for an item.
   /*!
