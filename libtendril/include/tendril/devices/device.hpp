@@ -5,7 +5,9 @@
 
 #include "tendril/hardwaremanager.hpp"
 
+//! Namespace for holding peripheral devices
 namespace Tendril::Devices {
+  
 // False positive on enable_shared_from_this
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
