@@ -3,6 +3,13 @@
 #cmakedefine01 pigpio_FOUND
 
 namespace PiGPIOdpp {
+  //! Indicates whether an actual Pi is available
+  /*!
+    At configuration time, CMake will search for the <a href="http://abyz.me.uk/rpi/pigpio/pigpiod.html">pigpiod library</a>.
+    If the library is found, then this constant will be set to `true` and the pigpgiod library will be linked.
+    If the library is not available (typical if compilation is not taking place on a Pi), then this will be `false` and set of stubs used in place of the pigpiod library.
+    These stubs simply echo their arguments to a stream (which defaults to `std::cout`).
+  */
   const bool piAvailable = pigpio_FOUND;
 }
 
