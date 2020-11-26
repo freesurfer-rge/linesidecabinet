@@ -46,12 +46,17 @@ namespace PiGPIOdpp {
     //! Configure the glitch filter on the pin
     /*!
       Level changes will only be reported after they have been steady for the indicated number of microseconds.
+      This calls <a href="http://abyz.me.uk/rpi/pigpio/pdif2.html#set_glitch_filter">`set_glitch_filter()`</a> for the pin.
 
       @param steadyMicroseconds Number of microseconds to require stable readings (max 300,000)
      */
     void SetGlitchFilter(unsigned int steadyMicroseconds);
 
     //! Used in the callback configuration from the pigpiod library
+    /*!
+      The signature is based on that of <a href="http://abyz.me.uk/rpi/pigpio/pdif2.html#CBFunc_t">`CBFunc_t`</a>.
+      Internally, the callback is setup using <a href="http://abyz.me.uk/rpi/pigpio/pdif2.html#callback_ex">`callback_ex`</a> and the `userdata` parameter used to store a pointer to the target GPIOPin.
+    */
     void TriggerNotifications(int pi, unsigned user_gpio, unsigned level, uint32_t tick);
     
   private:
