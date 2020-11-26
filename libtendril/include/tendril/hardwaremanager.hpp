@@ -26,6 +26,20 @@
  */
 namespace Tendril {
   //! Class for managing hardware
+  /*!
+    This class mediates between the consuming and implementing libraries.
+    The implementing library needs to provide a means of creating an instance of this class
+    and populating it with information about the available hardware.
+    The consuming library can then request the exact hardware required from that instance.
+    Currently, four different types of hardware are supported:
+
+    - Binary input pins
+    - Binary output pins
+    - Arrays of binary output pins
+    - Pulse Width Modulation channels
+
+    A Registrar is provided for each one.
+   */
   class HardwareManager {
   public:
     HardwareManager() :
