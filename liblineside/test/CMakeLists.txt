@@ -8,7 +8,6 @@ list(APPEND srcs trackcircuitsensortests.cpp)
 
 list(APPEND srcs itemidtests.cpp)
 list(APPEND srcs exceptiontests.cpp)
-list(APPEND srcs registrartests.cpp)
 list(APPEND srcs pwitemcontrollertests.cpp)
 
 list(APPEND srcs directdrivemashdatatests.cpp)
