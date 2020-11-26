@@ -62,16 +62,20 @@ BOOST_AUTO_TEST_CASE(DuplicateKeyException)
   BOOST_CHECK_EQUAL(expected, dke.what());
 }
 
-BOOST_AUTO_TEST_CASE(InvalidStateException)
+BOOST_AUTO_TEST_CASE(InvalidMASHStateException)
 {
   const Lineside::ItemId id(256);
-  const std::string stateInfo("Something or other");
 
-  Lineside::InvalidStateException ise( id, stateInfo );
+  Lineside::InvalidMASHStateException ise( id,
+					   Lineside::SignalState::DoubleYellow,
+					   Lineside::SignalFlash::Steady,
+					   1 );
   BOOST_CHECK_EQUAL( ise.target, id );
-  BOOST_CHECK_EQUAL( ise.info, stateInfo );
+  BOOST_CHECK_EQUAL( ise.state, Lineside::SignalState::DoubleYellow );
+  BOOST_CHECK_EQUAL( ise.flash, Lineside::SignalFlash::Steady );
+  BOOST_CHECK_EQUAL( ise.feather, 1 );
 
-  const std::string expected = "Invalid state for 00:00:01:00. State was: Something or other";
+  const std::string expected = "Invalid state for 00:00:01:00. State was: {DoubleYellow,Steady,1}";
   BOOST_CHECK_EQUAL( ise.what(), expected );
 }
 

@@ -4,11 +4,28 @@
 
 #include "tendril/mocks/mockbop.hpp"
 
-// #include "lineside/directdrivemashdata.hpp"
 #include "lineside/directdrivemash.hpp"
+#include "lineside/linesideexceptions.hpp"
 
+// =====================================
 
-#include "exceptionmessagecheck.hpp"
+void CheckBadState(Lineside::DirectDriveMASH& target,
+		   const Lineside::SignalState badState,
+		   const Lineside::SignalFlash flash, // Can't be 'bad'
+		   const unsigned int badFeather) {
+  const Lineside::ItemId targetId = target.getId();
+  auto fn = [=](const Lineside::InvalidMASHStateException& imse) {
+    BOOST_CHECK_EQUAL( imse.target, targetId );
+    BOOST_CHECK_EQUAL( imse.state, badState );
+    BOOST_CHECK_EQUAL( imse.flash, flash );
+    BOOST_CHECK_EQUAL( imse.feather, badFeather );
+    return (imse.state==badState) && (imse.flash==flash) && (imse.feather==badFeather);
+  };
+  
+  BOOST_CHECK_EXCEPTION( target.SetState(badState, flash, badFeather),
+			 Lineside::InvalidMASHStateException,
+			 fn );
+}
 
 // =====================================
 
@@ -144,7 +161,6 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
   BOOST_CHECK_EQUAL( feather->lastLevel, false );
 }
 
-
 BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
 {
   const Lineside::ItemId id(3253);
@@ -215,6 +231,24 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
   BOOST_CHECK_EQUAL( feather1->lastLevel, false );
 }
 
+BOOST_AUTO_TEST_CASE( TwoAspectBadState )
+{
+  const Lineside::ItemId id(15);
+
+  // Create the target
+  Lineside::DirectDriveMASH target(id);
+  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+
+  BOOST_TEST_CONTEXT( "Checking aspects" ) {
+    CheckBadState(target, Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
+    CheckBadState(target, Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0);
+  }
+  BOOST_TEST_CONTEXT( "Checking feather" ) {
+    CheckBadState(target, Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2);
+  }
+}
 
 BOOST_AUTO_TEST_CASE( ThreeAspect )
 {
@@ -259,6 +293,26 @@ BOOST_AUTO_TEST_CASE( ThreeAspect )
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
+}
+
+
+BOOST_AUTO_TEST_CASE( ThreeAspectBadState )
+{
+  const Lineside::ItemId id(115);
+
+  // Create the target
+  Lineside::DirectDriveMASH target(id);
+  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.yellow1 = std::make_unique<Tendril::Mocks::MockBOP>();
+  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+
+  BOOST_TEST_CONTEXT( "Checking aspects" ) {
+    CheckBadState(target, Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0);
+  }
+  BOOST_TEST_CONTEXT( "Checking feather" ) {
+    CheckBadState(target, Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2);
+  }
 }
 
 
