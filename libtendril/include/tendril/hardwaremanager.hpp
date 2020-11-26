@@ -23,6 +23,9 @@
   The implementing library provides concrete implementations of the abstractions, and actually turns the pin on and off.
   The pivot between the two libraries is the HardwareManager.
   At a high level, the implementing library populates the HardwareManager with information about the available hardware, and the consuming library then requests particular pieces of hardware.
+
+  One underlying assumption which should be borne in mind: each piece of hardware is owned by exactly one object.
+  This is seen in the ultimate types which the consuming library will receive - std::unique_ptr objects for the requested item.
  */
 namespace Tendril {
   //! Class for managing hardware
