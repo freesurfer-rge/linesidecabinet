@@ -72,10 +72,6 @@ namespace Lineside {
 
     bool lastFlashStatus;
     
-    std::string buildStateString(const SignalState state,
-				 const SignalFlash flash,
-				 const unsigned int feather) const;
-    
     void turnAllOff();
 
     void setStateFromDesired();
