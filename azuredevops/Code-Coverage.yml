@@ -48,7 +48,7 @@ jobs:
     displayName: "Create directory for detailed code coverage results"
     workingDirectory: $(buildDir)
   
-  - script: gcovr --root $(Build.SourcesDirectory) . --xml cobetura.xml --html-details html/details.html --print-summary --exclude 'apps/'
+  - script: gcovr --root $(Build.SourcesDirectory) . --xml cobetura.xml --html-details html/details.html --print-summary --exclude 'apps/' --verbose
     displayName: "Run gcovr"
     workingDirectory: $(buildDir)
 
