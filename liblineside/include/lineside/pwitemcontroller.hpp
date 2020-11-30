@@ -18,9 +18,16 @@ namespace Lineside {
     on the permanent way (such as a multiaspect signal head or a track circuit).
     The state of the item itself is the responsibility of the corresponding
     PWItemModel object.
+
+    This class will call the OnActivate, OnDeactivate and OnRun methods of the
+    PWItemModel object it is managing. The OnRun method returns a requested sleep
+    time, but the PWItemController will cap this at MaximumWaitSeconds.
    */
   class PWItemController : public Notifiable<bool> {
   public:
+    //! Default value for the maximum interval between OnRun method calls
+    static constexpr std::chrono::seconds DefaultMaximumWaitSeconds = std::chrono::seconds(120);
+    
     virtual ~PWItemController();
 
     //! Start up the managing thread and use it to run the model
@@ -37,10 +44,11 @@ namespace Lineside {
 
     //! Create a PWItemController for the supplied model
     static std::shared_ptr<PWItemController> Construct(std::shared_ptr<PWItemModel> pwim);
-    
+
+    //! The maximum number of seconds before the OnRun method will be called again
+    static std::chrono::seconds MaximumWaitSeconds;
   private:
     enum class ControllerState { Constructed, Active, Inactive };
-    const std::chrono::seconds MaximumWaitSeconds = std::chrono::seconds(120);
     
     std::shared_ptr<PWItemModel> model;
     ItemId id;

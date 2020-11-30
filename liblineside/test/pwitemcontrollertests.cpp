@@ -132,9 +132,12 @@ BOOST_AUTO_TEST_CASE(ShortDurationSleeps, *boost::unit_test::timeout(2))
 }
 
 BOOST_AUTO_TEST_CASE(LongSleepIgnored,
-		     *boost::unit_test::timeout(600)
+		     *boost::unit_test::timeout(40)
 		     *boost::unit_test::label("LongRunning"))
 {
+  // Shorten the maximum for easier testing
+  Lineside::PWItemController::MaximumWaitSeconds = std::chrono::seconds(10);
+  
   Lineside::ItemId id = Lineside::ItemId::Random();
   auto model = std::make_shared<MockModel>(id);
   auto controller = Lineside::PWItemController::Construct(model);
@@ -144,7 +147,7 @@ BOOST_AUTO_TEST_CASE(LongSleepIgnored,
   model->onRunWait = std::chrono::seconds(550);
 
   controller->Activate();
-  std::this_thread::sleep_for(std::chrono::seconds(400));
+  std::this_thread::sleep_for(std::chrono::seconds(35));
 
   // Should get at least three OnRun() calls due to MaximumWaitTime
   BOOST_CHECK_GE( model->onRunCallTimes.size(), 3 );

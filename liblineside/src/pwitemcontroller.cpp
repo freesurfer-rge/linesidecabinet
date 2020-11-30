@@ -9,7 +9,10 @@
 #include "lineside/pwitemcontroller.hpp"
 
 namespace Lineside {
-  std::shared_ptr<PWItemController> PWItemController::Construct(std::shared_ptr<PWItemModel> pwim) {
+  std::chrono::seconds PWItemController::MaximumWaitSeconds = PWItemController::DefaultMaximumWaitSeconds;
+  
+  std::shared_ptr<PWItemController>
+  PWItemController::Construct(std::shared_ptr<PWItemModel> pwim) {
     std::shared_ptr<PWItemController> result;
 
     // Work around the private constructor of PWItemController
