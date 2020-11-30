@@ -18,6 +18,10 @@ namespace Lineside {
     on the permanent way (such as a multiaspect signal head or a track circuit).
     The state of the item itself is the responsibility of the corresponding
     PWItemModel object.
+
+    This class will call the OnActivate, OnDeactivate and OnRun methods of the
+    PWItemModel object it is managing. The OnRun method returns a requested sleep
+    time, but the PWItemController will cap this at MaximumWaitSeconds.
    */
   class PWItemController : public Notifiable<bool> {
   public:
