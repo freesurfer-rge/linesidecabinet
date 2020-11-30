@@ -21,6 +21,9 @@ namespace Lineside {
    */
   class PWItemController : public Notifiable<bool> {
   public:
+    //! Default value for the maximum interval between OnRun method calls
+    static constexpr std::chrono::seconds DefaultMaximumWaitSeconds = std::chrono::seconds(120);
+    
     virtual ~PWItemController();
 
     //! Start up the managing thread and use it to run the model
@@ -37,10 +40,11 @@ namespace Lineside {
 
     //! Create a PWItemController for the supplied model
     static std::shared_ptr<PWItemController> Construct(std::shared_ptr<PWItemModel> pwim);
-    
+
+    //! The maximum number of seconds before the OnRun method will be called again
+    static std::chrono::seconds MaximumWaitSeconds;
   private:
     enum class ControllerState { Constructed, Active, Inactive };
-    const std::chrono::seconds MaximumWaitSeconds = std::chrono::seconds(120);
     
     std::shared_ptr<PWItemModel> model;
     ItemId id;
