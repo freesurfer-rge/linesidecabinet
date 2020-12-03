@@ -336,6 +336,13 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   BOOST_REQUIRE( yellow1 );
   BOOST_REQUIRE( yellow2 );
   BOOST_REQUIRE( green );
+
+  // Construction state
+  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
   
   // Activate
   target.OnActivate();
