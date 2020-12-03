@@ -27,7 +27,21 @@ namespace Lineside {
 
     virtual unsigned int GetFeatherCount() const override;
 
+    /*
+      Technically, the following ought to be private.
+      However, doing that makes testing a lot more difficult
+      and objects like this should be managed through
+      the parent classes anyway
+     */
+    
+    //! Access to the hardware
     std::unique_ptr<Tendril::BOPArray> pins;
+    
+    //! Mapping of aspects to pins in the BOPArray
+    std::map<SignalAspect,unsigned int> aspects;
+
+    //! Link feathers to pins in the BOPArray
+    std::vector<unsigned int> feathers;
   private:
     //! Mark all pins for off (but don't Update)
     void markAllOff();
@@ -37,11 +51,5 @@ namespace Lineside {
 
     //! Mark the appropriate feather
     void setFeatherFromDesired();
-    
-    //! Mapping of aspects to pins in the BOPArray
-    std::map<SignalAspect,unsigned int> aspects;
-
-    //! Link feathers to pins in the BOPArray
-    std::vector<unsigned int> feathers;
   };
 }

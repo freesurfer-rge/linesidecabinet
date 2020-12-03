@@ -12,6 +12,25 @@ namespace Lineside {
     this->pins->Update();
   }
 
+  std::chrono::milliseconds BOPArrayMASH::OnRun() {
+    std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
+    
+    if( this->HaveStateChange() || (this->currentFlash == SignalFlash::Flashing)) {
+	this->markAllOff();
+	
+	this->setStateFromDesired();
+	
+	this->setFeatherFromDesired();
+	
+	this->currentState = this->desiredState;
+	this->currentFlash = this->desiredFlash;
+	this->currentFeather = this->desiredFeather;
+
+	this->pins->Update();
+      }
+    return MultiAspectSignalHead::FlashInterval;
+  }
+
   unsigned int BOPArrayMASH::GetAspectCount() const {
     return this->aspects.size();
   }
