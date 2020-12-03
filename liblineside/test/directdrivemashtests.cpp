@@ -9,6 +9,10 @@
 
 // =====================================
 
+/*
+  Note that the "BadState" tests are actually for MultiAspectSignalHead
+  base class, which contains the state checks
+*/
 void CheckBadState(Lineside::DirectDriveMASH& target,
 		   const Lineside::SignalState badState,
 		   const Lineside::SignalFlash flash, // Can't be 'bad'
