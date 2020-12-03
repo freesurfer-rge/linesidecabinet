@@ -1,5 +1,8 @@
 #pragma once
 
+#include <mutex>
+#include <chrono>
+
 #include "lineside/signalstate.hpp"
 #include "lineside/signalaspect.hpp"
 #include "lineside/signalflash.hpp"

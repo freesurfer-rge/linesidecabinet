@@ -26,7 +26,7 @@ namespace Lineside {
 	this->currentFlash = this->desiredFlash;
 	this->currentFeather = this->desiredFeather;
       }
-    return DirectDriveMASH::FlashInterval;
+    return MultiAspectSignalHead::FlashInterval;
   }
 
   unsigned int DirectDriveMASH::GetAspectCount() const {

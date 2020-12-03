@@ -21,6 +21,7 @@ list(APPEND srcs trackcircuitmonitor.cpp)
 list(APPEND srcs multiaspectsignalhead.cpp)
 list(APPEND srcs directdrivemashdata.cpp)
 list(APPEND srcs directdrivemash.cpp)
+list(APPEND srcs boparraymash.cpp)
 
 list(APPEND srcs pwitemmanager.cpp)
 

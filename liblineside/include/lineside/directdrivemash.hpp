@@ -1,9 +1,6 @@
 #pragma once
 
-#include <mutex>
 #include <map>
-#include <chrono>
-#include <string>
 
 #include "tendril/binaryoutputpin.hpp"
 
