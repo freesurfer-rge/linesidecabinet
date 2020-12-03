@@ -1,4 +1,6 @@
-#include "multiaspectsignalhead.hpp"
+#include "lineside/linesideexceptions.hpp"
+
+#include "lineside/multiaspectsignalhead.hpp"
 
 namespace Lineside {
   bool MultiAspectSignalHead::HaveStateChange() {
@@ -16,7 +18,7 @@ namespace Lineside {
     
     // Checks on the aspects
     if( wantedState == SignalState::Yellow ) {
-      if( !this->yellow1 ) {
+      if( this->GetAspectCount() < 3 ) {
 	throw InvalidMASHStateException(this->getId(),
 					wantedState,
 					wantedFlash,
@@ -25,13 +27,13 @@ namespace Lineside {
     }
 
     if( wantedState == SignalState::DoubleYellow ) {
-      if( !this->yellow2 ) {
+      if( this->GetAspectCount() < 4 ) {
 	throw InvalidMASHStateException(this->getId(), wantedState, wantedFlash, wantedFeather);
       }
     }
 
     // Check on the feather
-    if( wantedFeather > this->feathers.size() ) {
+    if( wantedFeather > this->GetFeatherCount() ) {
       throw InvalidMASHStateException(this->getId(), wantedState, wantedFlash, wantedFeather);
     }
 

@@ -22,8 +22,7 @@ namespace Lineside {
       yellow1(),
       yellow2(),
       green(),
-      feathers(),
-      lastFlashStatus(true) {}
+      feathers() {}
     
     virtual void OnActivate() override;
 
@@ -31,7 +30,10 @@ namespace Lineside {
 
     virtual std::chrono::milliseconds OnRun() override;
 
+    virtual unsigned int GetAspectCount() const override;
 
+    virtual unsigned int GetFeatherCount() const override;
+    
     // One can argue that the following should be private
     // However, this class should usually only be accessed through
     // MultiAspectSignalHead, and making them private makes
@@ -45,8 +47,6 @@ namespace Lineside {
     std::vector<std::unique_ptr<Tendril::BinaryOutputPin>> feathers;
   private:
     friend class DirectDriveMASHData;
-
-    bool lastFlashStatus;
     
     void turnAllOff();
 

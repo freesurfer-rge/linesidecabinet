@@ -25,7 +25,8 @@ namespace Lineside {
       currentFlash(SignalFlash::Steady),
       desiredFlash(SignalFlash::Steady),
       currentFeather(0),
-      desiredFeather(0), {}
+      desiredFeather(0),
+      lastFlashStatus(true) {}
 
     virtual bool HaveStateChange() override;
 
@@ -33,6 +34,12 @@ namespace Lineside {
     virtual void SetState(const SignalState wantedState,
 			  const SignalFlash wantedFlash,
 			  const unsigned int wantedFeather);
+
+    //! Return how many aspects are available
+    virtual unsigned int GetAspectCount() const = 0;
+
+    //! Return how many feathers are available
+    virtual unsigned int GetFeatherCount() const = 0;
   protected:
     std::mutex stateChangeMtx;
     
@@ -42,5 +49,7 @@ namespace Lineside {
     SignalFlash desiredFlash;
     unsigned int currentFeather;
     unsigned int desiredFeather;
+
+    bool lastFlashStatus;
   };
 }

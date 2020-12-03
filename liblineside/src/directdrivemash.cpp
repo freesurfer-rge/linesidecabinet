@@ -28,6 +28,22 @@ namespace Lineside {
       }
     return DirectDriveMASH::FlashInterval;
   }
+
+  unsigned int DirectDriveMASH::GetAspectCount() const {
+    unsigned int result = 2;
+    if( this->yellow1 ) {
+      result += 1;
+    }
+    if( this->yellow2 ) {
+      result += 1;
+    }
+
+    return result;
+  }
+
+  unsigned int DirectDriveMASH::GetFeatherCount() const {
+    return this->feathers.size();
+  }
   
   void DirectDriveMASH::turnAllOff() {
     // Always have Red and Green aspects
