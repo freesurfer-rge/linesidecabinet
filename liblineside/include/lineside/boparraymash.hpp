@@ -29,8 +29,14 @@ namespace Lineside {
 
     std::unique_ptr<Tendril::BOPArray> pins;
   private:
-    //! Mark all pins for off (but don't update)
+    //! Mark all pins for off (but don't Update)
     void markAllOff();
+
+    //! Mark the appropriate aspect
+    void setStateFromDesired();
+
+    //! Mark the appropriate feather
+    void setFeatherFromDesired();
     
     //! Mapping of aspects to pins in the BOPArray
     std::map<SignalAspect,unsigned int> aspects;
