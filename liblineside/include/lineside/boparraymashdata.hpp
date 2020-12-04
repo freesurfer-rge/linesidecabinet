@@ -14,16 +14,17 @@ namespace Lineside {
   public:
     BOPArrayMASHData();
 
+    //! Information about the BOPArray
     DeviceRequestData bopArrayRequest;
+
+    //! Settings to map the BOPArray to the lights
+    Tendril::SettingsMap settings;
     
-    //! Map from the aspects to pins in the array
-    std::map<SignalAspect, unsigned int> aspectRequests;
-    
-    //! List of feather pins
-    std::vector<unsigned int> featherRequests;
-    
-    //! Perform some basic sanity checks
-    void CheckData() const;
+    //! Extract the aspects
+    std::map<SignalAspect,unsigned int> ExtractAspects() const;
+
+    //! Extract the feathers
+    std::vector<unsigned int> ExtractFeathers() const;
     
     virtual std::shared_ptr<PWItemModel> Construct(Tendril::HardwareManager& hw,
 						   SoftwareManager& sw ) const override;
