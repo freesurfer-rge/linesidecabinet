@@ -11,6 +11,57 @@ BOOST_AUTO_TEST_SUITE(BOPArrayMASHData)
 
 BOOST_AUTO_TEST_SUITE(ExtractAspects)
 
+BOOST_AUTO_TEST_CASE(TwoAspect)
+{
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = 16;
+
+  mashd.settings["Green"] = "0";
+  mashd.settings["Red"] = "1";
+  mashd.settings["Feather1"] = "2";
+
+  auto result = mashd.ExtractAspects();
+  BOOST_REQUIRE_EQUAL( result.size(), 2 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Red), 0 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Green), 1 );
+}
+
+BOOST_AUTO_TEST_CASE(ThreeAspect)
+{
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = 19;
+
+  mashd.settings["Green"] = "0";
+  mashd.settings["Yellow1"] = "3";
+  mashd.settings["Red"] = "1";
+  mashd.settings["Feather1"] = "2";
+
+  auto result = mashd.ExtractAspects();
+  BOOST_REQUIRE_EQUAL( result.size(), 2 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Red), 0 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Green), 1 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Yellow1), 3 );
+}
+
+BOOST_AUTO_TEST_CASE(FourAspect)
+{
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = 19;
+
+  mashd.settings["Green"] = "4";
+  mashd.settings["Yellow1"] = "3";
+  mashd.settings["Yellow2"] = "2";
+  mashd.settings["Red"] = "1";
+  mashd.settings["Feather1"] = "0";
+
+  auto result = mashd.ExtractAspects();
+  BOOST_REQUIRE_EQUAL( result.size(), 2 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Red), 4);
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Green), 1 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Yellow1), 3 );
+  BOOST_CHECK_EQUAL( result.at(Lineside::SignalAspect::Yellow2), 2 );
+}
+
 BOOST_AUTO_TEST_CASE(NoRedAspect)
 {
   Lineside::BOPArrayMASHData mashd;

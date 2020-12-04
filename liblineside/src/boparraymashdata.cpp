@@ -8,7 +8,14 @@ namespace Lineside {
   
   std::map<SignalAspect,unsigned int>
   BOPArrayMASHData::ExtractAspects() const {
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    std::map<SignalAspect,unsigned int> result;
+
+    for( auto it : this->settings ) {
+      auto key = it.first;
+      auto value = it.second;
+    }
+    
+    return result;
   }
 
   std::vector<unsigned int>

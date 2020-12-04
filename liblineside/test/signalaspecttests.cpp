@@ -34,4 +34,18 @@ BOOST_DATA_TEST_CASE( Parse, nameToAspectZip, name, aspect )
   BOOST_CHECK_EQUAL( aspect, Lineside::Parse<Lineside::SignalAspect>(name) );
 }
 
+BOOST_DATA_TEST_CASE( TryParse, nameToAspectZip, name, aspect )
+{
+  Lineside::SignalAspect result;
+
+  BOOST_REQUIRE( Lineside::TryParse(name, result) );
+  BOOST_CHECK_EQUAL( result, aspect );
+}
+
+BOOST_AUTO_TEST_CASE( TryParseFail )
+{
+  Lineside::SignalAspect result;
+  BOOST_CHECK( !Lineside::TryParse("SomeString", result) );
+}
+
 BOOST_AUTO_TEST_SUITE_END()
