@@ -11,7 +11,7 @@
 namespace Lineside {
   class DirectDriveMASH;
   
-  //! Class for configuration data for multiple aspect signal heads
+  //! Class for configuration data for directly driven multiple aspect signal heads
   class DirectDriveMASHData : public PWItemData {
   public:
     DirectDriveMASHData();

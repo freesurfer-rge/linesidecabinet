@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Test>
   <!-- The BOPArray is a device -->
-  <BOPArray controller="GPIO" controllerData="6">
+  <BOPArray controller="GPIO" controllerData="Unused">
     <Settings>
       <!-- Keys are the array locations, values the GPIO pin -->
       <Setting key="0" value="13" />
