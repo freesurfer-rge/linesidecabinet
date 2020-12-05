@@ -14,16 +14,9 @@ namespace Lineside {
   BOPArrayMASHData::ExtractAspects() const {
     std::map<SignalAspect,unsigned int> result;
 
-    std::set<std::string> pinValues;
     for( auto it : this->settings ) {
       auto key = it.first;
       auto value = it.second;
-
-      if( pinValues.count(value) != 0 ) {
-	auto msg = std::string("Pin already assigned: ") + value;
-	throw BadPWItemDataException(this->id, msg);
-      }
-      pinValues.insert(value);
 
       SignalAspect aspect;
       if( TryParse(key, aspect) ) {
@@ -55,7 +48,37 @@ namespace Lineside {
 
   std::vector<unsigned int>
   BOPArrayMASHData::ExtractFeathers() const {
-    throw std::logic_error(__PRETTY_FUNCTION__);
+    const std::string featherString = "Feather";
+    
+    // Since feathers number from 1, always have one entry
+    std::vector<unsigned int> result(1);
+
+    std::map<unsigned int, unsigned int> foundFeathers;
+    for( auto it : this->settings ) {
+      auto key = it.first;
+      auto value = it.second;
+
+      if( key.find(featherString) != std::string::npos ) {
+	auto featherIdStr = key.substr(featherString.size());
+	unsigned int featherId = std::stoul(featherIdStr);
+
+	if( featherId == 0 ) {
+	  throw BadPWItemDataException(this->id, "Feather '0' defined");
+	}
+
+	foundFeathers[featherId] =  std::stoul(value);
+      }
+    }
+
+    unsigned int expected = 1;    for( auto it : foundFeathers ) {
+      if( it.first != expected ) {
+	throw BadPWItemDataException(this->id, "Feathers are not sequential from one");
+      }
+      result.push_back(it.second);
+      expected++;
+    }
+    
+    return result;
   }
 
   
