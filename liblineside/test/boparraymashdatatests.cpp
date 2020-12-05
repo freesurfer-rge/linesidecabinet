@@ -1,6 +1,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "lineside/boparraymashdata.hpp"
+#include "lineside/boparraymash.hpp"
 #include "lineside/linesideexceptions.hpp"
 
 #include "exceptionmessagecheck.hpp"
@@ -187,6 +188,26 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_FIXTURE_TEST_SUITE(Construct, MockManagerFixture)
 
+BOOST_AUTO_TEST_CASE(Smoke)
+{
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = 255;
+
+  mashd.settings["Red"] = "2";
+  mashd.settings["Green"] = "1";
+  mashd.settings["Feather1"] = "0";
+
+  mashd.bopArrayRequest.controller = "MockBOPArray";
+  mashd.bopArrayRequest.settings["0"] = "18";
+  mashd.bopArrayRequest.settings["1"] = "19";
+  mashd.bopArrayRequest.settings["2"] = "26";
+
+  auto result = mashd.Construct(*(this->hwManager), *(this->swManager));
+  BOOST_REQUIRE(result);
+  auto bopArrayMash = std::dynamic_pointer_cast<Lineside::BOPArrayMASH>(result);
+  BOOST_CHECK( bopArrayMash );
+}
+  
 BOOST_AUTO_TEST_CASE(AspectFeatherBOPArraySizeMismatch)
 {
   Lineside::BOPArrayMASHData mashd;

@@ -15,6 +15,13 @@ namespace Tendril {
 
     for( auto kvPair : settings ) {
       auto idx = std::stoul(kvPair.first);
+      if( idx >= settings.size() ) {
+	std::stringstream msg;
+	msg << __FUNCTION__
+	    << "Index " << idx
+	    << " too large for size " << settings.size();
+	throw std::logic_error(msg.str());
+      }
       result.at(idx) = kvPair.second;
     }
 

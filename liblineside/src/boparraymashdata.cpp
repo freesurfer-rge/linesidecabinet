@@ -2,7 +2,9 @@
 
 #include "lineside/linesideexceptions.hpp"
 
+#include "lineside/boparraymash.hpp"
 #include "lineside/boparraymashdata.hpp"
+
 
 namespace Lineside {
   BOPArrayMASHData::BOPArrayMASHData()
@@ -117,6 +119,12 @@ namespace Lineside {
     }
 
     auto bap = hw.bopArrayProviderRegistrar.Retrieve(this->bopArrayRequest.controller);
-    throw std::logic_error(__PRETTY_FUNCTION__);
+
+    auto result = std::make_shared<BOPArrayMASH>(this->id);
+    result->pins = bap->GetHardware(this->bopArrayRequest.controllerData, this->bopArrayRequest.settings);
+    result->aspects = aspects;
+    result->feathers = feathers;
+
+    return result;
   }
 }
