@@ -4,6 +4,7 @@
 #include "lineside/linesideexceptions.hpp"
 
 #include "exceptionmessagecheck.hpp"
+#include "mockmanagerfixture.hpp"
 
 BOOST_AUTO_TEST_SUITE(BOPArrayMASHData)
 
@@ -178,6 +179,68 @@ BOOST_AUTO_TEST_CASE(FeathersNonSequential)
   BOOST_CHECK_EXCEPTION( mashd.ExtractFeathers(),
 			 Lineside::BadPWItemDataException,
 			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>( msg ) );
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// ---------------
+
+BOOST_FIXTURE_TEST_SUITE(Construct, MockManagerFixture)
+
+BOOST_AUTO_TEST_CASE(AspectFeatherBOPArraySizeMismatch)
+{
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = 255;
+
+  mashd.settings["Red"] = "2";
+  mashd.settings["Green"] = "1";
+  mashd.settings["Feather1"] = "0";
+
+  mashd.bopArrayRequest.settings["0"] = "18";
+  mashd.bopArrayRequest.settings["1"] = "19";
+
+  std::string msg = "Configuration problem for 00:00:00:ff - Number of feathers and aspects does not match BOPArray size";
+  BOOST_CHECK_EXCEPTION( mashd.Construct(*(this->hwManager), *(this->swManager)),
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>(msg) );
+}
+
+BOOST_AUTO_TEST_CASE(DuplicatePinRequest)
+{
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = 255;
+
+  mashd.settings["Red"] = "2";
+  mashd.settings["Green"] = "1";
+  mashd.settings["Feather1"] = "1";
+
+  mashd.bopArrayRequest.settings["0"] = "18";
+  mashd.bopArrayRequest.settings["1"] = "19";
+  mashd.bopArrayRequest.settings["2"] = "26";
+
+  std::string msg = "Configuration problem for 00:00:00:ff - At least one pin in BOPArray requested twice";
+  BOOST_CHECK_EXCEPTION( mashd.Construct(*(this->hwManager), *(this->swManager)),
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>(msg) );
+}
+
+BOOST_AUTO_TEST_CASE(PinsNotSequential)
+{
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = 255;
+
+  mashd.settings["Red"] = "2";
+  mashd.settings["Green"] = "3";
+  mashd.settings["Feather1"] = "0";
+
+  mashd.bopArrayRequest.settings["0"] = "18";
+  mashd.bopArrayRequest.settings["1"] = "19";
+  mashd.bopArrayRequest.settings["2"] = "26";
+
+  std::string msg = "Configuration problem for 00:00:00:ff - BOPArray pin requests not sequential from zero";
+  BOOST_CHECK_EXCEPTION( mashd.Construct(*(this->hwManager), *(this->swManager)),
+			 Lineside::BadPWItemDataException,
+			 GetExceptionMessageChecker<Lineside::BadPWItemDataException>(msg) );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

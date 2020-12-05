@@ -86,8 +86,37 @@ namespace Lineside {
 							   SoftwareManager& sw ) const {
     // Work around unused parameter warning
     this->UnusedSoftwareManager(sw);
+
+    auto aspects = this->ExtractAspects();
+    auto feathers = this->ExtractFeathers();
+
+    // Recall that we ignore the first element of the feather vector
+    if( this->bopArrayRequest.settings.size() != (aspects.size() + feathers.size()-1) ) {
+      throw BadPWItemDataException(this->id, "Number of feathers and aspects does not match BOPArray size");
+    }
+
+    std::set<unsigned int> pinRequests;
+    for( auto it : aspects ) {
+      pinRequests.insert(it.second);
+    }
+    // Append the feather requests, but skip the first (since we always ignore it)
+    for( auto it = feathers.begin()+1; it != feathers.end(); ++it ) {
+      pinRequests.insert(*it);
+    }
     
-    hw.bopArrayProviderRegistrar.Retrieve("GPIO");
+    if( pinRequests.size() != (aspects.size() + feathers.size()-1) ) {
+      throw BadPWItemDataException(this->id, "At least one pin in BOPArray requested twice");
+    }
+
+    unsigned int expected = 0;
+    for( auto it : pinRequests ) {
+      if( (it) != expected ) {
+	throw BadPWItemDataException(this->id, "BOPArray pin requests not sequential from zero");
+      }
+      expected++;
+    }
+
+    auto bap = hw.bopArrayProviderRegistrar.Retrieve(this->bopArrayRequest.controller);
     throw std::logic_error(__PRETTY_FUNCTION__);
   }
 }
