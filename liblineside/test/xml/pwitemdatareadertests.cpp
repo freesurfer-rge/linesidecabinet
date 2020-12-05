@@ -12,16 +12,19 @@
 #include "lineside/xml/servoturnoutmotordatareader.hpp"
 #include "lineside/xml/trackcircuitmonitordatareader.hpp"
 #include "lineside/xml/directdrivemashdatareader.hpp"
+#include "lineside/xml/boparraymashdatareader.hpp"
 
 #include "lineside/servoturnoutmotordata.hpp"
 #include "lineside/trackcircuitmonitordata.hpp"
 #include "lineside/directdrivemashdata.hpp"
+#include "lineside/boparraymashdata.hpp"
 
 // ===========================
 
 const std::string servoturnoutmotorFragment = "pwitem-servoturnoutmotor.xml";
 const std::string trackcircuitmonitorFragment = "pwitem-trackcircuitmonitor.xml";
 const std::string directdrivemashFragment = "pwitem-directdrivemash.xml";
+const std::string boparraymashFragment = "pwitem-boparraymash.xml";
 
 // ===========================
 
@@ -130,6 +133,51 @@ BOOST_AUTO_TEST_CASE( SmokeDirectDriveMASHData )
   BOOST_CHECK_EQUAL( f1Request.controller, "GPIO2" );
   BOOST_CHECK_EQUAL( f1Request.controllerData, "08" );
   BOOST_CHECK_EQUAL( f1Request.settings.size(), 0 );
+}
+
+BOOST_AUTO_TEST_CASE( SmokeBOPArrayMASHData )
+{
+  Lineside::xml::XercesGuard xg;
+  auto parser = GetParser();
+
+  auto rootElement = GetRootElementOfFile(parser, boparraymashFragment);
+  BOOST_REQUIRE(rootElement);
+
+  auto mashElement = Lineside::xml::GetSingleElementByName(rootElement, "BOPArrayMASH" );
+  BOOST_REQUIRE( mashElement );
+
+  Lineside::xml::BOPArrayMASHDataReader reader;
+  
+  BOOST_CHECK( reader.MatchingElement(mashElement) );
+
+  auto result = reader.Read(mashElement);
+  BOOST_REQUIRE(result);
+
+  auto expectedId = Lineside::Parse<Lineside::ItemId>("00:1a:2b:3c");
+  BOOST_CHECK_EQUAL( result->id, expectedId );
+
+  auto mashd = std::dynamic_pointer_cast<Lineside::BOPArrayMASHData>(result);
+  BOOST_REQUIRE(mashd);
+
+  // Check the pin mappings
+  BOOST_REQUIRE_EQUAL( mashd->settings.size(), 6 );
+  BOOST_CHECK_EQUAL( mashd->settings.at("Red"), "5" );
+  BOOST_CHECK_EQUAL( mashd->settings.at("Yellow1"), "0" );
+  BOOST_CHECK_EQUAL( mashd->settings.at("Yellow2"), "1" );
+  BOOST_CHECK_EQUAL( mashd->settings.at("Green"), "2" );
+  BOOST_CHECK_EQUAL( mashd->settings.at("Feather1"), "3" );
+  BOOST_CHECK_EQUAL( mashd->settings.at("Feather2"), "4" );
+
+  // Check the BOPArray configuration
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.controller, "GPIO" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.controllerData, "6" );
+  BOOST_REQUIRE_EQUAL( mashd->bopArrayRequest.settings.size(), 6 );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("0"), "13" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("1"), "19" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("2"), "26" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("3"), "16" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("4"), "20" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("5"), "21" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
