@@ -72,7 +72,7 @@ namespace Lineside {
   }
   
   void BOPArrayMASH::markAllOff() {
-    // Recall that we ignore the  first 
+    // Recall that we ignore the first entry in the feather vector
     const size_t nPins = this->GetAspectCount() + this->GetFeatherCount() - 1;
     for( size_t i=0; i<nPins; ++i ) {
       this->pins->Set(i, false);

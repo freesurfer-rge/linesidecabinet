@@ -19,6 +19,8 @@ BOOST_AUTO_TEST_CASE(TwoAspect)
   const size_t greenPin = 1;
   target.aspects[Lineside::SignalAspect::Red] = redPin;
   target.aspects[Lineside::SignalAspect::Green] = greenPin;
+  // Remember that the first feather is ignored, but it needs to be present
+  target.feathers.push_back(8192);
 
   // Get access to the MockBOPArray
   auto mba = dynamic_cast<Tendril::Mocks::MockBOPArray*>(target.pins.get());
@@ -88,6 +90,8 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
   const size_t featherPin = 1;
   target.aspects[Lineside::SignalAspect::Red] = redPin;
   target.aspects[Lineside::SignalAspect::Green] = greenPin;
+  // Remember that the first feather is ignored, but it needs to be present
+  target.feathers.push_back(8192);
   target.feathers.push_back(featherPin);
 
   // Get access to the MockBOPArray
@@ -160,6 +164,8 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
   const size_t featherPin2 = 0;
   target.aspects[Lineside::SignalAspect::Red] = redPin;
   target.aspects[Lineside::SignalAspect::Green] = greenPin;
+  // Remember that the first feather is ignored, but it needs to be present
+  target.feathers.push_back(8192);
   target.feathers.push_back(featherPin1);
   target.feathers.push_back(featherPin2);
 
@@ -235,6 +241,8 @@ BOOST_AUTO_TEST_CASE(ThreeAspect)
   target.aspects[Lineside::SignalAspect::Red] = redPin;
   target.aspects[Lineside::SignalAspect::Yellow1] = yellowPin;
   target.aspects[Lineside::SignalAspect::Green] = greenPin;
+  // Remember that the first feather is ignored, but it needs to be present
+  target.feathers.push_back(8192);
 
   // Get access to the MockBOPArray
   auto mba = dynamic_cast<Tendril::Mocks::MockBOPArray*>(target.pins.get());
@@ -282,6 +290,8 @@ BOOST_AUTO_TEST_CASE(FourAspect)
   target.aspects[Lineside::SignalAspect::Yellow1] = yellow1Pin;
   target.aspects[Lineside::SignalAspect::Yellow2] = yellow2Pin;
   target.aspects[Lineside::SignalAspect::Green] = greenPin;
+  // Remember that the first feather is ignored, but it needs to be present
+  target.feathers.push_back(8192);
 
   // Get access to the MockBOPArray
   auto mba = dynamic_cast<Tendril::Mocks::MockBOPArray*>(target.pins.get());
