@@ -67,12 +67,13 @@ namespace Lineside {
     // Assumes that turnAllOff() called previously, and that
     // SetState has prevented desiredFeather being invalid
     if( this->desiredFeather > 0 ) {
-      this->pins->Set(this->feathers.at(this->desiredFeather-1), true);
+      this->pins->Set(this->feathers.at(this->desiredFeather), true);
     }
   }
   
   void BOPArrayMASH::markAllOff() {
-    const size_t nPins = this->GetAspectCount() + this->GetFeatherCount();
+    // Recall that we ignore the  first 
+    const size_t nPins = this->GetAspectCount() + this->GetFeatherCount() - 1;
     for( size_t i=0; i<nPins; ++i ) {
       this->pins->Set(i, false);
     }
