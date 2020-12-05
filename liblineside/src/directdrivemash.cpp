@@ -26,45 +26,23 @@ namespace Lineside {
 	this->currentFlash = this->desiredFlash;
 	this->currentFeather = this->desiredFeather;
       }
-    return DirectDriveMASH::FlashInterval;
+    return MultiAspectSignalHead::FlashInterval;
   }
 
-  bool DirectDriveMASH::HaveStateChange() {
-    bool changeState = this->desiredState != this->currentState;
-    bool changeFlash = this->desiredFlash != this->currentFlash;
-    bool changeFeather = this->desiredFeather != this->currentFeather;
+  unsigned int DirectDriveMASH::GetAspectCount() const {
+    unsigned int result = 2;
+    if( this->yellow1 ) {
+      result += 1;
+    }
+    if( this->yellow2 ) {
+      result += 1;
+    }
 
-    return changeState || changeFlash || changeFeather;
+    return result;
   }
 
-  void DirectDriveMASH::SetState(const SignalState wantedState,
-				 const SignalFlash wantedFlash,
-				 const unsigned int wantedFeather ) {
-    std::lock_guard<std::mutex> lockState(this->stateChangeMtx);
-    
-    // Checks on the aspects
-    if( wantedState == SignalState::Yellow ) {
-      if( !this->yellow1 ) {
-	throw InvalidMASHStateException(this->getId(), wantedState, wantedFlash, wantedFeather);
-      }
-    }
-
-    if( wantedState == SignalState::DoubleYellow ) {
-      if( !this->yellow2 ) {
-	throw InvalidMASHStateException(this->getId(), wantedState, wantedFlash, wantedFeather);
-      }
-    }
-
-    // Check on the feather
-    if( wantedFeather > this->feathers.size() ) {
-      throw InvalidMASHStateException(this->getId(), wantedState, wantedFlash, wantedFeather);
-    }
-
-    this->lastFlashStatus = true; // Make sure flashing starts with aspect on
-    this->desiredState = wantedState;
-    this->desiredFlash = wantedFlash;
-    this->desiredFeather = wantedFeather;
-    this->WakeController();
+  unsigned int DirectDriveMASH::GetFeatherCount() const {
+    return this->feathers.size();
   }
   
   void DirectDriveMASH::turnAllOff() {

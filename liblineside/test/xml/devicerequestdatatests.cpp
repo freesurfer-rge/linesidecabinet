@@ -15,6 +15,7 @@
 const std::string binaryinputFragment = "devicerequest-binaryinput.xml";
 const std::string binaryoutputFragment = "devicerequest-binaryoutput.xml";
 const std::string pwmchannelFragment = "devicerequest-pwmchannel.xml";
+const std::string boparrayFragment = "devicerequest-boparray.xml";
 
 // ================================
 
@@ -78,6 +79,31 @@ BOOST_AUTO_TEST_CASE( SmokePWMChannel )
   BOOST_CHECK_EQUAL( result.controller, "sc01" );
   BOOST_CHECK_EQUAL( result.controllerData, "01" );
   BOOST_REQUIRE_EQUAL( result.settings.size(), 0 );
+}
+
+BOOST_AUTO_TEST_CASE( SmokeBOPArray )
+{
+  Lineside::xml::XercesGuard xg;
+  auto parser = GetParser();
+
+  auto rootElement = GetRootElementOfFile(parser, boparrayFragment);
+  BOOST_REQUIRE(rootElement);
+
+  auto pwmChannelElement = Lineside::xml::GetSingleElementByName(rootElement, "BOPArray" );
+  BOOST_REQUIRE( pwmChannelElement );
+
+  Lineside::xml::DeviceRequestDataReader reader;
+
+  auto result = reader.Read(pwmChannelElement);
+  BOOST_CHECK_EQUAL( result.controller, "GPIO" );
+  BOOST_CHECK_EQUAL( result.controllerData, "Unused" );
+  BOOST_REQUIRE_EQUAL( result.settings.size(), 6 );
+  BOOST_CHECK_EQUAL( result.settings.at("0"), "13" );
+  BOOST_CHECK_EQUAL( result.settings.at("1"), "19" );
+  BOOST_CHECK_EQUAL( result.settings.at("2"), "26" );
+  BOOST_CHECK_EQUAL( result.settings.at("3"), "16" );
+  BOOST_CHECK_EQUAL( result.settings.at("4"), "20" );
+  BOOST_CHECK_EQUAL( result.settings.at("5"), "21" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

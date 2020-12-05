@@ -14,6 +14,7 @@
 #include "lineside/servoturnoutmotordata.hpp"
 #include "lineside/trackcircuitmonitordata.hpp"
 #include "lineside/directdrivemashdata.hpp"
+#include "lineside/boparraymashdata.hpp"
 
 // ====================
 
@@ -39,7 +40,7 @@ BOOST_AUTO_TEST_CASE( SmokePWItemListReader )
   BOOST_REQUIRE(listElement);
 
   std::vector<std::shared_ptr<Lineside::PWItemData>> pwItems = reader.Read(listElement);
-  BOOST_REQUIRE_EQUAL( pwItems.size(), 3 );
+  BOOST_REQUIRE_EQUAL( pwItems.size(), 4 );
 
   auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(pwItems.at(0));
   BOOST_REQUIRE( tcmd );
@@ -55,6 +56,11 @@ BOOST_AUTO_TEST_CASE( SmokePWItemListReader )
   BOOST_REQUIRE( stmd );
   auto stmId = Lineside::Parse<Lineside::ItemId>("00:0e:2a:5f");
   BOOST_CHECK_EQUAL( stmd->id, stmId );
+
+  auto boparraymashd = std::dynamic_pointer_cast<Lineside::BOPArrayMASHData>(pwItems.at(3));
+  BOOST_REQUIRE( boparraymashd );
+  auto boparraymashId = Lineside::Parse<Lineside::ItemId>("2b:3c:00:1a");
+  BOOST_CHECK_EQUAL( boparraymashd->id, boparraymashId );
 }
 
 BOOST_AUTO_TEST_CASE( TwoTrackCircuitMonitors )

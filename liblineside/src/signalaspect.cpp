@@ -58,4 +58,19 @@ namespace Lineside {
       throw std::invalid_argument(msg.str());
     }
   }
+
+  bool TryParse(const std::string& src, SignalAspect& dest) {
+    if( convertor.empty() ) {
+      initconvertor();
+    }
+
+    bool result = false;
+
+    if( convertor.right.count(src) == 1 ) {
+      result = true;
+      dest = convertor.right.at(src);
+    }
+
+    return result;
+  }
 }

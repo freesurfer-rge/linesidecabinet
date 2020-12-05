@@ -9,6 +9,10 @@
 
 // =====================================
 
+/*
+  Note that the "BadState" tests are actually for MultiAspectSignalHead
+  base class, which contains the state checks
+*/
 void CheckBadState(Lineside::DirectDriveMASH& target,
 		   const Lineside::SignalState badState,
 		   const Lineside::SignalFlash flash, // Can't be 'bad'
@@ -336,6 +340,13 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   BOOST_REQUIRE( yellow1 );
   BOOST_REQUIRE( yellow2 );
   BOOST_REQUIRE( green );
+
+  // Construction state
+  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( red->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
+  BOOST_CHECK_EQUAL( green->lastLevel, false );
   
   // Activate
   target.OnActivate();

@@ -4,8 +4,10 @@
 #include "pigpiodpp/pihardwaremanagerfactory.hpp"
 #include "lineside/xml/configurationreader.hpp"
 #include "lineside/directdrivemashdata.hpp"
+#include "lineside/boparraymashdata.hpp"
 
 #include "lineside/pwitemmanager.hpp"
+// #include "lineside/multiaspectsignalhead.hpp"
 
 #include "cmdlineopts.hpp"
 #include "stubsoftwaremanager.hpp"
@@ -13,9 +15,13 @@
 
 void CheckPWItems(const std::vector<std::shared_ptr<Lineside::PWItemData>>& pwItems) {
   for( auto it=pwItems.begin(); it!=pwItems.end(); ++it ) {
-    auto signal = std::dynamic_pointer_cast<Lineside::DirectDriveMASHData>(*it);
+    std::shared_ptr<Lineside::PWItemData> signal;
+    signal = std::dynamic_pointer_cast<Lineside::DirectDriveMASHData>(*it);
     if( !signal ) {
-      throw std::runtime_error("All PWItems must be of type DirectDriveMASH");
+      signal = std::dynamic_pointer_cast<Lineside::BOPArrayMASHData>(*it);
+      if( !signal ) {
+	throw std::runtime_error("All PWItems must be of type Multiple Aspect Signals!");
+      }
     }
   }
 }

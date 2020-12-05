@@ -20,4 +20,7 @@ namespace Lineside {
   //! Template specialisation to parse a string to a SignalAspect
   template<>
   SignalAspect Parse<SignalAspect>(const std::string& src );
+
+  //! Function to try to parse a string to a SignalAspect
+  bool TryParse(const std::string& src, SignalAspect& dest);
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <!-- The BOPArray is a device -->
+  <BOPArray controller="GPIO" controllerData="Unused">
+    <Settings>
+      <!-- Keys are the array locations, values the GPIO pin -->
+      <Setting key="0" value="13" />
+      <Setting key="1" value="19" />
+      <Setting key="2" value="26" />
+      <Setting key="3" value="16" />
+      <Setting key="4" value="20" />
+      <Setting key="5" value="21" />
+      <!-- These are passed to BOPArray::ExtractPinList -->
+    </Settings>
+  </BOPArray>
+</Test>
