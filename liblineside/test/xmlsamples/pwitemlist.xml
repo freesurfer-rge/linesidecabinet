@@ -31,5 +31,27 @@
     <ServoTurnoutMotor id="00:0e:2a:5f" straight="130" curved="400" >
       <PWMChannel controller="sc01" controllerData="01" />
     </ServoTurnoutMotor>
+    <BOPArrayMASH id="2b:3c:00:1a">
+      <Settings>
+	<!--
+            These settings record the array locations
+            for each aspect and feather
+	-->
+	<Setting key="Red" value="3" />
+	<Setting key="Yellow1" value="0" />
+	<Setting key="Green" value="2" />
+	<Setting key="Feather1" value="1" />
+      </Settings>
+      <BOPArray controller="GPIO" controllerData="6">
+	<Settings>
+          <!-- Keys are the array locations, values the GPIO pin -->
+          <Setting key="0" value="13" />
+          <Setting key="1" value="19" />
+          <Setting key="2" value="26" />
+          <Setting key="3" value="16" />
+          <!-- These are passed to BOPArray::ExtractPinList -->
+	</Settings>
+	</BOPArray>
+    </BOPArrayMASH>
   </PermanentWayItems>
 </Test>
