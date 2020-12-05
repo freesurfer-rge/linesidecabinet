@@ -41,6 +41,13 @@ namespace Lineside {
     std::map<SignalAspect,unsigned int> aspects;
 
     //! Link feathers to pins in the BOPArray
+    /*!
+      Note that the first entry is always ignored, since
+      calling SetState with 'feather' equal to zero turns
+      all feathers off.
+      However, the first entry must be present, or other logic
+      will fail.
+    */
     std::vector<unsigned int> feathers;
   private:
     //! Mark all pins for off (but don't Update)
