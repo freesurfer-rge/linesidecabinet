@@ -293,19 +293,31 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
 BOOST_AUTO_TEST_CASE( TwoAspectBadState )
 {
   const Lineside::ItemId id(15);
+  
+  Lineside::DirectDriveMASHData mashd;
+  mashd.id = id;
 
+  Lineside::DeviceRequestData drd;
+  drd.controller = "MockBOP";
+  drd.controllerData = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
+  drd.controllerData = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
+  drd.controllerData = "19";
+  mashd.featherRequests[1] = drd;
+  
   // Create the target
-  Lineside::DirectDriveMASH target(id);
-  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+  auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
+  BOOST_REQUIRE( pwItem );
+  auto target = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(pwItem);
+  BOOST_REQUIRE( target );
 
   BOOST_TEST_CONTEXT( "Checking aspects" ) {
-    CheckBadState(target, Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
-    CheckBadState(target, Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0);
+    CheckBadState(*target, Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
+    CheckBadState(*target, Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0);
   }
   BOOST_TEST_CONTEXT( "Checking feather" ) {
-    CheckBadState(target, Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2);
+    CheckBadState(*target, Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2);
   }
 }
 
@@ -313,44 +325,60 @@ BOOST_AUTO_TEST_CASE( ThreeAspect )
 {
   const Lineside::ItemId id(116731);
 
-  // Create the target
-  Lineside::DirectDriveMASH target(id);
-  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.yellow1 = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+  Lineside::DirectDriveMASHData mashd;
+  mashd.id = id;
 
-  // Copy the pointers so that we can see the state 
-  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
-  auto yellow = dynamic_cast<Tendril::Mocks::MockBOP*>(target.yellow1.get());
-  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  Lineside::DeviceRequestData drd;
+  drd.controller = "MockBOP";
+  drd.controllerData = "15";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
+  drd.controllerData = "16";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
+  drd.controllerData = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = drd;
+  
+  // Create the target
+  auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
+  BOOST_REQUIRE( pwItem );
+  auto target = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(pwItem);
+  BOOST_REQUIRE( target );
+
+  // Copy the pointers so that we can see the state
+  auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
+  BOOST_REQUIRE( hp );
+  auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
+  BOOST_REQUIRE( hp );
+  auto red = mbp->hardware.at("15");
+  auto green = mbp->hardware.at("16");
+  auto yellow1 = mbp->hardware.at("10");
   BOOST_REQUIRE( red );
-  BOOST_REQUIRE( yellow );
   BOOST_REQUIRE( green );
+  BOOST_REQUIRE( yellow1 );
 
   // Construction state
-  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( target->getId(), id );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
-  BOOST_CHECK_EQUAL( yellow->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Activate
-  target.OnActivate();
+  target->OnActivate();
   BOOST_CHECK_EQUAL( red->lastLevel, true );
-  BOOST_CHECK_EQUAL( yellow->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Set to yellow and steady
-  target.SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
-  auto sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
+  auto sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
-  BOOST_CHECK_EQUAL( yellow->lastLevel, true );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, true );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Deactivate
-  target.OnDeactivate();
+  target->OnDeactivate();
   BOOST_CHECK_EQUAL( red->lastLevel, false );
-  BOOST_CHECK_EQUAL( yellow->lastLevel, false );
+  BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 }
 
@@ -359,18 +387,31 @@ BOOST_AUTO_TEST_CASE( ThreeAspectBadState )
 {
   const Lineside::ItemId id(115);
 
+  Lineside::DirectDriveMASHData mashd;
+  mashd.id = id;
+
+  Lineside::DeviceRequestData drd;
+  drd.controller = "MockBOP";
+  drd.controllerData = "15";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
+  drd.controllerData = "16";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
+  drd.controllerData = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = drd;
+  drd.controllerData = "11";
+  mashd.featherRequests[1] = drd;
+  
   // Create the target
-  Lineside::DirectDriveMASH target(id);
-  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.yellow1 = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+  auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
+  BOOST_REQUIRE( pwItem );
+  auto target = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(pwItem);
+  BOOST_REQUIRE( target );
 
   BOOST_TEST_CONTEXT( "Checking aspects" ) {
-    CheckBadState(target, Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0);
+    CheckBadState(*target, Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Steady, 0);
   }
   BOOST_TEST_CONTEXT( "Checking feather" ) {
-    CheckBadState(target, Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2);
+    CheckBadState(*target, Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 2);
   }
 }
 
