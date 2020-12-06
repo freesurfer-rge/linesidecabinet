@@ -3,9 +3,16 @@
 #include <boost/test/unit_test.hpp>
 
 #include "tendril/mocks/mockbop.hpp"
+#include "tendril/mocks/mockhardwareprovider.hpp"
 
 #include "lineside/directdrivemash.hpp"
+#include "lineside/directdrivemashdata.hpp"
 #include "lineside/linesideexceptions.hpp"
+
+#include "mockmanagerfixture.hpp"
+
+typedef Tendril::Mocks::MockHardwareProvider<Tendril::BinaryOutputPin,
+					     Tendril::Mocks::MockBOP> MockBOPProvider;
 
 // =====================================
 
@@ -33,67 +40,82 @@ void CheckBadState(Lineside::DirectDriveMASH& target,
 
 // =====================================
 
-BOOST_AUTO_TEST_SUITE(DirectDriveMASH)
+BOOST_FIXTURE_TEST_SUITE(DirectDriveMASH, MockManagerFixture)
 
 BOOST_AUTO_TEST_CASE(TwoAspect)
 {
   const Lineside::ItemId id(11);
 
-  // Create the target
-  Lineside::DirectDriveMASH target(id);
-  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+  Lineside::DirectDriveMASHData mashd;
+  mashd.id = id;
 
-  // Copy the pointers so that we can see the state 
-  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
-  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  Lineside::DeviceRequestData drd;
+  drd.controller = "MockBOP";
+  drd.controllerData = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
+  drd.controllerData = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
+  
+  // Create the target
+  auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
+  BOOST_REQUIRE( pwItem );
+  auto target = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(pwItem);
+  BOOST_REQUIRE( target );
+  
+  // Copy the pointers so that we can see the state
+  auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
+  BOOST_REQUIRE( hp );
+  auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
+  BOOST_REQUIRE( hp );
+  auto red = mbp->hardware.at("10");
+  auto green = mbp->hardware.at("11");
   BOOST_REQUIRE( red );
   BOOST_REQUIRE( green );
 
   // Construction state
-  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( target->getId(), id );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Activate
-  target.OnActivate();
+  target->OnActivate();
   BOOST_CHECK_EQUAL( red->lastLevel, true );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
   
   // Set to green
-  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0);
-  auto sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0);
+  auto sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, true );
 
   // Call OnRun again, but we didn't set it flashing
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, true );
 
   // Set to flashing red
-  target.SetState(Lineside::SignalState::Red, Lineside::SignalFlash::Flashing, 0);
-  sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::Red, Lineside::SignalFlash::Flashing, 0);
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, true );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Call OnRun again, and this time we are flashing
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // And one more time, since the aspect should be back on
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, true );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Deactivate
-  target.OnDeactivate();
+  target->OnDeactivate();
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 }
@@ -102,64 +124,80 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
 {
   const Lineside::ItemId id(15);
 
-  // Create the target
-  Lineside::DirectDriveMASH target(id);
-  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.feathers.push_back(std::make_unique<Tendril::Mocks::MockBOP>());
+  Lineside::DirectDriveMASHData mashd;
+  mashd.id = id;
 
-  // Copy the pointers so that we can see the state 
-  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
-  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
-  auto feather = dynamic_cast<Tendril::Mocks::MockBOP*>(target.feathers.at(0).get());
+  Lineside::DeviceRequestData drd;
+  drd.controller = "MockBOP";
+  drd.controllerData = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
+  drd.controllerData = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
+  drd.controllerData = "19";
+  mashd.featherRequests[1] = drd;
+  
+  // Create the target
+  auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
+  BOOST_REQUIRE( pwItem );
+  auto target = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(pwItem);
+  BOOST_REQUIRE( target );
+  
+  // Copy the pointers so that we can see the state
+  auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
+  BOOST_REQUIRE( hp );
+  auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
+  BOOST_REQUIRE( hp );
+  auto red = mbp->hardware.at("10");
+  auto green = mbp->hardware.at("11");
+  auto feather = mbp->hardware.at("19");
   BOOST_REQUIRE( red );
   BOOST_REQUIRE( green );
   BOOST_REQUIRE( feather );
 
   // Construction state
-  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( target->getId(), id );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
   BOOST_CHECK_EQUAL( feather->lastLevel, false );
 
   // Activate
-  target.OnActivate();
+  target->OnActivate();
   BOOST_CHECK_EQUAL( red->lastLevel, true );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
   BOOST_CHECK_EQUAL( feather->lastLevel, false );
 
   // Set to flashing green with the feather on
-  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Flashing, 1);
-  auto sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Flashing, 1);
+  auto sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, true );
   BOOST_CHECK_EQUAL( feather->lastLevel, true );
 
   // Call OnRun, green aspect should go out, but feather stays on
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
   BOOST_CHECK_EQUAL( feather->lastLevel, true );
 
   // Call once more, and the green aspect comes back on
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, true );
   BOOST_CHECK_EQUAL( feather->lastLevel, true );
 
   // Now go for steady green without a feather
-  target.SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0);
-  sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::Green, Lineside::SignalFlash::Steady, 0);
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, true );
   BOOST_CHECK_EQUAL( feather->lastLevel, false );
 
   // Deactivate
-  target.OnDeactivate();
+  target->OnDeactivate();
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
   BOOST_CHECK_EQUAL( feather->lastLevel, false );
