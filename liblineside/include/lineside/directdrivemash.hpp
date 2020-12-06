@@ -30,11 +30,8 @@ namespace Lineside {
     virtual unsigned int GetAspectCount() const override;
 
     virtual unsigned int GetFeatherCount() const override;
-    
-    // One can argue that the following should be private
-    // However, this class should usually only be accessed through
-    // MultiAspectSignalHead, and making them private makes
-    // testing much harder
+  private:
+    friend class DirectDriveMASHData;
     
     std::unique_ptr<Tendril::BinaryOutputPin> red;
     std::unique_ptr<Tendril::BinaryOutputPin> yellow1;
@@ -42,8 +39,6 @@ namespace Lineside {
     std::unique_ptr<Tendril::BinaryOutputPin> green;
     
     std::vector<std::unique_ptr<Tendril::BinaryOutputPin>> feathers;
-  private:
-    friend class DirectDriveMASHData;
     
     void turnAllOff();
 

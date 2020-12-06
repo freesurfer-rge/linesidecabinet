@@ -8,6 +8,8 @@
 #include "lineside/multiaspectsignalhead.hpp"
 
 namespace Lineside {
+  class BOPArrayMASHData;
+  
   //! Implementation of a multiple aspect signal head using a BOPArray
   class BOPArrayMASH : public MultiAspectSignalHead {
   public:
@@ -26,13 +28,8 @@ namespace Lineside {
     virtual unsigned int GetAspectCount() const override;
 
     virtual unsigned int GetFeatherCount() const override;
-
-    /*
-      Technically, the following ought to be private.
-      However, doing that makes testing a lot more difficult
-      and objects like this should be managed through
-      the parent classes anyway
-     */
+  private:
+    friend class BOPArrayMASHData;
     
     //! Access to the hardware
     std::unique_ptr<Tendril::BOPArray> pins;
@@ -49,7 +46,7 @@ namespace Lineside {
       will fail.
     */
     std::vector<unsigned int> feathers;
-  private:
+    
     //! Mark all pins for off (but don't Update)
     void markAllOff();
 
