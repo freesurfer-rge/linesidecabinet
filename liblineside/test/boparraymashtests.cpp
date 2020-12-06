@@ -340,42 +340,57 @@ BOOST_AUTO_TEST_CASE(ThreeAspect)
 BOOST_AUTO_TEST_CASE(FourAspect)
 {
   const Lineside::ItemId id(115);
-
-  // Create the target
-  Lineside::BOPArrayMASH target(id);
-  target.pins = std::make_unique<Tendril::Mocks::MockBOPArray>(4);
   const size_t redPin = 1;
   const size_t yellow1Pin = 0;
   const size_t yellow2Pin = 3;
   const size_t greenPin = 2;
-  target.aspects[Lineside::SignalAspect::Red] = redPin;
-  target.aspects[Lineside::SignalAspect::Yellow1] = yellow1Pin;
-  target.aspects[Lineside::SignalAspect::Yellow2] = yellow2Pin;
-  target.aspects[Lineside::SignalAspect::Green] = greenPin;
-  // Remember that the first feather is ignored, but it needs to be present
-  target.feathers.push_back(8192);
+
+  Lineside::BOPArrayMASHData mashd;
+  mashd.id = id;
+  mashd.settings["Red"] = std::to_string(redPin);
+  mashd.settings["Green"] = std::to_string(greenPin);
+  mashd.settings["Yellow1"] = std::to_string(yellow1Pin);
+  mashd.settings["Yellow2"] = std::to_string(yellow2Pin);
+  mashd.bopArrayRequest.controller = "MockBOPArray";
+  mashd.bopArrayRequest.controllerData = "ArrayForTest";
+  mashd.bopArrayRequest.settings[std::to_string(redPin)] = "100";
+  mashd.bopArrayRequest.settings[std::to_string(greenPin)] = "128";
+  mashd.bopArrayRequest.settings[std::to_string(yellow1Pin)] = "129";
+  mashd.bopArrayRequest.settings[std::to_string(yellow2Pin)] = "132";
+  BOOST_TEST_PASSPOINT();
+
+  // Create the target
+  auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
+  BOOST_REQUIRE( pwItem );
+  auto target = std::dynamic_pointer_cast<Lineside::BOPArrayMASH>(pwItem);
+  BOOST_REQUIRE( target );
+  BOOST_TEST_PASSPOINT();
 
   // Get access to the MockBOPArray
-  auto mba = dynamic_cast<Tendril::Mocks::MockBOPArray*>(target.pins.get());
+  auto hp = this->hwManager->bopArrayProviderRegistrar.Retrieve("MockBOPArray");
+  BOOST_REQUIRE( hp );
+  auto mbp = std::dynamic_pointer_cast<Tendril::Mocks::MockBOPArrayProvider>(hp);
+  BOOST_REQUIRE( mbp );
+  auto mba = dynamic_cast<Tendril::Mocks::MockBOPArray*>(mbp->hardware.at("ArrayForTest"));
   BOOST_REQUIRE( mba );
 
   // Construction state
-  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( target->getId(), id );
   BOOST_CHECK_EQUAL( mba->outputs.at(redPin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow1Pin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow2Pin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(greenPin), false );
 
   // Activate
-  target.OnActivate();
+  target->OnActivate();
   BOOST_CHECK_EQUAL( mba->outputs.at(redPin), true );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow1Pin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow2Pin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(greenPin), false );
 
   // Set to single yellow and steady
-  target.SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
-  auto sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
+  auto sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( mba->outputs.at(redPin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow1Pin), true );
@@ -383,8 +398,8 @@ BOOST_AUTO_TEST_CASE(FourAspect)
   BOOST_CHECK_EQUAL( mba->outputs.at(greenPin), false );
   
   // Set to double yellow and flashing
-  target.SetState(Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Flashing, 0);
-  sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Flashing, 0);
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( mba->outputs.at(redPin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow1Pin), true );
@@ -392,7 +407,7 @@ BOOST_AUTO_TEST_CASE(FourAspect)
   BOOST_CHECK_EQUAL( mba->outputs.at(greenPin), false );
 
   // Call OnRun() again, and check that everything is off
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( mba->outputs.at(redPin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow1Pin), false );
@@ -400,7 +415,7 @@ BOOST_AUTO_TEST_CASE(FourAspect)
   BOOST_CHECK_EQUAL( mba->outputs.at(greenPin), false );
 
   // One more time, and ensure both yellows are on
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( mba->outputs.at(redPin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow1Pin), true );
@@ -408,7 +423,7 @@ BOOST_AUTO_TEST_CASE(FourAspect)
   BOOST_CHECK_EQUAL( mba->outputs.at(greenPin), false );
 
   // Deactivate
-  target.OnDeactivate();
+  target->OnDeactivate();
   BOOST_CHECK_EQUAL( mba->outputs.at(redPin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow1Pin), false );
   BOOST_CHECK_EQUAL( mba->outputs.at(yellow2Pin), false );
