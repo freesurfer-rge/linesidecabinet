@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(TwoAspect)
   auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
   BOOST_REQUIRE( hp );
   auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
-  BOOST_REQUIRE( hp );
+  BOOST_REQUIRE( mbp );
   auto red = mbp->hardware.at("10");
   auto green = mbp->hardware.at("11");
   BOOST_REQUIRE( red );
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
   auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
   BOOST_REQUIRE( hp );
   auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
-  BOOST_REQUIRE( hp );
+  BOOST_REQUIRE( mbp );
   auto red = mbp->hardware.at("10");
   auto green = mbp->hardware.at("11");
   auto feather = mbp->hardware.at("19");
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
   auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
   BOOST_REQUIRE( hp );
   auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
-  BOOST_REQUIRE( hp );
+  BOOST_REQUIRE( mbp );
   auto red = mbp->hardware.at("10");
   auto green = mbp->hardware.at("11");
   auto feather1 = mbp->hardware.at("19");
@@ -347,7 +347,7 @@ BOOST_AUTO_TEST_CASE( ThreeAspect )
   auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
   BOOST_REQUIRE( hp );
   auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
-  BOOST_REQUIRE( hp );
+  BOOST_REQUIRE( mbp );
   auto red = mbp->hardware.at("15");
   auto green = mbp->hardware.at("16");
   auto yellow1 = mbp->hardware.at("10");
@@ -444,7 +444,7 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
   BOOST_REQUIRE( hp );
   auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
-  BOOST_REQUIRE( hp );
+  BOOST_REQUIRE( mbp );
   auto red = mbp->hardware.at("15");
   auto green = mbp->hardware.at("16");
   auto yellow1 = mbp->hardware.at("11");
