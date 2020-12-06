@@ -420,40 +420,57 @@ BOOST_AUTO_TEST_CASE( FourAspect )
 {
   const Lineside::ItemId id(46932);
 
-  // Create the target
-  Lineside::DirectDriveMASH target(id);
-  target.red = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.yellow1 = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.yellow2 = std::make_unique<Tendril::Mocks::MockBOP>();
-  target.green = std::make_unique<Tendril::Mocks::MockBOP>();
+  Lineside::DirectDriveMASHData mashd;
+  mashd.id = id;
 
-  // Copy the pointers so that we can see the state 
-  auto red = dynamic_cast<Tendril::Mocks::MockBOP*>(target.red.get());
-  auto yellow1 = dynamic_cast<Tendril::Mocks::MockBOP*>(target.yellow1.get());
-  auto yellow2 = dynamic_cast<Tendril::Mocks::MockBOP*>(target.yellow2.get());
-  auto green = dynamic_cast<Tendril::Mocks::MockBOP*>(target.green.get());
+  Lineside::DeviceRequestData drd;
+  drd.controller = "MockBOP";
+  drd.controllerData = "15";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
+  drd.controllerData = "16";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
+  drd.controllerData = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = drd;
+  drd.controllerData = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow2] = drd;
+    
+  // Create the target
+  auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
+  BOOST_REQUIRE( pwItem );
+  auto target = std::dynamic_pointer_cast<Lineside::DirectDriveMASH>(pwItem);
+  BOOST_REQUIRE( target );
+
+  // Copy the pointers so that we can see the state
+  auto hp = this->hwManager->bopProviderRegistrar.Retrieve("MockBOP");
+  BOOST_REQUIRE( hp );
+  auto mbp = std::dynamic_pointer_cast<MockBOPProvider>(hp);
+  BOOST_REQUIRE( hp );
+  auto red = mbp->hardware.at("15");
+  auto green = mbp->hardware.at("16");
+  auto yellow1 = mbp->hardware.at("11");
+  auto yellow2 = mbp->hardware.at("10");
   BOOST_REQUIRE( red );
+  BOOST_REQUIRE( green );
   BOOST_REQUIRE( yellow1 );
   BOOST_REQUIRE( yellow2 );
-  BOOST_REQUIRE( green );
 
   // Construction state
-  BOOST_CHECK_EQUAL( target.getId(), id );
+  BOOST_CHECK_EQUAL( target->getId(), id );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
   
   // Activate
-  target.OnActivate();
+  target->OnActivate();
   BOOST_CHECK_EQUAL( red->lastLevel, true );
   BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Set to single yellow and steady
-  target.SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
-  auto sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::Yellow, Lineside::SignalFlash::Steady, 0);
+  auto sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow1->lastLevel, true );
@@ -461,8 +478,8 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Set to double yellow and flashing
-  target.SetState(Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Flashing, 0);
-  sleepTime = target.OnRun();
+  target->SetState(Lineside::SignalState::DoubleYellow, Lineside::SignalFlash::Flashing, 0);
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow1->lastLevel, true );
@@ -470,7 +487,7 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Call OnRun() again, and check that everything is off
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
@@ -478,7 +495,7 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // One more time, and ensure both yellows are on
-  sleepTime = target.OnRun();
+  sleepTime = target->OnRun();
   BOOST_CHECK( sleepTime == std::chrono::milliseconds(500) );
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow1->lastLevel, true );
@@ -486,7 +503,7 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   BOOST_CHECK_EQUAL( green->lastLevel, false );
 
   // Deactivate
-  target.OnDeactivate();
+  target->OnDeactivate();
   BOOST_CHECK_EQUAL( red->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow1->lastLevel, false );
   BOOST_CHECK_EQUAL( yellow2->lastLevel, false );
