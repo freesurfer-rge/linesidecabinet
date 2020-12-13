@@ -7,6 +7,8 @@
 #include "tendril/boparray.hpp"
 #include "tendril/hardwareprovider.hpp"
 
+#include "tendril/devices/device.hpp"
+
 namespace Tendril::Devices {
   class DD595BOPArray;
   
