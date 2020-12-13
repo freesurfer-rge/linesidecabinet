@@ -2,6 +2,8 @@
 
 #include <mutex>
 #include <chrono>
+#include <set>
+#include <vector>
 
 #include "tendril/binaryoutputpin.hpp"
 #include "tendril/boparray.hpp"
@@ -10,13 +12,21 @@
 #include "tendril/devices/device.hpp"
 
 namespace Tendril::Devices {
-  class DD595BOPArray;
-  
   //! Class to represent directly driven chained SN74x595 shift registers
+  /*!
+    The goal of this class is to allow the shift registers to be used
+    to provide more output pins. It does not make the 'shift-by-one' operation
+    publically available.
+  */
   class DirectDriveSN74x595 : public Device,
 			      public HardwareProvider<BOPArray> {
   public:
-    const std::chrono::nanoseconds DefaultLevelDelay = std::chrono::nanoseconds(10);
+    const std::chrono::microseconds DefaultLevelDelay = std::chrono::microseconds(10);
+
+    /*
+      Constructor needs to set number of registers in chain.
+      Also make sure that the reset pin (if specified) is set to high
+    */
     
     //! Register with the HardwareManager
     virtual void Register(HardwareManager& hwManager) override;
@@ -42,9 +52,8 @@ namespace Tendril::Devices {
       Since this is passed to sleep() the exact wait is
       imprecise.
      */
-    std::chrono::nanoseconds levelDelay;
+    std::chrono::microseconds levelDelay;
   private:
-    friend class DD595BOPArray;
 
     std::mutex updateMutex;
 
@@ -55,6 +64,6 @@ namespace Tendril::Devices {
     std::unique_ptr<BinaryOutputPin> clearPin;
 
     std::vector<bool> state;
-    std::vector<unsigned int> allocatedPins;
+    std::set<unsigned int> allocatedPins;
   };
 }
