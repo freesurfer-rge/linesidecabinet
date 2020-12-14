@@ -22,11 +22,15 @@ namespace Tendril::Devices {
 			      public HardwareProvider<BOPArray> {
   public:
     const std::chrono::microseconds DefaultLevelDelay = std::chrono::microseconds(10);
-
-    /*
-      Constructor needs to set number of registers in chain.
-      Also make sure that the reset pin (if specified) is set to high
-    */
+    const unsigned int PinsPerChip = 8;
+    
+    DirectDriveSN74x595(const std::string deviceName,
+			const unsigned int chainLength,
+			std::unique_ptr<BinaryOutputPin>& clock,
+			std::unique_ptr<BinaryOutputPin>& data,
+			std::unique_ptr<BinaryOutputPin>& latch,
+			std::unique_ptr<BinaryOutputPin>& enable,
+			std::unique_ptr<BinaryOutputPin>& clear );
     
     //! Register with the HardwareManager
     virtual void Register(HardwareManager& hwManager) override;
@@ -54,7 +58,6 @@ namespace Tendril::Devices {
      */
     std::chrono::microseconds levelDelay;
   private:
-
     std::mutex updateMutex;
 
     std::unique_ptr<BinaryOutputPin> clockPin;
@@ -63,6 +66,7 @@ namespace Tendril::Devices {
     std::unique_ptr<BinaryOutputPin> enablePin;
     std::unique_ptr<BinaryOutputPin> clearPin;
 
+    const unsigned int totalPins;
     std::vector<bool> state;
     std::set<unsigned int> allocatedPins;
   };

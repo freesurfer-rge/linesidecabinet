@@ -3,6 +3,35 @@
 #include "tendril/devices/directdrivesn74x595.hpp"
 
 namespace Tendril::Devices {
+  DirectDriveSN74x595::DirectDriveSN74x595(const std::string deviceName,
+					   const unsigned int chainLength,
+					   std::unique_ptr<BinaryOutputPin>& clock,
+					   std::unique_ptr<BinaryOutputPin>& data,
+					   std::unique_ptr<BinaryOutputPin>& latch,
+					   std::unique_ptr<BinaryOutputPin>& enable,
+					   std::unique_ptr<BinaryOutputPin>& clear )
+    : Device(deviceName),
+      HardwareProvider(),
+      levelDelay(DirectDriveSN74x595::DefaultLevelDelay),
+      updateMutex(),
+      clockPin(std::move(clock)),
+      dataPin(std::move(data)),
+      latchPin(std::move(latch)),
+      enablePin(std::move(enable)),
+      clearPin(std::move(clear)),
+      totalPins(chainLength * DirectDriveSN74x595::PinsPerChip),
+      state(),
+      allocatedPins() {
+    if( this->clearPin ) {
+      this->Reset();
+    }
+    if( chainLength == 0 ) {
+      throw std::logic_error("Invalid chain length for 595");
+    }
+    this->state.reserve(chainLength * this->PinsPerChip);
+  }
+					   
+  
   void
   DirectDriveSN74x595::Register(HardwareManager& hwManager) {
     // Get a shared pointer and navigate around the types
