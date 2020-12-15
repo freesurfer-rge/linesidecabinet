@@ -1,5 +1,9 @@
 #include <thread>
+#include <sstream>
 
+#include "tendril/keyexception.hpp"
+
+#include "tendril/devices/boparray595.hpp"
 #include "tendril/devices/directdrivesn74x595.hpp"
 
 namespace Tendril::Devices {
@@ -40,6 +44,36 @@ namespace Tendril::Devices {
     hwManager.bopArrayProviderRegistrar.Register(this->name,
 						 ptr595);
 
+  }
+
+  std::unique_ptr<BOPArray>
+  DirectDriveSN74x595::GetHardware(const std::string& hardwareId,
+				   const SettingsMap& settings) {
+    // Convert the settings to an ordered list of strings
+    auto pinStringList = BOPArray::ExtractPinList(settings);
+    std::vector<unsigned int> pinList;
+    for(auto s : pinStringList) {
+      unsigned int nxt = std::stoul(s);
+      pinList.push_back(nxt);
+    }
+
+    // Update the list of pins already given out
+    for( unsigned int p : pinList ) {
+      if( allocatedPins.count(p) != 0 ) {
+	throw DuplicateKeyException(std::to_string(p));
+      }
+      if( p >= this->totalPins ) {
+	std::stringstream msg;
+	msg << "Pin " << p << " too large for " << hardwareId;
+	throw std::logic_error(msg.str());
+      }
+      this->allocatedPins.insert(p);
+    }
+    
+    auto myself = std::dynamic_pointer_cast<DirectDriveSN74x595>(this->shared_from_this());
+    auto result = std::make_unique<BOPArray595>(myself, pinList);
+
+    return result;
   }
 
   void
