@@ -31,6 +31,10 @@ BOOST_AUTO_TEST_CASE(Smoke)
   // Check the clear pin was set high
   BOOST_CHECK_EQUAL( clrPtr->lastLevel, true );
 
+  // Check that two of the functions work
+  sn595->Reset();
+  sn595->EnableOutputs(true);
+
   // Try getting a BOPArray
   const std::string arrayId = "SomeArray";
   Tendril::SettingsMap arraySettings;

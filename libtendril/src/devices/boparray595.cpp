@@ -1,4 +1,5 @@
 #include <map>
+#include <iostream>
 
 #include "tendril/devices/directdrivesn74x595.hpp"
 #include "tendril/devices/boparray595.hpp"

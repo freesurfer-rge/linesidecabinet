@@ -32,7 +32,7 @@ namespace Tendril::Devices {
     if( chainLength == 0 ) {
       throw std::logic_error("Invalid chain length for 595");
     }
-    this->state.reserve(chainLength * this->PinsPerChip);
+    this->state.resize(chainLength * this->PinsPerChip);
   }
 					   
   
