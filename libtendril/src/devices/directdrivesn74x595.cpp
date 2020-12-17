@@ -17,13 +17,13 @@ namespace Tendril::Devices {
     : Device(deviceName),
       HardwareProvider(),
       levelDelay(DirectDriveSN74x595::DefaultLevelDelay),
+      totalPins(chainLength * DirectDriveSN74x595::PinsPerChip),
       updateMutex(),
       clockPin(std::move(clock)),
       dataPin(std::move(data)),
       latchPin(std::move(latch)),
       enablePin(std::move(enable)),
       clearPin(std::move(clear)),
-      totalPins(chainLength * DirectDriveSN74x595::PinsPerChip),
       state(),
       allocatedPins() {
     if( this->clearPin ) {

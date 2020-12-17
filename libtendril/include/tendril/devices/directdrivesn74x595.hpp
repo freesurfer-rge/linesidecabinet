@@ -57,6 +57,9 @@ namespace Tendril::Devices {
       imprecise.
      */
     std::chrono::microseconds levelDelay;
+
+    //! Total number of pins available for use
+    const unsigned int totalPins;
   private:
     std::mutex updateMutex;
 
@@ -65,8 +68,7 @@ namespace Tendril::Devices {
     std::unique_ptr<BinaryOutputPin> latchPin;
     std::unique_ptr<BinaryOutputPin> enablePin;
     std::unique_ptr<BinaryOutputPin> clearPin;
-
-    const unsigned int totalPins;
+    
     std::vector<bool> state;
     std::set<unsigned int> allocatedPins;
   };

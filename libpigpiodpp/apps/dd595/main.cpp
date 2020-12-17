@@ -7,6 +7,7 @@
 #include "tendril/devices/directdrivesn74x595.hpp"
 
 #include "cmdlineopts.hpp"
+#include "runonconsole.hpp"
 
 int main(int argc, char* argv[]) {
   std::cout << "Tester for directly driven SN74x595" << std::endl;
@@ -30,6 +31,8 @@ int main(int argc, char* argv[]) {
     Tendril::Devices::DirectDriveSN74x595 shifter("SN74x595",
 						  opts.chainLength,
 						  clk, data, ltch, noConnect, noConnect);
+
+    RunOnConsole(shifter);
   }
   catch( std::exception& e ) {
     std::cerr << "Error: " << e.what() << std::endl;
