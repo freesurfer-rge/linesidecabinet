@@ -28,11 +28,25 @@ int main(int argc, char* argv[]) {
     auto ltch = provider->GetHardware(opts.latchPin, emptySettings);
     std::unique_ptr<Tendril::BinaryOutputPin> noConnect;
 
-    Tendril::Devices::DirectDriveSN74x595 shifter("SN74x595",
-						  opts.chainLength,
-						  clk, data, ltch, noConnect, noConnect);
+    auto shifter = std::make_shared<Tendril::Devices::DirectDriveSN74x595>("SN74x595",
+									   opts.chainLength,
+									   clk,
+									   data,
+									   ltch,
+									   noConnect,
+									   noConnect);
+    
+    std::cout << "Created shifter, now creating BOPArray" << std::endl;
+    
+    Tendril::SettingsMap bopaSettings;
+    for( unsigned int i=0; i<shifter->totalPins; ++i ) {
+      std::string mapping = std::to_string(i);
+      bopaSettings[mapping] = mapping;
+    }
 
-    RunOnConsole(shifter);
+    auto bopArray = shifter->GetHardware( "ShiftArray", bopaSettings );
+
+    RunOnConsole(*bopArray, shifter->totalPins);
   }
   catch( std::exception& e ) {
     std::cerr << "Error: " << e.what() << std::endl;

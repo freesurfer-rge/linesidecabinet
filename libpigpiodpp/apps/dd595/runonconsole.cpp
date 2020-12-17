@@ -10,9 +10,9 @@ std::vector<unsigned int> ToBoolArray(const size_t value, const unsigned int num
   result.resize(numBits);
 
   unsigned int iShift = 0;
-  for( auto it=result.begin(); it!=result.end(); ++it ) {
+  for( auto it=result.rbegin(); it!=result.rend(); ++it ) {
     bool nxt = value & ( 1 << iShift );
-    result.at(iShift) = nxt;
+    *it = nxt;
     
     iShift++;
   }
@@ -25,7 +25,7 @@ std::vector<unsigned int> ToBoolArray(const size_t value, const unsigned int num
   return result;
 }
 
-void RunOnConsole(Tendril::Devices::DirectDriveSN74x595& shifter) {
+void RunOnConsole(Tendril::BOPArray& bopa, const size_t nPins) {
   std::cout << "Entering main loop" << std::endl;
 
   bool done = false;
@@ -41,13 +41,13 @@ void RunOnConsole(Tendril::Devices::DirectDriveSN74x595& shifter) {
       try {
 	size_t pattern = std::stoull(inputLine);
 
-	auto values = ToBoolArray( pattern, shifter.totalPins );
+	auto values = ToBoolArray( pattern, nPins );
 	std::map<unsigned int,bool> updateRequest;
 	for( unsigned int i=0; i<values.size(); ++i ) {
-	  updateRequest[i] = values.at(i);
+	  bopa.Set(i, values.at(i));
 	}
 
-	shifter.SetPinsAndSend( updateRequest );
+	bopa.Update();
       }
       catch( std::exception& e ) {
         std::cerr << e.what() << std::endl;

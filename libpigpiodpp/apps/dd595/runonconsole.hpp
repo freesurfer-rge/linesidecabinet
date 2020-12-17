@@ -1,5 +1,5 @@
 #pragma once
 
-#include "tendril/devices/directdrivesn74x595.hpp"
+#include "tendril/boparray.hpp"
 
-void RunOnConsole(Tendril::Devices::DirectDriveSN74x595& shifter);
+void RunOnConsole(Tendril::BOPArray& bopa, const size_t nPins);
