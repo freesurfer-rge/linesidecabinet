@@ -23,3 +23,4 @@ configure_file( "${CMAKE_CURRENT_SOURCE_DIR}/include/pigpiodpp/piavailable.hpp.i
   "${CMAKE_CURRENT_SOURCE_DIR}/include/pigpiodpp/piavailable.hpp" )
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(apps)
