@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Test>
-  <!-- The BinaryInput is a kind of device -->
-  <BinaryInput controller="GPIO" controllerData="100">
+  <!-- The BinaryInput is a kind of hardware -->
+  <BinaryInput providerName="GPIO" idOnProvider="100">
     <!-- Comment -->
     <Settings>
       <!-- Another comment -->

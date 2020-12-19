@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Test>
-  <!-- The BinaryOutput is a kind of device -->
-  <BinaryOutput controller="GPIO" controllerData="100">
+  <!-- The BinaryOutput is a kind of hardware -->
+  <BinaryOutput providerName="GPIO" idOnProvider="100">
     <!-- This time, we won't put settings -->
   </BinaryOutput>
 </Test>
