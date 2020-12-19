@@ -50,8 +50,8 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   auto expectedId = Lineside::Parse<Lineside::ItemId>("10:fe:02:1a");
   BOOST_CHECK_EQUAL( tcmd0->id, expectedId );
   BOOST_CHECK_EQUAL( tcmd0->sensor, Lineside::TrackCircuitSensor::OccupiedIsHigh );
-  BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.controller, "GPIO" );
-  BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.controllerData, "07" );
+  BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.providerName, "GPIO" );
+  BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.idOnProvider, "07" );
   BOOST_REQUIRE_EQUAL( tcmd0->inputPinRequest.settings.size(), 1 );
   BOOST_CHECK_EQUAL( tcmd0->inputPinRequest.settings.at("glitch"), "20000" );
 }

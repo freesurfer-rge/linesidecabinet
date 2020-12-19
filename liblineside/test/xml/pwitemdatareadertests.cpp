@@ -56,8 +56,8 @@ BOOST_AUTO_TEST_CASE( SmokeServoTurnoutMotorData )
   auto stmd = std::dynamic_pointer_cast<Lineside::ServoTurnoutMotorData>(result);
   BOOST_CHECK_EQUAL( stmd->straight, 130 );
   BOOST_CHECK_EQUAL( stmd->curved, 400 );
-  BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.controller, "sc01" );
-  BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.controllerData, "01" );
+  BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.providerName, "sc01" );
+  BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.idOnProvider, "01" );
   BOOST_CHECK_EQUAL( stmd->pwmChannelRequest.settings.size(), 0 );
 }
 
@@ -84,8 +84,8 @@ BOOST_AUTO_TEST_CASE( SmokeTrackCircuitMonitorData )
 
   auto tcmd = std::dynamic_pointer_cast<Lineside::TrackCircuitMonitorData>(result);
   BOOST_CHECK_EQUAL( tcmd->sensor, Lineside::TrackCircuitSensor::OccupiedIsLow );
-  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.controller, "GPIO" );
-  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.controllerData, "07" );
+  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.providerName, "GPIO" );
+  BOOST_CHECK_EQUAL( tcmd->inputPinRequest.idOnProvider, "07" );
   BOOST_CHECK_EQUAL( tcmd->inputPinRequest.settings.size(), 1 );
   BOOST_CHECK_EQUAL( tcmd->inputPinRequest.settings.at("glitch"), "10000" );
 }
@@ -116,22 +116,22 @@ BOOST_AUTO_TEST_CASE( SmokeDirectDriveMASHData )
   
   BOOST_CHECK_EQUAL( mashd->aspectRequests.size(), 3 );
   auto redRequest = mashd->aspectRequests.at(Lineside::SignalAspect::Red);
-  BOOST_CHECK_EQUAL( redRequest.controller, "GPIO" );
-  BOOST_CHECK_EQUAL( redRequest.controllerData, "03" );
+  BOOST_CHECK_EQUAL( redRequest.providerName, "GPIO" );
+  BOOST_CHECK_EQUAL( redRequest.idOnProvider, "03" );
   BOOST_CHECK_EQUAL( redRequest.settings.size(), 0 );
   auto yellow1Request = mashd->aspectRequests.at(Lineside::SignalAspect::Yellow1);
-  BOOST_CHECK_EQUAL( yellow1Request.controller, "GPIO1" );
-  BOOST_CHECK_EQUAL( yellow1Request.controllerData, "04" );
+  BOOST_CHECK_EQUAL( yellow1Request.providerName, "GPIO1" );
+  BOOST_CHECK_EQUAL( yellow1Request.idOnProvider, "04" );
   BOOST_CHECK_EQUAL( yellow1Request.settings.size(), 0 );
   auto greenRequest = mashd->aspectRequests.at(Lineside::SignalAspect::Green);
-  BOOST_CHECK_EQUAL( greenRequest.controller, "GPIO3" );
-  BOOST_CHECK_EQUAL( greenRequest.controllerData, "06" );
+  BOOST_CHECK_EQUAL( greenRequest.providerName, "GPIO3" );
+  BOOST_CHECK_EQUAL( greenRequest.idOnProvider, "06" );
   BOOST_CHECK_EQUAL( greenRequest.settings.size(), 0 );
 
   BOOST_CHECK_EQUAL( mashd->featherRequests.size(), 1 );
   auto f1Request = mashd->featherRequests.at(1);
-  BOOST_CHECK_EQUAL( f1Request.controller, "GPIO2" );
-  BOOST_CHECK_EQUAL( f1Request.controllerData, "08" );
+  BOOST_CHECK_EQUAL( f1Request.providerName, "GPIO2" );
+  BOOST_CHECK_EQUAL( f1Request.idOnProvider, "08" );
   BOOST_CHECK_EQUAL( f1Request.settings.size(), 0 );
 }
 
@@ -169,8 +169,8 @@ BOOST_AUTO_TEST_CASE( SmokeBOPArrayMASHData )
   BOOST_CHECK_EQUAL( mashd->settings.at("Feather2"), "4" );
 
   // Check the BOPArray configuration
-  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.controller, "GPIO" );
-  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.controllerData, "6" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.providerName, "GPIO" );
+  BOOST_CHECK_EQUAL( mashd->bopArrayRequest.idOnProvider, "6" );
   BOOST_REQUIRE_EQUAL( mashd->bopArrayRequest.settings.size(), 6 );
   BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("0"), "13" );
   BOOST_CHECK_EQUAL( mashd->bopArrayRequest.settings.at("1"), "19" );

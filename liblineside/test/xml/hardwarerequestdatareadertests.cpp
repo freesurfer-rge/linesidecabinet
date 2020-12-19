@@ -37,8 +37,8 @@ BOOST_AUTO_TEST_CASE( SmokeBinaryInput )
   Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(binaryInputElement);
-  BOOST_CHECK_EQUAL( result.controller, "GPIO" );
-  BOOST_CHECK_EQUAL( result.controllerData, "100" );
+  BOOST_CHECK_EQUAL( result.providerName, "GPIO" );
+  BOOST_CHECK_EQUAL( result.idOnProvider, "100" );
   BOOST_REQUIRE_EQUAL( result.settings.size(), 1 );
   BOOST_CHECK_EQUAL( result.settings.at("glitch"), "10000" );
 }
@@ -57,8 +57,8 @@ BOOST_AUTO_TEST_CASE( SmokeBinaryOutput )
   Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(binaryOutputElement);
-  BOOST_CHECK_EQUAL( result.controller, "GPIO" );
-  BOOST_CHECK_EQUAL( result.controllerData, "100" );
+  BOOST_CHECK_EQUAL( result.providerName, "GPIO" );
+  BOOST_CHECK_EQUAL( result.idOnProvider, "100" );
   BOOST_REQUIRE_EQUAL( result.settings.size(), 0 );
 }
 
@@ -76,8 +76,8 @@ BOOST_AUTO_TEST_CASE( SmokePWMChannel )
   Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(pwmChannelElement);
-  BOOST_CHECK_EQUAL( result.controller, "sc01" );
-  BOOST_CHECK_EQUAL( result.controllerData, "01" );
+  BOOST_CHECK_EQUAL( result.providerName, "sc01" );
+  BOOST_CHECK_EQUAL( result.idOnProvider, "01" );
   BOOST_REQUIRE_EQUAL( result.settings.size(), 0 );
 }
 
@@ -95,8 +95,8 @@ BOOST_AUTO_TEST_CASE( SmokeBOPArray )
   Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(pwmChannelElement);
-  BOOST_CHECK_EQUAL( result.controller, "GPIO" );
-  BOOST_CHECK_EQUAL( result.controllerData, "Unused" );
+  BOOST_CHECK_EQUAL( result.providerName, "GPIO" );
+  BOOST_CHECK_EQUAL( result.idOnProvider, "Unused" );
   BOOST_REQUIRE_EQUAL( result.settings.size(), 6 );
   BOOST_CHECK_EQUAL( result.settings.at("0"), "13" );
   BOOST_CHECK_EQUAL( result.settings.at("1"), "19" );
