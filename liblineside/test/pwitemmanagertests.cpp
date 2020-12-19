@@ -29,7 +29,7 @@ static void AddAspect( Lineside::DirectDriveMASHData& mashd,
 		       const std::string controller,
 		       const Lineside::SignalAspect a,
 		       const std::string data ) {
-  Lineside::DeviceRequestData req;
+  Tendril::HardwareRequestData req;
   req.controller = controller;
   req.controllerData = data;
 

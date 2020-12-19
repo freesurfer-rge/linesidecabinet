@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(TwoAspect)
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
+  Tendril::HardwareRequestData drd;
   drd.controller = "MockBOP";
   drd.controllerData = "10";
   mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
+  Tendril::HardwareRequestData drd;
   drd.controller = "MockBOP";
   drd.controllerData = "10";
   mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
+  Tendril::HardwareRequestData drd;
   drd.controller = "MockBOP";
   drd.controllerData = "10";
   mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
@@ -297,7 +297,7 @@ BOOST_AUTO_TEST_CASE( TwoAspectBadState )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
+  Tendril::HardwareRequestData drd;
   drd.controller = "MockBOP";
   drd.controllerData = "10";
   mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
@@ -328,7 +328,7 @@ BOOST_AUTO_TEST_CASE( ThreeAspect )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
+  Tendril::HardwareRequestData drd;
   drd.controller = "MockBOP";
   drd.controllerData = "15";
   mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
@@ -390,7 +390,7 @@ BOOST_AUTO_TEST_CASE( ThreeAspectBadState )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
+  Tendril::HardwareRequestData drd;
   drd.controller = "MockBOP";
   drd.controllerData = "15";
   mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
@@ -423,7 +423,7 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
+  Tendril::HardwareRequestData drd;
   drd.controller = "MockBOP";
   drd.controllerData = "15";
   mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;

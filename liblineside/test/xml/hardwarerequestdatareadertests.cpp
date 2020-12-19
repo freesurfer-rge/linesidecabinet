@@ -8,20 +8,20 @@
 
 #include "lineside/xml/xercesguard.hpp"
 #include "lineside/xml/utilities.hpp"
-#include "lineside/xml/devicerequestdatareader.hpp"
+#include "lineside/xml/hardwarerequestdatareader.hpp"
 
 // ================================
 
-const std::string binaryinputFragment = "devicerequest-binaryinput.xml";
-const std::string binaryoutputFragment = "devicerequest-binaryoutput.xml";
-const std::string pwmchannelFragment = "devicerequest-pwmchannel.xml";
-const std::string boparrayFragment = "devicerequest-boparray.xml";
+const std::string binaryinputFragment = "hardwarerequest-binaryinput.xml";
+const std::string binaryoutputFragment = "hardwarerequest-binaryoutput.xml";
+const std::string pwmchannelFragment = "hardwarerequest-pwmchannel.xml";
+const std::string boparrayFragment = "hardwarerequest-boparray.xml";
 
 // ================================
 
 BOOST_AUTO_TEST_SUITE( xml )
 
-BOOST_AUTO_TEST_SUITE( DeviceRequestDataReader )
+BOOST_AUTO_TEST_SUITE( HardwareRequestDataReader )
 
 BOOST_AUTO_TEST_CASE( SmokeBinaryInput )
 {
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE( SmokeBinaryInput )
   auto binaryInputElement = Lineside::xml::GetSingleElementByName(rootElement, "BinaryInput" );
   BOOST_REQUIRE( binaryInputElement );
 
-  Lineside::xml::DeviceRequestDataReader reader;
+  Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(binaryInputElement);
   BOOST_CHECK_EQUAL( result.controller, "GPIO" );
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE( SmokeBinaryOutput )
   auto binaryOutputElement = Lineside::xml::GetSingleElementByName(rootElement, "BinaryOutput" );
   BOOST_REQUIRE( binaryOutputElement );
 
-  Lineside::xml::DeviceRequestDataReader reader;
+  Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(binaryOutputElement);
   BOOST_CHECK_EQUAL( result.controller, "GPIO" );
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE( SmokePWMChannel )
   auto pwmChannelElement = Lineside::xml::GetSingleElementByName(rootElement, "PWMChannel" );
   BOOST_REQUIRE( pwmChannelElement );
 
-  Lineside::xml::DeviceRequestDataReader reader;
+  Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(pwmChannelElement);
   BOOST_CHECK_EQUAL( result.controller, "sc01" );
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE( SmokeBOPArray )
   auto pwmChannelElement = Lineside::xml::GetSingleElementByName(rootElement, "BOPArray" );
   BOOST_REQUIRE( pwmChannelElement );
 
-  Lineside::xml::DeviceRequestDataReader reader;
+  Lineside::xml::HardwareRequestDataReader reader;
 
   auto result = reader.Read(pwmChannelElement);
   BOOST_CHECK_EQUAL( result.controller, "GPIO" );
