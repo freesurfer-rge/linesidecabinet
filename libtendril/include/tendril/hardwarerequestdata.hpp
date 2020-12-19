@@ -13,14 +13,14 @@ namespace Tendril {
   class HardwareRequestData {
   public:
     HardwareRequestData() :
-      controller("unset"),
-      controllerData("unset"),
+      providerName("unset"),
+      idOnProvider("unset"),
       settings() {}
 
     //! The name of the provider to request from the registrar
-    std::string controller;
+    std::string providerName;
     //! Identify the hardware on the provider (e.g. pin number)
-    std::string controllerData;
+    std::string idOnProvider;
     //! Provider dependent settings
     SettingsMap settings;
   };
