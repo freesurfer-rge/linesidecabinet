@@ -30,18 +30,18 @@ BOOST_AUTO_TEST_CASE(BadPWItemDataException)
   BOOST_CHECK_EQUAL( expected, bpde.what() );
 }
 
-BOOST_AUTO_TEST_CASE(DeviceRequestException)
+BOOST_AUTO_TEST_CASE(HardwareRequestException)
 {
   const std::string ctrl("A");
   const std::string ctrlData("BC");
   const std::string issue("DEF");
 
-  Lineside::DeviceRequestException dre(ctrl, ctrlData, issue);
-  BOOST_CHECK_EQUAL( dre.controller, ctrl );
-  BOOST_CHECK_EQUAL( dre.controllerData, ctrlData );
-  BOOST_CHECK_EQUAL( dre.issueDescription, issue );
-  const std::string expected = "Bad Device Request for controller A with controllerData BC. Issue: DEF";
-  BOOST_CHECK_EQUAL( expected, dre.what() );
+  Lineside::HardwareRequestException hre(ctrl, ctrlData, issue);
+  BOOST_CHECK_EQUAL( hre.providerName, ctrl );
+  BOOST_CHECK_EQUAL( hre.idOnProvider, ctrlData );
+  BOOST_CHECK_EQUAL( hre.issueDescription, issue );
+  const std::string expected = "Bad Hardware Request for providerName A with idOnProvider BC. Issue: DEF";
+  BOOST_CHECK_EQUAL( expected, hre.what() );
 }
 
 BOOST_AUTO_TEST_CASE(KeyNotFoundException)

@@ -17,10 +17,10 @@
   </HardwareManager>
   <PermanentWayItems>
     <ServoTurnoutMotor id="00:aa:bb:cc" straight="200" curved="400" >
-      <PWMChannel controller="sc01" controllerData="00" />
+      <PWMChannel providerName="sc01" idOnProvider="00" />
     </ServoTurnoutMotor>
     <ServoTurnoutMotor id="00:dd:ee:ff" straight="200" curved="300" >
-      <PWMChannel controller="sc01" controllerData="15" />
+      <PWMChannel providerName="sc01" idOnProvider="15" />
     </ServoTurnoutMotor>
   </PermanentWayItems>
 </LinesideCabinet>

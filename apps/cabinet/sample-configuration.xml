@@ -21,7 +21,7 @@
   <PermanentWayItems>
     <!-- Comment -->
     <TrackCircuitMonitor id="00:ff:00:aa" sensor="OccupiedIsHigh">
-      <BinaryInput controller="GPIO" controllerData="17">
+      <BinaryInput providerName="GPIO" idOnProvider="17">
 	<Settings>
           <Setting key="glitch" value="300000" />
 	  <Setting key="pud" value="Up" />
@@ -30,7 +30,7 @@
     </TrackCircuitMonitor>
     <!-- Comment -->
     <TrackCircuitMonitor id="ff:00:00:11" sensor="OccupiedIsLow">
-      <BinaryInput controller="GPIO" controllerData="22">
+      <BinaryInput providerName="GPIO" idOnProvider="22">
 	<Settings>
           <Setting key="glitch" value="300000" />
 	  <Setting key="pud" value="Down" />
@@ -40,21 +40,21 @@
     <!-- Comment -->
     <DirectDriveMASH id="00:1a:2b:3c">
       <Aspect name="Red">
-        <BinaryOutput controller="GPIO" controllerData="19" />
+        <BinaryOutput providerName="GPIO" idOnProvider="19" />
       </Aspect>
       <Aspect name="Yellow1">
-        <BinaryOutput controller="GPIO" controllerData="26" />
+        <BinaryOutput providerName="GPIO" idOnProvider="26" />
       </Aspect>
       <Aspect name="Green">
-        <BinaryOutput controller="GPIO" controllerData="06" />
+        <BinaryOutput providerName="GPIO" idOnProvider="06" />
       </Aspect>
       <Feather route="1">
-        <BinaryOutput controller="GPIO" controllerData="05" />
+        <BinaryOutput providerName="GPIO" idOnProvider="05" />
       </Feather>
     </DirectDriveMASH>
     <!-- Another comment -->
     <ServoTurnoutMotor id="00:aa:bb:cc" straight="200" curved="400" >
-      <PWMChannel controller="sc01" controllerData="00" />
+      <PWMChannel providerName="sc01" idOnProvider="00" />
     </ServoTurnoutMotor>
   </PermanentWayItems>
 </LinesideCabinet>
