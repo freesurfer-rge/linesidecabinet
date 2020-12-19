@@ -1,7 +1,7 @@
 #include "lineside/trackcircuitmonitordata.hpp"
 
 #include "lineside/xml/utilities.hpp"
-#include "lineside/xml/devicerequestdatareader.hpp"
+#include "lineside/xml/hardwarerequestdatareader.hpp"
 
 #include "lineside/xml/trackcircuitmonitordatareader.hpp"
 
@@ -29,7 +29,7 @@ namespace Lineside {
 
       auto inputPinElement = GetSingleElementByName( pwItemElement, "BinaryInput" );
 
-      DeviceRequestDataReader reader;
+      HardwareRequestDataReader reader;
       result->inputPinRequest = reader.Read(inputPinElement);
       
       return result;

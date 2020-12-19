@@ -4,7 +4,7 @@
 
 #include "lineside/xml/utilities.hpp"
 #include "lineside/xml/settingsreader.hpp"
-#include "lineside/xml/devicerequestdatareader.hpp"
+#include "lineside/xml/hardwarerequestdatareader.hpp"
 
 #include "lineside/xml/boparraymashdatareader.hpp"
 
@@ -37,7 +37,7 @@ namespace Lineside::xml {
     
     auto bopArrayElement = GetSingleElementByName( pwItemElement, "BOPArray" );
 
-    DeviceRequestDataReader reader;
+    HardwareRequestDataReader reader;
     result->bopArrayRequest = reader.Read(bopArrayElement);
 
     return result;

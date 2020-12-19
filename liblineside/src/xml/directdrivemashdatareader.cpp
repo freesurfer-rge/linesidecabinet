@@ -3,7 +3,7 @@
 #include "lineside/directdrivemashdata.hpp"
 
 #include "lineside/xml/utilities.hpp"
-#include "lineside/xml/devicerequestdatareader.hpp"
+#include "lineside/xml/hardwarerequestdatareader.hpp"
 
 #include "lineside/xml/directdrivemashdatareader.hpp"
 
@@ -20,7 +20,8 @@ namespace Lineside {
       return xercesc::XMLString::equals( element->getTagName(), TAG_MASH.get() );
     }
     
-    std::shared_ptr<Lineside::PWItemData> DirectDriveMASHDataReader::Read( const xercesc::DOMElement *pwItemElement ) const {
+    std::shared_ptr<Lineside::PWItemData>
+    DirectDriveMASHDataReader::Read( const xercesc::DOMElement *pwItemElement ) const {
       if( !pwItemElement ) {
 	throw std::logic_error("Bad pwItemElement");
       }
@@ -44,7 +45,7 @@ namespace Lineside {
 
 	    auto bopElement = GetSingleElementByName(element, BinaryOutput);
 	    
-	    DeviceRequestDataReader reader;
+	    HardwareRequestDataReader reader;
 	    result->aspectRequests[aspect] = reader.Read(bopElement);
 	  } else if ( xercesc::XMLString::equals( element->getTagName(), TAG_Feather.get() ) ) {
 	    std::string routeStr = GetAttributeByName(element, "route");
@@ -53,7 +54,7 @@ namespace Lineside {
 	    
 	    auto bopElement = GetSingleElementByName(element, BinaryOutput);
 	    
-	    DeviceRequestDataReader reader;
+	    HardwareRequestDataReader reader;
 	    result->featherRequests[route] = reader.Read(bopElement);
 	  }
 	}
