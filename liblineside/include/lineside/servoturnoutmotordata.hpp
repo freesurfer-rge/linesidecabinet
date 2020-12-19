@@ -1,7 +1,7 @@
 #pragma once
 
+#include "tendril/hardwarerequestdata.hpp"
 #include "lineside/pwitemdata.hpp"
-#include "lineside/devicerequestdata.hpp"
 
 namespace Lineside {
   class ServoTurnoutMotorData : public PWItemData {
@@ -10,7 +10,7 @@ namespace Lineside {
 
     unsigned int straight;
     unsigned int curved;
-    DeviceRequestData pwmChannelRequest;
+    Tendril::HardwareRequestData pwmChannelRequest;
 
     virtual std::shared_ptr<PWItemModel> Construct(Tendril::HardwareManager& hw,
 						   SoftwareManager& sw) const override;

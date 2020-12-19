@@ -3,8 +3,9 @@
 #include <map>
 #include <vector>
 
+#include "tendril/hardwarerequestdata.hpp"
+
 #include "lineside/pwitemdata.hpp"
-#include "lineside/devicerequestdata.hpp"
 #include "lineside/signalaspect.hpp"
 
 namespace Lineside {
@@ -15,7 +16,7 @@ namespace Lineside {
     BOPArrayMASHData();
 
     //! Information about the BOPArray
-    DeviceRequestData bopArrayRequest;
+    Tendril::HardwareRequestData bopArrayRequest;
 
     //! Settings to map the BOPArray to the lights
     Tendril::SettingsMap settings;

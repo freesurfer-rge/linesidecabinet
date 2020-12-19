@@ -3,9 +3,9 @@
 #include <map>
 
 #include "tendril/binaryoutputpin.hpp"
+#include "tendril/hardwarerequestdata.hpp"
 
 #include "lineside/pwitemdata.hpp"
-#include "lineside/devicerequestdata.hpp"
 #include "lineside/signalaspect.hpp"
 
 namespace Lineside {
@@ -16,8 +16,8 @@ namespace Lineside {
   public:
     DirectDriveMASHData();
 
-    std::map<SignalAspect,DeviceRequestData> aspectRequests;
-    std::map<unsigned int,DeviceRequestData> featherRequests;
+    std::map<SignalAspect,Tendril::HardwareRequestData> aspectRequests;
+    std::map<unsigned int,Tendril::HardwareRequestData> featherRequests;
 
     //! Perform some basic sanity checks
     void CheckData() const;
@@ -27,7 +27,7 @@ namespace Lineside {
 
   private:
     std::unique_ptr<Tendril::BinaryOutputPin> FetchBOP(Tendril::HardwareManager& hw,
-						       const DeviceRequestData& drd ) const;
+						       const Tendril::HardwareRequestData& drd ) const;
     
     void PopulateAspects(Tendril::HardwareManager& hw,
 			 std::shared_ptr<DirectDriveMASH> target ) const;
