@@ -23,8 +23,8 @@ BOOST_AUTO_TEST_CASE(TwoAspect)
   mashd.id = id;
   mashd.settings["Red"] = std::to_string(redPin);
   mashd.settings["Green"] = std::to_string(greenPin);
-  mashd.bopArrayRequest.controller = "MockBOPArray";
-  mashd.bopArrayRequest.controllerData = "ArrayForTest";
+  mashd.bopArrayRequest.providerName = "MockBOPArray";
+  mashd.bopArrayRequest.idOnProvider = "ArrayForTest";
   mashd.bopArrayRequest.settings[std::to_string(redPin)] = "100";
   mashd.bopArrayRequest.settings[std::to_string(greenPin)] = "128";
   BOOST_TEST_PASSPOINT();
@@ -109,8 +109,8 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
   mashd.settings["Red"] = std::to_string(redPin);
   mashd.settings["Green"] = std::to_string(greenPin);
   mashd.settings["Feather1"] = std::to_string(featherPin);
-  mashd.bopArrayRequest.controller = "MockBOPArray";
-  mashd.bopArrayRequest.controllerData = "ArrayForTest";
+  mashd.bopArrayRequest.providerName = "MockBOPArray";
+  mashd.bopArrayRequest.idOnProvider = "ArrayForTest";
   mashd.bopArrayRequest.settings[std::to_string(redPin)] = "100";
   mashd.bopArrayRequest.settings[std::to_string(greenPin)] = "128";
   mashd.bopArrayRequest.settings[std::to_string(featherPin)] = "129";
@@ -198,8 +198,8 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
   mashd.settings["Green"] = std::to_string(greenPin);
   mashd.settings["Feather1"] = std::to_string(featherPin1);
   mashd.settings["Feather2"] = std::to_string(featherPin2);
-  mashd.bopArrayRequest.controller = "MockBOPArray";
-  mashd.bopArrayRequest.controllerData = "ArrayForTest";
+  mashd.bopArrayRequest.providerName = "MockBOPArray";
+  mashd.bopArrayRequest.idOnProvider = "ArrayForTest";
   mashd.bopArrayRequest.settings[std::to_string(redPin)] = "100";
   mashd.bopArrayRequest.settings[std::to_string(greenPin)] = "128";
   mashd.bopArrayRequest.settings[std::to_string(featherPin1)] = "129";
@@ -288,8 +288,8 @@ BOOST_AUTO_TEST_CASE(ThreeAspect)
   mashd.settings["Red"] = std::to_string(redPin);
   mashd.settings["Green"] = std::to_string(greenPin);
   mashd.settings["Yellow1"] = std::to_string(yellowPin);
-  mashd.bopArrayRequest.controller = "MockBOPArray";
-  mashd.bopArrayRequest.controllerData = "ArrayForTest";
+  mashd.bopArrayRequest.providerName = "MockBOPArray";
+  mashd.bopArrayRequest.idOnProvider = "ArrayForTest";
   mashd.bopArrayRequest.settings[std::to_string(redPin)] = "100";
   mashd.bopArrayRequest.settings[std::to_string(greenPin)] = "128";
   mashd.bopArrayRequest.settings[std::to_string(yellowPin)] = "129";
@@ -351,8 +351,8 @@ BOOST_AUTO_TEST_CASE(FourAspect)
   mashd.settings["Green"] = std::to_string(greenPin);
   mashd.settings["Yellow1"] = std::to_string(yellow1Pin);
   mashd.settings["Yellow2"] = std::to_string(yellow2Pin);
-  mashd.bopArrayRequest.controller = "MockBOPArray";
-  mashd.bopArrayRequest.controllerData = "ArrayForTest";
+  mashd.bopArrayRequest.providerName = "MockBOPArray";
+  mashd.bopArrayRequest.idOnProvider = "ArrayForTest";
   mashd.bopArrayRequest.settings[std::to_string(redPin)] = "100";
   mashd.bopArrayRequest.settings[std::to_string(greenPin)] = "128";
   mashd.bopArrayRequest.settings[std::to_string(yellow1Pin)] = "129";

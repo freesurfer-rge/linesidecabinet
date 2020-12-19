@@ -16,9 +16,9 @@ namespace Lineside {
     // Work around compiler warning/error
     this->UnusedSoftwareManager(sw);
     
-    auto pwmChannelProvider = hw.pwmcProviderRegistrar.Retrieve(this->pwmChannelRequest.controller);
+    auto pwmChannelProvider = hw.pwmcProviderRegistrar.Retrieve(this->pwmChannelRequest.providerName);
     std::unique_ptr<Tendril::PWMChannel> servo;
-    servo = pwmChannelProvider->GetHardware(this->pwmChannelRequest.controllerData,
+    servo = pwmChannelProvider->GetHardware(this->pwmChannelRequest.idOnProvider,
 					    this->pwmChannelRequest.settings);
     
     // Work around the private constructor

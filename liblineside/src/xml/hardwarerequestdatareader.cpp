@@ -12,8 +12,8 @@ namespace Lineside {
       }
       
       Tendril::HardwareRequestData result;
-      result.controller = GetAttributeByName( hardwareRequestElement, "controller" );
-      result.controllerData = GetAttributeByName( hardwareRequestElement, "controllerData" );
+      result.providerName = GetAttributeByName( hardwareRequestElement, "providerName" );
+      result.idOnProvider = GetAttributeByName( hardwareRequestElement, "idOnProvider" );
 
       SettingsReader sr;
       if( sr.HasSettings(hardwareRequestElement) ) {

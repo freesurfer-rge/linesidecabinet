@@ -5,8 +5,8 @@ namespace Lineside {
   std::shared_ptr<PWItemModel>
   TrackCircuitMonitorData::Construct(Tendril::HardwareManager& hw,
 				     SoftwareManager& sw) const {
-    auto bipProvider = hw.bipProviderRegistrar.Retrieve(this->inputPinRequest.controller);
-    auto bip = bipProvider->GetHardware( this->inputPinRequest.controllerData,
+    auto bipProvider = hw.bipProviderRegistrar.Retrieve(this->inputPinRequest.providerName);
+    auto bip = bipProvider->GetHardware( this->inputPinRequest.idOnProvider,
 					 this->inputPinRequest.settings );
 
     // Work around private constructor

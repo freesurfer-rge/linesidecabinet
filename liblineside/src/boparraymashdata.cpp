@@ -118,10 +118,11 @@ namespace Lineside {
       expected++;
     }
 
-    auto bap = hw.bopArrayProviderRegistrar.Retrieve(this->bopArrayRequest.controller);
+    auto bap = hw.bopArrayProviderRegistrar.Retrieve(this->bopArrayRequest.providerName);
 
     auto result = std::make_shared<BOPArrayMASH>(this->id);
-    result->pins = bap->GetHardware(this->bopArrayRequest.controllerData, this->bopArrayRequest.settings);
+    result->pins = bap->GetHardware(this->bopArrayRequest.idOnProvider,
+				    this->bopArrayRequest.settings);
     result->aspects = aspects;
     result->feathers = feathers;
 

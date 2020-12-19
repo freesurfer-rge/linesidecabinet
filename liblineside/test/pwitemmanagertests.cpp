@@ -30,8 +30,8 @@ static void AddAspect( Lineside::DirectDriveMASHData& mashd,
 		       const Lineside::SignalAspect a,
 		       const std::string data ) {
   Tendril::HardwareRequestData req;
-  req.controller = controller;
-  req.controllerData = data;
+  req.providerName = controller;
+  req.idOnProvider = data;
 
   mashd.aspectRequests[a] = req;
 }
@@ -97,14 +97,14 @@ BOOST_AUTO_TEST_CASE(SingleSTM)
   const unsigned int straight = 10;
   const unsigned int curved = 113;
   const std::string controller = Tendril::Mocks::PWMCProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
 
   auto stmd = std::make_shared<Lineside::ServoTurnoutMotorData>();
   stmd->id = id;
   stmd->straight = straight;
   stmd->curved = curved;
-  stmd->pwmChannelRequest.controller = Tendril::Mocks::PWMCProviderId;
-  stmd->pwmChannelRequest.controllerData = controllerData;
+  stmd->pwmChannelRequest.providerName = Tendril::Mocks::PWMCProviderId;
+  stmd->pwmChannelRequest.idOnProvider = idOnProvider;
 
   std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
   itemList.push_back(stmd);
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE(SingleSTM)
   // Check the servo was set to straight
   auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
   auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
-  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
+  auto pwmChannel = mockpwmcProvider->hardware.at(idOnProvider);
   auto lastUpdate = pwmChannel->updates.back();
   BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
   BOOST_CHECK_EQUAL( lastUpdate.second, straight );
@@ -151,14 +151,14 @@ BOOST_AUTO_TEST_CASE(DuplicateId)
   const unsigned int straight = 10;
   const unsigned int curved = 113;
   const std::string controller = "MockPWMController";
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
   
   auto stmd = std::make_shared<Lineside::ServoTurnoutMotorData>();
   stmd->id = id;
   stmd->straight = straight;
   stmd->curved = curved;
-  stmd->pwmChannelRequest.controller = Tendril::Mocks::PWMCProviderId;
-  stmd->pwmChannelRequest.controllerData = controllerData;
+  stmd->pwmChannelRequest.providerName = Tendril::Mocks::PWMCProviderId;
+  stmd->pwmChannelRequest.idOnProvider = idOnProvider;
 
   std::vector<std::shared_ptr<Lineside::PWItemData>> itemList;
   itemList.push_back(mashd);

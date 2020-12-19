@@ -18,14 +18,14 @@ BOOST_AUTO_TEST_CASE(Construct)
   const unsigned int straight = 10;
   const unsigned int curved = 113;
   const std::string controller = Tendril::Mocks::PWMCProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = controller;
-  stmd.pwmChannelRequest.controllerData = controllerData;
+  stmd.pwmChannelRequest.providerName = controller;
+  stmd.pwmChannelRequest.idOnProvider = idOnProvider;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
@@ -41,14 +41,14 @@ BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
   const unsigned int straight = 10;
   const unsigned int curved = 113;
   const std::string controller = Tendril::Mocks::PWMCProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = controller;
-  stmd.pwmChannelRequest.controllerData = controllerData;
+  stmd.pwmChannelRequest.providerName = controller;
+  stmd.pwmChannelRequest.idOnProvider = idOnProvider;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(OnActivateSetsStraight)
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
   auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
   auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
-  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
+  auto pwmChannel = mockpwmcProvider->hardware.at(idOnProvider);
   auto lastUpdate = pwmChannel->updates.back();
   BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
   BOOST_CHECK_EQUAL( lastUpdate.second, straight );
@@ -77,14 +77,14 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   const unsigned int straight = 10;
   const unsigned int curved = 113;
   const std::string controller = Tendril::Mocks::PWMCProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = controller;
-  stmd.pwmChannelRequest.controllerData = controllerData;
+  stmd.pwmChannelRequest.providerName = controller;
+  stmd.pwmChannelRequest.idOnProvider = idOnProvider;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   pwItem->RegisterController(notifySrcId, nt);
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE(SetStateAndStateChange)
   // However, the actual state never changed
   auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
   auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
-  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
+  auto pwmChannel = mockpwmcProvider->hardware.at(idOnProvider);
   BOOST_CHECK_EQUAL( stm->GetState(), Lineside::TurnoutState::Straight );
   auto lastUpdate = pwmChannel->updates.back();
   BOOST_CHECK_EQUAL( lastUpdate.first, 0 );
@@ -142,14 +142,14 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   const unsigned int straight = 10;
   const unsigned int curved = 113;
   const std::string controller =  Tendril::Mocks::PWMCProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
   
   Lineside::ServoTurnoutMotorData stmd;
   stmd.id = id;
   stmd.straight = straight;
   stmd.curved = curved;
-  stmd.pwmChannelRequest.controller = controller;
-  stmd.pwmChannelRequest.controllerData = controllerData;
+  stmd.pwmChannelRequest.providerName = controller;
+  stmd.pwmChannelRequest.idOnProvider = idOnProvider;
 
   auto pwItem = stmd.Construct(*(this->hwManager), *(this->swManager));
   pwItem->RegisterController(notifySrcId, nt);
@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE(SetCurvedAndStraight)
   BOOST_REQUIRE( stm );
   auto mockProvider = this->hwManager->pwmcProviderRegistrar.Retrieve(controller);
   auto mockpwmcProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::PWMChannel, Tendril::Mocks::MockPWMChannel>>(mockProvider);
-  auto pwmChannel = mockpwmcProvider->hardware.at(controllerData);
+  auto pwmChannel = mockpwmcProvider->hardware.at(idOnProvider);
   BOOST_REQUIRE( pwmChannel );
 
   // Call the onActivate method
