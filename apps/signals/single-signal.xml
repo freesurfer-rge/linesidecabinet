@@ -13,16 +13,16 @@
   <PermanentWayItems>
     <DirectDriveMASH id="00:1a:2b:3c">
       <Aspect name="Red">
-	<BinaryOutput controller="GPIO" controllerData="19" />
+	<BinaryOutput providerName="GPIO" idOnProvider="19" />
       </Aspect>
       <Aspect name="Yellow1">
-	<BinaryOutput controller="GPIO" controllerData="26" />
+	<BinaryOutput providerName="GPIO" idOnProvider="26" />
       </Aspect>
       <Aspect name="Green">
-	<BinaryOutput controller="GPIO" controllerData="06" />
+	<BinaryOutput providerName="GPIO" idOnProvider="06" />
       </Aspect>
       <Feather route="1">
-	<BinaryOutput controller="GPIO" controllerData="05" />
+	<BinaryOutput providerName="GPIO" idOnProvider="05" />
       </Feather>
     </DirectDriveMASH>
   </PermanentWayItems>

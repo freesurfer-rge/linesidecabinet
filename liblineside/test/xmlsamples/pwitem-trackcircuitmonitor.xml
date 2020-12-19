@@ -2,7 +2,7 @@
 <Test>
   <TrackCircuitMonitor id="00:ff:00:aa" sensor="OccupiedIsLow" >
     <!-- A single input pin -->
-    <BinaryInput controller="GPIO" controllerData="07">
+    <BinaryInput providerName="GPIO" idOnProvider="07">
       <Settings>
 	<!-- The pin has a setting with it -->
 	<Setting key="glitch" value="10000" />

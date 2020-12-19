@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Test>
   <ServoTurnoutMotor id="00:fe:1a:af" straight="130" curved="400" >
-    <PWMChannel controller="sc01" controllerData="01" />
+    <PWMChannel providerName="sc01" idOnProvider="01" />
   </ServoTurnoutMotor>
 </Test>

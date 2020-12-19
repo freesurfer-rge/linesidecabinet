@@ -68,9 +68,9 @@ namespace Lineside {
   
   std::unique_ptr<Tendril::BinaryOutputPin>
   DirectDriveMASHData::FetchBOP(Tendril::HardwareManager& hw,
-				const DeviceRequestData& drd ) const {
-    auto bopProvider = hw.bopProviderRegistrar.Retrieve(drd.controller);
-    return bopProvider->GetHardware( drd.controllerData, drd.settings );
+				const Tendril::HardwareRequestData& drd ) const {
+    auto bopProvider = hw.bopProviderRegistrar.Retrieve(drd.providerName);
+    return bopProvider->GetHardware( drd.idOnProvider, drd.settings );
   }
   
   void

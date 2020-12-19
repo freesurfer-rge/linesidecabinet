@@ -49,12 +49,12 @@ BOOST_AUTO_TEST_CASE(TwoAspect)
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
-  drd.controller = "MockBOP";
-  drd.controllerData = "10";
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
-  drd.controllerData = "11";
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
+  Tendril::HardwareRequestData hrd;
+  hrd.providerName = "MockBOP";
+  hrd.idOnProvider = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = hrd;
+  hrd.idOnProvider = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = hrd;
   
   // Create the target
   auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
@@ -127,14 +127,14 @@ BOOST_AUTO_TEST_CASE(TwoAspectOneFeather)
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
-  drd.controller = "MockBOP";
-  drd.controllerData = "10";
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
-  drd.controllerData = "11";
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
-  drd.controllerData = "19";
-  mashd.featherRequests[1] = drd;
+  Tendril::HardwareRequestData hrd;
+  hrd.providerName = "MockBOP";
+  hrd.idOnProvider = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = hrd;
+  hrd.idOnProvider = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = hrd;
+  hrd.idOnProvider = "19";
+  mashd.featherRequests[1] = hrd;
   
   // Create the target
   auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
@@ -210,16 +210,16 @@ BOOST_AUTO_TEST_CASE(TwoAspectTwoFeather)
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
-  drd.controller = "MockBOP";
-  drd.controllerData = "10";
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
-  drd.controllerData = "11";
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
-  drd.controllerData = "19";
-  mashd.featherRequests[1] = drd;
-  drd.controllerData = "21";
-  mashd.featherRequests[2] = drd;
+  Tendril::HardwareRequestData hrd;
+  hrd.providerName = "MockBOP";
+  hrd.idOnProvider = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = hrd;
+  hrd.idOnProvider = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = hrd;
+  hrd.idOnProvider = "19";
+  mashd.featherRequests[1] = hrd;
+  hrd.idOnProvider = "21";
+  mashd.featherRequests[2] = hrd;
   
   // Create the target
   auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
@@ -297,14 +297,14 @@ BOOST_AUTO_TEST_CASE( TwoAspectBadState )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
-  drd.controller = "MockBOP";
-  drd.controllerData = "10";
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
-  drd.controllerData = "11";
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
-  drd.controllerData = "19";
-  mashd.featherRequests[1] = drd;
+  Tendril::HardwareRequestData hrd;
+  hrd.providerName = "MockBOP";
+  hrd.idOnProvider = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = hrd;
+  hrd.idOnProvider = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = hrd;
+  hrd.idOnProvider = "19";
+  mashd.featherRequests[1] = hrd;
   
   // Create the target
   auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
@@ -328,14 +328,14 @@ BOOST_AUTO_TEST_CASE( ThreeAspect )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
-  drd.controller = "MockBOP";
-  drd.controllerData = "15";
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
-  drd.controllerData = "16";
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
-  drd.controllerData = "10";
-  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = drd;
+  Tendril::HardwareRequestData hrd;
+  hrd.providerName = "MockBOP";
+  hrd.idOnProvider = "15";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = hrd;
+  hrd.idOnProvider = "16";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = hrd;
+  hrd.idOnProvider = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = hrd;
   
   // Create the target
   auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
@@ -390,16 +390,16 @@ BOOST_AUTO_TEST_CASE( ThreeAspectBadState )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
-  drd.controller = "MockBOP";
-  drd.controllerData = "15";
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
-  drd.controllerData = "16";
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
-  drd.controllerData = "10";
-  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = drd;
-  drd.controllerData = "11";
-  mashd.featherRequests[1] = drd;
+  Tendril::HardwareRequestData hrd;
+  hrd.providerName = "MockBOP";
+  hrd.idOnProvider = "15";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = hrd;
+  hrd.idOnProvider = "16";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = hrd;
+  hrd.idOnProvider = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = hrd;
+  hrd.idOnProvider = "11";
+  mashd.featherRequests[1] = hrd;
   
   // Create the target
   auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );
@@ -423,16 +423,16 @@ BOOST_AUTO_TEST_CASE( FourAspect )
   Lineside::DirectDriveMASHData mashd;
   mashd.id = id;
 
-  Lineside::DeviceRequestData drd;
-  drd.controller = "MockBOP";
-  drd.controllerData = "15";
-  mashd.aspectRequests[Lineside::SignalAspect::Red] = drd;
-  drd.controllerData = "16";
-  mashd.aspectRequests[Lineside::SignalAspect::Green] = drd;
-  drd.controllerData = "11";
-  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = drd;
-  drd.controllerData = "10";
-  mashd.aspectRequests[Lineside::SignalAspect::Yellow2] = drd;
+  Tendril::HardwareRequestData hrd;
+  hrd.providerName = "MockBOP";
+  hrd.idOnProvider = "15";
+  mashd.aspectRequests[Lineside::SignalAspect::Red] = hrd;
+  hrd.idOnProvider = "16";
+  mashd.aspectRequests[Lineside::SignalAspect::Green] = hrd;
+  hrd.idOnProvider = "11";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow1] = hrd;
+  hrd.idOnProvider = "10";
+  mashd.aspectRequests[Lineside::SignalAspect::Yellow2] = hrd;
     
   // Create the target
   auto pwItem = mashd.Construct( *(this->hwManager), *(this->swManager) );

@@ -1,7 +1,7 @@
 #include "lineside/servoturnoutmotordata.hpp"
 
 #include "lineside/xml/utilities.hpp"
-#include "lineside/xml/devicerequestdatareader.hpp"
+#include "lineside/xml/hardwarerequestdatareader.hpp"
 
 #include "lineside/xml/servoturnoutmotordatareader.hpp"
 
@@ -33,7 +33,7 @@ namespace Lineside {
 
       auto pwmChannelElement = GetSingleElementByName( pwItemElement, "PWMChannel" );
 
-      DeviceRequestDataReader reader;
+      HardwareRequestDataReader reader;
       result->pwmChannelRequest = reader.Read(pwmChannelElement);
       
       return result;

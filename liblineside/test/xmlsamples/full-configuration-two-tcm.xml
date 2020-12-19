@@ -15,7 +15,7 @@
   <!-- Start of the Permanent Way Items -->
   <PermanentWayItems>
     <TrackCircuitMonitor id="00:ff:00:aa" sensor="OccupiedIsHigh">
-      <BinaryInput controller="GPIO" controllerData="17">
+      <BinaryInput providerName="GPIO" idOnProvider="17">
 	<Settings>
           <Setting key="glitch" value="300000" />
 	</Settings>
@@ -23,7 +23,7 @@
     </TrackCircuitMonitor>
     <!-- Comment -->
     <TrackCircuitMonitor id="00:ff:00:aa" sensor="OccupiedIsHigh">
-      <BinaryInput controller="GPIO" controllerData="22">
+      <BinaryInput providerName="GPIO" idOnProvider="22">
 	<Settings>
           <Setting key="glitch" value="300000" />
 	</Settings>

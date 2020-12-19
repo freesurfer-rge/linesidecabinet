@@ -37,13 +37,13 @@ BOOST_AUTO_TEST_CASE(Construct)
 {
   const Lineside::ItemId id(10);
   const std::string controller = Tendril::Mocks::BIPProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
 
   Lineside::TrackCircuitMonitorData tcmd;
   tcmd.id = id;
   tcmd.sensor = Lineside::TrackCircuitSensor::OccupiedIsHigh;
-  tcmd.inputPinRequest.controller = controller;
-  tcmd.inputPinRequest.controllerData = controllerData;
+  tcmd.inputPinRequest.providerName = controller;
+  tcmd.inputPinRequest.idOnProvider = idOnProvider;
 
   auto pwItem = tcmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(Construct)
   auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
   auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
   BOOST_REQUIRE(mockbipProvider);
-  auto bip = mockbipProvider->hardware.at(controllerData);
+  auto bip = mockbipProvider->hardware.at(idOnProvider);
   BOOST_REQUIRE(bip);
 }
 
@@ -63,13 +63,13 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedHigh)
 {
   const Lineside::ItemId id(10);
   const std::string controller = Tendril::Mocks::BIPProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
 
   Lineside::TrackCircuitMonitorData tcmd;
   tcmd.id = id;
   tcmd.sensor = Lineside::TrackCircuitSensor::OccupiedIsHigh; // Compare next test
-  tcmd.inputPinRequest.controller = controller;
-  tcmd.inputPinRequest.controllerData = controllerData;
+  tcmd.inputPinRequest.providerName = controller;
+  tcmd.inputPinRequest.idOnProvider = idOnProvider;
 
   auto pwItem = tcmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedHigh)
   auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
   auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
   BOOST_REQUIRE(mockbipProvider);
-  auto bip = mockbipProvider->hardware.at(controllerData);
+  auto bip = mockbipProvider->hardware.at(idOnProvider);
   BOOST_REQUIRE(bip);
   BOOST_CHECK_EQUAL( bip->Get(), false );
   BOOST_CHECK_EQUAL( tcm->GetState(), false );
@@ -106,13 +106,13 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedLow)
 {
   const Lineside::ItemId id(10);
   const std::string controller = Tendril::Mocks::BIPProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
 
   Lineside::TrackCircuitMonitorData tcmd;
   tcmd.id = id;
   tcmd.sensor = Lineside::TrackCircuitSensor::OccupiedIsLow; // Compare previous test
-  tcmd.inputPinRequest.controller = controller;
-  tcmd.inputPinRequest.controllerData = controllerData;
+  tcmd.inputPinRequest.providerName = controller;
+  tcmd.inputPinRequest.idOnProvider = idOnProvider;
 
   auto pwItem = tcmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(SetOccupiedUnOccupiedLow)
   auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
   auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
   BOOST_REQUIRE(mockbipProvider);
-  auto bip = mockbipProvider->hardware.at(controllerData);
+  auto bip = mockbipProvider->hardware.at(idOnProvider);
   BOOST_REQUIRE( bip );
   BOOST_CHECK_EQUAL( bip->Get(), false );
   BOOST_CHECK_EQUAL( tcm->GetState(), true );
@@ -150,14 +150,14 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
 {
   const Lineside::ItemId id(10);
   const std::string controller = Tendril::Mocks::BIPProviderId;
-  const std::string controllerData = "07";
+  const std::string idOnProvider = "07";
   const std::chrono::seconds expectedSleepRequest = std::chrono::seconds(60);
 
   Lineside::TrackCircuitMonitorData tcmd;
   tcmd.id = id;
   tcmd.sensor = Lineside::TrackCircuitSensor::OccupiedIsHigh;
-  tcmd.inputPinRequest.controller = controller;
-  tcmd.inputPinRequest.controllerData = controllerData;
+  tcmd.inputPinRequest.providerName = controller;
+  tcmd.inputPinRequest.idOnProvider = idOnProvider;
 
   auto pwItem = tcmd.Construct(*(this->hwManager), *(this->swManager));
   BOOST_REQUIRE( pwItem );
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(OnRunSendsToRTC)
   auto mockProvider = this->hwManager->bipProviderRegistrar.Retrieve(controller);
   auto mockbipProvider = std::dynamic_pointer_cast<Tendril::Mocks::MockHardwareProvider<Tendril::BinaryInputPin, Tendril::Mocks::MockBIP>>(mockProvider);
   BOOST_REQUIRE(mockbipProvider);
-  auto bip = mockbipProvider->hardware.at(controllerData);
+  auto bip = mockbipProvider->hardware.at(idOnProvider);
   BOOST_REQUIRE( bip );
   BOOST_CHECK_EQUAL( bip->Get(), false );
   BOOST_CHECK_EQUAL( tcm->GetState(), false );

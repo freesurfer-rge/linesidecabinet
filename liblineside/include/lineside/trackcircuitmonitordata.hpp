@@ -1,8 +1,8 @@
 #pragma once
 
+#include "tendril/hardwarerequestdata.hpp"
 #include "lineside/pwitemdata.hpp"
 #include "lineside/trackcircuitsensor.hpp"
-#include "lineside/devicerequestdata.hpp"
 
 namespace Lineside {
   //! Class to contain data specifying a TrackCircuitMonitor
@@ -14,7 +14,7 @@ namespace Lineside {
       inputPinRequest() {}
 
     TrackCircuitSensor sensor;
-    DeviceRequestData inputPinRequest;
+    Tendril::HardwareRequestData inputPinRequest;
 
     virtual std::shared_ptr<PWItemModel> Construct(Tendril::HardwareManager& hw,
 						   SoftwareManager& sw ) const override;

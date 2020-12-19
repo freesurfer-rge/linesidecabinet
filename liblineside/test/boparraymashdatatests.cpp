@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE(Smoke)
   mashd.settings["Green"] = "1";
   mashd.settings["Feather1"] = "0";
 
-  mashd.bopArrayRequest.controller = "MockBOPArray";
+  mashd.bopArrayRequest.providerName = "MockBOPArray";
   mashd.bopArrayRequest.settings["0"] = "18";
   mashd.bopArrayRequest.settings["1"] = "19";
   mashd.bopArrayRequest.settings["2"] = "26";

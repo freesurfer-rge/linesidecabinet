@@ -13,7 +13,7 @@
       <Setting key="Feather1" value="3" />
       <Setting key="Feather2" value="4" />
     </Settings>
-    <BOPArray controller="GPIO" controllerData="6">
+    <BOPArray providerName="GPIO" idOnProvider="6">
       <Settings>
 	<!-- Keys are the array locations, values the GPIO pin -->
 	<Setting key="0" value="13" />

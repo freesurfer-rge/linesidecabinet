@@ -67,28 +67,28 @@ namespace Lineside {
     Hardware manager implementations throw this
     when unable to satisfy a device request
    */
-  class DeviceRequestException : public LinesideException {
+  class HardwareRequestException : public LinesideException {
   public:
-    explicit DeviceRequestException(const std::string ctrl,
-				    const std::string ctrlData,
-				    const std::string issue) :
+    explicit HardwareRequestException(const std::string provider,
+				      const std::string id,
+				      const std::string issue) :
       LinesideException(""),
-      controller(ctrl),
-      controllerData(ctrlData),
+      providerName(provider),
+      idOnProvider(id),
       issueDescription(issue),
       message() {
       std::stringstream tmp;
-      tmp << "Bad Device Request for controller "
-	  << this->controller
-	  << " with controllerData "
-	  << this->controllerData;
+      tmp << "Bad Hardware Request for providerName "
+	  << this->providerName
+	  << " with idOnProvider "
+	  << this->idOnProvider;
       tmp << ". Issue: "
 	  << this->issueDescription;
       this->message = tmp.str();
     }
 
-    const std::string controller;
-    const std::string controllerData;
+    const std::string providerName;
+    const std::string idOnProvider;
     const std::string issueDescription;
     std::string message;
 
