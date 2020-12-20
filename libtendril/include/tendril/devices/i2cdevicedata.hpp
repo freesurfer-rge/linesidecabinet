@@ -14,6 +14,8 @@ namespace Tendril::Devices {
       kind("Uninitialised"),
       bus(65535),
       address(65535) {}
+    
+    void ConstructAndRegister(HardwareManager& hw) override;
 
     std::string kind;
     std::uint16_t bus;
