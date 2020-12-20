@@ -55,6 +55,10 @@ namespace Tendril {
     //! Get an I2CCommunicator from the registrar
     std::unique_ptr<I2CCommunicator>
     GetI2CComms(const HardwareRequestData& hrd);
+
+    //! Get a BinaryOutputPin from the registrar
+    std::unique_ptr<BinaryOutputPin>
+    GetBOP(const HardwareRequestData& hrd);
     
     //! Registrar for providers of binary output pins
     Registrar<HardwareProvider<BinaryOutputPin>> bopProviderRegistrar;

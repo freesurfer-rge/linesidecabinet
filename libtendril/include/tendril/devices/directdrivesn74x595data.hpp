@@ -16,6 +16,8 @@ namespace Tendril::Devices {
 	clearPin(),
 	enablePin() {}
     
+    void ConstructAndRegister(HardwareManager& hw) override;
+    
     HardwareRequestData clockPin;
     HardwareRequestData dataPin;
     HardwareRequestData latchPin;
