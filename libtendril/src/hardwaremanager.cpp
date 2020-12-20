@@ -7,4 +7,11 @@ namespace Tendril {
 
     return provider->GetHardware(hrd.idOnProvider, hrd.settings);
   }
+
+  std::unique_ptr<BinaryOutputPin>
+  HardwareManager::GetBOP(const HardwareRequestData& hrd) {
+    auto provider = this->bopProviderRegistrar.Retrieve(hrd.providerName);
+
+    return provider->GetHardware(hrd.idOnProvider, hrd.settings);
+  }
 }

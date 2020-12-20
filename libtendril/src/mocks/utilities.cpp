@@ -1,8 +1,4 @@
-#include "tendril/mocks/mockbop.hpp"
-#include "tendril/mocks/mockbip.hpp"
-#include "tendril/mocks/mockboparray.hpp"
-#include "tendril/mocks/mockpwmchannel.hpp"
-
+#include "tendril/mocks/mocki2ccommunicator.hpp"
 #include "tendril/mocks/mockbip.hpp"
 #include "tendril/mocks/mockbop.hpp"
 #include "tendril/mocks/mockpwmchannel.hpp"
@@ -15,6 +11,9 @@ namespace Tendril::Mocks {
   std::shared_ptr<HardwareManager> GetMockHardwareManager() {
     auto result = std::make_shared<HardwareManager>();
 
+    auto i2cProvider = std::make_shared<MockHardwareProvider<I2CCommunicator, MockI2CCommunicator>>();
+    result->i2cCommProviderRegistrar.Register( I2CProviderId, i2cProvider );
+    
     auto bipProvider = std::make_shared<MockHardwareProvider<BinaryInputPin, MockBIP>>();
     result->bipProviderRegistrar.Register( BIPProviderId, bipProvider );
 

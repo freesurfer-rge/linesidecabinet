@@ -6,7 +6,8 @@
 
 namespace Tendril::Mocks {
   std::shared_ptr<HardwareManager> GetMockHardwareManager();
-  
+
+  const std::string I2CProviderId = "MockI2C";
   const std::string BIPProviderId = "MockBIP";
   const std::string BOPProviderId = "MockBOP";
   const std::string BOPArrayProviderId = "MockBOPArray";
