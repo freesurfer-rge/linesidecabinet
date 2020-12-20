@@ -6,6 +6,8 @@
 namespace Tendril::Devices {
   class DirectDriveSN74x595Data : public DeviceData {
   public:
+    const std::string chainLengthSetting = "chainLength";
+    
     DirectDriveSN74x595Data()
       : DeviceData(),
 	clockPin(),
@@ -14,10 +16,10 @@ namespace Tendril::Devices {
 	clearPin(),
 	enablePin() {}
     
-    HardwareRequest clockPin;
-    HardwareRequest dataPin;
-    HardwareRequest latchPin;
-    HardwareRequest clearPin;
-    HardwareRequest enablePin;
+    HardwareRequestData clockPin;
+    HardwareRequestData dataPin;
+    HardwareRequestData latchPin;
+    HardwareRequestData clearPin;
+    HardwareRequestData enablePin;
   };
 }

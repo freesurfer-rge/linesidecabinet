@@ -4,6 +4,8 @@
 #include "tendril/tendriltypes.hpp"
 
 namespace Tendril::Devices {
+  const std::string NotConnected = "NotConnected";
+  
   //! Base class for peripheral devices
   class DeviceData {
   public:
