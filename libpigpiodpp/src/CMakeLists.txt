@@ -9,6 +9,7 @@ list(APPEND srcs pimanager.cpp)
 list(APPEND srcs i2cpi.cpp)
 list(APPEND srcs piboparray.cpp)
 
+list(APPEND srcs pii2ccommsprovider.cpp)
 list(APPEND srcs pibopprovider.cpp)
 list(APPEND srcs piboparrayprovider.cpp)
 list(APPEND srcs pibipprovider.cpp)

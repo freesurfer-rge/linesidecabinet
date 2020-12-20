@@ -3,6 +3,7 @@
 #include "tendril/devices/pca9685.hpp"
 
 #include "pigpiodpp/pimanager.hpp"
+#include "pigpiodpp/pii2ccommsprovider.hpp"
 #include "pigpiodpp/pibopprovider.hpp"
 #include "pigpiodpp/pibipprovider.hpp"
 #include "pigpiodpp/piboparrayprovider.hpp"
@@ -23,6 +24,13 @@ namespace PiGPIOdpp {
     auto result = std::make_shared<Tendril::HardwareManager>();
     auto pimanager = PiManager::CreatePiManager();
 
+    // Set up the I2CComms provider
+    const unsigned int i2cBusCount = 2;
+    for( unsigned int iBus=0; iBus<i2cBusCount; ++iBus ) {
+      auto i2ccommsProvider = std::make_shared<PiI2CCommsProvider>(pimanager, iBus);
+      result->i2cCommProviderRegistrar.Register(std::to_string(iBus), i2ccommsProvider);
+    }
+    
     // Set up the GPIO providers
     auto bopProvider = std::make_shared<PiBOPProvider>(pimanager);
     result->bopProviderRegistrar.Register(GPIO, bopProvider );
