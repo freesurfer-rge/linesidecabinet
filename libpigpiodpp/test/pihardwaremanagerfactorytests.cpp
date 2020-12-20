@@ -15,6 +15,8 @@ BOOST_AUTO_TEST_CASE( Smoke )
   BOOST_CHECK( hwm->bipProviderRegistrar.Retrieve("GPIO") );
   BOOST_CHECK( hwm->bopProviderRegistrar.Retrieve("GPIO") );
   BOOST_CHECK( hwm->bopArrayProviderRegistrar.Retrieve("GPIO") );
+  BOOST_CHECK( hwm->i2cCommProviderRegistrar.Retrieve("0") );
+  BOOST_CHECK( hwm->i2cCommProviderRegistrar.Retrieve("1") );
 }
 
 BOOST_AUTO_TEST_CASE( WithPCA9685 )
