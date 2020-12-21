@@ -52,7 +52,7 @@ namespace Lineside {
       std::stringstream msg;
       msg << "Could not parse '";
       msg << src;
-      msg << "' to SignalState";
+      msg << "' to SignalFlash";
       throw std::invalid_argument(msg.str());
     }
   }
