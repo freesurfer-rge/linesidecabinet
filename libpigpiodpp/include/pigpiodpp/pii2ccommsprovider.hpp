@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <set>
 
 #include "tendril/hardwareprovider.hpp"
 #include "tendril/i2ccommunicator.hpp"
@@ -14,7 +15,8 @@ namespace PiGPIOdpp {
   public:
     PiI2CCommsProvider(const std::shared_ptr<PiManager> owner, const unsigned int busId)
       : pi(owner),
-	busId(busId) {}
+	busId(busId),
+	assignedAddresses() {}
 
     //! Get the id of the controlled Pi
     int getPi() const;
@@ -29,5 +31,6 @@ namespace PiGPIOdpp {
   private:
     std::shared_ptr<PiManager> pi;
     unsigned int busId;
+    std::set<unsigned int> assignedAddresses;
   };
 }
