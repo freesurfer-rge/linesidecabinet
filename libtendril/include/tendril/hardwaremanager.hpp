@@ -2,10 +2,12 @@
 
 #include "tendril/registrar.hpp"
 #include "tendril/hardwareprovider.hpp"
+#include "tendril/hardwarerequestdata.hpp"
 #include "tendril/binaryoutputpin.hpp"
 #include "tendril/binaryinputpin.hpp"
 #include "tendril/boparray.hpp"
 #include "tendril/pwmchannel.hpp"
+#include "tendril/i2ccommunicator.hpp"
 
 
 //! Namespace for holding hardware abstractions
@@ -46,11 +48,22 @@ namespace Tendril {
   class HardwareManager {
   public:
     HardwareManager() :
+      i2cCommProviderRegistrar(),
       bopProviderRegistrar(),
       bipProviderRegistrar(),
       bopArrayProviderRegistrar(),
       pwmcProviderRegistrar() {}
+    //! Get an I2CCommunicator from the registrar
+    std::unique_ptr<I2CCommunicator>
+    GetI2CComms(const HardwareRequestData& hrd);
 
+    //! Get a BinaryOutputPin from the registrar
+    std::unique_ptr<BinaryOutputPin>
+    GetBOP(const HardwareRequestData& hrd);
+
+    //! Registrar for providers of I2C communicators
+    Registrar<HardwareProvider<I2CCommunicator>> i2cCommProviderRegistrar;
+    
     //! Registrar for providers of binary output pins
     Registrar<HardwareProvider<BinaryOutputPin>> bopProviderRegistrar;
 

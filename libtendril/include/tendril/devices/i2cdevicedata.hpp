@@ -1,26 +1,24 @@
 #pragma once
 
 #include <cstdint>
-#include <map>
 #include <string>
 
-#include "tendril/tendriltypes.hpp"
+#include "tendril/devices/devicedata.hpp"
 
 namespace Tendril::Devices {
   //! Class to hold data about an I2C device
-  class I2CDeviceData {
+  class I2CDeviceData : public DeviceData {
   public:
     I2CDeviceData() :
+      DeviceData(),
       kind("Uninitialised"),
       bus(65535),
-      address(65535),
-      name("Uninitialised"),
-      settings() {}
+      address(65535) {}
+    
+    void ConstructAndRegister(HardwareManager& hw) override;
 
     std::string kind;
     std::uint16_t bus;
     std::uint16_t address;
-    std::string name;
-    SettingsMap settings;
   };
 }

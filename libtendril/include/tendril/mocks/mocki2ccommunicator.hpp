@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tendril/tendriltypes.hpp"
+
 #include "tendril/i2ccommunicator.hpp"
 
 namespace Tendril::Mocks {
@@ -8,7 +10,8 @@ namespace Tendril::Mocks {
     MockI2CCommunicator() :
       I2CCommunicator(),
       lastRegister(0),
-      lastWrite(0) {}
+      lastWrite(0),
+      settings() {}
     
     virtual void WriteByte(const uint8_t targetRegister,
 			   const uint8_t value) override;
@@ -18,5 +21,7 @@ namespace Tendril::Mocks {
 
     uint8_t lastRegister;
     uint32_t lastWrite;
+
+    SettingsMap settings;
   };
 }
