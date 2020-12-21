@@ -10,7 +10,8 @@ namespace Tendril::Mocks {
     MockI2CCommunicator() :
       I2CCommunicator(),
       lastRegister(0),
-      lastWrite(0) {}
+      lastWrite(0),
+      settings() {}
     
     virtual void WriteByte(const uint8_t targetRegister,
 			   const uint8_t value) override;
