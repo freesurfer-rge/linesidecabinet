@@ -34,6 +34,20 @@ BOOST_DATA_TEST_CASE( Parse, nameToAspectZip, name, aspect )
   BOOST_CHECK_EQUAL( aspect, Lineside::Parse<Lineside::SignalAspect>(name) );
 }
 
+BOOST_AUTO_TEST_CASE( BadParse )
+{
+  const std::string badString = "SomeRandomString";
+
+  const std::string expected = "Could not parse 'SomeRandomString' to SignalAspect";
+  BOOST_CHECK_EXCEPTION( Lineside::Parse<Lineside::SignalAspect>(badString),
+			 std::invalid_argument,
+			 [=](const std::invalid_argument& ia) {
+			   BOOST_CHECK_EQUAL( expected, ia.what() );
+			   return expected == ia.what();
+			 });
+}
+
+
 BOOST_DATA_TEST_CASE( TryParse, nameToAspectZip, name, aspect )
 {
   Lineside::SignalAspect result;
