@@ -30,3 +30,5 @@ target_link_libraries(TendrilTest PUBLIC tendril Boost::boost)
 
 add_test(NAME tendril
   COMMAND TendrilTest --log_sink=TendrilTest-JUNIT.xml ${TEST_COMMON_ARGS})
+
+add_subdirectory(devices)
