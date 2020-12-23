@@ -1,7 +1,6 @@
 #pragma once
 
-#include <map>
-#include <string>
+#include <memory>
 #include <vector>
 
 #include "tendril/tendriltypes.hpp"
@@ -15,7 +14,7 @@ namespace Tendril {
       devices(),
       settings() {}
     
-    std::vector<Tendril::Devices::DeviceData> devices;
+    std::vector<std::shared_ptr<Tendril::Devices::DeviceData>> devices;
     SettingsMap settings;
   };
 }
