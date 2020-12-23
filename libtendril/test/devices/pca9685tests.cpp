@@ -5,6 +5,8 @@
 #include "tendril/devices/pca9685.hpp"
 #include "tendril/devices/pca9685channel.hpp"
 
+BOOST_AUTO_TEST_SUITE(Devices)
+
 BOOST_AUTO_TEST_SUITE(PCA9685)
 
 BOOST_AUTO_TEST_CASE(Smoke)
@@ -34,5 +36,7 @@ BOOST_AUTO_TEST_CASE(Smoke)
   
   BOOST_CHECK_NO_THROW( pwmc->Set(0,128) );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

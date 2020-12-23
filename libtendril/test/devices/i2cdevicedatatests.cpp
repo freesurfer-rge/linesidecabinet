@@ -6,6 +6,8 @@
 #include "tendril/devices/pca9685.hpp"
 #include "tendril/devices/i2cdevicedata.hpp"
 
+BOOST_AUTO_TEST_SUITE(Devices)
+
 BOOST_AUTO_TEST_SUITE(I2CDeviceData)
 
 BOOST_AUTO_TEST_CASE( SmokePCA9685 )
@@ -30,4 +32,6 @@ BOOST_AUTO_TEST_CASE( SmokePCA9685 )
   BOOST_REQUIRE( pca9685 );
 }
 
+BOOST_AUTO_TEST_SUITE_END()
+  
 BOOST_AUTO_TEST_SUITE_END()

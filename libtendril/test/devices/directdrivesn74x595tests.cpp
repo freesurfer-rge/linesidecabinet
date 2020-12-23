@@ -1,9 +1,12 @@
+
 #include <boost/test/unit_test.hpp>
 
 #include "tendril/mocks/mockbop.hpp"
 
 #include "tendril/devices/directdrivesn74x595.hpp"
 #include "tendril/devices/boparray595.hpp"
+
+BOOST_AUTO_TEST_SUITE(Devices)
 
 BOOST_AUTO_TEST_SUITE(DirectDriveSN74x595)
 
@@ -95,5 +98,7 @@ BOOST_AUTO_TEST_CASE(SmokeNoEnableClear)
   bopArray->Set(2, true);
   bopArray->Update();
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
