@@ -8,7 +8,8 @@ namespace Tendril::Devices {
   class BaseI2CDeviceData : public DeviceData {
   public:
     BaseI2CDeviceData() :
-      DeviceData() {}
+      DeviceData(),
+      i2cCommsRequest() {}
 
     //! The request for the communicator
     HardwareRequestData i2cCommsRequest;
