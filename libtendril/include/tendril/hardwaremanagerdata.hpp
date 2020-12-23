@@ -5,17 +5,17 @@
 #include <vector>
 
 #include "tendril/tendriltypes.hpp"
-#include "tendril/devices/i2cdevicedata.hpp"
+#include "tendril/devices/devicedata.hpp"
 
 namespace Tendril {
   //! Class to hold data for the hardware manager
   class HardwareManagerData {
   public:
     HardwareManagerData() :
-      i2cDevices(),
+      devices(),
       settings() {}
     
-    std::vector<Tendril::Devices::I2CDeviceData> i2cDevices;
+    std::vector<Tendril::Devices::DeviceData> devices;
     SettingsMap settings;
   };
 }
