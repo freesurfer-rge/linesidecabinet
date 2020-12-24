@@ -21,19 +21,7 @@ namespace Lineside::xml {
   class I2CDeviceDataReader : public DeviceDataReader {
   public:
     I2CDeviceDataReader(const std::string tagName)
-      : tagName(tagName) {}
-
-    virtual
-    bool
-    CheckReadableElement(const xercesc::DOMElement *element) const override {
-      if( !element ) {
-	throw std::logic_error("Bad element");
-      }
-      // This could be more efficient, but works for now
-      auto TAG_Device = StrToXMLCh(this->tagName);
-
-      return xercesc::XMLString::equals( element->getTagName(), TAG_Device.get() );
-    }
+      : DeviceDataReader(tagName) {}
 
     virtual
     std::shared_ptr<Tendril::Devices::DeviceData>

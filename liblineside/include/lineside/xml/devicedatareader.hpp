@@ -8,14 +8,16 @@ namespace Lineside::xml {
   //! Base class for reading in devices
   class DeviceDataReader {
   public:
+    DeviceDataReader(const std::string tagName)
+      : tagName(tagName) {}
+    
     //! Common method for reading the name
     std::string
     ReadName(const xercesc::DOMElement *deviceDataElement) const;
 
-    //! Checks if a given element is readable by an implementation
-    virtual
+    //! Checks if a given element name matches
     bool
-    CheckReadableElement(const xercesc::DOMElement *element) const = 0;
+    CheckReadableElement(const xercesc::DOMElement *element) const;
 
     //! Read the device data
     virtual
@@ -23,5 +25,7 @@ namespace Lineside::xml {
     Read(const xercesc::DOMElement *deviceDataElement) const = 0;
 
     virtual ~DeviceDataReader() {}
+
+    const std::string tagName;
   };
 }
