@@ -7,8 +7,8 @@ list(APPEND srcs hardwarerequestdatareadertests.cpp)
 
 list(APPEND srcs i2cdevicedatareadertests.cpp)
 list(APPEND srcs directdrivesn74x595datareadertests.cpp)
+list(APPEND srcs i2cdevicelistreadertests.cpp)
 
-#list(APPEND srcs i2cdevicelistreadertests.cpp)
 list(APPEND srcs pwitemdatareadertests.cpp)
 list(APPEND srcs pwitemlistreadertests.cpp)
 list(APPEND srcs settingsreadertests.cpp)
