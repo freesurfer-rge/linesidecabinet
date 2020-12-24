@@ -4,22 +4,17 @@
 
 #include "tendril/devices/i2cdevicedata.hpp"
 
-namespace Lineside {
-  namespace xml {
-    //! Class to read in data about an I2C device
-    class I2CDeviceDataReader {
-    public:
-      const std::string I2CDeviceElement = "I2CDevice";
+#include "lineside/xml/devicedatareader.hpp"
 
-      bool HasI2CDevice( const xercesc::DOMElement *parent ) const;
-
-      bool IsI2CDeviceElement( const xercesc::DOMElement *element ) const;
-
-      xercesc::DOMElement*
-      GetI2CDeviceElement( const xercesc::DOMElement *parent ) const;
-
-      Tendril::Devices::I2CDeviceData
-      Read( const xercesc::DOMElement *i2cDeviceElement ) const;
-    };
-  }
+namespace Lineside::xml {
+  //! Class to read in data about a straightforward I2C Device
+  /*!
+    This should be used for anything which uses a plain
+    I2CDeviceData<DeviceType> data structure
+  */
+  template<typename DeviceType>
+  class I2CDeviceDataReader : public DeviceDataReader {
+  public:
+    
+  };
 }

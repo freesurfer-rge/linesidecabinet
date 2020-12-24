@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Test>
-  <I2CDevice kind="devKind" bus="1" address="0x10" name="dev1">
+  <SomeI2CDevice name="dev1">
+    <I2CCommunicator providerName="1" idOnProvider="0x10" />
     <Settings>
       <Setting key="A" value="B" />
       <Setting key="1" value="2" />
     </Settings>
-  </I2CDevice>
+  </SomeI2CDevice>
 </Test>
