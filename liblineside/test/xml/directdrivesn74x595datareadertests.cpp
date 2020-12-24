@@ -40,6 +40,31 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_REQUIRE( result );
   auto dd595data = std::dynamic_pointer_cast<Tendril::Devices::DirectDriveSN74x595Data>(result);
   BOOST_REQUIRE(dd595data);
+
+  BOOST_CHECK_EQUAL( dd595data->name, "myChip" );
+  
+  BOOST_CHECK_EQUAL( dd595data->clockPin.providerName, "GPIO1" );
+  BOOST_CHECK_EQUAL( dd595data->clockPin.idOnProvider, "01" );
+  BOOST_CHECK_EQUAL( dd595data->clockPin.settings.size(), 0 );
+  
+  BOOST_CHECK_EQUAL( dd595data->latchPin.providerName, "GPIO2" );
+  BOOST_CHECK_EQUAL( dd595data->latchPin.idOnProvider, "02" );
+  BOOST_CHECK_EQUAL( dd595data->latchPin.settings.size(), 0 );
+  
+  BOOST_CHECK_EQUAL( dd595data->dataPin.providerName, "GPIO3" );
+  BOOST_CHECK_EQUAL( dd595data->dataPin.idOnProvider, "03" );
+  BOOST_CHECK_EQUAL( dd595data->dataPin.settings.size(), 0 );
+  
+  BOOST_CHECK_EQUAL( dd595data->clearPin.providerName, "GPIO4" );
+  BOOST_CHECK_EQUAL( dd595data->clearPin.idOnProvider, "04" );
+  BOOST_CHECK_EQUAL( dd595data->clearPin.settings.size(), 0 );
+  
+  BOOST_CHECK_EQUAL( dd595data->enablePin.providerName, "GPIO5" );
+  BOOST_CHECK_EQUAL( dd595data->enablePin.idOnProvider, "05" );
+  BOOST_CHECK_EQUAL( dd595data->enablePin.settings.size(), 0 );
+
+  BOOST_REQUIRE_EQUAL( dd595data->settings.size(), 1 );
+  BOOST_CHECK_EQUAL( dd595data->settings.at("chainLength"), "2" );
 }
 
 
