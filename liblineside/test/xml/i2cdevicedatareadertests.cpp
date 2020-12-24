@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   auto result = reader.Read(deviceElement);
   BOOST_REQUIRE( result );
   auto i2cDevData = std::dynamic_pointer_cast<Tendril::Devices::I2CDeviceData<SomeI2CDevice>>(result);
-  BOOST_REQUIRE( result );
+  BOOST_REQUIRE( i2cDevData );
 
   BOOST_CHECK_EQUAL( i2cDevData->name, "dev1" );
   BOOST_CHECK_EQUAL( i2cDevData->i2cCommsRequest.providerName, "1" );

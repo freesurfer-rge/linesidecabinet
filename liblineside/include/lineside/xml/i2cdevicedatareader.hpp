@@ -46,7 +46,5 @@ namespace Lineside::xml {
        
       return result;
     }
-
-    const std::string tagName;
   };
 }

@@ -8,6 +8,7 @@ list(APPEND srcs settingsreader.cpp)
 list(APPEND srcs hardwarerequestdatareader.cpp)
 
 list(APPEND srcs devicedatareader.cpp)
+list(APPEND srcs directdrivesn74x595datareader.cpp)
 
 list(APPEND srcs pwitemdatareader.cpp)
 list(APPEND srcs servoturnoutmotordatareader.cpp)
