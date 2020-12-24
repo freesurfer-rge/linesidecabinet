@@ -20,8 +20,8 @@ namespace Tendril::Devices {
 		    "DeviceType must be derived from Tendril::Devices::Device");
       // Check we have the right constructor available
       static_assert(std::is_constructible<
-		    DeviceType,
-		    std::string,SettingsMap,
+		    const DeviceType,
+		    const std::string,SettingsMap&,
 		    std::unique_ptr<I2CCommunicator>&
 		    >::value,
 		    "DeviceType must have a constructor(string,SettingsMap,unique_ptr<I2CCommunicator>&");

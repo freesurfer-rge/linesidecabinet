@@ -14,16 +14,34 @@
 
 const std::string i2cdevicedataFragment = "i2cdevice-fragment.xml";
 
-class SomeI2CDevice : public Tendril::Devices::Device {
+class SomeI2CDevice : public Tendril::Devices::Device,
+		      public Tendril::HardwareProvider<Tendril::BinaryOutputPin> {
 public:
   SomeI2CDevice(const std::string name,
 		const Tendril::SettingsMap& settings,
 		std::unique_ptr<Tendril::I2CCommunicator>& i2cComms)
     :
     Device(name),
+    HardwareProvider(),
     settings(settings),
     i2cComms(i2cComms.get()) {}
 
+  virtual void Register(Tendril::HardwareManager& hwmanager) override {
+    auto ptr = this->shared_from_this();
+    auto ptrSomeI2CDevice = std::dynamic_pointer_cast<SomeI2CDevice>(ptr);
+    hwmanager.bopProviderRegistrar.Register(this->name, ptrSomeI2CDevice);
+  }
+  
+  virtual
+  std::unique_ptr<Tendril::BinaryOutputPin>
+  GetHardware(const std::string& hardwareId,
+	      const Tendril::SettingsMap& settings) override {
+    std::stringstream msg;
+    msg << __FUNCTION__ << ": Not implemented. ";
+    msg << hardwareId << " " << settings.size();
+    throw std::logic_error(msg.str());
+  }
+  
   Tendril::SettingsMap settings;
   std::unique_ptr<Tendril::I2CCommunicator> i2cComms;
 };
@@ -43,20 +61,20 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_REQUIRE(rootElement);
   
   Lineside::xml::I2CDeviceDataReader<SomeI2CDevice> reader;
-#if 0
-  BOOST_REQUIRE( reader.HasI2CDevice(rootElement) );
-  BOOST_CHECK( !reader.IsI2CDeviceElement(rootElement) );
-  auto i2cDeviceElement = reader.GetI2CDeviceElement(rootElement);
-  BOOST_CHECK( reader.IsI2CDeviceElement( i2cDeviceElement ) );
-  auto result = reader.Read(i2cDeviceElement);
-  BOOST_CHECK_EQUAL( result.kind, "devKind" );
-  BOOST_CHECK_EQUAL( result.bus, 1 );
-  BOOST_CHECK_EQUAL( result.address, 0x10 );
-  BOOST_CHECK_EQUAL( result.name, "dev1" );
-  BOOST_REQUIRE_EQUAL( result.settings.size(), 2 );
-  BOOST_CHECK_EQUAL( result.settings.at("A"), "B" );
-  BOOST_CHECK_EQUAL( result.settings.at("1"), "2" );
-#endif
+  BOOST_REQUIRE( reader.CheckReadableElement(rootElement) );
+
+  auto result = reader.Read(rootElement);
+  BOOST_REQUIRE( result );
+  auto i2cDevData = std::dynamic_pointer_cast<Tendril::Devices::I2CDeviceData<SomeI2CDevice>>(result);
+  BOOST_REQUIRE( result );
+
+  BOOST_CHECK_EQUAL( i2cDevData->name, "dev1" );
+  BOOST_CHECK_EQUAL( i2cDevData->i2cCommsRequest.providerName, "1" );
+  BOOST_CHECK_EQUAL( i2cDevData->i2cCommsRequest.idOnProvider, "0x10" );
+  BOOST_CHECK_EQUAL( i2cDevData->i2cCommsRequest.settings.size(), 0 );
+  BOOST_REQUIRE_EQUAL( i2cDevData->settings.size(), 2 );
+  BOOST_CHECK_EQUAL( i2cDevData->settings.at("A"), "B" );
+  BOOST_CHECK_EQUAL( i2cDevData->settings.at("1"), "2" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
