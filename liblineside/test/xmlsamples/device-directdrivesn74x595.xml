@@ -2,19 +2,19 @@
 <Test>
   <DirectDriveSN74x595 name="myChip">
     <Pin name="clock">
-      <BinaryOutputPin providerName="GPIO1" idOnProvider="01" />
+      <BinaryOutput providerName="GPIO1" idOnProvider="01" />
     </Pin>
     <Pin name="latch">
-      <BinaryOutputPin providerName="GPIO2" idOnProvider="02" />
+      <BinaryOutput providerName="GPIO2" idOnProvider="02" />
     </Pin>
     <Pin name="data">
-      <BinaryOutputPin providerName="GPIO3" idOnProvider="03" />
+      <BinaryOutput providerName="GPIO3" idOnProvider="03" />
     </Pin>
     <Pin name="clear">
-      <BinaryOutputPin providerName="GPIO4" idOnProvider="04" />
+      <BinaryOutput providerName="GPIO4" idOnProvider="04" />
     </Pin>
     <Pin name="enable">
-      <BinaryOutputPin providerName="GPIO5" idOnProvider="05" />
+      <BinaryOutput providerName="GPIO5" idOnProvider="05" />
     </Pin>
     <Settings>
       <Setting key="chainLength" value="2" />
