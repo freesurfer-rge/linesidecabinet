@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_REQUIRE( !reader.CheckReadableElement(rootElement) );
   BOOST_REQUIRE( reader.CheckReadableElement(deviceElement) );
 
-  auto result = reader.Read(rootElement);
+  auto result = reader.Read(deviceElement);
   BOOST_REQUIRE( result );
   auto i2cDevData = std::dynamic_pointer_cast<Tendril::Devices::I2CDeviceData<SomeI2CDevice>>(result);
   BOOST_REQUIRE( result );
