@@ -5,6 +5,7 @@ configure_file(hardwarerequest-binaryinput.xml . COPYONLY)
 configure_file(hardwarerequest-binaryoutput.xml . COPYONLY)
 configure_file(hardwarerequest-pwmchannel.xml . COPYONLY)
 configure_file(hardwarerequest-boparray.xml . COPYONLY)
+configure_file(hardwarerequest-i2ccomms.xml . COPYONLY)
 
 configure_file(pwitem-servoturnoutmotor.xml . COPYONLY)
 configure_file(pwitem-trackcircuitmonitor.xml . COPYONLY)
