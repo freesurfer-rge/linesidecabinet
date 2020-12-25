@@ -4,7 +4,8 @@
 
 namespace Lineside {
   namespace xml {
-    Lineside::ItemId PWItemDataReader::ReadIdAttribute( const xercesc::DOMElement *pwItemElement ) const {
+    Lineside::ItemId
+    PWItemDataReader::ReadIdAttribute( const xercesc::DOMElement *pwItemElement ) const {
       if( !pwItemElement ) {
 	throw std::logic_error("Bad pwItemElement");
       }

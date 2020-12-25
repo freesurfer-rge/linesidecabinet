@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<LinesideCabinet>
+  <SoftwareManager>
+    <RTC address="addr" port="8081" />
+    <Settings>
+      <Setting key="aKey" value="bValue" />
+    </Settings>
+  </SoftwareManager>
+  <!-- Configure the attached hardware -->
+  <HardwareManager>
+    <Devices>
+      <DirectDriveSN74x595 name="shifter">
+	<Pin name="clock">
+	  <BinaryOutput providerName="GPIO" idOnProvider="25" />
+	</Pin>
+	<Pin name="latch">
+	  <BinaryOutput providerName="GPIO" idOnProvider="12" />
+	</Pin>
+	<Pin name="data">
+	  <BinaryOutput providerName="GPIO" idOnProvider="17" />
+	</Pin>
+	<Pin name="clear">
+	  <BinaryOutput providerName="NotConnected" />
+	</Pin>
+	<Pin name="enable">
+	  <BinaryOutput providerName="NotConnected" />
+	</Pin>
+	<Settings>
+	  <Setting key="chainLength" value="1" />
+	</Settings>
+      </DirectDriveSN74x595>
+    </Devices>
+    <Settings />
+  </HardwareManager>
+  <!-- List the signals -->
+  <PermanentWayItems>
+    <BOPArrayMASH id="00:1a:2b:3c">
+      <Settings>
+	<!--
+            These settings record the array locations
+            for each aspect and feather
+	-->
+	<Setting key="Red" value="0" />
+	<Setting key="Yellow1" value="1" />
+	<Setting key="Yellow2" value="3" />
+	<Setting key="Green" value="2" />
+      </Settings>
+      <BOPArray providerName="shifter" idOnProvider="0">
+	<Settings>
+          <!-- Keys are the array locations, values the GPIO pin -->
+          <Setting key="0" value="7" />
+          <Setting key="1" value="6" />
+          <Setting key="2" value="5" />
+          <Setting key="3" value="4" />
+          <!-- These are passed to BOPArray::ExtractPinList -->
+	</Settings>
+      </BOPArray>
+    </BOPArrayMASH>
+    <!-- -->
+    <BOPArrayMASH id="00:00:00:01">
+      <Settings>
+	<!--
+            These settings record the array locations
+            for each aspect and feather
+	-->
+	<Setting key="Red" value="0" />
+	<Setting key="Yellow1" value="1" />
+	<Setting key="Yellow2" value="3" />
+	<Setting key="Green" value="2" />
+      </Settings>
+      <BOPArray providerName="shifter" idOnProvider="0">
+	<Settings>
+          <!-- Keys are the array locations, values the GPIO pin -->
+          <Setting key="0" value="3" />
+          <Setting key="1" value="2" />
+          <Setting key="2" value="1" />
+          <Setting key="3" value="0" />
+          <!-- These are passed to BOPArray::ExtractPinList -->
+	</Settings>
+      </BOPArray>
+    </BOPArrayMASH>
+  </PermanentWayItems>
+</LinesideCabinet>

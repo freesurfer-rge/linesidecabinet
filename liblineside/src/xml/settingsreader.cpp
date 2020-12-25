@@ -6,7 +6,8 @@
 
 namespace Lineside {
   namespace xml {
-    bool SettingsReader::HasSettings( const xercesc::DOMElement *parent ) const {
+    bool
+    SettingsReader::HasSettings( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");
       }
@@ -14,7 +15,8 @@ namespace Lineside {
       return HasChildElement( parent, "Settings" );
     }
     
-    xercesc::DOMElement* SettingsReader::GetSettingsElement( const xercesc::DOMElement *parent ) const {
+    xercesc::DOMElement*
+    SettingsReader::GetSettingsElement( const xercesc::DOMElement *parent ) const {
       if( !parent ) {
 	throw std::logic_error("Bad parent ptr");
       }
@@ -26,7 +28,8 @@ namespace Lineside {
       return settingsElement;
     }
     
-    std::map<std::string,std::string> SettingsReader::Read( const xercesc::DOMElement *settingsElement ) const {
+    std::map<std::string,std::string>
+    SettingsReader::Read( const xercesc::DOMElement *settingsElement ) const {
       if( !settingsElement ) {
 	throw std::logic_error("Bad settingsElement ptr");
       }

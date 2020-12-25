@@ -6,10 +6,13 @@ namespace Lineside {
   namespace xml {
     class DirectDriveMASHDataReader : public PWItemDataReader {
     public:
-      virtual bool MatchingElement( const xercesc::DOMElement *element ) const override;
+      virtual
+      bool
+      MatchingElement(const xercesc::DOMElement *element) const override;
       
-      virtual std::shared_ptr<Lineside::PWItemData> Read( const xercesc::DOMElement *pwItemElement ) const override;
-
+      virtual
+      std::shared_ptr<Lineside::PWItemData>
+      Read(const xercesc::DOMElement *pwItemElement) const override;
     };
   }
 }

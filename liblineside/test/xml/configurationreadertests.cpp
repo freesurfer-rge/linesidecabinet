@@ -2,6 +2,9 @@
 
 #include "xmlutils.hpp"
 
+#include "tendril/devices/i2cdevicedata.hpp"
+#include "tendril/devices/pca9685.hpp"
+
 #include "lineside/xml/configurationreader.hpp"
 
 #include "lineside/trackcircuitmonitordata.hpp"
@@ -32,12 +35,13 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "bValue" );
 
   // Check the hardware manager
-  BOOST_REQUIRE_EQUAL( res.hwManager.i2cDevices.size(), 1 );
-  auto dev0 = res.hwManager.i2cDevices.at(0);
-  BOOST_CHECK_EQUAL( dev0.kind, "pca9685" );
-  BOOST_CHECK_EQUAL( dev0.bus, 0 );
-  BOOST_CHECK_EQUAL( dev0.address, 0x0F );
-  BOOST_CHECK_EQUAL( dev0.name, "pwm0" );
+  BOOST_REQUIRE_EQUAL( res.hwManager.devices.size(), 1 );
+  auto dev0 = res.hwManager.devices.at(0);
+  BOOST_CHECK_EQUAL( dev0->name, "pwm0" );
+  auto pca9685 = std::dynamic_pointer_cast<Tendril::Devices::I2CDeviceData<Tendril::Devices::PCA9685>>(dev0);
+  BOOST_REQUIRE( pca9685 );
+  BOOST_CHECK_EQUAL( pca9685->i2cCommsRequest.providerName, "0" );
+  BOOST_CHECK_EQUAL( pca9685->i2cCommsRequest.idOnProvider, "0x0F" );
 
   BOOST_REQUIRE_EQUAL( res.hwManager.settings.size(), 1 );
   BOOST_CHECK_EQUAL( res.hwManager.settings.at("some"), "thing" );
@@ -71,7 +75,7 @@ BOOST_AUTO_TEST_CASE( ReadTwoTCM )
   BOOST_CHECK_EQUAL( res.swManager.settings.at("aKey"), "cValue" );
 
   // Check the hardware manager
-  BOOST_REQUIRE_EQUAL( res.hwManager.i2cDevices.size(), 0 );
+  BOOST_REQUIRE_EQUAL( res.hwManager.devices.size(), 0 );
 
   BOOST_REQUIRE_EQUAL( res.hwManager.settings.size(), 1 );
   BOOST_CHECK_EQUAL( res.hwManager.settings.at("hwA"), "hwB" );

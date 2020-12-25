@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <DirectDriveSN74x595 name="myChip">
+    <Pin name="clock">
+      <BinaryOutput providerName="GPIO1" idOnProvider="01" />
+    </Pin>
+    <Pin name="latch">
+      <BinaryOutput providerName="GPIO2" idOnProvider="02" />
+    </Pin>
+    <Pin name="data">
+      <BinaryOutput providerName="GPIO3" idOnProvider="03" />
+    </Pin>
+    <Pin name="clear">
+      <BinaryOutput providerName="GPIO4" idOnProvider="04" />
+    </Pin>
+    <Pin name="enable">
+      <BinaryOutput providerName="GPIO5" idOnProvider="05" />
+    </Pin>
+    <Settings>
+      <Setting key="chainLength" value="2" />
+    </Settings>
+  </DirectDriveSN74x595>
+</Test>

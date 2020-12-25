@@ -1,7 +1,5 @@
 set(srcs)
 
-list(APPEND srcs i2cdevicedata.cpp)
-
 list(APPEND srcs pca9685.cpp)
 list(APPEND srcs pca9685channel.cpp)
 

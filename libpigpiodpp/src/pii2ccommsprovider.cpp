@@ -20,7 +20,8 @@ namespace PiGPIOdpp {
     if( settings.size() != 0 ) {
       throw std::logic_error("Settings not allowed for I2CCommunicator");
     }
-    unsigned int addr = std::stoul(hardwareId);
+    // We expect I2C addresses to be in hex
+    unsigned int addr = std::stoul(hardwareId, nullptr, 16);
 
     if( this->assignedAddresses.count(addr) != 0 ) {
       throw I2CDeviceAssignedException(this->getBusId(), addr);

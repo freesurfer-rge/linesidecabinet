@@ -7,14 +7,15 @@
     </Settings>
   </SoftwareManager>
   <HardwareManager>
-    <I2CDevices>
-      <I2CDevice kind="pca9685" bus="1" address="0x40" name="sc01">
-        <Settings>
-          <Setting key="referenceClock" value="25e6" />
-          <Setting key="pwmFrequency" value="50" />
-        </Settings>
-      </I2CDevice>
-    </I2CDevices>
+    <Devices>
+      <PCA9685 name="sc01">
+	<I2CCommunicator providerName="1" idOnProvider="0x40" />
+	<Settings>
+	  <Setting key="referenceClock" value="25e6" />
+	  <Setting key="pwmFrequency" value="50" />
+	</Settings>
+      </PCA9685>
+    </Devices>
     <Settings/>
   </HardwareManager>
   <!-- Start of the item list -->

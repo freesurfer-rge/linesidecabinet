@@ -7,6 +7,7 @@
 #include "tendril/devices/directdrivesn74x595.hpp"
 #include "tendril/devices/directdrivesn74x595data.hpp"
 
+BOOST_AUTO_TEST_SUITE(Devices)
 
 BOOST_AUTO_TEST_SUITE(DirectDriveSN74x595Data)
 
@@ -50,5 +51,7 @@ BOOST_AUTO_TEST_CASE(ConstructAndRegister)
   BOOST_CHECK_NO_THROW( mockbopprovider->hardware.at("02") );
   BOOST_CHECK_NO_THROW( mockbopprovider->hardware.at("03") );
 }
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

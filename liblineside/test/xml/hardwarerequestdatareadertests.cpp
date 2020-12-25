@@ -16,6 +16,7 @@ const std::string binaryinputFragment = "hardwarerequest-binaryinput.xml";
 const std::string binaryoutputFragment = "hardwarerequest-binaryoutput.xml";
 const std::string pwmchannelFragment = "hardwarerequest-pwmchannel.xml";
 const std::string boparrayFragment = "hardwarerequest-boparray.xml";
+const std::string i2ccommsFragment = "hardwarerequest-i2ccomms.xml";
 
 // ================================
 
@@ -104,6 +105,25 @@ BOOST_AUTO_TEST_CASE( SmokeBOPArray )
   BOOST_CHECK_EQUAL( result.settings.at("3"), "16" );
   BOOST_CHECK_EQUAL( result.settings.at("4"), "20" );
   BOOST_CHECK_EQUAL( result.settings.at("5"), "21" );
+}
+
+BOOST_AUTO_TEST_CASE( SmokeI2CComms )
+{
+  Lineside::xml::XercesGuard xg;
+  auto parser = GetParser();
+
+  auto rootElement = GetRootElementOfFile(parser, i2ccommsFragment);
+  BOOST_REQUIRE(rootElement);
+
+  auto i2cCommsElement = Lineside::xml::GetSingleElementByName(rootElement, "I2CCommunicator" );
+  BOOST_REQUIRE( i2cCommsElement );
+
+  Lineside::xml::HardwareRequestDataReader reader;
+
+  auto result = reader.Read(i2cCommsElement);
+  BOOST_CHECK_EQUAL( result.providerName, "1" );
+  BOOST_CHECK_EQUAL( result.idOnProvider, "0x20" );
+  BOOST_REQUIRE_EQUAL( result.settings.size(), 0 );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

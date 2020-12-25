@@ -41,20 +41,9 @@ namespace PiGPIOdpp {
     auto bopArrayProvider = std::make_shared<PiBOPArrayProvider>(pimanager);
     result->bopArrayProviderRegistrar.Register(GPIO, bopArrayProvider );
     
-    // Setup the I2C devices... may want this in its own class
-    for( auto data: hwData.i2cDevices ) {
-      auto i2cpi = new I2CPi(pimanager, data.bus, data.address);
-      auto communicator = std::unique_ptr<Tendril::I2CCommunicator>(i2cpi);
-      if( data.kind == "pca9685" ) {
-	auto dev = std::make_shared<Tendril::Devices::PCA9685>(data.name,
-							       data.settings,
-							       communicator);
-	dev->Register(*result);
-      } else {
-	std::stringstream msg;
-	msg << "Unrecognised I2C device: " << data.kind;
-	throw std::logic_error(msg.str().c_str());
-      }
+    // Setup the devices
+    for( auto data: hwData.devices ) {
+      data->ConstructAndRegister(*result);
     }
     
     return result;

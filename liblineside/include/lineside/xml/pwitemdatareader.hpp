@@ -10,13 +10,16 @@ namespace Lineside {
     class PWItemDataReader {
     public:
       //! Common method for reading the item id
-      Lineside::ItemId ReadIdAttribute( const xercesc::DOMElement *pwItemElement ) const;
+      Lineside::ItemId
+      ReadIdAttribute( const xercesc::DOMElement *pwItemElement ) const;
 
       //! Checks if a given element is readable by an implementation
       virtual bool MatchingElement( const xercesc::DOMElement *element ) const = 0;
 
       //! Read the permanent way item data
-      virtual std::shared_ptr<Lineside::PWItemData> Read( const xercesc::DOMElement *pwItemElement ) const = 0;
+      virtual
+      std::shared_ptr<Lineside::PWItemData>
+      Read( const xercesc::DOMElement *pwItemElement ) const = 0;
 
       virtual ~PWItemDataReader() {}
     };

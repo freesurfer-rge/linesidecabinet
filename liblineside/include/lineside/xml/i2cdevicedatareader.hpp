@@ -1,25 +1,50 @@
 #pragma once
 
+#include <stdexcept>
 #include <xercesc/dom/DOMElement.hpp>
 
 #include "tendril/devices/i2cdevicedata.hpp"
 
-namespace Lineside {
-  namespace xml {
-    //! Class to read in data about an I2C device
-    class I2CDeviceDataReader {
-    public:
-      const std::string I2CDeviceElement = "I2CDevice";
+#include "lineside/xml/utilities.hpp"
+#include "lineside/xml/hardwarerequestdatareader.hpp"
+#include "lineside/xml/settingsreader.hpp"
+#include "lineside/xml/devicedatareader.hpp"
 
-      bool HasI2CDevice( const xercesc::DOMElement *parent ) const;
 
-      bool IsI2CDeviceElement( const xercesc::DOMElement *element ) const;
+namespace Lineside::xml {
+  //! Class to read in data about a straightforward I2C Device
+  /*!
+    This should be used for anything which uses a plain
+    I2CDeviceData<DeviceType> data structure
+  */
+  template<typename DeviceType>
+  class I2CDeviceDataReader : public DeviceDataReader {
+  public:
+    I2CDeviceDataReader(const std::string tagName)
+      : DeviceDataReader(tagName) {}
 
-      xercesc::DOMElement*
-      GetI2CDeviceElement( const xercesc::DOMElement *parent ) const;
+    virtual
+    std::shared_ptr<Tendril::Devices::DeviceData>
+    Read(const xercesc::DOMElement *deviceDataElement) const override {
+      if( !deviceDataElement ) {
+	throw std::logic_error("Bad deviceDataElement");
+      }
 
-      Tendril::Devices::I2CDeviceData
-      Read( const xercesc::DOMElement *i2cDeviceElement ) const;
-    };
-  }
+      auto result = std::make_shared<Tendril::Devices::I2CDeviceData<DeviceType>>();
+
+      result->name = this->ReadName(deviceDataElement);
+
+      auto i2cCommsElement = GetSingleElementByName( deviceDataElement, "I2CCommunicator" );
+      HardwareRequestDataReader i2cCommsReader;
+      result->i2cCommsRequest = i2cCommsReader.Read(i2cCommsElement);
+
+      SettingsReader sr;
+      if( sr.HasSettings(deviceDataElement) ) {
+	auto se = sr.GetSettingsElement(deviceDataElement);
+	result->settings = sr.Read(se);
+      }
+       
+      return result;
+    }
+  };
 }
