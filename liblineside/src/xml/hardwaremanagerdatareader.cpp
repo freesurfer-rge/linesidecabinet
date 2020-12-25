@@ -2,7 +2,7 @@
 
 #include "lineside/xml/utilities.hpp"
 #include "lineside/xml/settingsreader.hpp"
-#include "lineside/xml/i2cdevicelistreader.hpp"
+#include "lineside/xml/devicelistreader.hpp"
 
 #include "lineside/xml/hardwaremanagerdatareader.hpp"
 
@@ -38,11 +38,11 @@ namespace Lineside {
       
       Tendril::HardwareManagerData result;
 
-      // Read in the list of I2CDevices
-      I2CDeviceListReader i2cReader;
-      if( i2cReader.HasI2CDeviceList( hardwaremanagerElement ) ) {
-	auto i2cDeviceListElement = i2cReader.GetI2CDeviceListElement(hardwaremanagerElement);
-	result.i2cDevices = i2cReader.Read(i2cDeviceListElement);
+      // Read in the list of Devices
+      DeviceListReader devListReader;
+      if( devListReader.HasDeviceList( hardwaremanagerElement ) ) {
+	auto deviceListElement = devListReader.GetDeviceListElement(hardwaremanagerElement);
+	result.devices = devListReader.Read(deviceListElement);
       }
       
       // Read in the settings

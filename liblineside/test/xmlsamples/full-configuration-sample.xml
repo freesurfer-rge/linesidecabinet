@@ -7,9 +7,11 @@
     </Settings>
   </SoftwareManager>
   <HardwareManager>
-    <I2CDevices>
-      <I2CDevice kind="pca9685" bus="0" address="0x0F" name="pwm0" />
-    </I2CDevices>
+    <Devices>
+      <PCA9685 name="pwm0">
+	<I2CCommunicator providerName = "0" idOnProvider="0x0F" />
+      </PCA9685>
+    </Devices>
     <Settings>
       <Setting key="some" value="thing" />
     </Settings>

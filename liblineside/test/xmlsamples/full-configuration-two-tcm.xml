@@ -7,7 +7,7 @@
     </Settings>
   </SoftwareManager>
   <HardwareManager>
-    <I2CDevices />
+    <Devices />
     <Settings>
       <Setting key="hwA" value="hwB" />
     </Settings>

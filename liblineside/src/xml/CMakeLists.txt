@@ -19,7 +19,7 @@ list(APPEND srcs boparraymashdatareader.cpp)
 list(APPEND srcs pwitemlistreader.cpp)
 
 list(APPEND srcs softwaremanagerdatareader.cpp)
-#list(APPEND srcs hardwaremanagerdatareader.cpp)
+list(APPEND srcs hardwaremanagerdatareader.cpp)
 
 list(APPEND srcs configurationreader.cpp)
 
