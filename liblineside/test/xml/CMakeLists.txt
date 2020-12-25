@@ -2,7 +2,7 @@ set(srcs)
 
 list(APPEND srcs xmlutils.cpp)
 
-#list(APPEND srcs configurationreadertests.cpp)
+list(APPEND srcs configurationreadertests.cpp)
 list(APPEND srcs hardwarerequestdatareadertests.cpp)
 
 list(APPEND srcs i2cdevicedatareadertests.cpp)
