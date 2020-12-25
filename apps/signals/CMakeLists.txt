@@ -13,3 +13,4 @@ add_executable(Signals ${srcs})
 target_link_libraries(Signals PUBLIC lineside pigpiodpp Boost::program_options)
 
 configure_file(single-signal.xml . COPYONLY)
+configure_file(two-595.xml . COPYONLY)
