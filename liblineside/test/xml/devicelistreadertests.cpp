@@ -7,17 +7,17 @@
 #include "lineside/xml/xercesguard.hpp"
 #include "lineside/xml/utilities.hpp"
 
-#include "lineside/xml/i2cdevicelistreader.hpp"
+#include "lineside/xml/devicelistreader.hpp"
 
 // ==============
 
-const std::string i2cdevicelistFragment = "i2cdevicelist-fragment.xml";
+const std::string i2cdevicelistFragment = "devicelist-fragment.xml";
 
 // ==============
 
 BOOST_AUTO_TEST_SUITE( xml )
 
-BOOST_AUTO_TEST_SUITE( I2CDeviceListReader )
+BOOST_AUTO_TEST_SUITE( DeviceListReader )
 
 BOOST_AUTO_TEST_CASE( SmokeReader )
 {
@@ -27,10 +27,10 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   auto rootElement = GetRootElementOfFile(parser, i2cdevicelistFragment);
   BOOST_REQUIRE(rootElement);
 
-  Lineside::xml::I2CDeviceListReader reader;
-  BOOST_REQUIRE( reader.HasI2CDeviceList(rootElement) );
-  auto i2cDeviceListElement = reader.GetI2CDeviceListElement(rootElement);
-  auto result = reader.Read(i2cDeviceListElement);
+  Lineside::xml::DeviceListReader reader;
+  BOOST_REQUIRE( reader.HasDeviceList(rootElement) );
+  auto deviceListElement = reader.GetDeviceListElement(rootElement);
+  auto result = reader.Read(deviceListElement);
   BOOST_REQUIRE_EQUAL( result.size(), 2 );
 
   auto dev0 = result.at(0);
