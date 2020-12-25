@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Test>
+  <Devices>
+    <PCA9685 name="MyPCA9685">
+      <I2CCommunicator providerName="1" idOnProvider="0x30" />
+      <Settings>
+	<Setting key="pwmFrequency" value="60" />
+      </Settings>
+    </PCA9685>
+    <!-- Throw in a comment -->
+    <DirectDriveSN74x595 name="MyShifter">
+      <Pin name="clock">
+	<BinaryOutput providerName="GPIO1" idOnProvider="01" />
+      </Pin>
+      <Pin name="latch">
+	<BinaryOutput providerName="GPIO02" idOnProvider="002" />
+      </Pin>
+      <Pin name="data">
+	<BinaryOutput providerName="GPIO03" idOnProvider="003" />
+      </Pin>
+      <Pin name="clear">
+	<BinaryOutput providerName="GPIO04" idOnProvider="004" />
+      </Pin>
+      <Pin name="enable">
+	<BinaryOutput providerName="GPIO05" idOnProvider="005" />
+      </Pin>
+      <Settings>
+	<Setting key="chainLength" value="2" />
+      </Settings>
+    </DirectDriveSN74x595>
+  </Devices>
+</Test>

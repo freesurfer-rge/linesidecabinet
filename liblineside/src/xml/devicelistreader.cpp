@@ -1,5 +1,7 @@
 #include <xercesc/dom/DOMNodeList.hpp>
 
+#include "tendril/devices/pca9685.hpp"
+
 #include "lineside/xml/utilities.hpp"
 
 #include "lineside/xml/i2cdevicedatareader.hpp"
@@ -38,9 +40,12 @@ namespace Lineside {
       }
       auto result = std::vector<std::shared_ptr<Tendril::Devices::DeviceData>>();
 
+      // Build the list of readers
       std::vector<std::unique_ptr<DeviceDataReader>> readers;
       readers.push_back(std::make_unique<DirectDriveSN74x595DataReader>());
-      
+      readers.push_back(std::make_unique<I2CDeviceDataReader<Tendril::Devices::PCA9685>>("PCA9685"));
+
+      // Get the children
       auto children = deviceListElement->getChildNodes();
 
       // Loop over children

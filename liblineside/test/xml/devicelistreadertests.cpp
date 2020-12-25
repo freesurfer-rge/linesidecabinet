@@ -4,6 +4,10 @@
 
 #include "xmlutils.hpp"
 
+#include "tendril/devices/i2cdevicedata.hpp"
+#include "tendril/devices/pca9685.hpp"
+#include "tendril/devices/directdrivesn74x595data.hpp"
+
 #include "lineside/xml/xercesguard.hpp"
 #include "lineside/xml/utilities.hpp"
 
@@ -34,20 +38,30 @@ BOOST_AUTO_TEST_CASE( SmokeReader )
   BOOST_REQUIRE_EQUAL( result.size(), 2 );
 
   auto dev0 = result.at(0);
-  BOOST_CHECK_EQUAL( dev0.kind, "devKind" );
-  BOOST_CHECK_EQUAL( dev0.bus, 1 );
-  BOOST_CHECK_EQUAL( dev0.address, 0x10 );
-  BOOST_CHECK_EQUAL( dev0.name, "dev1" );
-  BOOST_REQUIRE_EQUAL( dev0.settings.size(), 2 );
-  BOOST_CHECK_EQUAL( dev0.settings.at("A"), "B" );
-  BOOST_CHECK_EQUAL( dev0.settings.at("1"), "2" );
+  BOOST_CHECK_EQUAL( dev0->name, "MyPCA9685" );
+  auto pca9685data = std::dynamic_pointer_cast<Tendril::Devices::I2CDeviceData<Tendril::Devices::PCA9685>>(dev0);
+  BOOST_REQUIRE(pca9685data);
+  BOOST_CHECK_EQUAL( pca9685data->i2cCommsRequest.providerName, "1" );
+  BOOST_CHECK_EQUAL( pca9685data->i2cCommsRequest.idOnProvider, "0x30" );
+  BOOST_REQUIRE_EQUAL( pca9685data->settings.size(), 1 );
+  BOOST_CHECK_EQUAL( pca9685data->settings.at("pwmFrequency"), "60" );
 
   auto dev1 = result.at(1);
-  BOOST_CHECK_EQUAL( dev1.kind, "tstKind" );
-  BOOST_CHECK_EQUAL( dev1.bus, 2 );
-  BOOST_CHECK_EQUAL( dev1.address, 0x08 );
-  BOOST_CHECK_EQUAL( dev1.name, "dev2" );
-  BOOST_REQUIRE_EQUAL( dev1.settings.size(), 0 );
+  BOOST_CHECK_EQUAL( dev1->name, "MyShifter" );
+  auto dd595data = std::dynamic_pointer_cast<Tendril::Devices::DirectDriveSN74x595Data>(dev1);
+  BOOST_REQUIRE( dd595data );
+  BOOST_CHECK_EQUAL( dd595data->clockPin.providerName, "GPIO1" );
+  BOOST_CHECK_EQUAL( dd595data->clockPin.idOnProvider, "01" );
+  BOOST_CHECK_EQUAL( dd595data->latchPin.providerName, "GPIO02" );
+  BOOST_CHECK_EQUAL( dd595data->latchPin.idOnProvider, "002" );
+  BOOST_CHECK_EQUAL( dd595data->dataPin.providerName, "GPIO03" );
+  BOOST_CHECK_EQUAL( dd595data->dataPin.idOnProvider, "003" );
+  BOOST_CHECK_EQUAL( dd595data->clearPin.providerName, "GPIO04" );
+  BOOST_CHECK_EQUAL( dd595data->clearPin.idOnProvider, "004" );
+  BOOST_CHECK_EQUAL( dd595data->enablePin.providerName, "GPIO05" );
+  BOOST_CHECK_EQUAL( dd595data->enablePin.idOnProvider, "005" );
+  BOOST_REQUIRE_EQUAL( dd595data->settings.size(), 1 );
+  BOOST_CHECK_EQUAL( dd595data->settings.at("chainLength"), "2" );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
