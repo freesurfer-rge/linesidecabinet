@@ -17,7 +17,7 @@ configure_file(pwitemlist-two-tcm.xml . COPYONLY)
 
 configure_file(softwaremanagerdata-fragment.xml . COPYONLY)
 
-configure_file(i2cdevice-fragment.xml . COPYONLY)
+configure_file(device-i2cdevice.xml . COPYONLY)
 configure_file(device-directdrivesn74x595.xml . COPYONLY)
 configure_file(devicelist-fragment.xml . COPYONLY)
 

@@ -12,7 +12,7 @@
 
 // ==============
 
-const std::string i2cdevicedataFragment = "i2cdevice-fragment.xml";
+const std::string i2cdevicedataFragment = "device-i2cdevice.xml";
 
 class SomeI2CDevice : public Tendril::Devices::Device,
 		      public Tendril::HardwareProvider<Tendril::BinaryOutputPin> {
