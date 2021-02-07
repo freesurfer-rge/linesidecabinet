@@ -34,6 +34,5 @@ target_link_libraries(LinesideTest PUBLIC lineside Boost::boost Boost::filesyste
 add_test(NAME lineside COMMAND LinesideTest --log_sink=LinesideTest-JUNIT.xml ${TEST_COMMON_ARGS})
 
 add_subdirectory(mocks)
-add_subdirectory(jsonrpc)
 add_subdirectory(xml)
 add_subdirectory(xmlsamples)

@@ -6,8 +6,6 @@ project("Lineside Cabinet"
   HOMEPAGE_URL https://github.com/freesurfer-rge/linesidecabinet)
 enable_testing()
 
-include(FetchContent)
-
 # --------
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 
@@ -15,47 +13,12 @@ find_package(Threads REQUIRED)
 
 # Follow needed on OSX due to DYLD_LIBRARY_PATH issues when running ctest
 # set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.65 REQUIRED
+find_package(Boost 1.72 REQUIRED
   COMPONENTS filesystem program_options)
 
 find_package(Doxygen)
 
 find_package(XercesC REQUIRED)
-
-# --
-
-FetchContent_Declare(jsonrpccxx
-  GIT_REPOSITORY https://github.com/jsonrpcx/json-rpc-cxx )
-
-FetchContent_GetProperties(jsonrpccxx)
-if(NOT jsoncprcxx_POPULATED)
-  FetchContent_Populate(jsonrpccxx)
-  add_subdirectory(${jsonrpccxx_SOURCE_DIR} ${jsonrpccxx_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-
-# --
-
-FetchContent_Declare(json
-  GIT_REPOSITORY https://github.com/nlohmann/json.git
-  GIT_TAG v3.9.1)
-
-FetchContent_GetProperties(json)
-if(NOT json_POPULATED)
-  FetchContent_Populate(json)
-  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-
-# --
-
-FetchContent_Declare(cpphttplib
-  GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git)
-
-FetchContent_GetProperties(cpphttplib)
-if(NOT cpphttplib_POPULATED)
-  FetchContent_Populate(cpphttplib)
-  add_subdirectory(${cpphttplib_SOURCE_DIR} ${cpphttplib_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-
 
 # --------
 
