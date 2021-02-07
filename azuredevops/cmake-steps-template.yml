@@ -14,7 +14,7 @@ steps:
     echo ""
     locate libboost_unit_test_framework
   displayName: "Boost debugging"
-  condition: True
+  condition: False
   
 - task: Bash@3
   displayName: "Install xerces library"
