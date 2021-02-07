@@ -12,7 +12,7 @@ steps:
 - bash: |
     sudo updatedb
     echo ""
-    locate libboost
+    locate libboost_unit_test_framework
   displayName: "Boost debugging"
   condition: True
   
