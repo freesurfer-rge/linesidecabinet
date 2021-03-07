@@ -9,6 +9,12 @@ parameters:
   makeTarget: ''
 
 steps:
+- task: Bash@3
+  displayName: "Install boost"
+  script: |
+    sudo apt install libboost-dev
+    sudo apt install libboost-all-dev
+  
 - bash: |
     sudo updatedb
     echo ""
