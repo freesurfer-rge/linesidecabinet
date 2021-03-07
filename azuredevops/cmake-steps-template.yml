@@ -12,9 +12,7 @@ steps:
 - task: Bash@3
   displayName: "Install boost"
   inputs:
-    script: |
-      sudo apt install libboost-dev
-      sudo apt install libboost-all-dev
+    script: sudo apt install libboost-dev
   
 - bash: |
     sudo updatedb
