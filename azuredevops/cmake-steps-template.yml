@@ -10,7 +10,7 @@ parameters:
 
 steps:
 - bash: |
-    sudo apt install libboost-dev
+    sudo apt install libboost-dev libboost-all-dev
   displayName: "Install boost"
   
 - bash: |
