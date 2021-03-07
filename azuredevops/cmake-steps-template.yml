@@ -3,12 +3,17 @@
 parameters:
   srcDir: ''
   bldDir: ''
-  cmakeArgs: '-DBoost_DEBUG=ON -DBOOST_ROOT=/opt/hostedtoolcache/boost/1.72.0/x64 -DBoost_ARCHITECTURE=-x64'
+  cmakeArgs: '-DBoost_DEBUG=ON' # -DBOOST_ROOT=/opt/hostedtoolcache/boost/1.72.0/x64 -DBoost_ARCHITECTURE=-x64'
   cmakeExtraArgs: ''
   makeExtraArgs: ''
   makeTarget: ''
 
 steps:
+- bash: |
+    sudo apt-get update
+    sudo apt install libboost-dev libboost-all-dev
+  displayName: "Install boost"
+  
 - bash: |
     sudo updatedb
     echo ""
