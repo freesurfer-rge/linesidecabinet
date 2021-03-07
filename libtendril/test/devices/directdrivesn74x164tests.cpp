@@ -2,40 +2,36 @@
 
 #include "tendril/mocks/mockbop.hpp"
 
-#include "tendril/devices/directdrivesn74x595.hpp"
-#include "tendril/devices/boparray595.hpp"
+#include "tendril/devices/directdrivesn74x164.hpp"
+#include "tendril/devices/boparray164.hpp"
 
 BOOST_AUTO_TEST_SUITE(Devices)
 
-BOOST_AUTO_TEST_SUITE(DirectDriveSN74x595)
+BOOST_AUTO_TEST_SUITE(DirectDriveSN74x164)
 
 BOOST_AUTO_TEST_CASE(Smoke)
 {
-  const std::string name = "My595";
+  const std::string name = "My164";
   const unsigned int chips = 1;
   std::unique_ptr<Tendril::BinaryOutputPin> clkPin = std::make_unique<Tendril::Mocks::MockBOP>();
   std::unique_ptr<Tendril::BinaryOutputPin> datPin = std::make_unique<Tendril::Mocks::MockBOP>();
-  std::unique_ptr<Tendril::BinaryOutputPin> lthPin = std::make_unique<Tendril::Mocks::MockBOP>();
-  std::unique_ptr<Tendril::BinaryOutputPin> enbPin = std::make_unique<Tendril::Mocks::MockBOP>();
   std::unique_ptr<Tendril::BinaryOutputPin> clrPin = std::make_unique<Tendril::Mocks::MockBOP>();
 
   auto clrPtr = dynamic_cast<Tendril::Mocks::MockBOP*>(clrPin.get());
   BOOST_REQUIRE( clrPtr );
   
-  auto sn595 = std::make_shared<Tendril::Devices::DirectDriveSN74x595>(name,
+  auto sn164 = std::make_shared<Tendril::Devices::DirectDriveSN74x164>(name,
 								       chips,
 								       clkPin,
 								       datPin,
-								       lthPin,
-								       enbPin,
 								       clrPin);
-  BOOST_REQUIRE(sn595);
+  BOOST_REQUIRE(sn164);
+  
   // Check the clear pin was set high
   BOOST_CHECK_EQUAL( clrPtr->lastLevel, true );
 
   // Check that two of the functions work
-  sn595->Reset();
-  sn595->EnableOutputs(true);
+  sn164->Reset();
 
   // Try getting a BOPArray
   const std::string arrayId = "SomeArray";
@@ -43,10 +39,10 @@ BOOST_AUTO_TEST_CASE(Smoke)
   arraySettings["0"] = "7";
   arraySettings["1"] = "2";
 
-  auto bopArray = sn595->GetHardware(arrayId, arraySettings);
+  auto bopArray = sn164->GetHardware(arrayId, arraySettings);
   BOOST_REQUIRE( bopArray );
-  auto boparray595 = dynamic_cast<Tendril::Devices::BOPArray595*>(bopArray.get());
-  BOOST_REQUIRE( boparray595 );
+  auto boparray164 = dynamic_cast<Tendril::Devices::BOPArray164*>(bopArray.get());
+  BOOST_REQUIRE( boparray164 );
 
   // Set something, and make sure that it at least doesn't throw any exceptions
   bopArray->Set(0, true);
@@ -56,27 +52,22 @@ BOOST_AUTO_TEST_CASE(Smoke)
 
 BOOST_AUTO_TEST_CASE(SmokeNoEnableClear)
 {
-   const std::string name = "My595";
+   const std::string name = "My164";
   const unsigned int chips = 2;
   std::unique_ptr<Tendril::BinaryOutputPin> clkPin = std::make_unique<Tendril::Mocks::MockBOP>();
   std::unique_ptr<Tendril::BinaryOutputPin> datPin = std::make_unique<Tendril::Mocks::MockBOP>();
-  std::unique_ptr<Tendril::BinaryOutputPin> lthPin = std::make_unique<Tendril::Mocks::MockBOP>();
-  std::unique_ptr<Tendril::BinaryOutputPin> enbPin;
   std::unique_ptr<Tendril::BinaryOutputPin> clrPin;
 
   
-  auto sn595 = std::make_shared<Tendril::Devices::DirectDriveSN74x595>(name,
+  auto sn164 = std::make_shared<Tendril::Devices::DirectDriveSN74x164>(name,
 								       chips,
 								       clkPin,
 								       datPin,
-								       lthPin,
-								       enbPin,
 								       clrPin);
-  BOOST_REQUIRE(sn595);
+  BOOST_REQUIRE(sn164);
 
-  // Don't have the enable and clear pins, so expect some exceptions
-  BOOST_CHECK_THROW( sn595->Reset(), std::logic_error );
-  BOOST_CHECK_THROW( sn595->EnableOutputs(false), std::logic_error );
+  // Don't have the clear pin, so expect some exception
+  BOOST_CHECK_THROW( sn164->Reset(), std::logic_error );
   
 
   // Try getting a BOPArray
@@ -86,10 +77,10 @@ BOOST_AUTO_TEST_CASE(SmokeNoEnableClear)
   arraySettings["1"] = "2";
   arraySettings["2"] = "5";
 
-  auto bopArray = sn595->GetHardware(arrayId, arraySettings);
+  auto bopArray = sn164->GetHardware(arrayId, arraySettings);
   BOOST_REQUIRE( bopArray );
-  auto boparray595 = dynamic_cast<Tendril::Devices::BOPArray595*>(bopArray.get());
-  BOOST_REQUIRE( boparray595 );
+  auto boparray164 = dynamic_cast<Tendril::Devices::BOPArray164*>(bopArray.get());
+  BOOST_REQUIRE( boparray164 );
 
   // Set something, and make sure that it at least doesn't throw any exceptions
   bopArray->Set(0, true);
