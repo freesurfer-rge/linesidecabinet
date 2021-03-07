@@ -17,6 +17,7 @@ namespace Tendril::Devices {
   //! Class to represent directly driven chained SN74x164 shift registers
   class DirectDriveSN74x164 : public Device,
 			      public HardwareProvider<BOPArray> {
+  public:
     const std::chrono::microseconds DefaultLevelDelay = std::chrono::microseconds(10);
     const unsigned int PinsPerChip = 8;
 
