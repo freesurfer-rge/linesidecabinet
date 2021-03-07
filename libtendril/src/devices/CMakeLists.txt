@@ -7,6 +7,7 @@ list(APPEND srcs directdrivesn74x595data.cpp)
 list(APPEND srcs directdrivesn74x595.cpp)
 list(APPEND srcs boparray595.cpp)
 
+list(APPEND srcs directdrivesn74x164data.cpp)
 list(APPEND srcs directdrivesn74x164.cpp)
 list(APPEND srcs boparray164.cpp)
 
