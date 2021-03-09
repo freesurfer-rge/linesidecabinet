@@ -3,7 +3,7 @@
 #include "tendril/mocks/mockbop.hpp"
 
 #include "tendril/devices/directdrivesn74x164.hpp"
-#include "tendril/devices/boparray164.hpp"
+#include "tendril/devices/boparraysiposr.hpp"
 
 BOOST_AUTO_TEST_SUITE(Devices)
 
@@ -41,8 +41,8 @@ BOOST_AUTO_TEST_CASE(Smoke)
 
   auto bopArray = sn164->GetHardware(arrayId, arraySettings);
   BOOST_REQUIRE( bopArray );
-  auto boparray164 = dynamic_cast<Tendril::Devices::BOPArray164*>(bopArray.get());
-  BOOST_REQUIRE( boparray164 );
+  auto boparraysipo = dynamic_cast<Tendril::Devices::BOPArraySIPOSR*>(bopArray.get());
+  BOOST_REQUIRE( boparraysipo );
 
   // Set something, and make sure that it at least doesn't throw any exceptions
   bopArray->Set(0, true);
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(Smoke)
   bopArray->Update();
 }
 
-BOOST_AUTO_TEST_CASE(SmokeNoEnableClear)
+BOOST_AUTO_TEST_CASE(SmokeNoClear)
 {
    const std::string name = "My164";
   const unsigned int chips = 2;
@@ -79,8 +79,8 @@ BOOST_AUTO_TEST_CASE(SmokeNoEnableClear)
 
   auto bopArray = sn164->GetHardware(arrayId, arraySettings);
   BOOST_REQUIRE( bopArray );
-  auto boparray164 = dynamic_cast<Tendril::Devices::BOPArray164*>(bopArray.get());
-  BOOST_REQUIRE( boparray164 );
+  auto boparraysipo = dynamic_cast<Tendril::Devices::BOPArraySIPOSR*>(bopArray.get());
+  BOOST_REQUIRE( boparraysipo );
 
   // Set something, and make sure that it at least doesn't throw any exceptions
   bopArray->Set(0, true);

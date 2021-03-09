@@ -46,7 +46,7 @@ namespace Tendril::Devices {
       imprecise.
     */
     virtual
-    std::chrono::microseconds getLevelDelay() = 0;
+    std::chrono::microseconds getLevelDelay() const = 0;
     
     const unsigned int pinsInChain;
     
