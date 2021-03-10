@@ -3,8 +3,6 @@
 
 #include "tendril/keyexception.hpp"
 
-
-#include "tendril/devices/boparray164.hpp"
 #include "tendril/devices/directdrivesn74x164.hpp"
 
 namespace Tendril::Devices {

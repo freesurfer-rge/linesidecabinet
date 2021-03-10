@@ -3,7 +3,7 @@
 #include "tendril/mocks/mockbop.hpp"
 
 #include "tendril/devices/directdrivesn74x595.hpp"
-#include "tendril/devices/boparray595.hpp"
+#include "tendril/devices/boparraysiposr.hpp"
 
 BOOST_AUTO_TEST_SUITE(Devices)
 
@@ -45,8 +45,8 @@ BOOST_AUTO_TEST_CASE(Smoke)
 
   auto bopArray = sn595->GetHardware(arrayId, arraySettings);
   BOOST_REQUIRE( bopArray );
-  auto boparray595 = dynamic_cast<Tendril::Devices::BOPArray595*>(bopArray.get());
-  BOOST_REQUIRE( boparray595 );
+  auto boparraysr = dynamic_cast<Tendril::Devices::BOPArraySIPOSR*>(bopArray.get());
+  BOOST_REQUIRE( boparraysr );
 
   // Set something, and make sure that it at least doesn't throw any exceptions
   bopArray->Set(0, true);
@@ -88,8 +88,8 @@ BOOST_AUTO_TEST_CASE(SmokeNoEnableClear)
 
   auto bopArray = sn595->GetHardware(arrayId, arraySettings);
   BOOST_REQUIRE( bopArray );
-  auto boparray595 = dynamic_cast<Tendril::Devices::BOPArray595*>(bopArray.get());
-  BOOST_REQUIRE( boparray595 );
+  auto boparraysr = dynamic_cast<Tendril::Devices::BOPArraySIPOSR*>(bopArray.get());
+  BOOST_REQUIRE( boparraysr );
 
   // Set something, and make sure that it at least doesn't throw any exceptions
   bopArray->Set(0, true);

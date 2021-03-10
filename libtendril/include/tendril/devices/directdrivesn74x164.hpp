@@ -16,7 +16,6 @@ namespace Tendril::Devices {
   class DirectDriveSN74x164 : public DirectDriveSIPOShiftRegister {
   public:
     static const std::chrono::microseconds DefaultLevelDelay;
-    
     static const unsigned int PinsPerChip = 8;
 
     DirectDriveSN74x164(const std::string deviceName,
