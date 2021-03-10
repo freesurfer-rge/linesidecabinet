@@ -1,17 +1,16 @@
 #include <map>
-#include <iostream>
 
-#include "tendril/devices/directdrivesn74x595.hpp"
-#include "tendril/devices/boparray595.hpp"
+#include "tendril/devices/directdrivesiposhiftregister.hpp"
+#include "tendril/devices/boparraysiposr.hpp"
 
 namespace Tendril::Devices {
-  BOPArray595::BOPArray595(std::shared_ptr<DirectDriveSN74x595> controller,
-			   std::vector<unsigned int> pins)
+  BOPArraySIPOSR::BOPArraySIPOSR(std::shared_ptr<DirectDriveSIPOShiftRegister> controller,
+				 std::vector<unsigned int> pins)
     : BOPArray(pins.size()),
       controller(controller),
       pinMapping(pins) {}
 
-  void BOPArray595::Update() {
+  void BOPArraySIPOSR::Update() {
     std::map<unsigned int, bool> updates;
     
     // Build up list of pins to update on the chip
@@ -20,7 +19,7 @@ namespace Tendril::Devices {
       bool desiredState = this->pinState.at(i);
       updates[pinOnChip] = desiredState;
     }
-
+    
     //! Send the request
     this->controller->SetPinsAndSend(updates);
   }

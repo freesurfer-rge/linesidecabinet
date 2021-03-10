@@ -39,14 +39,14 @@ int main(int argc, char* argv[]) {
     std::cout << "Created shifter, now creating BOPArray" << std::endl;
     
     Tendril::SettingsMap bopaSettings;
-    for( unsigned int i=0; i<shifter->totalPins; ++i ) {
+    for( unsigned int i=0; i<shifter->pinsInChain; ++i ) {
       std::string mapping = std::to_string(i);
       bopaSettings[mapping] = mapping;
     }
 
     auto bopArray = shifter->GetHardware( "ShiftArray", bopaSettings );
 
-    RunOnConsole(*bopArray, shifter->totalPins);
+    RunOnConsole(*bopArray, shifter->pinsInChain);
   }
   catch( std::exception& e ) {
     std::cerr << "Error: " << e.what() << std::endl;

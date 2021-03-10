@@ -8,18 +8,15 @@
 #include <vector>
 
 #include "tendril/binaryoutputpin.hpp"
-#include "tendril/boparray.hpp"
-#include "tendril/hardwareprovider.hpp"
 
-#include "tendril/devices/device.hpp"
+#include "tendril/devices/directdrivesiposhiftregister.hpp"
 
 namespace Tendril::Devices {
   //! Class to represent directly driven chained SN74x164 shift registers
-  class DirectDriveSN74x164 : public Device,
-			      public HardwareProvider<BOPArray> {
+  class DirectDriveSN74x164 : public DirectDriveSIPOShiftRegister {
   public:
-    const std::chrono::microseconds DefaultLevelDelay = std::chrono::microseconds(10);
-    const unsigned int PinsPerChip = 8;
+    static const std::chrono::microseconds DefaultLevelDelay;
+    static const unsigned int PinsPerChip = 8;
 
     DirectDriveSN74x164(const std::string deviceName,
 			const unsigned int chainLength,
@@ -27,18 +24,19 @@ namespace Tendril::Devices {
 			std::unique_ptr<BinaryOutputPin>& data,
 			std::unique_ptr<BinaryOutputPin>& clear);
 
-    //! Register with the HardwareManager
-    virtual void Register(HardwareManager& hwManager) override;
-
-    //! Fetch a BOPArray
-    virtual std::unique_ptr<BOPArray>
-    GetHardware(const std::string& hardwareId,
-		const SettingsMap& settings) override;
-    
     void Reset();
     
-    void SetPinsAndSend(const std::map<unsigned int,bool>& pinUpdates);
+    virtual
+    std::chrono::microseconds getLevelDelay() const override;
+
+    void setLevelDelay(const std::chrono::microseconds delay);
+
+  protected:
+    virtual void BeforeSend() override;
+
+    virtual void AfterSend() override;
     
+  private:
     //! Delay to allow output pin level to stabilise
     /*!
       This is the delay between pin updates. For example,
@@ -50,17 +48,7 @@ namespace Tendril::Devices {
       imprecise.
     */
     std::chrono::microseconds levelDelay;
-    
-    //! Total number of pins available for use
-    const unsigned int totalPins;
-  private:
-    std::mutex updateMutex;
 
-    std::unique_ptr<BinaryOutputPin> clockPin;
-    std::unique_ptr<BinaryOutputPin> dataPin;
     std::unique_ptr<BinaryOutputPin> clearPin;
-    
-    std::vector<bool> state;
-    std::set<unsigned int> allocatedPins;
   };
 }
