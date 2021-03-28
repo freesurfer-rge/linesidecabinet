@@ -7,6 +7,7 @@
 #include "tendril/devices/directdrivesn74x164.hpp"
 
 #include "cmdlineopts.hpp"
+#include "runonconsole.hpp"
 
 
 int main(int argc, char* argv[]) {
@@ -36,8 +37,20 @@ int main(int argc, char* argv[]) {
                                                                            dclk,
                                                                            data,
                                                                            noConnect);
-    // Make sure wclk is high
+    std::cout << "Created shifter, now creating registers" << std::endl;
+    Tendril::SettingsMap bopaSettings;
+    for( unsigned int i=0; i<shifter->pinsInChain; ++i ) {
+      std::string mapping = std::to_string(i);
+      bopaSettings[mapping] = mapping;
+    }
+
+    auto registerArray = shifter->GetHardware( "ShiftArray", bopaSettings );
+
+    std::cout << "Setting wclk high" << std::endl;
     wclk->Set(true);
+
+    // Enter the main loop
+    RunOnConsole(*registerArray, *wclk);
   }
   catch( std::exception& e ) {
     std::cerr << "Error: " << e.what() << std::endl;
