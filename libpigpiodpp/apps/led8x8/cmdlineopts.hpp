@@ -4,9 +4,9 @@ class CmdLineOpts {
 public:
   CmdLineOpts() :
     helpMessagePrinted(false),
-    clockPin(),
+    wclkPin(),
     dataPin(),
-    latchPin()
+    dclkPin()
   {}
 
   bool helpMessagePrinted;

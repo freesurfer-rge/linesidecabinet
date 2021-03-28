@@ -1,6 +1,6 @@
 set(srcs)
 
-
+list(APPEND srcs main.cpp)
 list(APPEND srcs cmdlineopts.cpp)
 
 add_executable(led8x8 ${srcs})
