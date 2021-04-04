@@ -1,61 +1,126 @@
-#include <cstdlib>
 #include <iostream>
-#include <memory>
+#include <sstream>
+#include <vector>
 
-#include "pigpiodpp/pimanager.hpp"
-#include "pigpiodpp/pibopprovider.hpp"
-#include "tendril/devices/directdrivesn74x164.hpp"
+#include <pigpiod_if2.h>
 
-#include "cmdlineopts.hpp"
-#include "runonconsole.hpp"
+/*
+  Very simple driver for the LED 8x8 Display
+
+  WCLK goes to GPIO18 (Select)
+  DCLK goes to GPIO21 (SCLK)
+  DATA goes to GPIO20 (COPI)
+ */
+
+const unsigned int maxRow = 8;
+
+void SetRow(const int pi, const int handle,
+	    const unsigned int row, const unsigned int value) {
+  char buffer[2];
+
+  buffer[1] = row;
+  buffer[0] = value;
+
+  const int result = spi_write(pi, handle, buffer, 2);
+  if( result != 2 ) {
+    std::stringstream msg;
+    msg << "spi_write Failed: "
+	  << pigpio_error(result);
+    throw std::runtime_error(msg.str());
+  }
+}
 
 
-int main(int argc, char* argv[]) {
-  std::cout << "Direct Drive for LED 8x8 Display" << std::endl;
+void RunOnConsole(const int pi, const int handle) {
+  std::cout << "Entering main loop" << std::endl;
+  bool done = false;
+  
+  while( !done ) {
+    std::string inputLine;
+    
+    std::getline( std::cin, inputLine );
+    if( inputLine == "q" ) {
+      std::cout << "Received quit" << std::endl;
+      done = true;
+    } else {
+      try {
+	std::stringstream l(inputLine);
+	std::vector<unsigned int> rows(maxRow);
+
+	// The remap handles the switching of the
+	// '1' and '4' address lines on the PCB
+	std::vector<unsigned int> remap { 0, 4, 2, 6, 1, 5, 3, 7};
+	
+	for(unsigned int i=0; i<maxRow; ++i ) {
+	  l >> rows.at(remap.at(i));
+	}
+
+	for(unsigned int i=0; i<maxRow; ++i ) {
+	  SetRow(pi, handle, i, rows.at(i));
+	}
+      }
+      catch( std::exception& e ) {
+        std::cerr << e.what() << std::endl;
+        continue;
+      } 
+    }
+  }
+}
+
+
+int main() {
+  std::cout << "LED 8x8 SPI Driver" << std::endl;
+
+  const int piId = pigpio_start(nullptr, nullptr);
+  if( piId< 0 ) {
+    std::cerr << "Could not connect to pigpiod."
+	      << "Have you run 'sudo pigpiod' ?"
+	      << std::endl;
+    return(-1);
+  }
+
+  // ===========================================
 
   try {
-    CmdLineOpts opts;
-    opts.Populate(argc, argv);
-    if( opts.helpMessagePrinted ) {
-      return EXIT_SUCCESS;
-    }
+    const unsigned int spiChannel = 0;
+    const unsigned int baud = 1 << 22;
+    unsigned int flags = 0;
 
-    auto pi = PiGPIOdpp::PiManager::CreatePiManager();
-    auto provider = std::make_shared<PiGPIOdpp::PiBOPProvider>(pi);
-
-    Tendril::SettingsMap emptySettings;
-    auto wclk = provider->GetHardware(opts.wclkPin, emptySettings);
-    auto data = provider->GetHardware(opts.dataPin, emptySettings);
-    auto dclk = provider->GetHardware(opts.dclkPin, emptySettings);
-    std::unique_ptr<Tendril::BinaryOutputPin> noConnect;
+    const unsigned int mode = 0;
     
-    const unsigned int shiftersInChain = 2;
+    // Unlike normal SPI, board is selected by
+    // a high select line
+    const unsigned int ce0ActiveHigh = 1 << 2;
+    const unsigned int auxSPI = 1 << 8;
 
-    // Get the shifter
-    auto shifter = std::make_shared<Tendril::Devices::DirectDriveSN74x164>("SN74x164",
-									   shiftersInChain,
-                                                                           dclk,
-                                                                           data,
-                                                                           noConnect);
-    std::cout << "Created shifter, now creating registers" << std::endl;
-    Tendril::SettingsMap bopaSettings;
-    for( unsigned int i=0; i<shifter->pinsInChain; ++i ) {
-      std::string mapping = std::to_string(i);
-      bopaSettings[mapping] = mapping;
+    // Need to send least significant bit first
+    const unsigned int copiLSBfirst = 1 << 14;
+
+    // We have two shift registers in series
+    const unsigned int wordSize = 16 << 16;
+
+    flags = mode | ce0ActiveHigh | auxSPI | copiLSBfirst | wordSize;
+
+    const int handle = spi_open(piId, spiChannel, baud, flags);
+    if( handle < 0 ) {
+      std::stringstream msg;
+      msg << "spi_open Failed: "
+	  << pigpio_error(handle);
+      throw std::runtime_error(msg.str());
     }
 
-    auto registerArray = shifter->GetHardware( "ShiftArray", bopaSettings );
+    RunOnConsole(piId, handle);
 
-    std::cout << "Setting wclk high" << std::endl;
-    wclk->Set(true);
-
-    // Enter the main loop
-    RunOnConsole(*registerArray, *wclk);
+    spi_close(piId, handle);
   }
   catch( std::exception& e ) {
-    std::cerr << "Error: " << e.what() << std::endl;
-    return EXIT_FAILURE;
+    std::cerr << e.what() << std::endl;
   }
   
-  return EXIT_SUCCESS;
+
+  // ===========================================
+
+  pigpio_stop(piId);
+  
+  return 0;
 }
