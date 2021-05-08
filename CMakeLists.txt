@@ -13,7 +13,7 @@ find_package(Threads REQUIRED)
 
 # Follow needed on OSX due to DYLD_LIBRARY_PATH issues when running ctest
 # set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.71 REQUIRED
+find_package(Boost 1.67 REQUIRED
   COMPONENTS filesystem program_options)
 
 find_package(Doxygen)
