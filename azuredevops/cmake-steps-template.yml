@@ -11,7 +11,7 @@ parameters:
 steps:
 - bash: |
     sudo apt-get update
-    sudo apt install libboost-dev libboost-all-dev
+    sudo apt install libboost1.74-all-dev
   displayName: "Install boost"
   
 - bash: |
