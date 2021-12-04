@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "lineside/xml/utilities.hpp"
 #include "lineside/xml/settingsreader.hpp"
 

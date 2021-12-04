@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <xercesc/dom/DOMNodeList.hpp>
 
 #include "lineside/xml/utilities.hpp"
